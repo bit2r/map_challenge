@@ -1,0 +1,10 @@
+---
+title: "지도제작 대회"
+---
+
+
+# 참고 웹사이트
+
+- [#30DayMapChallenge 🌎🌏🌎](https://30daymapchallenge.com/)
+- [30 DAY MAP CHALLENGE IN R](https://david.frigge.nz/3RDayMapChallenge/)
+- [AbdoulMa/30DayMapChallenge](https://github.com/AbdoulMa/30DayMapChallenge)
