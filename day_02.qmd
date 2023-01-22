@@ -1,0 +1,37 @@
+---
+title:  "`elevatr` 고도"   
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 고도 데이터
+
+[[elevatr](https://github.com/jhollist/elevatr)]{.aside}
+
+
+- [Find GPS Coordinates on Google maps](https://www.maps.ie/coordinates.html)
+
+```{r}
+library(tidyverse)
+library(rgdal)
+library(elevatr)
+library(sf)
+library(rayshader)
+library(tmap)
+
+woodo <- tibble(x = 126.95, y = 33.50) %>%
+  st_as_sf(coords = c("x", "y"), crs = 4236)
+
+woodo_elev <- get_elev_raster(woodo, z = 13)
+woodo_elmat = raster_to_matrix(woodo_elev)
+
+woodo_elmat %>%
+  sphere_shade(texture = "imhof3") %>%
+  add_water(detect_water(woodo_elmat, cutoff = 0.95), color = "blue") %>%
+  plot_map()
+
+
+
+```
+

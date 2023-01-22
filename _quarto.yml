@@ -10,6 +10,8 @@ website:
         text: Home
       - href: day_01.qmd
         text: "점(Point)"
+      - href: day_02.qmd
+        text: "`elevatr` 고도"        
 
 format:
   html:
