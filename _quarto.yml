@@ -2,21 +2,29 @@ project:
   type: website
   output-dir: docs
 
+lang: ko-KR
+
 website:
   title: "지도제작 대회"
+  page-footer:
+    left: "[Quarto](https://quarto.org/) 로 제작"
   navbar:
+    background: "#447099"
     left:
       - href: index.qmd
-        text: Home
-      - href: day_01.qmd
-        text: "점(Point)"
-      - href: day_02.qmd
-        text: "`elevatr` 고도"        
-
+        text: "Home"
+      - text: "지도 그리기"
+        menu: 
+          - href: day_01.qmd
+            text: "지도 색칠"
+          - href: day_02.qmd
+            text: "인구수 점(Point)"
+  
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme: 
+      - cosmo
+      - css/quarto.scss      
     toc: true
 
 
