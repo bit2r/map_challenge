@@ -1,8 +1,8 @@
 ---
 title: "지도제작 대회"
-subtitle: "지형도(Topographic map)"
+subtitle: "3D 표고 지도(독도)"
 description: |
-  고도 정보를 반영한 멋진 지형도를 제작해보자.
+  표고 데이터와 좌표 정보를 결합하여 3D 표고 지도를 제작해보자.
 author:
   - name: 이광춘
     url: https://www.linkedin.com/in/kwangchunlee/
@@ -40,6 +40,172 @@ editor_options:
 :::{.callout-tip}
 ### 소스코드
 
-[Create crisp topographic maps with R](https://github.com/milos-agathon/create-crisp-topographic-maps-with-r)
+[3D digital elevation maps with R](https://github.com/milos-agathon/3d-digital-elevation-maps)
 :::
+
+# 패키지
+
+```{r}
+#| eval: false
+# install rayvista
+# devtools::install_github("h-a-graham/rayvista", dependencies = T)
+# # install elevatr
+# devtools::install_github("jhollist/elevatr")
+# 
+# remotes::install_github("tylermorganwall/rayshader")
+# remotes::install_github("tylermorganwall/rayrender")
+# remotes::install_github("dmurdoch/rgl")
+
+# libraries we need
+libs <- c(
+    "rayvista", "elevatr",
+    "rayshader", "sf", "giscoR"
+)
+
+# install missing libraries
+installed_libs <- libs %in% rownames(installed.packages())
+if (any(installed_libs == F)) {
+    install.packages(libs[!installed_libs])
+}
+
+# load libraries
+invisible(lapply(libs, library, character.only = T))
+
+crs_LONGLAT <- "+proj=longlat +datum=WGS84 +no_defs"
+```
+
+# 대한민국
+
+```{r}
+#| eval: false
+
+# 3. RAYVISTA - COUNTRY
+#----------------------
+
+korea_sf <- giscoR::gisco_get_countries(country = "KR",
+                                        resolution = "1") |> 
+  sf::st_transform(crs = crs_LONGLAT)
+
+
+
+country_elevation <- elevatr::get_elev_raster(
+    locations = korea_sf,
+    z = 7,
+    clip = "locations"
+)
+
+
+names(country_elevation) <- "elevation"
+
+rgl::close3d()
+
+korea_dem <- rayvista::plot_3d_vista(
+    dem = country_elevation$elevation,
+    overlay_detail = 11,
+    zscale = 10,
+    zoom = .8,
+    phi = 85,
+    theta = 0,
+    solid = F,
+    windowsize = c(800, 800)
+)
+
+rayshader::render_camera(phi = 75, zoom = .7, theta = 0)
+
+rayshader::render_highquality(
+    filename = "images/korea-dem.png",
+    preview = FALSE,
+    light = T,
+    lightdirection = 225,
+    lightaltitude = 60,
+    lightintensity = 400,
+    parallel = TRUE,
+    width = 4000,
+    height = 4000,
+    interactive = FALSE
+)
+```
+
+![](images/korea-dem.png)
+
+
+# 독도
+
+```{r}
+#| eval: false
+get_area_bbox <- function() {
+    xmin <- 131.860035
+    ymin <- 37.237007
+    xmax <- 131.874372
+    ymax <- 37.245153
+
+    bbox <- sf::st_sfc(
+        sf::st_polygon(
+            list(
+                cbind(
+                    c(xmin, xmax, xmax, xmin, xmin),
+                    c(ymin, ymin, ymax, ymax, ymin)
+                )
+            )
+        ), crs = crs_LONGLAT
+    ) |> sf::st_as_sf()
+
+    return(bbox)
+}
+
+dokdo_bbox <- get_area_bbox()
+
+rgl::close3d()
+
+dokdo_dem <- rayvista::plot_3d_vista(
+    req_area = dokdo_bbox,
+    phi = 80,
+    theta = 0,
+    zscale = 0.1,
+    outlier_filter = .001
+)
+
+rayshader::render_snapshot(
+    filename = "images/dokdo.png",
+    clear = T
+)
+```
+
+
+# 독도 (위경도)
+
+```{r}
+#| eval: false
+
+.lat  <- (37.237007 + 37.245153) / 2
+.long <- (131.860035 + 131.874372) / 2
+ 
+dokdo <- plot_3d_vista(lat = .lat, long = .long,
+    radius =1000,
+    zscale = 5,
+    zoom = .8,
+    solid = TRUE,
+    elevation_detail = 13,
+    overlay_detail = 15,
+    theta = 0,
+    windowsize = 800)
+
+rayshader::render_camera(
+    zoom = .7, theta = 0, phi = 30
+)
+
+rayshader::render_highquality(
+    filename = "images/dokdo_highqual.png",
+    preview = T,
+    light = T,
+    lightdirection = 225,
+    lightintensity = 1200,
+    lightaltitude = 60,
+    interactive = F,
+    width = 4000,
+    height = 4000
+)
+```
+
+![](images/dokdo_highqual.png)
 

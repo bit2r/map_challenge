@@ -27,6 +27,8 @@ website:
             text: "스파이크(Spike map)"
           - href: day_04.qmd
             text: "지형도(Topographic map)"
+          - href: day_05.qmd
+            text: "3D 표고 지도(독도)"
   
 format:
   html:
