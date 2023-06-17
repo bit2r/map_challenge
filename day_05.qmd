@@ -1,0 +1,45 @@
+---
+title: "지도제작 대회"
+subtitle: "지형도(Topographic map)"
+description: |
+  고도 정보를 반영한 멋진 지형도를 제작해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+:::{.callout-tip}
+### 소스코드
+
+[Create crisp topographic maps with R](https://github.com/milos-agathon/create-crisp-topographic-maps-with-r)
+:::
+

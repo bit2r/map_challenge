@@ -1,6 +1,10 @@
 project:
   type: website
   output-dir: docs
+  resources: 
+    - "*.gpkg"
+    - "*.csl"
+    - "*.bib"
 
 lang: ko-KR
 
@@ -19,6 +23,10 @@ website:
             text: "지도 색칠"
           - href: day_02.qmd
             text: "인구수 점(Point)"
+          - href: day_03.qmd
+            text: "스파이크(Spike map)"
+          - href: day_04.qmd
+            text: "지형도(Topographic map)"
   
 format:
   html:

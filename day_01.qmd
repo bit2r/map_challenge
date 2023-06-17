@@ -1,5 +1,5 @@
 ---
-title: "지도 색칠"
+title: "지도제작 대회"
 subtitle: "지도 색칠"
 description: |
   지도를 색칠해보자.

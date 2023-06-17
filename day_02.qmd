@@ -1,6 +1,6 @@
 ---
-title: "인구수 점(Point)"
-subtitle: "인구수를 점으로 찍어보자"
+title: "지도제작 대회"
+subtitle: "인구수 점(Point)"
 description: |
   인구수를 점으로 찍어보자.
 author:
