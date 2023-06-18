@@ -1,0 +1,130 @@
+---
+title: "지도제작 대회"
+subtitle: "지오코딩(GeoCoding)"
+description: |
+  지오코딩을 통해서 주소나 위치정보를 지도에 표시해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+:::{.callout-tip}
+### 소스코드
+
+[FelixAnalytix/YouTube](https://github.com/FelixAnalytix/YouTube)
+:::
+
+# 패키지
+
+```{r}
+# Install R packages if not installed -------------------------------------
+
+if (!require(tidyverse)) install.packages("tidyverse")
+if (!require(rvest)) install.packages("rvest")
+if (!require(usethis)) install.packages("usethis")
+if (!require(tidygeocoder)) install.packages("tidygeocoder")
+if (!require(leaflet)) install.packages("leaflet")
+
+
+# Attach R packages -------------------------------------------------------
+
+library(tidyverse)
+library(rvest)
+library(usethis)
+library(tidygeocoder)
+library(leaflet)
+
+```
+
+
+# 데이터
+
+```{r}
+library(readxl)
+library(tidyverse)
+
+mst_raw <- read_excel("data/인천서구강소연구개발특구 기업현황 데이터 요청사항_230618.xlsx", sheet = "환경산업연구단지 입주기업", skip = 1)
+
+mst_tbl <- mst_raw %>% 
+  janitor::clean_names(ascii = FALSE) %>% 
+  select(!starts_with("x")) 
+
+mst_tbl
+```
+
+# 지오코딩
+
+
+```{r}
+tidygeocoder::api_info_reference %>% 
+  gt::gt() %>% 
+  gtExtras::gt_theme_538() %>% 
+  gt::cols_align(align = "center")
+```
+
+
+```{r}
+#| eval: false
+
+mst_tbl_geocodes <- mst_tbl %>%
+  geocode(address = 주소,  method = "arcgis")
+
+mst_tbl_geocodes_sample <- mst_tbl_geocodes %>% 
+  select(회사명, 주소, lat, long) %>% 
+  group_by(lat) %>% 
+  slice_sample(n=1)
+
+mst_tbl_geocodes_sample %>% 
+  write_rds("data/incheon.rds")
+```
+
+# 시각화
+
+```{r}
+
+mst_tbl_geocodes_sample <- 
+  read_rds("data/incheon.rds")
+
+mst_tbl_geocodes_sample %>%
+  mutate(popup = paste0("<b>", 회사명, "</b>", "<br>",
+                        주소, "<br>")) %>%
+  leaflet() %>% 
+  addTiles() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addMarkers(~long, ~lat, 
+             popup  = ~popup) %>%
+  addLayersControl(overlayGroups = ~회사명,
+                   options = layersControlOptions(collapsed = FALSE))
+```
+
+
+

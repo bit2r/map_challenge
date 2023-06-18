@@ -33,6 +33,8 @@ website:
             text: "아시아국가 실업율(%)"
           - href: day_07.qmd
             text: "인터랙티브 지도(Mapview)"
+          - href: day_08.qmd
+            text: "지오코딩"
   
 format:
   html:
