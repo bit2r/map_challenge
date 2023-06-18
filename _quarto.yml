@@ -29,6 +29,8 @@ website:
             text: "지형도(Topographic map)"
           - href: day_05.qmd
             text: "3D 표고 지도(독도)"
+          - href: day_06.qmd
+            text: "아시아국가 실업율(%)"
   
 format:
   html:
