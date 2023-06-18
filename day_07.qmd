@@ -167,3 +167,110 @@ map1 | map2
 ```
 
 :::
+
+# 한국 데이터
+
+## 지도
+
+```{r}
+# korea_sf <- giscoR::gisco_get_nuts(
+#     resolution = "1",
+#     epsg = "4326",
+#     nuts_level = 1, 
+#     cache = TRUE,
+#     update_cache = TRUE,
+#     country = "KOR") |>
+#     sf::st_transform(crsLONGLAT)
+
+library(sf)
+library(tidyverse)
+
+korea_sf_raw <- sf::read_sf("data/gadm41_KOR_1.json")
+
+korea_sf <- korea_sf_raw %>% 
+  separate(NL_NAME_1, into = c("시도명", "한자"), sep="(\\||\\()") %>% 
+  select(시도명, geometry) 
+
+plot(korea_sf)
+
+```
+
+## 데이터
+
+```{r}
+library(krvote)
+
+votes_tbl <- krvote::election_20220309$득표율 %>% 
+  group_by(시도명) %>% 
+  summarise(이재명 = sum(이재명),
+            윤석열 = sum(윤석열))
+
+votes_tbl
+```
+
+## 결합
+
+```{r}
+
+vote_sf <- korea_sf %>% 
+  left_join(votes_tbl) %>% 
+  mutate(득표마진 = 이재명 - 윤석열)
+```
+
+
+# 시각화
+
+## 대선(이재명)
+
+```{r}
+library(mapview)
+
+palfunc <- function (n, alpha = 1, begin = 0, end = 1, direction = 1) {
+  colors <- RColorBrewer::brewer.pal(11, "RdBu")
+  if (direction < 0) colors <- rev(colors)
+  colorRampPalette(colors, alpha = alpha)(n)
+}
+
+vote_sf %>%
+  mapview(zcol = "득표마진", layer.name = "이재명 - 윤석열", col.regions = palfunc)
+```
+
+## 이재명 vs 윤석열
+
+```{r}
+library(mapview)
+
+leafsync::sync(
+  vote_sf %>%
+    mapview(zcol = "이재명", layer.name = "이재명 득표수"),
+  vote_sf %>%
+    mapview(zcol = "윤석열", layer.name = "윤석열 득표수")  
+)
+```
+
+## 대선 비교
+
+:::{.column-page}
+
+```{r}
+vote_2012 <- krvote::election_20121219$득표율 %>% 
+  group_by(시도명) %>% 
+  summarise(박근혜 = sum(박근혜),
+            문재인 = sum(문재인))
+
+vote_2012_sf <- korea_sf %>% 
+  left_join(vote_2012) %>% 
+  mutate(득표마진 = 문재인 - 박근혜)
+
+map_2022 <- mapview(vote_2012_sf, zcol = "득표마진", layer.name = "이재명 - 윤석열", col.regions = palfunc)
+
+map_2012 <- mapview(vote_sf, zcol = "득표마진", layer.name = "문재인 - 박근혜", col.regions = palfunc)
+
+map_2012 | map_2022
+
+```
+
+:::
+
+
+

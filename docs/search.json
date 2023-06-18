@@ -159,5 +159,47 @@
     "title": "지도제작 대회",
     "section": "3.3 슬라이더",
     "text": "3.3 슬라이더\n\n\n\n코드\n# Comparing maps with a slider --------------------------------------------\n\nswiss_student_map_bildungsstufe_1999 &lt;- swiss_student_map %&gt;%\n  filter(jahr == \"1999/00\",\n         schulkanton != \"Schweiz\",\n         staatsangehorigkeit_kategorie == \"Schweiz\") %&gt;%\n  select(schulkanton, jahr, bildungsstufe, share_woman, geometry) %&gt;%\n  pivot_wider(names_from = \"bildungsstufe\", values_from = \"share_woman\") %&gt;%\n  sf::st_as_sf()\n\nmap1 &lt;- mapview(swiss_student_map_bildungsstufe, zcol = \"Bildungsstufe - Total\")\n\nmap2 &lt;- mapview(swiss_student_map_bildungsstufe_1999, zcol = \"Bildungsstufe - Total\")\n\nmap1 | map2"
+  },
+  {
+    "objectID": "day_07.html#지도-1",
+    "href": "day_07.html#지도-1",
+    "title": "지도제작 대회",
+    "section": "4.1 지도",
+    "text": "4.1 지도\n\n\n코드\n# korea_sf &lt;- giscoR::gisco_get_nuts(\n#     resolution = \"1\",\n#     epsg = \"4326\",\n#     nuts_level = 1, \n#     cache = TRUE,\n#     update_cache = TRUE,\n#     country = \"KOR\") |&gt;\n#     sf::st_transform(crsLONGLAT)\n\nlibrary(sf)\nlibrary(tidyverse)\n\nkorea_sf_raw &lt;- sf::read_sf(\"data/gadm41_KOR_1.json\")\n\nkorea_sf &lt;- korea_sf_raw %&gt;% \n  separate(NL_NAME_1, into = c(\"시도명\", \"한자\"), sep=\"(\\\\||\\\\()\") %&gt;% \n  select(시도명, geometry) \n\nplot(korea_sf)"
+  },
+  {
+    "objectID": "day_07.html#데이터-1",
+    "href": "day_07.html#데이터-1",
+    "title": "지도제작 대회",
+    "section": "4.2 데이터",
+    "text": "4.2 데이터\n\n\n코드\nlibrary(krvote)\n\nvotes_tbl &lt;- krvote::election_20220309$득표율 %&gt;% \n  group_by(시도명) %&gt;% \n  summarise(이재명 = sum(이재명),\n            윤석열 = sum(윤석열))\n\nvotes_tbl\n#&gt; # A tibble: 17 × 3\n#&gt;    시도명          이재명  윤석열\n#&gt;    &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt;\n#&gt;  1 강원도          419644  544980\n#&gt;  2 경기도         4428151 3965341\n#&gt;  3 경상남도        794130 1237346\n#&gt;  4 경상북도        418371 1278922\n#&gt;  5 광주광역시      830058  124511\n#&gt;  6 대구광역시      345045 1199888\n#&gt;  7 대전광역시      434950  464060\n#&gt;  8 부산광역시      831896 1270072\n#&gt;  9 서울특별시     2944981 3255747\n#&gt; 10 세종특별자치시  119349  101491\n#&gt; 11 울산광역시      297134  396321\n#&gt; 12 인천광역시      913320  878560\n#&gt; 13 전라남도       1094872  145549\n#&gt; 14 전라북도       1016863  176809\n#&gt; 15 제주특별자치도  213130  173014\n#&gt; 16 충청남도        589991  670283\n#&gt; 17 충청북도        455853  511921"
+  },
+  {
+    "objectID": "day_07.html#결합",
+    "href": "day_07.html#결합",
+    "title": "지도제작 대회",
+    "section": "4.3 결합",
+    "text": "4.3 결합\n\n\n코드\n\nvote_sf &lt;- korea_sf %&gt;% \n  left_join(votes_tbl) %&gt;% \n  mutate(득표마진 = 이재명 - 윤석열)"
+  },
+  {
+    "objectID": "day_07.html#대선이재명",
+    "href": "day_07.html#대선이재명",
+    "title": "지도제작 대회",
+    "section": "5.1 대선(이재명)",
+    "text": "5.1 대선(이재명)\n\n\n코드\nlibrary(mapview)\n\npalfunc &lt;- function (n, alpha = 1, begin = 0, end = 1, direction = 1) {\n  colors &lt;- RColorBrewer::brewer.pal(11, \"RdBu\")\n  if (direction &lt; 0) colors &lt;- rev(colors)\n  colorRampPalette(colors, alpha = alpha)(n)\n}\n\nvote_sf %&gt;%\n  mapview(zcol = \"득표마진\", layer.name = \"이재명 - 윤석열\", col.regions = palfunc)"
+  },
+  {
+    "objectID": "day_07.html#이재명-vs-윤석열",
+    "href": "day_07.html#이재명-vs-윤석열",
+    "title": "지도제작 대회",
+    "section": "5.2 이재명 vs 윤석열",
+    "text": "5.2 이재명 vs 윤석열\n\n\n코드\nlibrary(mapview)\n\nleafsync::sync(\n  vote_sf %&gt;%\n    mapview(zcol = \"이재명\", layer.name = \"이재명 득표수\"),\n  vote_sf %&gt;%\n    mapview(zcol = \"윤석열\", layer.name = \"윤석열 득표수\")  \n)"
+  },
+  {
+    "objectID": "day_07.html#대선-비교",
+    "href": "day_07.html#대선-비교",
+    "title": "지도제작 대회",
+    "section": "5.3 대선 비교",
+    "text": "5.3 대선 비교\n\n\n\n코드\nvote_2012 &lt;- krvote::election_20121219$득표율 %&gt;% \n  group_by(시도명) %&gt;% \n  summarise(박근혜 = sum(박근혜),\n            문재인 = sum(문재인))\n\nvote_2012_sf &lt;- korea_sf %&gt;% \n  left_join(vote_2012) %&gt;% \n  mutate(득표마진 = 문재인 - 박근혜)\n\nmap_2022 &lt;- mapview(vote_2012_sf, zcol = \"득표마진\", layer.name = \"이재명 - 윤석열\", col.regions = palfunc)\n\nmap_2012 &lt;- mapview(vote_sf, zcol = \"득표마진\", layer.name = \"문재인 - 박근혜\", col.regions = palfunc)\n\nmap_2012 | map_2022"
   }
 ]
