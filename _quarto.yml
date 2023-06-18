@@ -31,6 +31,8 @@ website:
             text: "3D 표고 지도(독도)"
           - href: day_06.qmd
             text: "아시아국가 실업율(%)"
+          - href: day_07.qmd
+            text: "인터랙티브 지도(Mapview)"
   
 format:
   html:
