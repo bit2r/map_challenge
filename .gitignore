@@ -4,4 +4,10 @@
 .Ruserdata
 
 /.quarto/
-data/*.xlsx
+data/인천*.xlsx
+data/EMD_202302
+data/jsocde20230611
+data/LARD_ADM_SECT_SGG_경기
+data/LSMD_ADM_SECT_UMD_경기
+data/NGII_CDM_행정경계(시군구)
+data/Z_SOP_BND_ADM_DONG_PG

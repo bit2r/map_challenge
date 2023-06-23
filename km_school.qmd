@@ -1,0 +1,116 @@
+---
+title: "경기도 광명시"
+subtitle: "학교와 CCTV"
+description: |
+  공공데이터를 활용하여 학교와 주변 CCTV를 확인한다.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 데이터
+
+## 행정동 코드
+
+[행정안전부 주민등록, 인감](https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardList.do?bbsId=BBSMSTR_000000000052) 에서 행정기관(행정동) 및 관할구역(법정동) 코드를 다운로드 받을 수 있다.
+
+```{r}
+library(readxl)
+library(tidyverse)
+
+admin_code_raw <- read_excel("data/jsocde20230611/KIKcd_H.20230611.xlsx")
+
+admin_code <- admin_code_raw %>% 
+  mutate(시도 = str_sub(행정동코드, 1, 2),
+         시군구 = str_sub(행정동코드, 1, 4),
+         읍면동 = str_sub(행정동코드, 1, 8)) %>% 
+  select(행정동코드, 시도, 시도명, 시군구, 시군구명, 읍면동, 읍면동명) 
+
+admin_code %>%
+  write_rds("data/admin_code.rds")
+
+admin_code
+```
+
+
+## CCTV 정보
+
+2022-01-27 등록된 [경기도 광명시_어린이보호구역 내 CCTV 정보_API](https://www.data.go.kr/data/15098625/openapi.do)를 공공데이터포털에서 다운로드 받는다.
+
+```{r}
+library(sf)
+
+cctv_raw <- read_csv("data/보호구역내cctv정보.csv", locale=locale('ko',encoding='euc-kr'))
+
+cctv_tbl <- cctv_raw %>% 
+  select(용도 = INST_PURPS, 도로명주소=RDNMADR, 경도, 위도)
+
+cctv_tbl
+```
+
+## 지도
+
+통계청 (센서스경계)행정동경계 `Z_SOP_BND_ADM_DONG_PG.zip` 파일을 [국가공간정보포털](http://www.nsdi.go.kr/) 에서 다운로드 받는다.
+
+- 통계청 (센서스경계)행정동경계: <http://data.nsdi.go.kr/dataset/20171206ds00001>
+- 국토교통부 행정구역시군구_경계: <http://data.nsdi.go.kr/dataset/15144>
+- 국토지리정보원 행정경계(시군구): <http://data.nsdi.go.kr/dataset/20180927ds0058>
+
+```{r}
+library(sf)
+
+emd_raw <- st_read("data/EMD_202302/emd.shp")
+
+emd_sf <- emd_raw %>% 
+  filter(str_sub(EMD_CD, 1,2) == "41") %>% 
+  mutate(EMD_KOR_NM = iconv(EMD_KOR_NM, "euc-kr", "utf-8"))
+
+emd_sf %>% 
+  left_join(admin_code, by = c("EMD_CD" = "읍면동" ))
+
+admin_code %>% 
+  filter(시도 == 41)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
