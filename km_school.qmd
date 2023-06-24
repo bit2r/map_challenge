@@ -74,7 +74,9 @@ gg_school <- read_excel("data/초․중등학교위치현황(제공표준).xlsx"
 km_school <- gg_school %>% 
   filter(학교급구분 == "초등학교",
          교육지원청명 == "경기도광명교육지원청") %>% 
-  select(주소 = 소재지도로명주소, 학교명, 경도, 위도, 설립형태, 설립일자)
+  select(주소 = 소재지도로명주소, 학교명, 경도, 위도, 설립형태, 설립일자) %>% 
+  mutate(경도 = as.numeric(경도),
+         위도 = as.numeric(위도))
 
 km_school
 ```
@@ -90,7 +92,7 @@ library(sf)
 cctv_raw <- read_csv("data/보호구역내cctv정보.csv", locale=locale('ko',encoding='euc-kr'))
 
 cctv_tbl <- cctv_raw %>% 
-  select(용도 = INST_PURPS, 도로명주소=RDNMADR, 경도, 위도, 설치대수=CCTV_CNT, 일자=REF_DATE)
+  select(기기번호 = SFZN_ID, 용도 = INST_PURPS, 도로명주소=RDNMADR, 경도, 위도, 설치대수=CCTV_CNT, 일자=REF_DATE)
 
 cctv_tbl
 ```
@@ -267,7 +269,7 @@ draw_cctv_shcool_map("소하1동")
 ```{r}
 
 dong_plots <- map(km_sf$읍면동, draw_cctv_shcool_map)
-
+names(dong_plots) <- km_sf$읍면동
 
 ```
 
@@ -291,4 +293,143 @@ iwalk(dong_plots, ~ {
 
 :::
 :::: 
+
+# 학교, 도로, CCTV
+
+## 기본
+
+```{r}
+library(leaflet)
+library(fontawesome)
+
+km_dong_sf <- km_sf %>% filter(읍면동 == "소하1동")
+school_dong_sf <- st_filter(km_school_sf, km_dong_sf)
+cctv_dong_sf <- st_filter(cctv_sf, km_dong_sf)
+
+
+cctv_icons <- awesomeIconList(
+  "다목적" = makeAwesomeIcon(
+    icon = "camera",
+    markerColor = "blue",
+    library = "fa",
+    text = fa("camera")
+  ),
+  "생활방범" = makeAwesomeIcon(
+    icon = "camera",
+    markerColor = "green",
+    library = "fa",
+    text = fa("camera")
+  ),
+  "쓰레기단속" = makeAwesomeIcon(
+    icon = "camera",
+    markerColor = "purple",
+    library = "fa",
+    text = fa("camera")
+  ),
+  "어린이보호" = makeAwesomeIcon(
+    icon = "camera",
+    markerColor = "red",
+    library = "fa",
+    text = fa("camera")
+  )
+)
+
+leaflet(data = cctv_tbl) %>% 
+  addProviderTiles(providers$OpenStreetMap) %>% 
+  ## 행정동
+  addPolygons(data = km_sf, 
+              opacity = 1.0, fillOpacity = 0.0,
+            weight = 1,
+            highlightOptions = highlightOptions(color = "black", weight = 3,  bringToFront = TRUE),
+            label = ~읍면동,
+            labelOptions = labelOptions(
+            style = list("font-weight" = "normal", padding = "3px 8px"),
+            textsize = "15px",
+            direction = "auto")) %>% 
+  addMarkers(data = km_school, lng=~경도, lat=~위도, clusterOptions = markerClusterOptions(),
+            popup = ~ as.character(paste0("<strong>", `학교명`, "</strong><br>",
+                                          "--------------------------------<br>",
+                                          "&middot; 주소: ", `주소`, "<br>",
+                                          "&middot; 설립형태: ", `설립형태`, "<br>",
+                                          "&middot; 설립일자: ", `설립일자`))) %>% 
+
+  addAwesomeMarkers(data = cctv_tbl, lng=~경도, lat=~위도, clusterOptions = markerClusterOptions(),
+                    group = ~용도,
+             icon = ~ cctv_icons[용도],
+             popup = ~ as.character(paste0("<strong>", 기기번호, "</strong><br>",
+                                           "--------------------------------<br>",
+                                           "&middot; 설치위치: ", `도로명주소`, "<br>",
+                                           "&middot; 설립대수: ", 설치대수, "<br>",
+                                           "&middot; 용도: ", 용도)))  
+
+```
+
+## 용도별 인터랙티브
+
+[참고: [Show/Hide Layers](https://rstudio.github.io/leaflet/showhide.html)]{.aside}
+
+:::{.column-page}
+
+```{r}
+cctv_tbl_split <- split(cctv_tbl, cctv_tbl$용도)
+
+l <- leaflet() %>% addProviderTiles(providers$OpenStreetMap)
+
+unique(cctv_tbl$용도) %>%
+  purrr::walk( function(df) {
+    l <<- l %>%
+    ## 행정동
+    addPolygons(data = km_sf, 
+                opacity = 1.0, fillOpacity = 0.0,
+              weight = 1,
+              highlightOptions = highlightOptions(color = "black", weight = 3,  bringToFront = TRUE),
+              label = ~읍면동,
+              labelOptions = labelOptions(
+              style = list("font-weight" = "normal", padding = "3px 8px"),
+              textsize = "15px",
+              direction = "auto")) %>% 
+      
+    addMarkers(data = km_school, lng=~경도, lat=~위도, clusterOptions = markerClusterOptions(),
+              popup = ~ as.character(paste0("<strong>", `학교명`, "</strong><br>",
+                                            "--------------------------------<br>",
+                                            "&middot; 주소: ", `주소`, "<br>",
+                                            "&middot; 설립형태: ", `설립형태`, "<br>",
+                                            "&middot; 설립일자: ", `설립일자`))) %>% 
+  
+    addAwesomeMarkers(data = cctv_tbl_split[[df]], 
+                      lng=~경도, lat=~위도, clusterOptions = markerClusterOptions(),
+                      group = df,
+               icon = ~ cctv_icons[용도],
+               popup = ~ as.character(paste0("<strong>", 기기번호, "</strong><br>",
+                                             "--------------------------------<br>",
+                                             "&middot; 설치위치: ", `도로명주소`, "<br>",
+                                             "&middot; 설립대수: ", 설치대수, "<br>",
+                                             "&middot; 용도: ", 용도)))
+  })
+
+  l %>%
+    addLayersControl(
+      overlayGroups = unique(cctv_tbl$용도),
+      options = layersControlOptions(collapsed = FALSE)
+    )
+```
+
+
+:::
+
+
+## PPT
+
+```{r}
+cctv_tbl %>% 
+  write_rds("data/km_cctv_tbl.rds")
+
+km_sf %>% 
+  write_rds("data/km_km_sf.rds")
+
+km_school %>% 
+  write_rds("data/km_km_school.rds")
+
+```
+
 
