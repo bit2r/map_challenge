@@ -292,5 +292,19 @@
     "title": "경기도 광명시",
     "section": "4.3 PPT",
     "text": "4.3 PPT\n\n\n코드\ncctv_tbl %&gt;% \n  write_rds(\"data/km_cctv_tbl.rds\")\n\nkm_sf %&gt;% \n  write_rds(\"data/km_km_sf.rds\")\n\nkm_school %&gt;% \n  write_rds(\"data/km_km_school.rds\")"
+  },
+  {
+    "objectID": "km_school.html#어린이-교통사고",
+    "href": "km_school.html#어린이-교통사고",
+    "title": "경기도 광명시",
+    "section": "5.1 어린이 교통사고",
+    "text": "5.1 어린이 교통사고\n통계청 어린이 교통사고건수(시도/시/군/구)에서 광명시만 특정하여 데이터를 추출한다.\n\n\n코드\nlibrary(readxl)\n\naccident_raw &lt;- read_excel(\"data/어린이_교통사고건수_시도_시_군_구__20230624195028.xlsx\", sheet = \"데이터\",\n           skip = 2)\n\naccident &lt;- accident_raw %&gt;% \n  select(1, 5:7) %&gt;% \n  set_names(c(\"시점\", \"사고건수\", \"사망자수\", \"부상자수\")) %&gt;% \n  mutate_all(as.integer) %&gt;% \n  pivot_longer(cols=-시점, names_to = \"구분\", values_to = \"건수\") %&gt;% \n  mutate(건수 = ifelse(is.na(건수), 0, 건수))\n\naccident\n#&gt; # A tibble: 51 × 3\n#&gt;     시점 구분      건수\n#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;\n#&gt;  1  2005 사고건수    93\n#&gt;  2  2005 사망자수     1\n#&gt;  3  2005 부상자수   106\n#&gt;  4  2006 사고건수    77\n#&gt;  5  2006 사망자수     0\n#&gt;  6  2006 부상자수    90\n#&gt;  7  2007 사고건수    60\n#&gt;  8  2007 사망자수     0\n#&gt;  9  2007 부상자수    62\n#&gt; 10  2008 사고건수    48\n#&gt; # ℹ 41 more rows\n\n\n\n\n코드\nextrafont::loadfonts()\n\naccident %&gt;% \n  ggplot(aes(x = 시점, y=건수, color = 구분)) +\n    geom_line() +\n    geom_point() +\n    labs(title = \"광명시 어린이 교통사고건수\",\n         x = \"\",\n         y = \"교통사고건수\",\n         caption = \"출처: KOSIS https://kosis.kr/statHtml/statHtml.do?orgId=101&tblId=DT_1YL202107\") +\n    theme_minimal(base_family = \"MaruBuri\")"
+  },
+  {
+    "objectID": "km_school.html#어린이-교통사고-1",
+    "href": "km_school.html#어린이-교통사고-1",
+    "title": "경기도 광명시",
+    "section": "5.2 어린이 교통사고",
+    "text": "5.2 어린이 교통사고\n도로교통공단 교통사고 GIS 분석시스템 에서 2014~2022년 사이 경기도 광명시 “보행 어린이 사고”를 특정하여 분석한다.\n\n\n코드\nlibrary(janitor)\nlibrary(gt)\nlibrary(gtExtras)\n\naccident_2016 &lt;- read_excel(\"data/km_accident_2014_2016.xlsx\")\naccident_2019 &lt;- read_excel(\"data/km_accident_2017_2019.xlsx\")\naccident_2022 &lt;- read_excel(\"data/km_accident_2020_2022.xlsx\")\n\naccident_tbl &lt;- bind_rows(accident_2016, accident_2019) %&gt;% \n  bind_rows(accident_2022)\n\naccident_tbl %&gt;% \n  group_by(사고유형) %&gt;% \n  summarize(사망자수 = sum(사망자수),\n            중상자수 = sum(중상자수),\n            경상자수 = sum(경상자수)) %&gt;% \n  adorn_totals(where = \"row\", name = \"합계\") %&gt;% \n  adorn_totals(where = \"col\", name = \"합계\") %&gt;% \n  ## 표 \n  gt::gt() %&gt;% \n    tab_header(\n      title = md(\"광명시 **보행 어린이** 교통사고\"),\n      subtitle = md(\"`TAAS` 교통사고분석시스템 (2014~2022)\")\n    ) %&gt;% \n    gt::cols_align(align = \"center\") %&gt;% \n    tab_spanner(\n      label = \"교통사고 어린이 구분\",\n      columns = c(\n        사망자수, 중상자수, 경상자수\n      )\n    ) %&gt;% \n    gt_theme_538() %&gt;% \n     gt_highlight_rows(\n       rows = 사고유형 == \"차대사람 - 횡단중\",\n       fill = \"lightgrey\",\n       bold_target_only = TRUE,\n       target_col = everything()\n     )\n\n\n\n\n\n\n  \n    \n      광명시 보행 어린이 교통사고\n    \n    \n      TAAS 교통사고분석시스템 (2014~2022)\n    \n    \n      사고유형\n      \n        교통사고 어린이 구분\n      \n      합계\n    \n    \n      사망자수\n      중상자수\n      경상자수\n    \n  \n  \n    차대사람 - 기타\n0\n11\n34\n45\n    차대사람 - 길가장자리구역통행중\n0\n3\n12\n15\n    차대사람 - 보도통행중\n0\n2\n5\n7\n    차대사람 - 차도통행중\n0\n3\n8\n11\n    차대사람 - 횡단중\n3\n33\n59\n95\n    차대차 - 기타\n0\n1\n2\n3\n    차대차 - 측면충돌\n0\n3\n0\n3\n    합계\n3\n56\n120\n179"
   }
 ]

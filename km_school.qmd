@@ -432,4 +432,86 @@ km_school %>%
 
 ```
 
+# 교통사고 통계
+
+## 어린이 교통사고
+
+통계청 [어린이 교통사고건수(시도/시/군/구)](https://kosis.kr/statHtml/statHtml.do?orgId=101&tblId=DT_1YL202107)에서 광명시만 특정하여 데이터를 추출한다.
+
+```{r}
+library(readxl)
+
+accident_raw <- read_excel("data/어린이_교통사고건수_시도_시_군_구__20230624195028.xlsx", sheet = "데이터",
+           skip = 2)
+
+accident <- accident_raw %>% 
+  select(1, 5:7) %>% 
+  set_names(c("시점", "사고건수", "사망자수", "부상자수")) %>% 
+  mutate_all(as.integer) %>% 
+  pivot_longer(cols=-시점, names_to = "구분", values_to = "건수") %>% 
+  mutate(건수 = ifelse(is.na(건수), 0, 건수))
+
+accident
+```
+
+```{r}
+extrafont::loadfonts()
+
+accident %>% 
+  ggplot(aes(x = 시점, y=건수, color = 구분)) +
+    geom_line() +
+    geom_point() +
+    labs(title = "광명시 어린이 교통사고건수",
+         x = "",
+         y = "교통사고건수",
+         caption = "출처: KOSIS https://kosis.kr/statHtml/statHtml.do?orgId=101&tblId=DT_1YL202107") +
+    theme_minimal(base_family = "MaruBuri")
+```
+
+
+## 어린이 교통사고
+
+도로교통공단 [교통사고 GIS 분석시스템](https://taas.koroad.or.kr/web/shp/sbm/initGisAnals.do?menuId=WEB_KMP_GIS_TAS) 에서 2014~2022년 사이 경기도 광명시 "보행 어린이 사고"를 특정하여 분석한다.
+
+
+```{r}
+library(janitor)
+library(gt)
+library(gtExtras)
+
+accident_2016 <- read_excel("data/km_accident_2014_2016.xlsx")
+accident_2019 <- read_excel("data/km_accident_2017_2019.xlsx")
+accident_2022 <- read_excel("data/km_accident_2020_2022.xlsx")
+
+accident_tbl <- bind_rows(accident_2016, accident_2019) %>% 
+  bind_rows(accident_2022)
+
+accident_tbl %>% 
+  group_by(사고유형) %>% 
+  summarize(사망자수 = sum(사망자수),
+            중상자수 = sum(중상자수),
+            경상자수 = sum(경상자수)) %>% 
+  adorn_totals(where = "row", name = "합계") %>% 
+  adorn_totals(where = "col", name = "합계") %>% 
+  ## 표 
+  gt::gt() %>% 
+    tab_header(
+      title = md("광명시 **보행 어린이** 교통사고"),
+      subtitle = md("`TAAS` 교통사고분석시스템 (2014~2022)")
+    ) %>% 
+    gt::cols_align(align = "center") %>% 
+    tab_spanner(
+      label = "교통사고 어린이 구분",
+      columns = c(
+        사망자수, 중상자수, 경상자수
+      )
+    ) %>% 
+    gt_theme_538() %>% 
+     gt_highlight_rows(
+       rows = 사고유형 == "차대사람 - 횡단중",
+       fill = "lightgrey",
+       bold_target_only = TRUE,
+       target_col = everything()
+     )
+```
 
