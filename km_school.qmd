@@ -62,6 +62,23 @@ admin_code %>%
 admin_code
 ```
 
+## 초등학교
+
+[경기데이터드림](https://data.gg.go.kr/portal/mainPage.do) 공공데이터 개방포털에서 
+초․중등학교 위치 현황(제공표준)에서 광명시만 해당 학교를 추출한다.
+
+```{r}
+gg_school <- read_excel("data/초․중등학교위치현황(제공표준).xlsx")
+
+## 광명시 초등학교
+km_school <- gg_school %>% 
+  filter(학교급구분 == "초등학교",
+         교육지원청명 == "경기도광명교육지원청") %>% 
+  select(주소 = 소재지도로명주소, 학교명, 경도, 위도, 설립형태, 설립일자)
+
+km_school
+```
+
 
 ## CCTV 정보
 
@@ -73,15 +90,16 @@ library(sf)
 cctv_raw <- read_csv("data/보호구역내cctv정보.csv", locale=locale('ko',encoding='euc-kr'))
 
 cctv_tbl <- cctv_raw %>% 
-  select(용도 = INST_PURPS, 도로명주소=RDNMADR, 경도, 위도)
+  select(용도 = INST_PURPS, 도로명주소=RDNMADR, 경도, 위도, 설치대수=CCTV_CNT, 일자=REF_DATE)
 
 cctv_tbl
 ```
 
 ## 지도
 
-통계청 (센서스경계)행정동경계 `Z_SOP_BND_ADM_DONG_PG.zip` 파일을 [국가공간정보포털](http://www.nsdi.go.kr/) 에서 다운로드 받는다.
+행정동 관련 다양한 지도가 존재한다. [국가공간정보포털](http://www.nsdi.go.kr/)을 통해 공간정보 포탈의 역할을 수행하였으나, [브이월드](https://www.vworld.kr/)로 통합되고 있다. 브이월드는 공간정보오픈플랫폼으로 기존 국가공간정보포탈을 확장한 것으로 보인다.
 
+- 대한민국 행정동 경계(admdongkor): <https://github.com/vuski/admdongkor>
 - 통계청 (센서스경계)행정동경계: <http://data.nsdi.go.kr/dataset/20171206ds00001>
 - 국토교통부 행정구역시군구_경계: <http://data.nsdi.go.kr/dataset/15144>
 - 국토지리정보원 행정경계(시군구): <http://data.nsdi.go.kr/dataset/20180927ds0058>
@@ -89,28 +107,188 @@ cctv_tbl
 ```{r}
 library(sf)
 
-emd_raw <- st_read("data/EMD_202302/emd.shp")
+admin_sf <- st_read("data/HangJeongDong_ver20230401.geojson")
 
-emd_sf <- emd_raw %>% 
-  filter(str_sub(EMD_CD, 1,2) == "41") %>% 
-  mutate(EMD_KOR_NM = iconv(EMD_KOR_NM, "euc-kr", "utf-8"))
+km_sf <- admin_sf %>% 
+  filter(sgg == "41210") %>% 
+  st_transform(crs = 4326) %>% 
+  separate(temp, into = c("구시군", "읍면동"), sep = " ")
 
-emd_sf %>% 
-  left_join(admin_code, by = c("EMD_CD" = "읍면동" ))
-
-admin_code %>% 
-  filter(시도 == 41)
+plot(st_geometry(km_sf))
 
 ```
 
 
 
+# 시각화
+
+## CCTV x 행정동
+
+```{r}
+# devtools::install_github("yutannihilation/ggsflabel")
+library(ggsflabel)
+
+cctv_sf <- st_as_sf(cctv_tbl, coords = c("경도", "위도"),
+           crs = 4326)
+
+cctv_admin_gg <- ggplot() +
+  geom_sf(data = cctv_sf, aes(geometry = geometry)) +
+  geom_sf(data = km_sf, aes(geometry = geometry), alpha=0) +
+  theme_void() +
+  geom_sf_label_repel(data = km_sf, aes(label=읍면동))
+
+cctv_admin_gg
+
+```
 
 
+## CCTV x 행정동 (인터랙티브)
+
+```{r}
+library(plotly)
+library(ggiraph)
+
+info <- glue::glue("&middot; 용도: {cctv_sf$용도}<br>",
+                   "&middot; 일자: {cctv_sf$일자}<br>",
+                   "&middot; 설치대수: {cctv_sf$설치대수}<br>",
+                   "&middot; 위치: {cctv_sf$도로명주소}")
+
+cctv_admin_plotly <- ggplot() +
+  geom_sf(data = km_sf, aes(geometry = geometry), alpha=0) +
+  geom_sf_interactive(data=cctv_sf, aes(geometry = geometry, tooltip = info, size=as.integer(설치대수),
+                                        color = 용도), 
+                      size =1) +
+  geom_sf_text_repel(data = km_sf, aes(label = 읍면동), color="blue", size = 2) +
+  theme_void() +
+  labs(color = "CCTV 용도")
+
+girafe(ggobj = cctv_admin_plotly)
+```
 
 
+# 초등학교 CCTV
+
+## 광명시 현황
+
+```{r}
+info <- glue::glue("&middot; 용도: {cctv_sf$용도}<br>",
+                   "&middot; 일자: {cctv_sf$일자}<br>",
+                   "&middot; 설치대수: {cctv_sf$설치대수}<br>",
+                   "&middot; 위치: {cctv_sf$도로명주소}")
+
+km_school_sf  <- 
+  st_as_sf(km_school, coords = c("경도", "위도"),
+           crs = 4326)
+
+cctv_school_plotly <- ggplot() +
+  geom_sf(data = km_sf, aes(geometry = geometry), alpha=0) +
+  geom_sf_text_repel(data = km_school_sf, aes(label = 학교명), color="red", size = 2) +
+  geom_sf(data = km_school_sf, aes(geometry = geometry), alpha=1) +
+  geom_sf_interactive(data=cctv_sf, aes(geometry = geometry, tooltip = info, size=as.integer(설치대수),
+                                        color = 용도), size =1) +
+  geom_sf_text_repel(data = km_sf, aes(label = 읍면동), color="blue", size = 2) +
+  theme_void() +
+  labs(color = "CCTV 용도")
+
+girafe(ggobj = cctv_school_plotly)
+```
+
+## 동별
+
+### 스크립트
+
+```{r}
+## 동별지도 
+km_dong_sf <- km_sf %>% filter(읍면동 == "소하1동")
+school_dong_sf <- st_filter(km_school_sf, km_dong_sf)
+cctv_dong_sf <- st_filter(cctv_sf, km_dong_sf)
+
+## 동별 툴팁
+dong_info <- glue::glue("&middot; 용도: {cctv_dong_sf$용도}<br>",
+                   "&middot; 일자: {cctv_dong_sf$일자}<br>",
+                   "&middot; 설치대수: {cctv_dong_sf$설치대수}<br>",
+                   "&middot; 위치: {cctv_dong_sf$도로명주소}")
 
 
+ggplot() +
+  ## 행정동 -------------
+  geom_sf(data = km_dong_sf , aes(geometry = geometry), alpha=0) +
+  geom_sf_text_repel(data = km_dong_sf, aes(label = 읍면동), color="blue", size = 2) +
+  ## 학교 ---------------
+  geom_sf_text_repel(data = school_dong_sf, aes(label = 학교명), color="red", size = 3) +
+  geom_sf(data = school_dong_sf, aes(geometry = geometry), alpha=1) +
+  ## CCTV ---------------
+  geom_sf_interactive(data=cctv_dong_sf, aes(geometry = geometry, tooltip = dong_info,
+                                             size=as.integer(설치대수), color = 용도), size =1) +
+  theme_void() +
+  labs(color = "CCTV 용도")
+```
 
 
+### 함수
+
+```{r}
+draw_cctv_shcool_map <- function(dong_name = "소하1동") {
+  ## 동별지도 
+  km_dong_sf <- km_sf %>% filter(읍면동 == dong_name)
+  school_dong_sf <- st_filter(km_school_sf, km_dong_sf)
+  cctv_dong_sf <- st_filter(cctv_sf, km_dong_sf)
+  
+  ## 동별 툴팁
+  dong_info <- glue::glue("&middot; 용도: {cctv_dong_sf$용도}<br>",
+                     "&middot; 일자: {cctv_dong_sf$일자}<br>",
+                     "&middot; 설치대수: {cctv_dong_sf$설치대수}<br>",
+                     "&middot; 위치: {cctv_dong_sf$도로명주소}")
+  
+  dong_interactive_gg <- ggplot() +
+    ## 행정동 -------------
+    geom_sf(data = km_dong_sf , aes(geometry = geometry), alpha=0) +
+    geom_sf_text_repel(data = km_dong_sf, aes(label = 읍면동), color="blue", size = 5) +
+    ## 학교 ---------------
+    geom_sf_text_repel(data = school_dong_sf, aes(label = 학교명), color="red", size = 4) +
+    geom_sf(data = school_dong_sf, aes(geometry = geometry), alpha=1) +
+    ## CCTV ---------------
+    geom_sf_interactive(data=cctv_dong_sf, aes(geometry = geometry, tooltip = dong_info,
+                                               size=as.integer(설치대수), color = 용도), size =1) +
+    theme_void() +
+    labs(color = "CCTV 용도",
+         title = glue::glue("광명시: {dong_name}"))
+  
+  # girafe(ggobj = dong_interactive_gg)
+  dong_interactive_gg
+}
+
+draw_cctv_shcool_map("소하1동")
+```
+
+
+### 전체동
+
+```{r}
+
+dong_plots <- map(km_sf$읍면동, draw_cctv_shcool_map)
+
+
+```
+
+:::: {.column-screen}
+::: {.panel-tabset}
+```{r}
+#| results: asis
+#| fig-width: 14
+#| fig-height: 6
+
+iwalk(dong_plots, ~ {
+  cat('### ', .y, '\n\n')
+  
+  print(.x)
+  
+  cat('\n\n')
+  
+})
+
+```
+
+:::
+:::: 
 
