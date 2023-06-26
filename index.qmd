@@ -57,6 +57,7 @@ editor_options:
   - [국토지리정보원](https://www.ngii.go.kr/)
     - [국토정보플랫폼](http://map.ngii.go.kr/)
     - [국가공간정보포털](https://www.nsdi.go.kr/)
+      - 오픈마켓, 90m 표고 데이터: [국토지리정보원] 수치표고모델(DEM)_90M
 - [대한민국 행정동 경계: `admdongkor`](https://github.com/vuski/admdongkor)
 - [대한민국 최신 행정구역(SHP) 다운로드](http://www.gisdeveloper.co.kr/?p=2332)
 
