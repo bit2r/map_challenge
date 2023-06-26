@@ -39,13 +39,20 @@ website:
         menu: 
           - href: km_school.qmd
             text: "학교와 CCTV"
-  
+
 format:
   html:
-    theme: 
-      - cosmo
-      - css/quarto.scss      
+    theme:
+      light: flatly
+      dark: darkly
+    css: css/quarto.css
+    code-link: true
+    code-fold: show
+    code-tools: true
+    code-block-bg: "white"
+    code-block-border-left: "#31BAE9"
+    highlight-style: github
     toc: true
-
+  
 
 
