@@ -327,5 +327,54 @@
     "title": "지도제작 대회",
     "section": "태평양 중심",
     "text": "태평양 중심\n\nlibrary(maps)\n\nplot.map&lt;- function(database,center,...){\n    Obj &lt;- map(database,...,plot=F)\n    coord &lt;- cbind(Obj[[1]],Obj[[2]])\n\n    # split up the coordinates\n    id &lt;- rle(!is.na(coord[,1]))\n    id &lt;- matrix(c(1,cumsum(id$lengths)),ncol=2,byrow=T)\n    polygons &lt;- apply(id,1,function(i){coord[i[1]:i[2],]})\n\n    # split up polygons that differ too much\n    polygons &lt;- lapply(polygons,function(x){\n        x[,1] &lt;- x[,1] + center\n        x[,1] &lt;- ifelse(x[,1]&gt;180,x[,1]-360,x[,1])\n        if(sum(diff(x[,1])&gt;300,na.rm=T) &gt;0){\n          id &lt;- x[,1] &lt; 0\n          x &lt;- rbind(x[id,],c(NA,NA),x[!id,])\n       }\n       x\n    })\n    # reconstruct the object\n    polygons &lt;- do.call(rbind,polygons)\n    Obj[[1]] &lt;- polygons[,1]\n    Obj[[2]] &lt;- polygons[,2]\n\n    map(Obj,...)\n}\n\nplot.map(\"world\", center=200, col=\"white\",bg=\"gray\",\n   fill=TRUE,ylim=c(-60,90),mar=c(0,0,0,0))"
+  },
+  {
+    "objectID": "day_heatmap.html",
+    "href": "day_heatmap.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "프롬프트\n응답결과\n실행결과\n\n\n\ngenerate dataset for leaflet heatmap in r\n\n\nCreating a dataset for a leaflet heatmap in R involves a few steps. You’ll need a set of geographic points, each with a latitude and longitude, and an associated value that you want to use to generate the heat map. The value might represent anything from population density to temperature to the number of occurrences of a specific event.\nHere’s an example of how to create a basic dataset in R:\n\n코드# Create a data frame\nheatmap_data &lt;- data.frame(\n  \"Lat\" = c(40.7128, 34.0522, 41.8781, 29.7604, 39.7392),    # latitudes of some US cities\n  \"Lon\" = c(-74.0060, -118.2437, -87.6298, -95.3698, -104.9903),   # longitudes of some US cities\n  \"Value\" = c(100, 200, 150, 80, 120)    # some made-up values\n)\n\n# Print the data frame\nprint(heatmap_data)\n\n\nThis script generates a simple data frame with latitude, longitude, and a value column. The latitude and longitude represent locations (in this case, some major US cities), and the ‘Value’ represents some made-up values.\nPlease replace the coordinates and values with your own data.\nOnce the dataset is ready, you can use the leaflet package in R to create a heatmap. Here is a simple example:\n\n코드# install the necessary packages if you haven't already\ninstall.packages(c(\"leaflet\", \"viridis\"))\nlibrary(leaflet)\nlibrary(viridis)\n\n# create the heatmap\nleaflet(heatmap_data) %&gt;%\n  addTiles() %&gt;%\n  addHeatmap(\n    lng = ~Lon,\n    lat = ~Lat,\n    intensity = ~Value,\n    radius = 20,\n    blur = 15,\n    max = 0.05,\n    gradient = colorRampPalette(viridis(6))(6)\n  )\n\n\nThis script generates a leaflet heatmap using the leaflet and viridis libraries. The addHeatmap function adds a heatmap layer to the map. The lng, lat, and intensity arguments specify the longitude, latitude, and values to use for the heatmap. The radius, blur, and max parameters control the appearance of the heatmap, and the gradient argument sets the color scheme.\n\n\n\n코드# Create a data frame\nheatmap_data &lt;- data.frame(\n  \"Lat\" = c(40.7128, 34.0522, 41.8781, 29.7604, 39.7392),    # latitudes of some US cities\n  \"Lon\" = c(-74.0060, -118.2437, -87.6298, -95.3698, -104.9903),   # longitudes of some US cities\n  \"Value\" = c(100, 200, 150, 80, 120)    # some made-up values\n)\n\n# install.packages(c(\"leaflet\", \"leaflet.extras\", \"viridis\"))\nlibrary(leaflet)\nlibrary(leaflet.extras)\nlibrary(viridis)\n\n# create the heatmap\nleaflet(heatmap_data) %&gt;%\n  addTiles() %&gt;%\n  addHeatmap(\n    lng = ~Lon,\n    lat = ~Lat,\n    intensity = ~Value,\n    radius = 20,\n    blur = 15,\n    max = 0.05,\n    gradient = colorRampPalette(viridis(6))(6)\n  )"
+  },
+  {
+    "objectID": "day_heatmap.html#데이터",
+    "href": "day_heatmap.html#데이터",
+    "title": "지도제작 대회",
+    "section": "\n2.1 데이터",
+    "text": "2.1 데이터\n기상청_지진정보 조회서비스에서 활용신청을 한 후에 API를 통해 기상청에서 제공하는 지진정보 데이터를 가져온다. 현재날짜기준 3일간 데이터만 최근 발생한 지진 데이터만 제공한다.\n\n코드library(tidyverse)\nlibrary(httr)\n\neq_req &lt;- glue::glue(\"http://apis.data.go.kr/1360000/EqkInfoService/getEqkMsg\",\n                     \"?serviceKey={Sys.getenv('EARTHQUAKE_API_KEY')}\",\n                     \"&pageNo=1\", \n                     \"&numOfRows=1000\", \n                     \"&dataType=JSON\", \n                     \"&fromTmFc={str_remove_all(Sys.Date()-3, '-')}\",\n                     \"&toTmFc={str_remove_all(Sys.Date(), '-')}\")\n\n\neq_resp &lt;- GET(eq_req)\n\neq_json &lt;- content(eq_resp, type = \"text\")\n\neq_list &lt;- jsonlite::fromJSON(eq_json) \n\nlistviewer::jsonedit(eq_list)"
+  },
+  {
+    "objectID": "day_heatmap.html#데이터프레임",
+    "href": "day_heatmap.html#데이터프레임",
+    "title": "지도제작 대회",
+    "section": "\n2.2 데이터프레임",
+    "text": "2.2 데이터프레임\n\n코드library(gt)\nlibrary(gtExtras)\n\neq_tbl &lt;- pluck(eq_list, \"response\") %&gt;% \n  pluck(\"body\") %&gt;% \n  pluck(\"items\") %&gt;% \n  pluck(\"item\") %&gt;% \n  as_tibble() %&gt;% \n  mutate(lat = as.numeric(lat),\n        lon = as.numeric(lon))\n\neq_tbl %&gt;% \n  select(지도=img, 발생위치=loc, 진앙시=tmEqk, 규모=mt, 진도=inT, 깊이=dep, 참고사항=rem) %&gt;% \n  mutate(진앙시 = lubridate::ymd_hms(진앙시)) %&gt;% \n  gt() %&gt;% \n    cols_align(align=\"center\")  %&gt;% \n    gt_img_rows(columns = 지도, height = 200) %&gt;% \n    gt_theme_538()\n\n\n\n\n\n\n지도\n      발생위치\n      진앙시\n      규모\n      진도\n      깊이\n      참고사항\n    \n\n\n\n통가 누쿠알로파 남쪽 325km 해역\n2023-06-25 16:16:59\n6.0\n\n7\n국내영향없음. 위 자료는 미지질조사소(USGS) 분석결과임.\n\n\n\n북한 함경북도 길주 북북서쪽 42km 지역\n2023-06-25 11:55:14\n2.4\n최대진도 Ⅰ\n17\n자연지진으로 분석됨\n\n\n\n\n\n코드\n# eq_tbl %&gt;%\n#   write_rds(\"data/eq_tbl_20230627.rds\")"
+  },
+  {
+    "objectID": "day_heatmap.html#시각화",
+    "href": "day_heatmap.html#시각화",
+    "title": "지도제작 대회",
+    "section": "\n2.3 시각화",
+    "text": "2.3 시각화\n\n코드library(leaflet.extras)\nlibrary(leaflet)\nlibrary(viridis)\n\neq_tbl &lt;- \n  read_rds(\"data/eq_tbl_20230627.rds\")\n\neq_tbl %&gt;% \n  leaflet() %&gt;%\n    addTiles() %&gt;%\n    addHeatmap(\n      lng = ~lon,\n      lat = ~lat,\n      intensity = ~mt,\n      radius = 20,\n      blur = 15,\n      max = 0.05,\n      gradient = colorRampPalette(viridis(6))(6)\n    )"
+  },
+  {
+    "objectID": "day_heatmap.html#지진-데이터",
+    "href": "day_heatmap.html#지진-데이터",
+    "title": "지도제작 대회",
+    "section": "\n3.1 지진 데이터",
+    "text": "3.1 지진 데이터\n기상청 국내지진조회에서 엑셀파일로 데이터를 다운로드 받는다. 조회조건을 1900년 1월 1일부터하면 1978년이 첫 번째 기록된 지진기록으로 나온다.\n\n코드library(readxl)\n\neq_xlsx &lt;- read_excel(\"data/기상청_지진_19000101_20230627.xlsx\", skip = 1)\n\neq_xlsx %&gt;% \n  count(최대)\n#&gt; # A tibble: 7 × 2\n#&gt;   최대      n\n#&gt;   &lt;chr&gt; &lt;int&gt;\n#&gt; 1 Ⅰ       258\n#&gt; 2 Ⅱ        55\n#&gt; 3 Ⅲ        65\n#&gt; 4 Ⅳ        20\n#&gt; 5 Ⅴ         4\n#&gt; 6 진도      1\n#&gt; 7 &lt;NA&gt;   1753\n\neq_xlsx_tbl &lt;- eq_xlsx %&gt;% \n  slice(2:n()) %&gt;% \n  janitor::clean_names(ascii = FALSE) %&gt;% \n  mutate(lat = parse_number(위도),\n         lon = parse_number(경도)) %&gt;% \n  mutate(깊이_km = as.numeric(깊이_km))\n\neq_xlsx_tbl %&gt;% \n  select(지도=img, 위치, 규모, 발생시각, 깊이_km) %&gt;%  \n  slice_sample(n = 20) %&gt;% \n  gt() %&gt;% \n    cols_align(align=\"center\")  %&gt;% \n    gt_img_rows(columns = 지도, height = 200) %&gt;% \n    gt_theme_538()\n\n\n\n\n\n\n지도\n      위치\n      규모\n      발생시각\n      깊이_km\n    \n\n\n\n충남 태안군 서격렬비도 남서쪽 134km 해역\n2.3\n2022-09-23 07:40:30\nNA\n\n\n\n경북 울진군 서쪽 7km 지역\n2.5\n2018-08-29 05:01:29\n11\n\n\n\n강원 원주시 동남동쪽 15km 지역\n2.5\n2002-04-01 07:46:02\nNA\n\n\n\n충남 태안군 서격렬비열도 서남서쪽 40km 해역\n2.6\n2003-06-08 02:07:57\nNA\n\n\n\n경북 문경시 북동쪽 26km 지역\n2.2\n2018-09-14 09:08:13\n14\n\n\n\n경북 포항시 북구 북쪽 6km 지역\n2.4\n2017-11-15 14:50:05\n8\n\n\n\n경북 영덕군 북북동쪽 22km 해역\n2.6\n2017-05-04 01:08:27\n16\n\n\n\n경북 포항시 남구 동남동쪽 33km 해역\n2.6\n2016-06-15 02:07:18\n20\n\n\n\n북한 황해남도 용연 남쪽 32km 해역\n2.2\n2009-12-26 10:55:50\nNA\n\n\n\n제주 서귀포시 동쪽 58km 해역\n2.4\n2019-05-13 23:50:38\n17\n\n\n\n북한 황해북도 사리원 서쪽 9km 지역\n2.1\n2013-11-16 22:32:45\nNA\n\n\n\n경북 포항시 남구 동남동쪽 41km 해역\n2.1\n2002-07-12 08:17:37\nNA\n\n\n\n경북 안동시 서북서쪽 12km 지역\n2.9\n1985-05-13 18:26:38\nNA\n\n\n\n서울 북방 약 150km 지역\n3.1\n1983-07-27 00:25:23\nNA\n\n\n\n북한 황해북도 송림시 동쪽 19km 지역\n2.5\n2016-02-28 16:52:38\n6\n\n\n\n경북 안동시 동쪽 15km 지역\n3.1\n2013-02-04 05:39:25\nNA\n\n\n\n충남 보령시 서남서쪽 43km 해역\n2.3\n2013-06-29 13:32:48\nNA\n\n\n\n경북 영덕군 동북동쪽 28km 해역\n2.0\n2019-10-13 19:52:44\n20\n\n\n\n북한 함경북도 길주 북북서쪽 54km 지역\n2.7\n2017-10-13 01:41:08\nNA\n\n\n\n경북 의성군 서북서쪽 19km 지역\n2.1\n2018-06-15 11:10:02\n14"
+  },
+  {
+    "objectID": "day_heatmap.html#발전소-데이터",
+    "href": "day_heatmap.html#발전소-데이터",
+    "title": "지도제작 대회",
+    "section": "\n3.2 발전소 데이터",
+    "text": "3.2 발전소 데이터\n공간통계를 위한 데이터 과학: 데이터프레임 → 지도 변환 - 지진과 원전\n\n코드library(sf)\n\n## 1.2. 원전 데이터 \nnp_df &lt;- tribble(~name, ~address, ~lat, ~lon,\n                \"고리\", \"부산광역시 기장군 장안읍 고리\", 35.459936176050455, 129.31042595766428,\n                \"월성\", \"경상북도 경주시 양남면 나아리\", 35.61415131635102, 129.47316094301584,\n                \"한빛\", \"전라남도 영광군 홍농읍 계마리\", 35.51221255154207, 126.578604835085,\n                \"한울\", \"경상북도 울진군 북면 부구리\", 37.18011679577809, 129.16451181750688)\n\nprojcrs &lt;- \"+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0\"\n\nnp_sf &lt;- st_as_sf(x = np_df,                         \n           coords = c(\"lon\", \"lat\"),\n           crs = projcrs)"
+  },
+  {
+    "objectID": "day_heatmap.html#시각화-1",
+    "href": "day_heatmap.html#시각화-1",
+    "title": "지도제작 대회",
+    "section": "\n3.3 시각화",
+    "text": "3.3 시각화\n\n코드eq_xlsx_tbl %&gt;% \n  select(lat,lon, 규모) %&gt;% \n  drop_na() %&gt;% \n  leaflet() %&gt;%\n    addTiles() %&gt;%\n    addHeatmap(\n      lng = ~lon,\n      lat = ~lat,\n      intensity = ~규모,\n      # radius = 30,\n      blur = 40,\n      max = 0.05,\n      gradient = colorRampPalette(viridis(5))(5)\n      # gradient=\"RdYlGn\"\n    ) %&gt;% \n    addMarkers(data = np_df, lng=~lon, lat=~lat, clusterOptions = markerClusterOptions(),\n                popup = ~ as.character(paste0(\"&lt;strong&gt;\", name, \"&lt;/strong&gt;&lt;br&gt;\",\n                                             \"--------------------------------&lt;br&gt;\",\n                                             \"&middot; 주소: \", address)))"
   }
 ]

@@ -1,0 +1,293 @@
+---
+title: "지도제작 대회"
+subtitle: "열지도(heatmap)"
+description: |
+  챗GPT 도움을 받아 열지도(Heatmap)을 제작한다.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 챗GPT
+
+:::{.panel-tabset}
+
+### 프롬프트
+
+```yaml
+generate dataset for leaflet heatmap in r
+```
+
+### 응답결과
+
+Creating a dataset for a leaflet heatmap in R involves a few steps. You'll need a set of geographic points, each with a latitude and longitude, and an associated value that you want to use to generate the heat map. The value might represent anything from population density to temperature to the number of occurrences of a specific event.
+
+Here's an example of how to create a basic dataset in R:
+
+```{r}
+#| eval: false
+
+# Create a data frame
+heatmap_data <- data.frame(
+  "Lat" = c(40.7128, 34.0522, 41.8781, 29.7604, 39.7392),    # latitudes of some US cities
+  "Lon" = c(-74.0060, -118.2437, -87.6298, -95.3698, -104.9903),   # longitudes of some US cities
+  "Value" = c(100, 200, 150, 80, 120)    # some made-up values
+)
+
+# Print the data frame
+print(heatmap_data)
+```
+
+This script generates a simple data frame with latitude, longitude, and a value column. The latitude and longitude represent locations (in this case, some major US cities), and the 'Value' represents some made-up values.
+
+Please replace the coordinates and values with your own data.
+
+Once the dataset is ready, you can use the leaflet package in R to create a heatmap. Here is a simple example:
+
+```{r}
+#| eval: false
+
+# install the necessary packages if you haven't already
+install.packages(c("leaflet", "viridis"))
+library(leaflet)
+library(viridis)
+
+# create the heatmap
+leaflet(heatmap_data) %>%
+  addTiles() %>%
+  addHeatmap(
+    lng = ~Lon,
+    lat = ~Lat,
+    intensity = ~Value,
+    radius = 20,
+    blur = 15,
+    max = 0.05,
+    gradient = colorRampPalette(viridis(6))(6)
+  )
+```
+
+This script generates a leaflet heatmap using the leaflet and viridis libraries. The addHeatmap function adds a heatmap layer to the map. The lng, lat, and intensity arguments specify the longitude, latitude, and values to use for the heatmap. The radius, blur, and max parameters control the appearance of the heatmap, and the gradient argument sets the color scheme.
+
+### 실행결과
+
+```{r}
+# Create a data frame
+heatmap_data <- data.frame(
+  "Lat" = c(40.7128, 34.0522, 41.8781, 29.7604, 39.7392),    # latitudes of some US cities
+  "Lon" = c(-74.0060, -118.2437, -87.6298, -95.3698, -104.9903),   # longitudes of some US cities
+  "Value" = c(100, 200, 150, 80, 120)    # some made-up values
+)
+
+# install.packages(c("leaflet", "leaflet.extras", "viridis"))
+library(leaflet)
+library(leaflet.extras)
+library(viridis)
+
+# create the heatmap
+leaflet(heatmap_data) %>%
+  addTiles() %>%
+  addHeatmap(
+    lng = ~Lon,
+    lat = ~Lat,
+    intensity = ~Value,
+    radius = 20,
+    blur = 15,
+    max = 0.05,
+    gradient = colorRampPalette(viridis(6))(6)
+  )
+```
+
+
+:::
+
+# 지진 (최근3일)
+
+##  데이터
+
+[기상청_지진정보 조회서비스](https://www.data.go.kr/data/15000420/openapi.do)에서 활용신청을 한 후에 API를 통해 기상청에서 제공하는 지진정보 데이터를 가져온다.
+현재날짜기준 3일간 데이터만 최근 발생한 지진 데이터만 제공한다.
+
+```{r}
+library(tidyverse)
+library(httr)
+
+eq_req <- glue::glue("http://apis.data.go.kr/1360000/EqkInfoService/getEqkMsg",
+                     "?serviceKey={Sys.getenv('EARTHQUAKE_API_KEY')}",
+                     "&pageNo=1", 
+                     "&numOfRows=1000", 
+                     "&dataType=JSON", 
+                     "&fromTmFc={str_remove_all(Sys.Date()-3, '-')}",
+                     "&toTmFc={str_remove_all(Sys.Date(), '-')}")
+
+
+eq_resp <- GET(eq_req)
+
+eq_json <- content(eq_resp, type = "text")
+
+eq_list <- jsonlite::fromJSON(eq_json) 
+
+listviewer::jsonedit(eq_list)
+```
+
+## 데이터프레임
+
+```{r}
+library(gt)
+library(gtExtras)
+
+eq_tbl <- pluck(eq_list, "response") %>% 
+  pluck("body") %>% 
+  pluck("items") %>% 
+  pluck("item") %>% 
+  as_tibble() %>% 
+  mutate(lat = as.numeric(lat),
+        lon = as.numeric(lon))
+
+eq_tbl %>% 
+  select(지도=img, 발생위치=loc, 진앙시=tmEqk, 규모=mt, 진도=inT, 깊이=dep, 참고사항=rem) %>% 
+  mutate(진앙시 = lubridate::ymd_hms(진앙시)) %>% 
+  gt() %>% 
+    cols_align(align="center")  %>% 
+    gt_img_rows(columns = 지도, height = 200) %>% 
+    gt_theme_538()
+
+# eq_tbl %>%
+#   write_rds("data/eq_tbl_20230627.rds")
+```
+
+## 시각화
+
+```{r}
+library(leaflet.extras)
+library(leaflet)
+library(viridis)
+
+eq_tbl <- 
+  read_rds("data/eq_tbl_20230627.rds")
+
+eq_tbl %>% 
+  leaflet() %>%
+    addTiles() %>%
+    addHeatmap(
+      lng = ~lon,
+      lat = ~lat,
+      intensity = ~mt,
+      radius = 20,
+      blur = 15,
+      max = 0.05,
+      gradient = colorRampPalette(viridis(6))(6)
+    )
+
+```
+
+
+# 지진과 발전소 (1900~)
+
+##  지진 데이터
+
+[기상청 국내지진조회](https://www.weather.go.kr/w/eqk-vol/search/korea.do?startSize=2.0&endSize=999.0&pNo=108&startLat=999.0&endLat=999.0&startLon=999.0&endLon=999.0&lat=999.0&lon=999.0&dist=999.0&keyword=&startTm=1900-01-01&endTm=2023-06-27&dpType=m)에서 엑셀파일로 데이터를 다운로드 받는다. 조회조건을 1900년 1월 1일부터하면 1978년이 첫 번째 기록된 지진기록으로 나온다.
+
+
+```{r}
+library(readxl)
+
+eq_xlsx <- read_excel("data/기상청_지진_19000101_20230627.xlsx", skip = 1)
+
+eq_xlsx %>% 
+  count(최대)
+
+eq_xlsx_tbl <- eq_xlsx %>% 
+  slice(2:n()) %>% 
+  janitor::clean_names(ascii = FALSE) %>% 
+  mutate(lat = parse_number(위도),
+         lon = parse_number(경도)) %>% 
+  mutate(깊이_km = as.numeric(깊이_km))
+
+eq_xlsx_tbl %>% 
+  select(지도=img, 위치, 규모, 발생시각, 깊이_km) %>%  
+  slice_sample(n = 20) %>% 
+  gt() %>% 
+    cols_align(align="center")  %>% 
+    gt_img_rows(columns = 지도, height = 200) %>% 
+    gt_theme_538()
+```
+
+
+## 발전소 데이터
+
+
+[[공간통계를 위한 데이터 과학: 데이터프레임 → 지도 변환 - 지진과 원전](https://statkclee.github.io/spatial/geo-sf-dataframe.html)]{.aside}
+
+
+```{r}
+library(sf)
+
+## 1.2. 원전 데이터 
+np_df <- tribble(~name, ~address, ~lat, ~lon,
+                "고리", "부산광역시 기장군 장안읍 고리", 35.459936176050455, 129.31042595766428,
+                "월성", "경상북도 경주시 양남면 나아리", 35.61415131635102, 129.47316094301584,
+                "한빛", "전라남도 영광군 홍농읍 계마리", 35.51221255154207, 126.578604835085,
+                "한울", "경상북도 울진군 북면 부구리", 37.18011679577809, 129.16451181750688)
+
+projcrs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+
+np_sf <- st_as_sf(x = np_df,                         
+           coords = c("lon", "lat"),
+           crs = projcrs)
+
+```
+
+
+## 시각화
+
+```{r}
+eq_xlsx_tbl %>% 
+  select(lat,lon, 규모) %>% 
+  drop_na() %>% 
+  leaflet() %>%
+    addTiles() %>%
+    addHeatmap(
+      lng = ~lon,
+      lat = ~lat,
+      intensity = ~규모,
+      # radius = 30,
+      blur = 40,
+      max = 0.05,
+      gradient = colorRampPalette(viridis(5))(5)
+      # gradient="RdYlGn"
+    ) %>% 
+    addMarkers(data = np_df, lng=~lon, lat=~lat, clusterOptions = markerClusterOptions(),
+                popup = ~ as.character(paste0("<strong>", name, "</strong><br>",
+                                             "--------------------------------<br>",
+                                             "&middot; 주소: ", address)))
+```

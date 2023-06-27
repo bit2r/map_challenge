@@ -35,10 +35,13 @@ website:
             text: "인터랙티브 지도(Mapview)"
           - href: day_08.qmd
             text: "지오코딩"
+          - href: day_heatmap.qmd
+            text: "열지도(heatmap)"
       - text: "광명시"
         menu: 
           - href: km_school.qmd
             text: "학교와 CCTV"
+
 
 format:
   html:
