@@ -1,0 +1,161 @@
+---
+title: "지도제작 대회"
+subtitle: "지도(Map)"
+description: |
+  공간정보 시각화에 필요한 지도를 확보한다.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 행정지도
+
+`raster` 패키지 `getData()` 함수를 사용해서 지도제작을 할 수 있었으나,
+`geodata` 패키지로 기능이 이관되어 이를 사용한다.
+
+
+## `raster` 행정지도
+
+:::{.panel-tabset}
+
+### 대한민국
+
+```{r}
+library(raster)
+library(sf)
+library(geodata)
+library(tidyverse)
+library(osmdata)
+library(stars)
+library(rayshader)
+library(MetBrewer)
+library(colorspace)
+
+# 대한민국 전체
+
+fs::dir_create("data/gadm")
+
+# korea <- raster::getData("GADM", country = "KOR", level = 0, path="data/gadm") |> 
+#   st_as_sf()
+
+korea <- read_rds("data/gadm/gadm36_KOR_0_sp.rds") %>% st_as_sf()
+ 
+korea |> 
+  ggplot() +
+  geom_sf()
+
+```
+
+### 시도
+
+```{r}
+# korea_sido <- raster::getData("GADM", country = "KOR", level = 1, path="data/gadm") |> 
+#   st_as_sf()
+
+korea_sido <- read_rds("data/gadm/gadm36_KOR_1_sp.rds") %>% st_as_sf()
+ 
+korea_sido |> 
+  ggplot() +
+  geom_sf()
+```
+
+
+### 시군구
+
+```{r}
+# korea_sgg <- raster::getData("GADM", country = "KOR", level = 2, path="data/gadm") |> 
+#   st_as_sf()
+
+korea_sgg <- read_rds("data/gadm/gadm36_KOR_2_sp.rds") %>% st_as_sf()
+ 
+korea_sgg |> 
+  ggplot() +
+  geom_sf()
+```
+
+:::
+
+
+## `geodata` 행정지도
+
+[`geodata`](https://github.com/rspatial/geodata) 웹사이트에 다양한 지도가 포함되어 있다.
+
+:::{.panel-tabset}
+
+### 대한민국
+
+```{r}
+library(raster)
+library(sf)
+library(geodata)
+
+# 대한민국 전체
+
+# korea_geo <- gadm("KOR", level=0, path="data/", version="latest", resolution=1) %>% 
+#     st_as_sf()
+
+korea_geo <- terra::readRDS("data/gadm/gadm41_KOR_0_pk.rds") %>% st_as_sf()
+
+korea_geo |> 
+  ggplot() +
+    geom_sf()
+```
+
+
+### 시도
+
+```{r}
+# korea_sido_geo <- gadm("KOR", level=1, path="data/", version="latest", resolution=1) %>% 
+#     st_as_sf()
+
+korea_sido_geo <- terra::readRDS("data/gadm/gadm41_KOR_1_pk.rds") %>% st_as_sf()
+
+korea_sido_geo |> 
+  ggplot() +
+    geom_sf()
+```
+
+### 시군구
+
+```{r}
+# korea_geo_sgg <- gadm("KOR", level=2, path="data/", version="latest", resolution=1) %>% 
+#   st_as_sf()
+
+korea_sgg_geo <- terra::readRDS("data/gadm/gadm41_KOR_2_pk.rds") %>% st_as_sf()
+ 
+korea_sgg_geo |> 
+  ggplot() +
+    geom_sf()
+```
+
+:::

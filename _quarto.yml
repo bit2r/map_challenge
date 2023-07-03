@@ -5,6 +5,9 @@ project:
     - "*.gpkg"
     - "*.csl"
     - "*.bib"
+  render:
+    - "*.qmd"
+    - "!km_population_20230625.qmd"
 
 lang: ko-KR
 
@@ -41,6 +44,10 @@ website:
         menu: 
           - href: km_school.qmd
             text: "학교와 CCTV"
+      - text: "GIS 도구"
+        menu: 
+          - href: spatial_map.qmd
+            text: "지도(Map)"
 
 
 format:

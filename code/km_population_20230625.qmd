@@ -1,0 +1,417 @@
+---
+title: "광명시 유동인구 분석"
+subtitle: "KT 유동인구 데이터"
+description: |
+  광명시 공공데이터 자료구조를 확인해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    self-contained: true    
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+bibliography: bibliography.bib
+link-citations: true
+csl: apa-single-spaced.csl
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 지도
+
+## 행정동
+
+```{r}
+library(tidyverse)
+library(sf)
+library(ggrepel)
+extrafont::loadfonts()
+
+## 광명시 ---------------
+km_map <- st_read("data/sgg_map/광명시.geojson") %>% 
+  mutate(MEGA_CD = as.character(MEGA_CD),
+         ADMI_CD = as.character(ADMI_CD))
+
+plot(st_geometry(km_map))
+```
+
+
+## 블록
+
+```{r}
+block_map <- st_read("data/sgg_block_map/광명시.geojson")
+
+plot(st_geometry(block_map))
+```
+
+## 격자
+
+```{r}
+grid_map <- st_read("data/sgg_cell_grid/광명시.geojson")
+
+plot(st_geometry(grid_map))
+```
+
+## 중심점
+
+```{r}
+point_map <- st_read("data/sgg_cell_point/광명시.geojson")
+
+plot(st_geometry(point_map), cex = 0.3)
+```
+
+
+# KT 유동인구
+
+## 광명시 CELL
+
+```{r}
+km_map_tbl <- km_map %>% st_drop_geometry() %>% as_tibble() %>% 
+  mutate(ADMI_CD = as.character(ADMI_CD),
+         MEGA_CD = as.character(MEGA_CD)) 
+
+km_cell_sf <- grid_map %>% 
+  left_join(km_map_tbl, by = c("ADMI_CD", "MEGA_CD"))
+
+plot(st_geometry(km_cell_sf))
+```
+
+## 광명시 유동인구
+
+### 2017년 6월 (Script)
+
+```{r}
+extrafont::loadfonts()
+
+kt_cell_files <- fs::dir_ls("data/KT유동인구데이터/셀단위/sex_age/")
+
+sex_age_raw <- read_csv("data/KT유동인구데이터/셀단위/sex_age/sex_age_201706.csv")
+
+km_sex_age <- sex_age_raw %>% 
+    ## 광명시만 추출
+  filter(cell_id %in% unique(km_cell_sf$cell_id)) %>% 
+  ## 자료구조 변환
+  pivot_longer(cols = M00_09:F60_up, names_to = "name", values_to = "인구수") %>% 
+  mutate(성별 = str_sub(name, 1,1),
+         연령대 = str_sub(name, 2, 6)) %>% 
+  ## 자료형 변환
+  mutate(연령대 = factor(연령대, levels = c("00_09", "10_19", "20_29", "30_39", "40_49", "50_59", "60_up")),
+         성별 = factor(성별, levels = c("M", "F"), labels = c("남성", "여성"))) %>% 
+  select(-name)
+
+km_grid_tbl <- st_drop_geometry(grid_map) %>% 
+  as_tibble()
+
+km_tbl <- st_drop_geometry(km_map) %>% 
+  as_tibble()
+
+km_dong_tbl <- left_join(km_grid_tbl, km_tbl, by = c("MEGA_CD", "ADMI_CD"))
+
+km_sex_age_tbl <- km_sex_age %>% 
+  left_join(km_dong_tbl)
+  
+km_sex_age_tbl %>% 
+  group_by(etl_ym, ADMI_NM) %>% 
+  summarise(인구수 = sum(인구수))
+
+```
+
+
+### 2017년 6월 (함수)
+
+```{r}
+
+## MEGA_CD, ADMI_CD, cell_id 결합
+km_grid_tbl <- st_drop_geometry(grid_map) %>% 
+  as_tibble()
+
+km_tbl <- st_drop_geometry(km_map) %>% 
+  as_tibble()
+
+km_dong_tbl <- left_join(km_grid_tbl, km_tbl, by = c("MEGA_CD", "ADMI_CD"))
+
+## 광명시 
+get_km_sex_age <- function(yearmon="data/KT유동인구데이터/셀단위/sex_age/sex_age_201706.csv") {
+  
+  cat("\n ------------------\n", yearmon, "\n")
+  
+  sex_age_raw <- read_csv(yearmon)
+
+  km_sex_age <- sex_age_raw %>% 
+      ## 광명시만 추출
+    filter(cell_id %in% unique(km_cell_sf$cell_id)) %>% 
+    ## 자료구조 변환
+    pivot_longer(cols = M00_09:F60_up, names_to = "name", values_to = "인구수") %>% 
+    mutate(성별 = str_sub(name, 1,1),
+           연령대 = str_sub(name, 2, 6)) %>% 
+    ## 자료형 변환
+    mutate(연령대 = factor(연령대, levels = c("00_09", "10_19", "20_29", "30_39", "40_49", "50_59", "60_up")),
+           성별 = factor(성별, levels = c("M", "F"), labels = c("남성", "여성"))) %>% 
+    select(-name)
+
+  km_sex_age_tbl <- km_sex_age %>% 
+    left_join(km_dong_tbl)
+    
+  return(km_sex_age_tbl)
+}
+
+get_km_sex_age()
+
+```
+
+
+
+### 2018~2022년
+
+```{r}
+#| eval: false
+kt_cell_files_raw <- fs::dir_ls("data/KT유동인구데이터/셀단위/sex_age/")
+
+kt_cell_files <- kt_cell_files_raw %>% 
+  enframe() %>% 
+  ## 2018~2022년만 추출
+  mutate(년월 = str_sub(str_extract(name, "\\d+"), 1, 4)) %>% 
+  filter(!년월 %in% c("2017")) %>% 
+  ## 2018~2022년만 추출
+  mutate(년월 = str_sub(str_extract(name, "\\d+"), 1, 6)) %>% 
+  mutate(년월 = lubridate::ym(년월))
+
+km_age_sex_yearmon <- kt_cell_files  %>% 
+  mutate(data = map(name, get_km_sex_age))
+
+km_age_sex_yearmon %>% 
+  write_rds("data/km_age_sex_yearmon.rds")
+
+```
+
+### 전체
+
+```{r}
+extrafont::loadfonts()
+
+km_age_sex_yearmon <- 
+  read_rds("data/km_age_sex_yearmon.rds")
+
+km_age_sex_yearmon_tbl <- km_age_sex_yearmon %>% 
+  unnest(data) %>% 
+  mutate(년월 = lubridate::ym(etl_ym))
+
+km_year_mon_total <- km_age_sex_yearmon_tbl %>% 
+  group_by(년월) %>% 
+  summarise(인구수 = sum(인구수))
+
+km_year_mon_total_gg <- km_year_mon_total %>% 
+  mutate(인구수 = 인구수 / 10^4) %>% 
+  ggplot(aes(x=년월, y=인구수)) +
+    geom_point() +
+    geom_line() +
+    theme_bw(base_family = "Malgun Gothic") +
+    labs(title = "광명시 월별 유동인구",
+         subtitle = "2018년 1월 ~ 2022년 12월",
+         x = "",
+         y = "유동인구(만명)",
+         caption = "데이터 출처: KT 유동인구 데이터(경기도 데이터분석센터") +
+    scale_y_continuous(labels = scales::comma)
+
+km_year_mon_total_gg
+
+fs::dir_create("images/KT")
+
+
+ragg::agg_png("images/KT/광명시_월별_유동인구.png", 
+              width = 10, height = 7, units = "in", res = 600)
+km_year_mon_total_gg
+dev.off()
+
+
+```
+
+
+### 동별
+
+```{r}
+km_year_mon_total_dong <- km_age_sex_yearmon_tbl %>% 
+  group_by(년월, ADMI_NM) %>% 
+  summarise(인구수 = sum(인구수))
+
+km_year_mon_total_dong_gg <- km_year_mon_total_dong %>% 
+  mutate(인구수 = 인구수 / 10^4) %>% 
+  ggplot(aes(x=년월, y=인구수)) +
+    geom_point(size = 0.5) +
+    geom_line() +
+    theme_bw(base_family = "Malgun Gothic") +
+    labs(title = "광명시 동별 유동인구",
+         subtitle = "2018년 1월 ~ 2022년 12월",
+         x = "",
+         y = "유동인구(만명)",
+         caption = "데이터 출처: KT 유동인구 데이터(경기도 데이터분석센터") +
+    scale_y_continuous(labels = scales::comma) +
+    facet_wrap(~ADMI_NM)
+
+km_year_mon_total_dong_gg
+
+ragg::agg_png("images/KT/광명시_월별_동별_유동인구.png", 
+              width = 10, height = 7, units = "in", res = 600)
+km_year_mon_total_dong_gg
+dev.off()
+
+```
+
+### 성별
+
+```{r}
+km_year_mon_total_dong_sex <- km_age_sex_yearmon_tbl %>% 
+  group_by(년월, ADMI_NM, 성별) %>% 
+  summarise(인구수 = sum(인구수))
+
+km_year_mon_total_dong_sex_gg <- km_year_mon_total_dong_sex %>% 
+  mutate(인구수 = 인구수 / 10^4) %>% 
+  ggplot(aes(x=년월, y=인구수, color = 성별)) +
+    geom_point(size = 0.5) +
+    geom_line() +
+    theme_bw(base_family = "Malgun Gothic") +
+    labs(title = "광명시 동별 유동인구",
+         subtitle = "2018년 1월 ~ 2022년 12월",
+         x = "",
+         y = "유동인구(만명)",
+         caption = "데이터 출처: KT 유동인구 데이터(경기도 데이터분석센터") +
+    scale_y_continuous(labels = scales::comma) +
+    facet_wrap(~ADMI_NM) +
+    scale_color_manual(values = c("남성" = "blue", "여성" = "black"))
+
+km_year_mon_total_dong_sex_gg
+
+ragg::agg_png("images/KT/광명시_월별_동별_성별_유동인구.png", 
+              width = 10, height = 7, units = "in", res = 600)
+km_year_mon_total_dong_sex_gg
+dev.off()
+
+
+```
+
+### 연령대별
+
+```{r}
+library(hrbrthemes)
+
+km_year_mon_total_dong_age <- km_age_sex_yearmon_tbl %>% 
+  mutate(세대별 = case_when(연령대 %in% c("00_09", "10_19") ~ "00~19",
+                            연령대 %in% c("20_29") ~ "20~29",
+                            연령대 %in% c("30_39", "40_49") ~ "30~49",
+                            연령대 %in% c("50_59") ~ "50~59",
+                            연령대 %in% c("60_up") ~ "60~이상")) %>% 
+  group_by(년월, ADMI_NM, 세대별) %>% 
+  summarise(인구수 = sum(인구수))
+
+km_year_mon_total_dong_age_gg <- km_year_mon_total_dong_age %>% 
+  mutate(인구수 = 인구수 / 10^4) %>% 
+  ggplot(aes(x=년월, y=인구수, color = 세대별)) +
+    geom_point(size = 0.5) +
+    geom_line() +
+    theme_minimal(base_family = "Malgun Gothic") +
+    labs(title = "광명시 세대별 유동인구",
+         subtitle = "2018년 1월 ~ 2022년 12월",
+         x = "",
+         y = "유동인구(만명)",
+         caption = "데이터 출처: KT 유동인구 데이터(경기도 데이터분석센터") +
+    scale_y_continuous(labels = scales::comma) +
+    facet_wrap(~ADMI_NM) 
+
+km_year_mon_total_dong_age_gg
+
+ragg::agg_png("images/KT/광명시_월별_동별_세대별_유동인구.png", 
+              width = 10, height = 7, units = "in", res = 600)
+km_year_mon_total_dong_age_gg
+dev.off()
+
+```
+
+# 소하2동
+
+```{r}
+library(classInt)
+extrafont::loadfonts()
+
+km_dong_raw <- km_age_sex_yearmon_tbl %>% 
+  filter(ADMI_NM == "소하2동")
+
+km_dong_tbl <- km_dong_raw %>% 
+  mutate(년도 = year(년월)) %>% 
+  group_by(cell_id,  x_axis, y_axis, 년도) %>% 
+  summarise(인구수 = sum(인구수) / 10^4) %>% 
+  ungroup() 
+  
+
+breaks <- classInt::classIntervals(
+    km_dong_tbl$인구수,
+    n = 5,
+    style = "fisher"
+)$brks
+
+vmin <- min(
+    km_dong_tbl$인구수,
+    na.rm = T
+)
+
+vmax <- max(
+    km_dong_tbl$인구수,
+    na.rm = T
+)
+
+km_dong_sf <- st_as_sf(x = km_dong_tbl,                         
+        coords = c("x_axis", "y_axis"),
+        crs = st_crs(km_map))
+
+km_dong_year_gg <- km_dong_sf %>% 
+  ggplot() +
+    geom_sf(aes(geometry=geometry, size = 인구수), alpha=0.3) +
+    facet_wrap(~년도, nrow = 1) +
+    scale_size_continuous(
+      breaks = round(breaks, 0),
+      range = c(1, 5),
+      limits = c(vmin, vmax),
+      name = "유동인구") +
+    theme_minimal(base_family = "Malgun Gothic") +
+    labs(title = "광명시 소하2동 연도별 유동인구",
+         subtitle = "2018년 1월 ~ 2022년 12월",
+         x = "",
+         y = "",
+         size = "유동인구(만명)",
+         caption = "데이터 출처: KT 유동인구 데이터(경기도 데이터분석센터") +
+    guides(size = guide_legend(nrow = 1)) +
+    theme(legend.position = "bottom")
+
+
+km_dong_year_gg
+
+ragg::agg_png("images/KT/광명시_소하2동_연도별_유동인구.png", 
+              width = 10, height = 5, units = "in", res = 600)
+km_dong_year_gg
+dev.off()
+
+
+```
+

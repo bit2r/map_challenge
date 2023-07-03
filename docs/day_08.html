@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR" xml:lang="ko-KR"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.361">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="이광춘">
 <meta name="description" content="지오코딩을 통해서 주소나 위치정보를 지도에 표시해보자.">
-
 <title>지도제작 대회</title>
 <style>
 code{white-space: pre-wrap;}
@@ -58,7 +55,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -71,11 +67,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -94,28 +91,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "검색",
     "search-label": "검색"
   }
-}</script>
-<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
-<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
-<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
-<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
-<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
-<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
-<script src="site_libs/leaflet-binding-2.1.2/leaflet.js"></script>
-<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
-<script src="site_libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script>
-
-
+}</script><script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><script src="site_libs/jquery-1.12.4/jquery.min.js"></script><link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script><link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script><script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-binding-2.1.2/leaflet.js"></script><script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script><script src="site_libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script><link rel="stylesheet" href="css/quarto.css">
 </head>
-
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">지도제작 대회</span>
@@ -127,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
@@ -135,8 +119,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
  <span class="menu-text">지도 그리기</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">
+<li>
     <a class="dropdown-item" href="./day_01.html" rel="" target="">
  <span class="dropdown-text">지도 색칠</span></a>
   </li>  
@@ -168,20 +152,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./day_08.html" rel="" target="">
  <span class="dropdown-text">지오코딩</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./day_heatmap.html" rel="" target="">
+ <span class="dropdown-text">열지도(heatmap)</span></a>
+  </li>  
     </ul>
-  </li>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">광명시</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">
+<li>
+    <a class="dropdown-item" href="./km_school.html" rel="" target="">
+ <span class="dropdown-text">학교와 CCTV</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-도구" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">GIS 도구</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-도구">
+<li>
+    <a class="dropdown-item" href="./spatial_map.html" rel="" target="">
+ <span class="dropdown-text">지도(Map)</span></a>
+  </li>  
+    </ul>
+</li>
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+<div class="quarto-navbar-tools ms-auto">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="다크 모드 전환"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">지도제작 대회</h1>
+      <div class="quarto-title-block"><div><h1 class="title">지도제작 대회</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> 코드</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">전체 코드 표시</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">전체 코드 숨기기</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">소스 코드 표시</a></li></ul></div></div>
             <p class="subtitle lead">지오코딩(GeoCoding)</p>
                   <div>
         <div class="description">
@@ -219,24 +226,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">목차</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#패키지" id="toc-패키지" class="nav-link active" data-scroll-target="#패키지"><span class="header-section-number">1</span> 패키지</a></li>
-  <li><a href="#데이터" id="toc-데이터" class="nav-link" data-scroll-target="#데이터"><span class="header-section-number">2</span> 데이터</a></li>
-  <li><a href="#지오코딩" id="toc-지오코딩" class="nav-link" data-scroll-target="#지오코딩"><span class="header-section-number">3</span> 지오코딩</a></li>
-  <li><a href="#시각화" id="toc-시각화" class="nav-link" data-scroll-target="#시각화"><span class="header-section-number">4</span> 시각화</a></li>
-  </ul>
-</nav>
+<li><a href="#%ED%8C%A8%ED%82%A4%EC%A7%80" id="toc-패키지" class="nav-link active" data-scroll-target="#%ED%8C%A8%ED%82%A4%EC%A7%80"><span class="header-section-number">1</span> 패키지</a></li>
+  <li><a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0" id="toc-데이터" class="nav-link" data-scroll-target="#%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="header-section-number">2</span> 데이터</a></li>
+  <li><a href="#%EC%A7%80%EC%98%A4%EC%BD%94%EB%94%A9" id="toc-지오코딩" class="nav-link" data-scroll-target="#%EC%A7%80%EC%98%A4%EC%BD%94%EB%94%A9"><span class="header-section-number">3</span> 지오코딩</a></li>
+  <li><a href="#%EC%8B%9C%EA%B0%81%ED%99%94" id="toc-시각화" class="nav-link" data-scroll-target="#%EC%8B%9C%EA%B0%81%ED%99%94"><span class="header-section-number">4</span> 시각화</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
-
-
-
-
-<div class="callout callout-style-default callout-tip callout-titled">
+<main class="content quarto-banner-title-block" id="quarto-document-content"><div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -249,76 +249,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://github.com/FelixAnalytix/YouTube">FelixAnalytix/YouTube</a></p>
 </div>
 </div>
-<section id="패키지" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 패키지</h1>
+<section id="패키지" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> 패키지</h1>
 <div class="cell">
-<details>
-<summary>코드</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install R packages if not installed -------------------------------------</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(tidyverse)) <span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(rvest)) <span class="fu">install.packages</span>(<span class="st">"rvest"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(usethis)) <span class="fu">install.packages</span>(<span class="st">"usethis"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(tidygeocoder)) <span class="fu">install.packages</span>(<span class="st">"tidygeocoder"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(leaflet)) <span class="fu">install.packages</span>(<span class="st">"leaflet"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Attach R packages -------------------------------------------------------</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygeocoder)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Install R packages if not installed -------------------------------------</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"usethis"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidygeocoder"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/leaflet/">leaflet</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"leaflet"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Attach R packages -------------------------------------------------------</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/">tidygeocoder</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/leaflet/">leaflet</a></span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="데이터" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> 데이터</h1>
+</section><section id="데이터" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> 데이터</h1>
 <div class="cell">
-<details>
-<summary>코드</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>mst_raw <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/인천서구강소연구개발특구 기업현황 데이터 요청사항_230618.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"환경산업연구단지 입주기업"</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>mst_tbl <span class="ot">&lt;-</span> mst_raw <span class="sc">%&gt;%</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="at">ascii =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">starts_with</span>(<span class="st">"x"</span>)) </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>mst_tbl</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 129 × 19</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     연번 회사명        대표자명 전화번호 분야  이메일주소 사업자번호 주소  매출 </span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1     1 주식회사 네…  전진오   070-422… 생활… neo@neost… 166-88-00… 인천… 5-9억</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2     2 프로덕트테크  박재민   &lt;NA&gt;     대기  &lt;NA&gt;       &lt;NA&gt;       인천… 5억 …</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3     3 (주)스피너스  조철호   02-2138… 폐기… ryam_cho@… 327-88-02… 인천… 5-9억</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4     4 한국도시재생… 이정학   032-467… 폐기… &lt;NA&gt;       339-87-00… 인천… 5-9억</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5     5 에코드릴 주…  박건준   02-808-… 대기  &lt;NA&gt;       116-88-01… 인천… 5-9억</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6     6 에코프로에이… 김종섭   043-210… 대기  ecopro@re… 283-87-02… 인천… 1,00…</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7     7 (주)어라운드… 최준영   070-485… 생활… aroundblu… 575-81-02… 인천… 5억 …</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8     8 주식회사 코…  이주혁   070-864… 생활… contact@c… 188-81-02… 인천… 10-4…</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9     9 주식회사 쉘…  최수빈   &lt;NA&gt;     생활… &lt;NA&gt;       443-87-02… 인천… 5억 …</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10    10 (주)에너지로… 이완구   032-573… 생활… e-road@e-… 120-88-03… 인천… 100-…</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ℹ 119 more rows</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ℹ 10 more variables: 녹색기술_녹색생활 &lt;chr&gt;, 기술1 &lt;chr&gt;, 기술2 &lt;chr&gt;,</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   기술3 &lt;chr&gt;, 개발예정품목 &lt;chr&gt;, 홈페이지 &lt;chr&gt;, 주요사업 &lt;chr&gt;,</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   주요취급품 &lt;chr&gt;, 주요매출처 &lt;chr&gt;, 비고 &lt;chr&gt;</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mst_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/인천서구강소연구개발특구 기업현황 데이터 요청사항_230618.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"환경산업연구단지 입주기업"</span>, skip <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mst_tbl</span> <span class="op">&lt;-</span> <span class="va">mst_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span>ascii <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">mst_tbl</span></span>
+<span><span class="co">#&gt; # A tibble: 129 × 19</span></span>
+<span><span class="co">#&gt;     연번 회사명        대표자명 전화번호 분야  이메일주소 사업자번호 주소  매출 </span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt;  1     1 주식회사 네…  전진오   070-422… 생활… neo@neost… 166-88-00… 인천… 5-9억</span></span>
+<span><span class="co">#&gt;  2     2 프로덕트테크  박재민   &lt;NA&gt;     대기  &lt;NA&gt;       &lt;NA&gt;       인천… 5억 …</span></span>
+<span><span class="co">#&gt;  3     3 (주)스피너스  조철호   02-2138… 폐기… ryam_cho@… 327-88-02… 인천… 5-9억</span></span>
+<span><span class="co">#&gt;  4     4 한국도시재생… 이정학   032-467… 폐기… &lt;NA&gt;       339-87-00… 인천… 5-9억</span></span>
+<span><span class="co">#&gt;  5     5 에코드릴 주…  박건준   02-808-… 대기  &lt;NA&gt;       116-88-01… 인천… 5-9억</span></span>
+<span><span class="co">#&gt;  6     6 에코프로에이… 김종섭   043-210… 대기  ecopro@re… 283-87-02… 인천… 1,00…</span></span>
+<span><span class="co">#&gt;  7     7 (주)어라운드… 최준영   070-485… 생활… aroundblu… 575-81-02… 인천… 5억 …</span></span>
+<span><span class="co">#&gt;  8     8 주식회사 코…  이주혁   070-864… 생활… contact@c… 188-81-02… 인천… 10-4…</span></span>
+<span><span class="co">#&gt;  9     9 주식회사 쉘…  최수빈   &lt;NA&gt;     생활… &lt;NA&gt;       443-87-02… 인천… 5억 …</span></span>
+<span><span class="co">#&gt; 10    10 (주)에너지로… 이완구   032-573… 생활… e-road@e-… 120-88-03… 인천… 100-…</span></span>
+<span><span class="co">#&gt; # ℹ 119 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 10 more variables: 녹색기술_녹색생활 &lt;chr&gt;, 기술1 &lt;chr&gt;, 기술2 &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   기술3 &lt;chr&gt;, 개발예정품목 &lt;chr&gt;, 홈페이지 &lt;chr&gt;, 주요사업 &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   주요취급품 &lt;chr&gt;, 주요매출처 &lt;chr&gt;, 비고 &lt;chr&gt;</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="지오코딩" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 지오코딩</h1>
+</section><section id="지오코딩" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> 지오코딩</h1>
 <div class="cell">
-<details>
-<summary>코드</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tidygeocoder<span class="sc">::</span>api_info_reference <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  gtExtras<span class="sc">::</span><span class="fu">gt_theme_538</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
+<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tidygeocoder</span><span class="fu">::</span><span class="va"><a href="https://jessecambon.github.io/tidygeocoder/reference/api_info_reference.html">api_info_reference</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">gtExtras</span><span class="fu">::</span><span class="fu"><a href="https://jthomasmock.github.io/gtExtras/reference/gt_theme_538.html">gt_theme_538</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/cols_align.html">cols_align</a></span><span class="op">(</span>align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
 
 <div id="iipyvyolvl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
@@ -766,136 +757,150 @@ tbody tr:last-child {
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="method">method</th>
+<thead><tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="method">method</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="method_display_name">method_display_name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="site_url">site_url</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="api_documentation_url">api_documentation_url</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="api_usage_policy_url">api_usage_policy_url</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="method" class="gt_row gt_center">osm</td>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="method" class="gt_row gt_center">osm</td>
 <td headers="method_display_name" class="gt_row gt_center">Nominatim</td>
 <td headers="site_url" class="gt_row gt_center">https://nominatim.org</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://nominatim.org/release-docs/develop/api/Search/</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://operations.osmfoundation.org/policies/nominatim/</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">census</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://operations.osmfoundation.org/policies/nominatim/</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">census</td>
 <td headers="method_display_name" class="gt_row gt_center">US Census</td>
 <td headers="site_url" class="gt_row gt_center">https://geocoding.geo.census.gov/</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">arcgis</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">arcgis</td>
 <td headers="method_display_name" class="gt_row gt_center">ArcGIS</td>
 <td headers="site_url" class="gt_row gt_center">https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">geocodio</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">geocodio</td>
 <td headers="method_display_name" class="gt_row gt_center">Geocodio</td>
 <td headers="site_url" class="gt_row gt_center">https://www.geocod.io/</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://www.geocod.io/docs/</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://www.geocod.io/pricing/</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">iq</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://www.geocod.io/pricing/</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">iq</td>
 <td headers="method_display_name" class="gt_row gt_center">Location IQ</td>
 <td headers="site_url" class="gt_row gt_center">https://locationiq.com/</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://locationiq.com/docs</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://locationiq.com/pricing</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">google</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://locationiq.com/pricing</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">google</td>
 <td headers="method_display_name" class="gt_row gt_center">Google</td>
 <td headers="site_url" class="gt_row gt_center">https://developers.google.com/maps/documentation/geocoding/overview</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://developers.google.com/maps/documentation/geocoding/overview</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://developers.google.com/maps/documentation/geocoding/usage-and-billing</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">opencage</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://developers.google.com/maps/documentation/geocoding/usage-and-billing</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">opencage</td>
 <td headers="method_display_name" class="gt_row gt_center">OpenCage</td>
 <td headers="site_url" class="gt_row gt_center">https://opencagedata.com</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://opencagedata.com/api</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://opencagedata.com/pricing</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">mapbox</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://opencagedata.com/pricing</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">mapbox</td>
 <td headers="method_display_name" class="gt_row gt_center">Mapbox</td>
 <td headers="site_url" class="gt_row gt_center">https://docs.mapbox.com/api/search/</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://docs.mapbox.com/api/search/geocoding/</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://www.mapbox.com/pricing/</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">here</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://www.mapbox.com/pricing/</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">here</td>
 <td headers="method_display_name" class="gt_row gt_center">HERE</td>
 <td headers="site_url" class="gt_row gt_center">https://developer.here.com/products/geocoding-and-search</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://developer.here.com/documentation/geocoding-search-api/dev_guide/index.html</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://developer.here.com/pricing</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">tomtom</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://developer.here.com/pricing</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">tomtom</td>
 <td headers="method_display_name" class="gt_row gt_center">TomTom</td>
 <td headers="site_url" class="gt_row gt_center">https://developer.tomtom.com/search-api/search-api-documentation/geocoding</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://developer.tomtom.com/store/maps-api</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">mapquest</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://developer.tomtom.com/store/maps-api</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">mapquest</td>
 <td headers="method_display_name" class="gt_row gt_center">MapQuest</td>
 <td headers="site_url" class="gt_row gt_center">https://developer.mapquest.com/documentation/geocoding-api/</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://developer.mapquest.com/documentation/geocoding-api/</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://developer.mapquest.com/plans</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">bing</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://developer.mapquest.com/plans</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">bing</td>
 <td headers="method_display_name" class="gt_row gt_center">Bing</td>
 <td headers="site_url" class="gt_row gt_center">https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits</td></tr>
-    <tr><td headers="method" class="gt_row gt_center">geoapify</td>
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://docs.microsoft.com/en-us/bingmaps/spatial-data-services/geocode-and-data-source-limits</td>
+</tr>
+<tr>
+<td headers="method" class="gt_row gt_center">geoapify</td>
 <td headers="method_display_name" class="gt_row gt_center">Geoapify</td>
 <td headers="site_url" class="gt_row gt_center">https://www.geoapify.com/geocoding-api</td>
 <td headers="api_documentation_url" class="gt_row gt_center">https://apidocs.geoapify.com/docs/geocoding/api/</td>
-<td headers="api_usage_policy_url" class="gt_row gt_center">https://www.geoapify.com/term-and-conditions</td></tr>
-  </tbody>
-  
-  
+<td headers="api_usage_policy_url" class="gt_row gt_center">https://www.geoapify.com/term-and-conditions</td>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
 </div>
 <div class="cell">
-<details>
-<summary>코드</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes <span class="ot">&lt;-</span> mst_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geocode</span>(<span class="at">address =</span> 주소,  <span class="at">method =</span> <span class="st">"arcgis"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes_sample <span class="ot">&lt;-</span> mst_tbl_geocodes <span class="sc">%&gt;%</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(회사명, 주소, lat, long) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lat) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n=</span><span class="dv">1</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes_sample <span class="sc">%&gt;%</span> </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="st">"data/incheon.rds"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mst_tbl_geocodes</span> <span class="op">&lt;-</span> <span class="va">mst_tbl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://jessecambon.github.io/tidygeocoder/reference/geocode.html">geocode</a></span><span class="op">(</span>address <span class="op">=</span> <span class="va">주소</span>,  method <span class="op">=</span> <span class="st">"arcgis"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mst_tbl_geocodes_sample</span> <span class="op">&lt;-</span> <span class="va">mst_tbl_geocodes</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">회사명</span>, <span class="va">주소</span>, <span class="va">lat</span>, <span class="va">long</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">lat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_sample</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mst_tbl_geocodes_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">write_rds</a></span><span class="op">(</span><span class="st">"data/incheon.rds"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="시각화" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> 시각화</h1>
+</section><section id="시각화" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> 시각화</h1>
 <div class="cell">
-<details>
-<summary>코드</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes_sample <span class="ot">&lt;-</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">"data/incheon.rds"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes_sample <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">"&lt;b&gt;"</span>, 회사명, <span class="st">"&lt;/b&gt;"</span>, <span class="st">"&lt;br&gt;"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                        주소, <span class="st">"&lt;br&gt;"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron) <span class="sc">%&gt;%</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="sc">~</span>long, <span class="sc">~</span>lat, </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup  =</span> <span class="sc">~</span>popup) <span class="sc">%&gt;%</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLayersControl</span>(<span class="at">overlayGroups =</span> <span class="sc">~</span>회사명,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">options =</span> <span class="fu">layersControlOptions</span>(<span class="at">collapsed =</span> <span class="cn">FALSE</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
+<details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="va">mst_tbl_geocodes_sample</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/incheon.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mst_tbl_geocodes_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>popup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"&lt;b&gt;"</span>, <span class="va">회사명</span>, <span class="st">"&lt;/b&gt;"</span>, <span class="st">"&lt;br&gt;"</span>,</span>
+<span>                        <span class="va">주소</span>, <span class="st">"&lt;br&gt;"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addTiles</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/addProviderTiles.html">addProviderTiles</a></span><span class="op">(</span><span class="va">providers</span><span class="op">$</span><span class="va">CartoDB.Positron</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addMarkers</a></span><span class="op">(</span><span class="op">~</span><span class="va">long</span>, <span class="op">~</span><span class="va">lat</span>, </span>
+<span>             popup  <span class="op">=</span> <span class="op">~</span><span class="va">popup</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/addLayersControl.html">addLayersControl</a></span><span class="op">(</span>overlayGroups <span class="op">=</span> <span class="op">~</span><span class="va">회사명</span>,</span>
+<span>                   options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/addLayersControl.html">layersControlOptions</a></span><span class="op">(</span>collapsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
 <div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-72d50ddf0eeb9e2c8d1c" style="width:100%;height:464px;"></div>
 <script type="application/json" data-for="htmlwidget-72d50ddf0eeb9e2c8d1c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[37.0159035627804,37.55233,37.5686467427614],[127.031764009517,126.65543,126.649177403492],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["<b>(주)디엔씨<\/b><br>경기도 화성시 고덕면 문곡리 82-6<br>","<b>뉴워터텍<\/b><br>인천광역시 서구 정서진로 410 창업ㆍ벤처 녹색융합클러스터 PT-A04<br>","<b>주식회사 원광에스앤티<\/b><br>인천광역시 서구 정서진로 410 창업ㆍ벤처 녹색융합클러스터 C314<br>"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["(주)디엔씨","뉴워터텍","주식회사 원광에스앤티"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[37.0159035627804,37.5686467427614],"lng":[126.649177403492,127.031764009517]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 
 
-</section>
+<!-- -->
 
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -915,6 +920,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -974,6 +1094,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
@@ -1127,10 +1298,139 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">소스 코드</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "지오코딩(GeoCoding)"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">  지오코딩을 통해서 주소나 위치정보를 지도에 표시해보자.</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="fu">### 소스코드</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FelixAnalytix/YouTube</span><span class="co">](https://github.com/FelixAnalytix/YouTube)</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="fu"># 패키지</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Install R packages if not installed -------------------------------------</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(tidyverse)) <span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(rvest)) <span class="fu">install.packages</span>(<span class="st">"rvest"</span>)</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(usethis)) <span class="fu">install.packages</span>(<span class="st">"usethis"</span>)</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(tidygeocoder)) <span class="fu">install.packages</span>(<span class="st">"tidygeocoder"</span>)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(leaflet)) <span class="fu">install.packages</span>(<span class="st">"leaflet"</span>)</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Attach R packages -------------------------------------------------------</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygeocoder)</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>mst_raw <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/인천서구강소연구개발특구 기업현황 데이터 요청사항_230618.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"환경산업연구단지 입주기업"</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>mst_tbl <span class="ot">&lt;-</span> mst_raw <span class="sc">%&gt;%</span> </span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="at">ascii =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">starts_with</span>(<span class="st">"x"</span>)) </span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>mst_tbl</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="fu"># 지오코딩</span></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>tidygeocoder<span class="sc">::</span>api_info_reference <span class="sc">%&gt;%</span> </span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>  gtExtras<span class="sc">::</span><span class="fu">gt_theme_538</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>)</span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes <span class="ot">&lt;-</span> mst_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geocode</span>(<span class="at">address =</span> 주소,  <span class="at">method =</span> <span class="st">"arcgis"</span>)</span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes_sample <span class="ot">&lt;-</span> mst_tbl_geocodes <span class="sc">%&gt;%</span> </span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(회사명, 주소, lat, long) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lat) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n=</span><span class="dv">1</span>)</span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes_sample <span class="sc">%&gt;%</span> </span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="st">"data/incheon.rds"</span>)</span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a><span class="fu"># 시각화</span></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes_sample <span class="ot">&lt;-</span> </span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">"data/incheon.rds"</span>)</span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>mst_tbl_geocodes_sample <span class="sc">%&gt;%</span></span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">"&lt;b&gt;"</span>, 회사명, <span class="st">"&lt;/b&gt;"</span>, <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a>                        주소, <span class="st">"&lt;br&gt;"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron) <span class="sc">%&gt;%</span></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="sc">~</span>long, <span class="sc">~</span>lat, </span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup  =</span> <span class="sc">~</span>popup) <span class="sc">%&gt;%</span></span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLayersControl</span>(<span class="at">overlayGroups =</span> <span class="sc">~</span>회사명,</span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a>                   <span class="at">options =</span> <span class="fu">layersControlOptions</span>(<span class="at">collapsed =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left"><a href="https://quarto.org/">Quarto</a> 로 제작</div>   
     <div class="nav-footer-center">
       &nbsp;
@@ -1140,7 +1440,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-
 
 
 </body></html>
