@@ -159,3 +159,102 @@ korea_sgg_geo |>
 ```
 
 :::
+
+
+# 기후 데이터
+
+
+```{r}
+#| eval: false
+
+library(tidyverse)
+library(geodata)
+library(terra)
+library(tidyterra)
+
+fs::dir_create("data/climate")
+
+climate <- worldclim_country(country = "KOR", var = "tmin", path = "data/climate/")
+
+climate_raster <- terra::rast(climate)
+
+ggplot() +
+  geom_spatraster(
+    data = climate_raster
+  ) +
+  facet_wrap(~lyr) +
+  scale_fill_whitebox_c(
+    palette = "muted",
+    na.value = "white"
+  )  
+
+```
+
+
+# 고도
+
+:::{.panel-tabset}
+
+### `sf`
+
+```{r}
+library(rnaturalearth)
+library(elevatr)
+library(terra)
+
+korea_map <- ne_countries(type = "countries", country = "south korea", scale = "medium", returnclass = "sf")
+
+korea_map %>% 
+  ggplot() +
+    geom_sf()
+
+```
+
+### `tidyterra`
+
+```{r}
+library(tidyterra)
+
+
+korea_dem <- get_elev_raster(locations = korea_map, z = 5, clip = "locations")
+
+korea_dem_tbl <- as.data.frame(korea_dem, xy=TRUE) %>% 
+  as_tibble() %>% 
+  set_names(c("x", "y", "elevation"))
+
+int_elevation <- classInt::classIntervals(
+    korea_dem_tbl$elevation,
+    n = 6,
+    style = "equal"
+)$brks %>% as.integer(.)
+
+ggplot() +
+  geom_spatraster(data = korea_dem) +
+  facet_wrap(~lyr) +
+  theme(
+    panel.spacing.x = unit(0, "lines"), axis.title.x = element_blank(),
+    axis.text = element_blank(), axis.ticks = element_blank(),
+    axis.title.y = element_blank(), plot.title = element_text(
+      hjust = 0.5,
+      size = 18, face = "bold"
+    ), strip.background = element_blank(),
+    strip.text = element_text(size = 14, color = "black", face = "bold"),
+    legend.text = element_text(size = 14, face = "bold"),
+    legend.title = element_text(hjust = 0.1, size = 16, face = "bold"), 
+    panel.background = element_blank()
+  ) +
+  scale_fill_gradient2(
+     low = "grey40",
+      mid = "white",
+      high = "blue", # this should be the value of "color_high" column
+      midpoint=500,
+      guide = "colourbar",
+    na.value = NA, breaks = int_elevation
+  )   +
+  labs(title = "대한민국 고도",
+       fill = "높이")
+
+```
+
+
+:::
