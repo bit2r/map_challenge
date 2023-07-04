@@ -1,0 +1,241 @@
+---
+title: "지도제작 대회"
+subtitle: "제주도 높이 지도"
+description: |
+  제주도를 따로 떼어내서 제주도 높이(고도) 지도를 제작해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+# 대한민국 고도
+
+## `sf`
+
+```{r}
+library(tidyverse)
+library(rnaturalearth)
+library(elevatr)
+library(terra)
+library(sf)
+library(stars)
+
+korea_map <- ne_countries(type = "countries", country = "south korea", scale = "medium", returnclass = "sf")
+
+korea_map %>% 
+  ggplot() +
+    geom_sf()
+
+```
+
+## `tidyterra`
+
+```{r}
+library(tidyterra)
+
+korea_dem <- get_elev_raster(locations = korea_map, z = 5, clip = "locations") 
+
+names(korea_dem) <- "대한민국"
+
+korea_dem_tbl <- as.data.frame(korea_dem, xy=TRUE) %>% 
+  as_tibble() %>% 
+  set_names(c("x", "y", "elevation"))
+
+int_elevation <- classInt::classIntervals(
+    korea_dem_tbl$elevation,
+    n = 5,
+    style = "equal"
+)$brks %>% as.integer(.)
+
+ggplot() +
+  geom_spatraster(data = korea_dem) +
+  facet_wrap(~lyr) +
+  theme(
+    legend.text.align = 1,
+    panel.spacing.x = unit(0, "lines"), axis.title.x = element_blank(),
+    axis.text = element_blank(), axis.ticks = element_blank(),
+    axis.title.y = element_blank(), plot.title = element_text(
+      hjust = 0.5,
+      size = 18, face = "bold"
+    ), strip.background = element_blank(),
+    strip.text = element_text(size = 14, color = "black", face = "bold"),
+    legend.text = element_text(size = 10, family="D2 Coding"),
+    legend.title = element_text(hjust = 0.1, size = 16, face = "bold"), 
+    panel.background = element_blank()
+  ) +
+  scale_fill_gradient2(
+     low = "grey40",
+     mid = "white",
+     high = "blue",
+     midpoint = 448, # 한반도의 평균 고도는 약 448m 정도로 동아시아 전체 평균(910m)에 비하면 현저히 낮다.
+     guide = "colourbar",
+     na.value = NA, 
+     breaks = int_elevation,
+     labels = scales::label_number(suffix = " m", big.mark = ",")
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(fill = "높이") +
+  coord_sf(crs = 4326) 
+
+```
+
+
+# 제주도 추출
+
+
+```{r}
+city <- "Jeju Korea"
+target_border <- osmdata::getbb(city)
+
+get_bbox <- function() {
+    bb <- sf::st_sfc(
+        sf::st_polygon(
+            list(
+                cbind(
+                    c(
+                        target_border[[1]],
+                        target_border[[3]] - 0.2,
+                        target_border[[3]] - 0.2,
+                        target_border[[1]],
+                        target_border[[1]]
+                    ),
+                    c(
+                        target_border[[2]],
+                        target_border[[2]],
+                        target_border[[4]]-0.5,
+                        target_border[[4]]-0.5,
+                        target_border[[2]]
+                    )
+                )
+            )
+        ),
+        crs = "+proj=longlat +datum=WGS84 +no_defs"
+    )
+    return(bb)
+}
+
+bb <- get_bbox()
+
+bb %>% 
+  ggplot() +
+    geom_sf()
+
+
+jeju_rasters <- map(korea_dem, ~terra::crop(.x, terra::vect(bb)))
+
+jeju_rasters[[1]] %>% 
+  ggplot() +
+    tidyterra::geom_spatraster(data = jeju_rasters[[1]]) +
+    theme_void() +
+  theme(
+    legend.text.align = 1,
+    panel.spacing.x = unit(0, "lines"), axis.title.x = element_blank(),
+    axis.text = element_blank(), axis.ticks = element_blank(),
+    axis.title.y = element_blank(), plot.title = element_text(
+      hjust = 0.5,
+      size = 18, face = "bold"
+    ), strip.background = element_blank(),
+    strip.text = element_text(size = 14, color = "black", face = "bold"),
+    legend.text = element_text(size = 10, family="D2 Coding"),
+    legend.title = element_text(hjust = 0.1, size = 16, face = "bold"), 
+    panel.background = element_blank()
+  ) +
+  scale_fill_gradient2(
+     low = "grey40",
+     mid = "white",
+     high = "blue",
+     midpoint = 448, # 한반도의 평균 고도는 약 448m 정도로 동아시아 전체 평균(910m)에 비하면 현저히 낮다.
+     guide = "colourbar",
+     na.value = NA, 
+     breaks = int_elevation,
+     labels = scales::label_number(suffix = " m", big.mark = ",")
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(fill = "고도") +
+  coord_sf(crs = 4326) 
+```
+
+
+
+
+# (고해상도) 제주도
+
+
+```{r}
+#| eval: false
+
+korea_high_dem <- get_elev_raster(locations = korea_map, z = 10, clip = "locations") 
+korea_high_dem %>% 
+  terra::writeRaster("data/EDM/korea.tif")
+
+```
+
+```{r}
+
+korea_high_dem <- terra::rast("data/EDM/korea.tif")
+
+jeju_rasters <- map(korea_high_dem, ~terra::crop(.x, terra::vect(bb)))
+
+jeju_rasters[[1]] %>% 
+  ggplot() +
+    tidyterra::geom_spatraster(data = jeju_rasters[[1]]) +
+    theme_void() +
+  theme(
+    legend.text.align = 1,
+    panel.spacing.x = unit(0, "lines"), axis.title.x = element_blank(),
+    axis.text = element_blank(), axis.ticks = element_blank(),
+    axis.title.y = element_blank(), plot.title = element_text(
+      hjust = 0.5,
+      size = 18, face = "bold"
+    ), strip.background = element_blank(),
+    strip.text = element_text(size = 14, color = "black", face = "bold"),
+    legend.text = element_text(size = 10, family="D2 Coding"),
+    legend.title = element_text(hjust = 0.1, size = 16, face = "bold"), 
+    panel.background = element_blank()
+  ) +
+  scale_fill_gradient2(
+     low = "grey40",
+     mid = "white",
+     high = "blue",
+     midpoint = 448,
+     guide = "colourbar",
+     na.value = NA, 
+     breaks = int_elevation,
+     labels = scales::label_number(suffix = " m", big.mark = ",")
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(fill = "고도") +
+  coord_sf(crs = 4326) 
+```
+

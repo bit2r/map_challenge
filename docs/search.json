@@ -369,5 +369,26 @@
     "title": "지도제작 대회",
     "section": "",
     "text": "geodata 웹사이트에 다양한 지도가 포함되어 있다.\n\n\n대한민국\n시도\n시군구\n\n\n\n\n코드library(raster)\nlibrary(sf)\nlibrary(geodata)\n\n# 대한민국 전체\n\n# korea_geo &lt;- gadm(\"KOR\", level=0, path=\"data/\", version=\"latest\", resolution=1) %&gt;% \n#     st_as_sf()\n\nkorea_geo &lt;- terra::readRDS(\"data/gadm/gadm41_KOR_0_pk.rds\") %&gt;% st_as_sf()\n\nkorea_geo |&gt; \n  ggplot() +\n    geom_sf()\n\n\n\n\n\n\n\n\n\n\n코드# korea_sido_geo &lt;- gadm(\"KOR\", level=1, path=\"data/\", version=\"latest\", resolution=1) %&gt;% \n#     st_as_sf()\n\nkorea_sido_geo &lt;- terra::readRDS(\"data/gadm/gadm41_KOR_1_pk.rds\") %&gt;% st_as_sf()\n\nkorea_sido_geo |&gt; \n  ggplot() +\n    geom_sf()\n\n\n\n\n\n\n\n\n\n\n코드# korea_geo_sgg &lt;- gadm(\"KOR\", level=2, path=\"data/\", version=\"latest\", resolution=1) %&gt;% \n#   st_as_sf()\n\nkorea_sgg_geo &lt;- terra::readRDS(\"data/gadm/gadm41_KOR_2_pk.rds\") %&gt;% st_as_sf()\n \nkorea_sgg_geo |&gt; \n  ggplot() +\n    geom_sf()"
+  },
+  {
+    "objectID": "jeju_map.html",
+    "href": "jeju_map.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\nlibrary(rnaturalearth)\nlibrary(elevatr)\nlibrary(terra)\nlibrary(sf)\nlibrary(stars)\n\nkorea_map &lt;- ne_countries(type = \"countries\", country = \"south korea\", scale = \"medium\", returnclass = \"sf\")\n\nkorea_map %&gt;% \n  ggplot() +\n    geom_sf()\n\n\n\n\n\n\n\n\n\n코드library(tidyterra)\n\nkorea_dem &lt;- get_elev_raster(locations = korea_map, z = 5, clip = \"locations\") \n\nnames(korea_dem) &lt;- \"대한민국\"\n\nkorea_dem_tbl &lt;- as.data.frame(korea_dem, xy=TRUE) %&gt;% \n  as_tibble() %&gt;% \n  set_names(c(\"x\", \"y\", \"elevation\"))\n\nint_elevation &lt;- classInt::classIntervals(\n    korea_dem_tbl$elevation,\n    n = 5,\n    style = \"equal\"\n)$brks %&gt;% as.integer(.)\n\nggplot() +\n  geom_spatraster(data = korea_dem) +\n  facet_wrap(~lyr) +\n  theme(\n    legend.text.align = 1,\n    panel.spacing.x = unit(0, \"lines\"), axis.title.x = element_blank(),\n    axis.text = element_blank(), axis.ticks = element_blank(),\n    axis.title.y = element_blank(), plot.title = element_text(\n      hjust = 0.5,\n      size = 18, face = \"bold\"\n    ), strip.background = element_blank(),\n    strip.text = element_text(size = 14, color = \"black\", face = \"bold\"),\n    legend.text = element_text(size = 10, family=\"D2 Coding\"),\n    legend.title = element_text(hjust = 0.1, size = 16, face = \"bold\"), \n    panel.background = element_blank()\n  ) +\n  scale_fill_gradient2(\n     low = \"grey40\",\n     mid = \"white\",\n     high = \"blue\",\n     midpoint = 448, # 한반도의 평균 고도는 약 448m 정도로 동아시아 전체 평균(910m)에 비하면 현저히 낮다.\n     guide = \"colourbar\",\n     na.value = NA, \n     breaks = int_elevation,\n     labels = scales::label_number(suffix = \" m\", big.mark = \",\")\n  ) +\n  scale_y_continuous(labels = scales::comma) +\n  labs(fill = \"높이\") +\n  coord_sf(crs = 4326)"
+  },
+  {
+    "objectID": "jeju_map.html#sf",
+    "href": "jeju_map.html#sf",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\nlibrary(rnaturalearth)\nlibrary(elevatr)\nlibrary(terra)\nlibrary(sf)\nlibrary(stars)\n\nkorea_map &lt;- ne_countries(type = \"countries\", country = \"south korea\", scale = \"medium\", returnclass = \"sf\")\n\nkorea_map %&gt;% \n  ggplot() +\n    geom_sf()"
+  },
+  {
+    "objectID": "jeju_map.html#tidyterra",
+    "href": "jeju_map.html#tidyterra",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyterra)\n\nkorea_dem &lt;- get_elev_raster(locations = korea_map, z = 5, clip = \"locations\") \n\nnames(korea_dem) &lt;- \"대한민국\"\n\nkorea_dem_tbl &lt;- as.data.frame(korea_dem, xy=TRUE) %&gt;% \n  as_tibble() %&gt;% \n  set_names(c(\"x\", \"y\", \"elevation\"))\n\nint_elevation &lt;- classInt::classIntervals(\n    korea_dem_tbl$elevation,\n    n = 5,\n    style = \"equal\"\n)$brks %&gt;% as.integer(.)\n\nggplot() +\n  geom_spatraster(data = korea_dem) +\n  facet_wrap(~lyr) +\n  theme(\n    legend.text.align = 1,\n    panel.spacing.x = unit(0, \"lines\"), axis.title.x = element_blank(),\n    axis.text = element_blank(), axis.ticks = element_blank(),\n    axis.title.y = element_blank(), plot.title = element_text(\n      hjust = 0.5,\n      size = 18, face = \"bold\"\n    ), strip.background = element_blank(),\n    strip.text = element_text(size = 14, color = \"black\", face = \"bold\"),\n    legend.text = element_text(size = 10, family=\"D2 Coding\"),\n    legend.title = element_text(hjust = 0.1, size = 16, face = \"bold\"), \n    panel.background = element_blank()\n  ) +\n  scale_fill_gradient2(\n     low = \"grey40\",\n     mid = \"white\",\n     high = \"blue\",\n     midpoint = 448, # 한반도의 평균 고도는 약 448m 정도로 동아시아 전체 평균(910m)에 비하면 현저히 낮다.\n     guide = \"colourbar\",\n     na.value = NA, \n     breaks = int_elevation,\n     labels = scales::label_number(suffix = \" m\", big.mark = \",\")\n  ) +\n  scale_y_continuous(labels = scales::comma) +\n  labs(fill = \"높이\") +\n  coord_sf(crs = 4326)"
   }
 ]
