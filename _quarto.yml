@@ -49,7 +49,9 @@ website:
           - href: spatial_map.qmd
             text: "지도(Map)"
           - href: jeju_map.qmd
-            text: "제주도 높이 지도"            
+            text: "제주도 높이 지도"
+          - href: yellow_sea.qmd
+            text: "황해"
 
 
 format:

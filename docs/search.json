@@ -390,5 +390,54 @@
     "title": "지도제작 대회",
     "section": "",
     "text": "코드library(tidyterra)\n\nkorea_dem &lt;- get_elev_raster(locations = korea_map, z = 5, clip = \"locations\") \n\nnames(korea_dem) &lt;- \"대한민국\"\n\nkorea_dem_tbl &lt;- as.data.frame(korea_dem, xy=TRUE) %&gt;% \n  as_tibble() %&gt;% \n  set_names(c(\"x\", \"y\", \"elevation\"))\n\nint_elevation &lt;- classInt::classIntervals(\n    korea_dem_tbl$elevation,\n    n = 5,\n    style = \"equal\"\n)$brks %&gt;% as.integer(.)\n\nggplot() +\n  geom_spatraster(data = korea_dem) +\n  facet_wrap(~lyr) +\n  theme(\n    legend.text.align = 1,\n    panel.spacing.x = unit(0, \"lines\"), axis.title.x = element_blank(),\n    axis.text = element_blank(), axis.ticks = element_blank(),\n    axis.title.y = element_blank(), plot.title = element_text(\n      hjust = 0.5,\n      size = 18, face = \"bold\"\n    ), strip.background = element_blank(),\n    strip.text = element_text(size = 14, color = \"black\", face = \"bold\"),\n    legend.text = element_text(size = 10, family=\"D2 Coding\"),\n    legend.title = element_text(hjust = 0.1, size = 16, face = \"bold\"), \n    panel.background = element_blank()\n  ) +\n  scale_fill_gradient2(\n     low = \"grey40\",\n     mid = \"white\",\n     high = \"blue\",\n     midpoint = 448, # 한반도의 평균 고도는 약 448m 정도로 동아시아 전체 평균(910m)에 비하면 현저히 낮다.\n     guide = \"colourbar\",\n     na.value = NA, \n     breaks = int_elevation,\n     labels = scales::label_number(suffix = \" m\", big.mark = \",\")\n  ) +\n  scale_y_continuous(labels = scales::comma) +\n  labs(fill = \"높이\") +\n  coord_sf(crs = 4326)"
+  },
+  {
+    "objectID": "yellow_sea.html",
+    "href": "yellow_sea.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "참고자료: Intro to spatial data in R - Open and plot raster and vector data with base plot\n\n코드library(tidyverse)\nlibrary(sf)\nlibrary(rgdal)\n\n# 세계 해안선 shapefile을 불러옵니다.\nworld_coastline &lt;- st_read(\"data/ne_10m_coastline/ne_10m_coastline.shp\")\n#&gt; Reading layer `ne_10m_coastline' from data source \n#&gt;   `D:\\tcs\\map_challenge\\data\\ne_10m_coastline\\ne_10m_coastline.shp' \n#&gt;   using driver `ESRI Shapefile'\n#&gt; Simple feature collection with 4133 features and 3 fields\n#&gt; Geometry type: LINESTRING\n#&gt; Dimension:     XY\n#&gt; Bounding box:  xmin: -180 ymin: -85.22194 xmax: 180 ymax: 83.6341\n#&gt; Geodetic CRS:  WGS 84\n\nplot(st_geometry(world_coastline))\n\n\n\n\n\n\n\n\n\n코드# korea_geo_sgg &lt;- gadm(\"KOR\", level=2, path=\"data/\", version=\"latest\", resolution=1) %&gt;% \n#   st_as_sf()\n\nkorea_sgg_geo &lt;- terra::readRDS(\"data/gadm/gadm41_KOR_2_pk.rds\") %&gt;% st_as_sf()\n \nkorea_sgg_geo |&gt; \n  ggplot() +\n    geom_sf()\n\n\n\n\n\n\n\n\n\n코드korea_coastline &lt;- st_join(korea_sgg_geo, world_coastline, join = st_intersects)\n\n# st_join(korea_sgg_geo, world_coastline, join = st_difference)\n\nplot(st_geometry(korea_coastline))"
+  },
+  {
+    "objectID": "yellow_sea.html#전세계-해안선",
+    "href": "yellow_sea.html#전세계-해안선",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "참고자료: Intro to spatial data in R - Open and plot raster and vector data with base plot\n\n코드library(tidyverse)\nlibrary(sf)\nlibrary(rgdal)\n\n# 세계 해안선 shapefile을 불러옵니다.\nworld_coastline &lt;- st_read(\"data/ne_10m_coastline/ne_10m_coastline.shp\")\n#&gt; Reading layer `ne_10m_coastline' from data source \n#&gt;   `D:\\tcs\\map_challenge\\data\\ne_10m_coastline\\ne_10m_coastline.shp' \n#&gt;   using driver `ESRI Shapefile'\n#&gt; Simple feature collection with 4133 features and 3 fields\n#&gt; Geometry type: LINESTRING\n#&gt; Dimension:     XY\n#&gt; Bounding box:  xmin: -180 ymin: -85.22194 xmax: 180 ymax: 83.6341\n#&gt; Geodetic CRS:  WGS 84\n\nplot(st_geometry(world_coastline))"
+  },
+  {
+    "objectID": "yellow_sea.html#대한민국",
+    "href": "yellow_sea.html#대한민국",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드# korea_geo_sgg &lt;- gadm(\"KOR\", level=2, path=\"data/\", version=\"latest\", resolution=1) %&gt;% \n#   st_as_sf()\n\nkorea_sgg_geo &lt;- terra::readRDS(\"data/gadm/gadm41_KOR_2_pk.rds\") %&gt;% st_as_sf()\n \nkorea_sgg_geo |&gt; \n  ggplot() +\n    geom_sf()"
+  },
+  {
+    "objectID": "yellow_sea.html#대한민국-해안선",
+    "href": "yellow_sea.html#대한민국-해안선",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드korea_coastline &lt;- st_join(korea_sgg_geo, world_coastline, join = st_intersects)\n\n# st_join(korea_sgg_geo, world_coastline, join = st_difference)\n\nplot(st_geometry(korea_coastline))"
+  },
+  {
+    "objectID": "yellow_sea.html#시군구",
+    "href": "yellow_sea.html#시군구",
+    "title": "지도제작 대회",
+    "section": "\n2.1 시군구",
+    "text": "2.1 시군구\n\n총 5 시군구: 김포시, 안산시 단원구, 화성시, 평택시, 시흥시\n\n\n코드sf_use_s2(FALSE)\n\nadmin_sf &lt;- st_read(\"data/HangJeongDong_ver20230401.geojson\")\n#&gt; Reading layer `HangJeongDong_ver20230401' from data source \n#&gt;   `D:\\tcs\\map_challenge\\data\\HangJeongDong_ver20230401.geojson' \n#&gt;   using driver `GeoJSON'\n#&gt; Simple feature collection with 3520 features and 10 fields\n#&gt; Geometry type: MULTIPOLYGON\n#&gt; Dimension:     XY\n#&gt; Bounding box:  xmin: 124.6097 ymin: 33.11187 xmax: 131.8713 ymax: 38.61695\n#&gt; Geodetic CRS:  WGS 84\n\ngg_incheon_sf &lt;- admin_sf %&gt;% \n  filter(sidonm %in% c(\"경기도\")) %&gt;% \n  group_by(sidonm, sggnm) %&gt;% \n  summarize(geometry = st_union(geometry)) %&gt;% \n  mutate(바다인접 = ifelse(str_detect(sggnm, \"김포|안산|화성|평택|시흥\"), \"바다인접\", \"비인접\")) %&gt;% \n  ungroup()\n\ngg_incheon_sf %&gt;% \n  ggplot() +\n    geom_sf(aes(fill=바다인접), linewidth = 0.1) +\n    ggrepel::geom_text_repel(\n      aes(label = sggnm, geometry = geometry), stat = \"sf_coordinates\", \n      min.segment.length = 1, size = 3\n    ) +\n    theme_void() +\n    scale_fill_manual(values = c(\"gray95\", \"skyblue\")) +\n    labs(title = \"경기도 바다인접 시군구\",\n         fill = \"바다인접 여부\")"
+  },
+  {
+    "objectID": "yellow_sea.html#항구",
+    "href": "yellow_sea.html#항구",
+    "title": "지도제작 대회",
+    "section": "\n2.2 항구",
+    "text": "2.2 항구\n\n공공데이터 해양수산부 항만정보\n\n\n\n코드ports &lt;- read_csv(\"data/해양수산부_항만정보_20210105.csv\",locale=locale('ko',encoding='euc-kr'))\n\nports %&gt;% \n  filter(str_detect(항만위치, \"^경기\"))\n#&gt; # A tibble: 1 × 23\n#&gt;   국가관리구분 항구분 항만명     관리청    항만위치 항구역 `수(물)면적` 부지면적\n#&gt;   &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;\n#&gt; 1 국가관리     신항만 평택당진항 해양수산… 경기도 … 현면…         90992     6440\n#&gt; # ℹ 15 more variables: 설계파고 &lt;dbl&gt;, 설계파향 &lt;chr&gt;, 최고조위 &lt;dbl&gt;,\n#&gt; #   평균해면 &lt;dbl&gt;, 해저지질 &lt;chr&gt;, 방파제길이 &lt;dbl&gt;, 안벽길이 &lt;dbl&gt;,\n#&gt; #   `물양장(소형선부두)길이` &lt;dbl&gt;, `잔교수(기)` &lt;dbl&gt;, `상옥수(동)` &lt;dbl&gt;,\n#&gt; #   야적장면적 &lt;dbl&gt;, `접안능력수(선석)` &lt;dbl&gt;, 하역능력수 &lt;dbl&gt;,\n#&gt; #   기타시설물현황 &lt;chr&gt;, 주요취급화물 &lt;chr&gt;\n\n\n\n코드fishing_sf &lt;- st_read(\"data/해양경찰청_낚시어선 출입항 항포구 위치정보_20221129/D159-6.낚시어선 출입항 항포구 위치정보_v1.0.shp\")\n#&gt; Reading layer `D159-6.낚시어선 출입항 항포구 위치정보_v1.0' from data source `D:\\tcs\\map_challenge\\data\\해양경찰청_낚시어선 출입항 항포구 위치정보_20221129\\D159-6.낚시어선 출입항 항포구 위치정보_v1.0.shp' \n#&gt;   using driver `ESRI Shapefile'\n#&gt; Simple feature collection with 135 features and 9 fields\n#&gt; Geometry type: POINT\n#&gt; Dimension:     XY\n#&gt; Bounding box:  xmin: 856626.6 ymin: 1469293 xmax: 1301571 ymax: 2050009\n#&gt; Projected CRS: Korea 2000 / Unified CS\n\nfishing_sf &lt;- st_transform(fishing_sf, crs = st_crs(gg_incheon_sf))\n\nfishing_sf %&gt;% \n  ggplot() +\n    geom_sf() +\n    ggrepel::geom_text_repel(\n      aes(label = DEPART_NM, geometry = geometry), stat = \"sf_coordinates\", \n      min.segment.length = 1, size = 3\n    ) +\n    theme_void() +\n    labs(title = \"해양경찰청 낚시어선 출입항\")"
+  },
+  {
+    "objectID": "yellow_sea.html#경기도-x-낚시항포구",
+    "href": "yellow_sea.html#경기도-x-낚시항포구",
+    "title": "지도제작 대회",
+    "section": "\n2.3 경기도 X 낚시항포구",
+    "text": "2.3 경기도 X 낚시항포구\n\n코드# gg_incheon_sf %&gt;% \n#   st_touches(fishing_sf %&gt;% select(DEPART_NM, geometry), left=FALSE) \n\ngg_fishing_sf &lt;- st_crop(fishing_sf, xmin = 126.3797, xmax = 127.8495,\n                                     ymin = 36.893530, ymax = 38.29204)\n\nggplot() +\n  geom_sf(data = gg_incheon_sf) +\n  geom_sf(data = gg_fishing_sf, color = \"red\") +\n  ggrepel::geom_text_repel(\n    data = gg_fishing_sf,\n      aes(label = DEPART_NM, geometry = geometry), stat = \"sf_coordinates\", \n      min.segment.length = 1, size = 3\n    ) +\n    theme_void() +\n    labs(title = \"해양경찰청 낚시어선 출입항\")"
   }
 ]

@@ -1,0 +1,171 @@
+---
+title: "지도제작 대회"
+subtitle: "황해"
+description: |
+  황해를 접한 대한민국 도시를 알아보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 해안선
+
+## 전세계 해안선
+
+[참고자료: [Intro to spatial data in R - Open and plot raster and vector data with base plot](https://nceas.github.io/oss-lessons/spatial-data-gis-law/3-mon-intro-gis-in-r.html)]{.aside}
+
+
+```{r}
+library(tidyverse)
+library(sf)
+library(rgdal)
+
+# 세계 해안선 shapefile을 불러옵니다.
+world_coastline <- st_read("data/ne_10m_coastline/ne_10m_coastline.shp")
+
+plot(st_geometry(world_coastline))
+```
+
+
+## 대한민국
+
+```{r}
+# korea_geo_sgg <- gadm("KOR", level=2, path="data/", version="latest", resolution=1) %>% 
+#   st_as_sf()
+
+korea_sgg_geo <- terra::readRDS("data/gadm/gadm41_KOR_2_pk.rds") %>% st_as_sf()
+ 
+korea_sgg_geo |> 
+  ggplot() +
+    geom_sf()
+```
+
+
+## 대한민국 해안선
+
+```{r}
+korea_coastline <- st_join(korea_sgg_geo, world_coastline, join = st_intersects)
+
+# st_join(korea_sgg_geo, world_coastline, join = st_difference)
+
+plot(st_geometry(korea_coastline))
+```
+
+
+# 경기도
+
+## 시군구
+
+- 총 5 시군구: 김포시, 안산시 단원구, 화성시, 평택시, 시흥시
+
+```{r}
+sf_use_s2(FALSE)
+
+admin_sf <- st_read("data/HangJeongDong_ver20230401.geojson")
+
+gg_incheon_sf <- admin_sf %>% 
+  filter(sidonm %in% c("경기도")) %>% 
+  group_by(sidonm, sggnm) %>% 
+  summarize(geometry = st_union(geometry)) %>% 
+  mutate(바다인접 = ifelse(str_detect(sggnm, "김포|안산|화성|평택|시흥"), "바다인접", "비인접")) %>% 
+  ungroup()
+
+gg_incheon_sf %>% 
+  ggplot() +
+    geom_sf(aes(fill=바다인접), linewidth = 0.1) +
+    ggrepel::geom_text_repel(
+      aes(label = sggnm, geometry = geometry), stat = "sf_coordinates", 
+      min.segment.length = 1, size = 3
+    ) +
+    theme_void() +
+    scale_fill_manual(values = c("gray95", "skyblue")) +
+    labs(title = "경기도 바다인접 시군구",
+         fill = "바다인접 여부")
+```
+
+
+## 항구
+
+- 공공데이터 [해양수산부 항만정보](https://www.data.go.kr/data/15088273/fileData.do)
+
+
+```{r}
+ports <- read_csv("data/해양수산부_항만정보_20210105.csv",locale=locale('ko',encoding='euc-kr'))
+
+ports %>% 
+  filter(str_detect(항만위치, "^경기"))
+```
+
+
+```{r}
+fishing_sf <- st_read("data/해양경찰청_낚시어선 출입항 항포구 위치정보_20221129/D159-6.낚시어선 출입항 항포구 위치정보_v1.0.shp")
+
+fishing_sf <- st_transform(fishing_sf, crs = st_crs(gg_incheon_sf))
+
+fishing_sf %>% 
+  ggplot() +
+    geom_sf() +
+    ggrepel::geom_text_repel(
+      aes(label = DEPART_NM, geometry = geometry), stat = "sf_coordinates", 
+      min.segment.length = 1, size = 3
+    ) +
+    theme_void() +
+    labs(title = "해양경찰청 낚시어선 출입항")  
+```
+
+
+## 경기도 X 낚시항포구
+
+
+```{r}
+# gg_incheon_sf %>% 
+#   st_touches(fishing_sf %>% select(DEPART_NM, geometry), left=FALSE) 
+
+gg_fishing_sf <- st_crop(fishing_sf, xmin = 126.3797, xmax = 127.8495,
+                                     ymin = 36.893530, ymax = 38.29204)
+
+ggplot() +
+  geom_sf(data = gg_incheon_sf) +
+  geom_sf(data = gg_fishing_sf, color = "red") +
+  ggrepel::geom_text_repel(
+    data = gg_fishing_sf,
+      aes(label = DEPART_NM, geometry = geometry), stat = "sf_coordinates", 
+      min.segment.length = 1, size = 3
+    ) +
+    theme_void() +
+    labs(title = "해양경찰청 낚시어선 출입항")    
+
+```
+
+
+
