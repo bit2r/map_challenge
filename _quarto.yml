@@ -52,6 +52,8 @@ website:
             text: "제주도 높이 지도"
           - href: yellow_sea.qmd
             text: "황해"
+          - href: yellow_sea2.qmd
+            text: "황해2"            
 
 
 format:

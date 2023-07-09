@@ -1,0 +1,361 @@
+---
+title: "지도제작 대회"
+subtitle: "황해2"
+description: |
+  황해를 접한 대한민국 도시를 알아보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+# 대한민국 해안선
+
+## 대한민국 지도
+
+```{r}
+library(sf)
+library(giscoR)
+library(tidyverse)
+library(ggrepel)
+library(krvote)
+sf_use_s2(FALSE)
+
+korea_sf <- giscoR::gisco_get_countries(
+        year = "2020",
+        epsg = "4326",
+        resolution = "01",
+        country = "KR"
+    ) 
+
+plot(st_geometry(korea_sf))
+```
+
+## 해안선
+
+[GSHHG: A Global Self-consistent, Hierarchical, High-resolution Geography Database](http://www.soest.hawaii.edu/pwessel/gshhg/) 아주 상세한 육지와 해안을 구분하는 해안선을 기준으로 인접한 경기도 선거구를 특정한다.
+
+- full resolution: Original (full) data resolution.
+- high resolution: About 80 % reduction in size and quality.
+- intermediate resolution: Another ~80 % reduction.
+- low resolution: Another ~80 % reduction.
+- crude resolution: Another ~80 % reduction.
+
+```{r}
+
+# coastline_sf <-  giscoR::gisco_coastallines
+
+i_world_coastline <- st_read("data/gshhg-shp-2.3.7/GSHHS_shp/i/GSHHS_i_L1.shp")
+
+i_coastline_sf <- i_world_coastline %>% 
+  st_crop(st_bbox(korea_sf))
+
+ggplot(i_coastline_sf) +
+  geom_sf(color = "blue", fill = "blue", alpha = 0.2) +
+  # Zoom on Korea
+  # coord_sf(
+  #   xlim = c(korea_bbox['xmin'],  korea_bbox['xmax']),
+  #   ylim = c(korea_bbox['ymin'],  korea_bbox['ymax'])
+  # ) +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(
+      fill = "black",
+      color = "black"
+    ),
+    panel.grid = element_blank(),
+    axis.text = element_text(colour = "grey90")
+  )
+```
+
+## 결합
+
+```{r}
+korea_coast_sf <- st_join(korea_sf, i_coastline_sf)
+
+ggplot(korea_coast_sf) +
+  geom_sf(color = "black", fill = "transparent", alpha = 0.2) +
+  geom_sf(data = i_coastline_sf, color = "blue", fill = "transparent", alpha = 0.2) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_text(colour = "grey90")
+  ) 
+```
+
+
+## 항구
+
+UN/LOCODE 표준으로 등재된 항구 코드 (`KRPNC`) 포함
+
+```{r}
+korea_port <- gisco_get_ports(year = "2013",
+  country = "KOR")
+
+korea_port <- st_transform(korea_port, st_crs(korea_coast_sf))
+
+ggplot(korea_coast_sf) +
+  geom_sf(color = "blue", fill = "white", alpha = 0.2) +
+  geom_sf(data = korea_port, color = "red", size = 2) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_text(colour = "grey90")
+  ) +
+  labs(
+    title = "대한민국 항구", subtitle = "기준 2013년",
+    caption = "항구 코드: UN/LOCODE 표준"
+  )  +
+  geom_text_repel(data = korea_port, aes(label = PORT_ID, geometry = geometry),
+                   stat = "sf_coordinates", min.segment.length = 0, size = 5, 
+                   max.overlaps = Inf, box.padding = 1.0)  
+
+```
+
+# 해안선 인접 선거구
+
+## 제21대 총선 선구구
+
+단순하고 가독성 높은 선거구 지도 제작을 위해 "서울", "경기", "부산", "인천", "광주" 를 제외!
+
+```{r}
+precinct_sf <- st_read("data/2020_21_elec_253.json")
+
+kr_precinct_sf <- precinct_sf %>% 
+  mutate(SGG_3 = str_remove(SGG_3, pattern = '^\\S*\\s'))
+
+ggplot() +
+  geom_sf(data = kr_precinct_sf) +
+  geom_text_repel(data = kr_precinct_sf %>% filter(!SGG_1 %in% c("서울", "경기", "부산", "인천", "광주")), aes(label = SGG_3, geometry = geometry),
+                  stat = "sf_coordinates", min.segment.length = 0,
+                  max.overlaps = Inf, size = 3)
+```
+
+:::{.panel-tabset}
+
+### 지도
+
+```{r}
+kr_coast_sf <- st_filter(precinct_sf, i_coastline_sf, .predicate = st_overlaps)
+
+ggplot() +
+  geom_sf(data = kr_coast_sf) +
+  geom_sf(data = korea_coast_sf, color = "blue", fill = "transparent") +
+  geom_text_repel(data = kr_coast_sf, aes(label = SGG_3, geometry = geometry),
+                   stat = "sf_coordinates", min.segment.length = 0, size = 3, 
+                   max.overlaps = Inf, box.padding = 1.0) +
+  labs(x = "",
+       y = "")
+
+```
+
+### 선거구명
+
+```{r}
+library(gt)
+library(gtExtras)
+
+kr_coast_sf %>% 
+  sf::st_drop_geometry() %>% 
+  mutate(SGG_3 = str_remove(SGG_3, pattern = '^\\S*\\s')) %>% 
+  group_by(시도명 = SGG_1) %>% 
+  summarise(선거구수 = n(),
+            선거구 = paste0(SGG_3, collapse="|")) %>% 
+  arrange(desc(선거구수)) %>% 
+  janitor::adorn_totals(where = "row", name = "합계") %>%   
+  gt::gt() %>% 
+    cols_align(align = "center") %>% 
+    gt_theme_538() %>% 
+    tab_header(title = "해안선 인접 총선 선거구",
+               subtitle = md("`선관위 제21대 선거구 기준`")) 
+```
+
+:::
+
+## 제21대 경기 선구구
+
+```{r}
+gg_precinct_sf <- precinct_sf %>% 
+  filter(SGG_1 == "경기") %>% 
+  mutate(SGG_3 = str_remove(SGG_3, "경기\\s+")) 
+
+ggplot() +
+  geom_sf(data = gg_precinct_sf) +
+  geom_text_repel(data = gg_precinct_sf, aes(label = SGG_3, geometry = geometry),
+                  stat = "sf_coordinates", min.segment.length = 0,
+                  max.overlaps = Inf)
+```
+
+:::{.panel-tabset}
+
+### 지도
+
+```{r}
+gg_coast_sf <- st_filter(gg_precinct_sf, i_coastline_sf, .predicate = st_overlaps)
+
+ggplot() +
+  geom_sf(data = gg_coast_sf) +
+  geom_sf(data = gg_precinct_sf, color = "blue", fill = "transparent") +
+  geom_text_repel(data = gg_coast_sf, aes(label = SGG_3, geometry = geometry),
+                   stat = "sf_coordinates", min.segment.length = 0, size = 3, 
+                   max.overlaps = Inf, box.padding = 1.0) +
+  labs(x = "",
+       y = "")
+
+```
+
+### 선거구명
+
+```{r}
+
+gg_coast_sf %>% 
+  sf::st_drop_geometry() %>% 
+  mutate(SGG_3 = str_remove(SGG_3, pattern = '^\\S*\\s')) %>% 
+  mutate(순 = 1:n()) %>% 
+  select(-SGG_2) %>% 
+  select(순, everything()) %>% 
+  gt::gt() %>% 
+    cols_align(align = "center") %>% 
+    tab_header(title = "해안선 인접 총선 선거구",
+               subtitle = md("`선관위 제21대 선거구 기준`")) %>% 
+    cols_label(
+      SGG_Code = "시군구 코드",
+      SGG_1 = "시도명",
+      SGG_3 = "선거구명"
+    ) %>% 
+    gt_theme_538() 
+```
+
+:::
+
+
+# 정밀 해안선 (경기)
+
+:::{.panel-tabset}
+
+### 지도
+
+```{r}
+world_coastline <- st_read("data/gshhg-shp-2.3.7/GSHHS_shp/f/GSHHS_f_L1.shp")
+
+gg_high_coastline <- world_coastline %>% 
+  st_crop(st_bbox(gg_precinct_sf))
+
+gg_coast_high_sf <- st_filter(gg_precinct_sf, gg_high_coastline, .predicate = st_overlaps)
+
+ggplot() +
+  geom_sf(data = gg_precinct_sf, fill = "transparent") +
+  geom_sf(data = gg_coast_high_sf) +
+  geom_sf(data = gg_high_coastline, color = "blue", fill = "transparent") +
+  geom_text_repel(data = gg_coast_high_sf, aes(label = SGG_3, geometry = geometry),
+                   stat = "sf_coordinates", min.segment.length = 0, size = 3, 
+                   max.overlaps = Inf, box.padding = 1.0) +
+  labs(x = "",
+       y = "")
+
+```
+
+### 선거구
+
+```{r}
+
+gg_coast_high_sf %>% 
+  sf::st_drop_geometry() %>% 
+  mutate(SGG_3 = str_remove(SGG_3, pattern = '^\\S*\\s')) %>% 
+  mutate(순 = 1:n()) %>% 
+  select(-SGG_2) %>% 
+  select(순, everything()) %>% 
+  gt::gt() %>% 
+    cols_align(align = "center") %>% 
+    tab_header(title = "해안선 인접 총선 선거구",
+               subtitle = md("`선관위 제21대 선거구 기준`")) %>% 
+    cols_label(
+      SGG_Code = "시군구 코드",
+      SGG_1 = "시도명",
+      SGG_3 = "선거구명"
+    ) %>% 
+    gt_theme_538() 
+```
+
+
+:::
+
+
+# 정밀 해안선 (대한민국)
+
+:::{.panel-tabset}
+
+### 지도
+
+```{r}
+world_coastline <- st_read("data/gshhg-shp-2.3.7/GSHHS_shp/f/GSHHS_f_L1.shp")
+
+high_coastline <- world_coastline %>% 
+  st_crop(st_bbox(precinct_sf))
+
+coast_high_sf <- st_filter(precinct_sf, high_coastline, .predicate = st_overlaps)
+
+ggplot() +
+  geom_sf(data = precinct_sf, fill = "transparent") +
+  geom_sf(data = coast_high_sf) +
+  geom_sf(data = high_coastline, color = "blue", fill = "transparent") +
+  geom_text_repel(data = coast_high_sf, aes(label = SGG_3, geometry = geometry),
+                   stat = "sf_coordinates", min.segment.length = 0, size = 3, 
+                   max.overlaps = Inf, box.padding = 1.0) +
+  labs(x = "",
+       y = "")
+
+```
+
+### 선거구
+
+```{r}
+
+coast_high_sf %>% 
+  sf::st_drop_geometry() %>% 
+  mutate(SGG_3 = str_remove(SGG_3, pattern = '^\\S*\\s')) %>% 
+  group_by(시도명 = SGG_1) %>% 
+  summarise(선거구수 = n(),
+            선거구 = paste0(SGG_3, collapse="|")) %>% 
+  arrange(desc(선거구수)) %>% 
+  janitor::adorn_totals(where = "row", name = "합계") %>% 
+  gt::gt() %>% 
+    cols_align(align = "center") %>% 
+    gt_theme_538() %>% 
+    tab_header(title = "해안선 인접 총선 선거구",
+               subtitle = md("`선관위 제21대 선거구 기준`"))
+```
+
+
+:::
+
