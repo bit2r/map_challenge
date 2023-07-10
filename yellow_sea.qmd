@@ -453,4 +453,180 @@ general_sgg_table %>%
 :::
 
 
+## 지선 - 도지사 (2022년)
 
+:::{.panel-tabset}
+
+### 득표수
+
+```{r}
+local_sido_raw <- krvote::local_sido_20220601 %>% 
+  filter(str_detect(선거구명, "^경기")) %>% 
+  unnest(data) %>% 
+  filter(str_detect(구시군명, "^화성|^평택|^김포|^안산시단원구|^시흥")) %>% 
+  pivot_longer(더불어민주당_김동연:기권수) %>% 
+  separate(name, into = c("정당", "후보"), sep = "_") %>% 
+  filter(!is.na(후보)) %>% 
+  group_by(구시군명, 정당) %>% 
+  summarise(득표 = sum(value)) %>% 
+  ungroup()
+
+local_sido_table <- local_sido_raw %>% 
+  mutate(정당 = case_when( str_detect(정당, "민주당") ~ "민주당",
+                           str_detect(정당, "국민의힘") ~ "국민의힘",
+                           TRUE ~ "기타")) %>% 
+  group_by(구시군명, 정당) %>% 
+  summarise(득표 = sum(득표)) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = 정당, values_from = 득표) %>% 
+  janitor::adorn_totals(where = "col", name = "합계") 
+
+local_sido_table %>% 
+  relocate(기타, .before = 합계) %>% 
+  gt() %>% 
+    fmt_integer(columns = 국민의힘:합계) %>% 
+    cols_align(columns = 구시군명, align = "center") %>% 
+    tab_spanner(
+      label = "지방선거 도지사 후보 정당",
+      columns = c(국민의힘, 민주당, 기타)
+  ) %>% 
+    gt_theme_538() %>% 
+    tab_header(
+      title = md("경기도 서해 인접 5개 구시군 정당별 득표"),
+      subtitle = md("`제8대 지방선거`")
+  )  %>% 
+  tab_style(
+    style = list(cell_fill(color = "blue"),
+                 cell_text(color = "white")),
+    locations = cells_body(columns = 민주당,
+                           rows = 민주당 > 국민의힘)
+  ) %>% 
+  tab_style(
+    style = list(cell_fill(color = "red"),
+                 cell_text(color = "white")),
+    locations = cells_body(columns = 국민의힘,
+                           rows = 민주당 < 국민의힘)
+  )
+```
+
+
+### 득표율
+
+```{r}
+local_sido_table %>% 
+  adorn_percentages() %>% 
+  gt::gt() %>% 
+    fmt_percent(columns = 국민의힘:합계, decimals = 1) %>% 
+    cols_align(columns = 구시군명, align = "center") %>% 
+    tab_spanner(
+      label = "지방선거 도지사 후보 정당",
+      columns = c(국민의힘, 민주당, 기타)
+  ) %>% 
+    gt_theme_538() %>% 
+    tab_header(
+      title = md("경기도 서해 인접 5개 구시군 정당별 득표"),
+      subtitle = md("`제8대 지방선거`")
+  )  %>% 
+  tab_style(
+    style = list(cell_fill(color = "blue"),
+                 cell_text(color = "white")),
+    locations = cells_body(columns = 민주당,
+                           rows = 민주당 > 국민의힘)
+  ) %>% 
+  tab_style(
+    style = list(cell_fill(color = "red"),
+                 cell_text(color = "white")),
+    locations = cells_body(columns = 국민의힘,
+                           rows = 민주당 < 국민의힘)
+  )
+```
+
+:::
+
+
+## 지선 - 구시군장 (2022년)
+
+:::{.panel-tabset}
+
+### 득표수
+
+```{r}
+local_sgg_raw <- krvote::local_sgg_20220601 %>% 
+  filter(str_detect(시도명, "^경기")) %>% 
+  filter(str_detect(구시군명, "^화성|^평택|^김포|^안산|^시흥")) %>% 
+  mutate(득표 = parse_number(득표)) %>% 
+  group_by(구시군명, 정당) %>% 
+  summarise(득표 = sum(득표)) %>% 
+  ungroup()
+
+local_sgg_table <- local_sgg_raw %>% 
+  mutate(정당 = case_when( str_detect(정당, "민주당") ~ "민주당",
+                           str_detect(정당, "국민의힘") ~ "국민의힘",
+                           TRUE ~ "기타")) %>% 
+  group_by(구시군명, 정당) %>% 
+  summarise(득표 = sum(득표, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = 정당, values_from = 득표, values_fill = 0) %>% 
+  janitor::adorn_totals(where = "col", name = "합계") 
+
+local_sgg_table %>% 
+  relocate(기타, .before = 합계) %>% 
+  gt() %>% 
+    fmt_integer(columns = 국민의힘:합계) %>% 
+    cols_align(columns = 구시군명, align = "center") %>% 
+    tab_spanner(
+      label = "지방선거 구시군의 장 후보 정당",
+      columns = c(국민의힘, 민주당, 기타)
+  ) %>% 
+    gt_theme_538() %>% 
+    tab_header(
+      title = md("경기도 서해 인접 5개 구시군 정당별 득표"),
+      subtitle = md("`제8대 지방선거`")
+  )  %>% 
+  tab_style(
+    style = list(cell_fill(color = "blue"),
+                 cell_text(color = "white")),
+    locations = cells_body(columns = 민주당,
+                           rows = 민주당 > 국민의힘)
+  ) %>% 
+  tab_style(
+    style = list(cell_fill(color = "red"),
+                 cell_text(color = "white")),
+    locations = cells_body(columns = 국민의힘,
+                           rows = 민주당 < 국민의힘)
+  )
+```
+
+
+### 득표율
+
+```{r}
+local_sgg_table %>% 
+  adorn_percentages() %>% 
+  gt::gt() %>% 
+    fmt_percent(columns = 국민의힘:합계, decimals = 1) %>% 
+    cols_align(columns = 구시군명, align = "center") %>% 
+    tab_spanner(
+      label = "지방선거 구시군의 장 후보 정당",
+      columns = c(국민의힘, 민주당, 기타)
+  ) %>% 
+    gt_theme_538() %>% 
+    tab_header(
+      title = md("경기도 서해 인접 5개 구시군 정당별 득표"),
+      subtitle = md("`제8대 지방선거`")
+  )  %>% 
+  tab_style(
+    style = list(cell_fill(color = "blue"),
+                 cell_text(color = "white")),
+    locations = cells_body(columns = 민주당,
+                           rows = 민주당 > 국민의힘)
+  ) %>% 
+  tab_style(
+    style = list(cell_fill(color = "red"),
+                 cell_text(color = "white")),
+    locations = cells_body(columns = 국민의힘,
+                           rows = 민주당 < 국민의힘)
+  )
+```
+
+:::
