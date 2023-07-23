@@ -1,0 +1,175 @@
+---
+title: "지도제작 대회"
+subtitle: "국회의원 선거구"
+description: |
+  대한민국 선거구를 확인해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 오마이뉴스 선거구
+
+[2020. 4. 15. 21대 국회의원 총선거 선거구 지도](https://github.com/OhmyNews/2020_21_elec_map)를 가져온다.
+
+```{r}
+library(sf)
+library(tidyverse)
+
+precinct <- st_read("data/2020_21_elec_253.json") |> 
+  st_set_crs(4326)
+
+st_geometry(precinct) |> plot()
+
+```
+
+
+## 데이터셋
+
+```{r}
+library(rvest)
+
+wiki_url <- "https://ko.wikipedia.org/wiki/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD_%EC%A0%9C21%EB%8C%80_%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90_%EC%84%A0%EA%B1%B0_%EB%8D%94%EB%B6%88%EC%96%B4%EB%AF%BC%EC%A3%BC%EB%8B%B9_%ED%9B%84%EB%B3%B4_%EB%AA%A9%EB%A1%9D"
+
+sido_name <- read_html(wiki_url) |> 
+  html_nodes("h3") |> 
+  html_text() |> 
+  str_remove("\\[편집\\]")
+
+minju_lst <- read_html(wiki_url) |> 
+  html_nodes(".wikitable") |> 
+  html_table()
+
+names(minju_lst) <- sido_name
+
+nomination <- sido_name |> 
+  enframe(value = "시도명") |> 
+  mutate(data = minju_lst) |> 
+  unnest(data) |> 
+  select(-name) |> 
+  janitor::clean_names(ascii = FALSE) 
+
+nomination
+```
+
+# 출판용
+
+## 단수공천
+
+```{r}
+library(gt)
+library(gtExtras)
+
+nomination |> 
+  mutate(
+      유튜브 = map(유튜브, ~ htmltools::a(href = .x, "바로가기")),
+      유튜브 = map(유튜브, ~ gt::html(as.character(.x))))  |> 
+  gt(groupname_col = '시도명') |> 
+  gt_theme_538() |> 
+  tab_options(
+    table.font.size = px(12L)
+  ) |> 
+  sub_missing(
+    columns = everything(),
+    missing_text = "-"
+  ) |> 
+  cols_align(align = "center") |> 
+  tab_style(
+    style = cell_fill(color = "gray85"),
+    locations = cells_body(
+      rows = 공천_유형 == "단수 공천"
+    )
+  )  
+```
+
+
+# 카토그램
+
+[출처: [Mapping UN Votes on a hex grid](https://www.simoncoulombe.com/2018/01/unvotes_hexgrid/)]{.aside}
+
+## 전국
+
+```{r}
+#| eval: false
+
+library(geogrid)
+library(ggrepel)
+
+precinct_cells <-  calculate_grid(precinct, 0.1, 'hexagonal')
+precinct_hex <- assign_polygons(precinct, precinct_cells)
+
+precinct_hex |> 
+  write_rds("data/precinct_hex.rds")
+```
+
+
+
+```{r}
+precinct_hex <- 
+  read_rds("data/precinct_hex.rds")
+
+precinct_hex |> 
+  # filter(SGG_1 == '제주') |> 
+  ggplot() +
+    geom_sf() +
+    ggrepel::geom_text_repel(
+      data = precinct_hex,
+        aes(label = SGG_3, geometry = geometry), stat = "sf_coordinates", 
+        min.segment.length = 1, size = 2, max.overlaps = Inf
+    ) 
+```
+
+
+## 서울
+
+```{r}
+library(geogrid)
+library(ggrepel)
+
+seoul_precinct <- precinct |> filter(SGG_1 == "서울")
+
+seoul_precinct_cells <-  calculate_grid(seoul_precinct, 0.1, 'hexagonal')
+seoul_precinct_hex <- assign_polygons(seoul_precinct, seoul_precinct_cells)
+
+seoul_precinct_hex |> 
+  ggplot() +
+    geom_sf() +
+    ggrepel::geom_text_repel(
+      data = seoul_precinct_hex,
+        aes(label = SGG_3, geometry = geometry), stat = "sf_coordinates", 
+        min.segment.length = 1, size = 3, max.overlaps = Inf
+    )
+```
+
+
+

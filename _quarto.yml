@@ -53,15 +53,16 @@ website:
           - href: yellow_sea.qmd
             text: "황해"
           - href: yellow_sea2.qmd
-            text: "황해2"            
-
+            text: "황해2"
+          - href: precinct.qmd
+            text: "국회의원 선거구"
 
 format:
   html:
     theme:
       light: flatly
       dark: darkly
-    css: css/quarto.css
+    css: css/quarto.scss
     code-link: true
     code-fold: show
     code-tools: true
