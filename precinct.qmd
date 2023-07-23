@@ -84,7 +84,49 @@ nomination
 
 # 출판용
 
-## 단수공천
+## 공천 유형
+
+```{r}
+library(janitor)
+library(gt)
+library(gtExtras)
+
+nomination_type_gt <- nomination |> 
+  tabyl(공천_유형) |> 
+  arrange(desc(n)) |> 
+  janitor::adorn_totals(name = "합계") |> 
+  janitor::adorn_pct_formatting() |> 
+  rename(후보수 = n,
+         비율 = percent) |> 
+  gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |> 
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("더불어민주당 공천 유형"),
+    subtitle = md("제21대 국회의원 선거")
+  ) |> 
+  tab_style(
+    style = cell_fill(color = "gray85"),
+    locations = cells_body(
+      rows = 공천_유형 == "단수 공천"
+    )
+  )  
+
+nomination_type_gt
+
+nomination_type_gt |> 
+  gtsave(filename = "images/nomation_type_gt.png")
+
+  
+```
+
+
+## 공천 상세
 
 ```{r}
 library(gt)
@@ -156,10 +198,12 @@ precinct_hex |>
 library(geogrid)
 library(ggrepel)
 
+
 seoul_precinct <- precinct |> filter(SGG_1 == "서울")
 
-seoul_precinct_cells <-  calculate_grid(seoul_precinct, 0.1, 'hexagonal')
+seoul_precinct_cells <-  calculate_grid(shape=seoul_precinct, grid_type='hexagonal')
 seoul_precinct_hex <- assign_polygons(seoul_precinct, seoul_precinct_cells)
+
 
 seoul_precinct_hex |> 
   ggplot() +
@@ -169,7 +213,109 @@ seoul_precinct_hex |>
         aes(label = SGG_3, geometry = geometry), stat = "sf_coordinates", 
         min.segment.length = 1, size = 3, max.overlaps = Inf
     )
+
+seoul_precinct_hex |>
+  st_union() %>%
+  st_boundary() %>%
+  ggplot() +
+    geom_sf( lwd = 2 )
+
+
+# seoul_precinct <- seoul_precinct %>%
+#   mutate(tile_map = generate_map(geometry, square = FALSE, flat_topped = TRUE))
+
+
+# seoul_precinct |>
+#   st_union() %>%
+#   st_boundary() %>%
+#   ggplot() +
+#     geom_sf( lwd = 2 )
+
+# 
+# ggplot(seoul_precinct) +
+#   geom_sf(aes(geometry = tile_map))
+
 ```
 
 
+# 선거구와 공천
+
+`fuzzyjjoin` 함수를 사용해서 매칭을 하고 일부 잘못 매칭된 것은 수작업으로 보정한다.
+
+```{r}
+library(fuzzyjoin)
+
+nomination_tbl <- nomination |> 
+  mutate(SGG_2 = glue::glue("{시도명} {str_remove_all(선거구, '( )|·')}")) |> 
+  select(SGG_2, 후보자, 공천_유형) 
+
+precinct_nomination <- stringdist_left_join(precinct, nomination_tbl, 
+                     by = c("SGG_2" = "SGG_2"), 
+                     method       = "jw", 
+                     max_dist     = 0.08) 
+
+precinct_nomination
+```
+
+
+```{r}
+extrafont::loadfonts()
+
+precinct_nomination_tbl <- readxl::read_excel("data/precinct_nomination.xlsx") 
+
+precinct_nomination_sf <- left_join(precinct |> select(SGG_Code, geometry), 
+                                    precinct_nomination_tbl, by = "SGG_Code")
+
+
+nomination_type_gg <- ggplot() +
+  geom_sf(data = precinct_nomination_sf, 
+          aes(geometry = geometry, fill = 공천_유형)) +
+  theme_void(base_family = "MaruBuri") +
+  theme(legend.position = "left") +
+  scale_fill_manual(values = c("경선 공천" = "gray90",
+                               "단수 공천" = "red",
+                               "전략 공천" = "pink",
+                               "청년 경선 공천" = "black")) +
+  labs(title = "대한민국 제21대 국회의원 선거 더불어민주당 후보",
+       caption = "자료출처: 위키백과")
+
+  
+metro_bb <- precinct_nomination_sf |> 
+  filter(SGG_1 == "경기") |> st_bbox()
+
+metro_nomination_type_gg <- ggplot() +
+  geom_sf(data = precinct_nomination_sf |> filter(SGG_1 %in% c("서울", "경기")), 
+          aes(geometry = geometry, fill = 공천_유형)) +
+  theme_void(base_family = "MaruBuri") + 
+  coord_sf(xlim = c(metro_bb['xmin'], metro_bb['xmax']),
+           ylim = c(metro_bb['ymin'], metro_bb['ymax']), expand = FALSE) +
+  theme(legend.position = "none") +
+  scale_fill_manual(values = c("경선 공천" = "gray90",
+                               "단수 공천" = "red",
+                               "전략 공천" = "pink",
+                               "청년 경선 공천" = "black")) +
+    ggrepel::geom_text_repel(
+      data = precinct_nomination_sf |> filter(SGG_1 %in% c("서울", "경기")) |> 
+        mutate(SGG_3 = glue::glue("{ifelse(str_detect(공천_유형,'단수'), SGG_3, '')}")),
+        aes(label = SGG_3, geometry = geometry), stat = "sf_coordinates", 
+        min.segment.length = 1, size = 4, max.overlaps = Inf
+    ) 
+
+library(patchwork)
+
+nomination_type_final <- nomination_type_gg + metro_nomination_type_gg +
+  plot_layout(widths = c(1, 2))
+
+nomination_type_final
+
+# ragg::agg_jpeg("images/민주당_후보_공천.jpeg", 
+#               width = 10, height = 7, units = "in", res = 600)
+# nomination_type_final
+# dev.off()
+```
+
+
+```{r}
+xfun::embed_file('data/precinct_nomination.xlsx')
+```
 
