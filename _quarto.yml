@@ -56,7 +56,8 @@ website:
             text: "황해2"
           - href: precinct.qmd
             text: "국회의원 선거구"
-
+          - href: minju_nomination.qmd
+            text: "민주당 전략공천 성과"
 format:
   html:
     theme:

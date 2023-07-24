@@ -1,0 +1,267 @@
+---
+title: "지도제작 대회"
+subtitle: "민주당 전략공천 성과"
+description: |
+  민주당 전략공천 성과를 분석해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 공천과 선거결과 데이터셋
+
+민주당 공천 유형과 선거결과를 결합시킨 데이터를 제작한다.
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(gtExtras)
+
+minju_raw <- read_excel("data/precinct_nomination.xlsx")
+
+minju_raw <- minju_raw |> 
+  rename(선거구 = SGG_2_x)
+  
+chongsun_raw <- krvote::chongun_winner |> 
+  filter(cs_code == "20200415") |> 
+  ungroup() |> 
+  mutate(선거구 = glue::glue("{sido_name} {선거구명}")) |> 
+  mutate(당선자 = str_extract(`성명(한자)`, '.*?(?=\\()'))
+
+minju_res <- minju_raw |> 
+  left_join(chongsun_raw, by = "선거구")
+
+minju_tbl <- minju_res |> 
+  select(sido_name, 선거구명, 후보자, 당선자, 득표수, 득표율, 공천_유형) |> 
+  mutate(민주당선 = ifelse(후보자 == 당선자, "당선", "낙선")) 
+
+minju_tbl |> 
+  gt::gt()
+
+```
+
+
+# 분석
+
+## 선거결과
+
+```{r}
+library(gt)
+
+minju_tbl |> 
+  count(민주당선, name = "의원수") |> 
+  rename(구분 = 민주당선) |> 
+  arrange(desc(의원수)) |>   
+  mutate(비율 = 의원수 / sum(의원수)) |>   
+  janitor::adorn_totals("row", name = "합계") |> 
+  gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |> 
+  cols_align(align = "center") |> 
+  fmt_percent(columns = 비율, decimals = 1) |> 
+  tab_header(
+    title = md("민주당 후보 당선자수 및 비율"),
+    subtitle = md("제21대 국회의원 선거")
+  ) |> 
+  tab_style(
+    style = cell_fill(color = "gray85"),
+    locations = cells_body(
+      rows = 구분 == "당선"
+    )
+  )
+```
+
+
+## 공천 유형별
+
+공천 유형별 민주당 후보 당선율을 표로 표현하면 다음과 같다.
+
+```{r}
+win_type_gt <- minju_tbl |> 
+  count(민주당선, 공천_유형, name = "후보수") |> 
+  pivot_wider(names_from = 민주당선, values_from = 후보수, values_fill = 0) |> 
+  mutate(합계 = 낙선 + 당선) |>   
+  janitor::adorn_totals("row", name = "합계") |> 
+  mutate(당선율 = 당선/(당선+낙선)) |> 
+  relocate(당선, .before = 낙선) |> 
+  gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |> 
+  cols_align(align = "center") |> 
+  fmt_percent(columns = 당선율, decimals = 1) |> 
+  tab_header(
+    title = md("공천 유형별 민주당 후보 선거 결과"),
+    subtitle = md("제21대 국회의원 선거")
+  ) |> 
+  tab_style(
+    style = cell_fill(color = "gray85"),
+    locations = cells_body(
+      rows = 공천_유형 == "단수 공천"
+    )
+  ) |> 
+  tab_style(
+    style = cell_text(size = "medidum", weight = "bold"),
+    locations = cells_body(
+      rows = 공천_유형 == "합계"
+    )
+  ) |> 
+  tab_spanner(
+    label = "선거 통계",
+    columns = c(
+      당선, 낙선, 합계
+    )
+  )
+
+win_type_gt
+
+win_type_gt |>
+  gtsave(filename = "images/win_type_gt.png")
+
+```
+
+
+## 권역별, 공천 유형별
+
+공천 유형별 / 권역별 민주당 후보 당선율을 표로 표현하면 다음과 같다.
+
+
+
+```{r}
+
+region_type_gt <- minju_tbl |> 
+  mutate(권역 = case_when(sido_name %in% c("서울특별시", "경기도", "인천광역시") ~ "수도권",
+                          sido_name %in% c("부산광역시", "대구광역시", "경상남도",
+                                           "경상북도", "울산광역시") ~ "대구경북 부울경",
+                          TRUE ~ "그외 권역")   
+         ) |> 
+  mutate(권역 = factor(권역, levels = c("수도권", "그외 권역", "대구경북 부울경"))) |>
+  # filter(!str_detect(공천_유형, "청년")) |> 
+  count(민주당선, 공천_유형, 권역, name = "후보수") |> 
+  pivot_wider(names_from = 민주당선, values_from = 후보수, values_fill = 0) |> 
+  mutate(합계 = 낙선 + 당선) |>   
+  janitor::adorn_totals("row", name = "합계") |> 
+  mutate(당선율 = 당선/(당선+낙선)) |> 
+  relocate(당선, .before = 낙선) |> 
+  filter(공천_유형 != "합계") |> 
+  # filter(권역 == "수도권") |> 
+  # filter(권역 == "대구경북+부울경") |>
+  # filter(권역 == "그외 권역") |>   
+  # arrange(권역) |> 
+  gt(groupname_col = "권역", rowname_col = "공천_유형") |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |> 
+  cols_align(align = "center") |> 
+  fmt_percent(columns = 당선율, decimals = 1) |> 
+  tab_header(
+    title = md("권역별 공천유형 민주당 후보 선거 결과"),
+    subtitle = md("제21대 국회의원 선거")
+  ) |> 
+  tab_style(
+    style = cell_fill(color = "gray85"),
+    locations = cells_body(
+      rows = 공천_유형 == "단수 공천"
+    )
+  ) |> 
+  tab_style(
+    style = cell_text(size = "medidum", weight = "bold"),
+    locations = cells_body(
+      rows = 공천_유형 == "합계"
+    )
+  ) |> 
+  tab_spanner(
+    label = "선거 통계",
+    columns = c(
+      당선, 낙선, 합계
+    )
+  ) |> 
+  ## 표 전체 합계 -------------------------------------
+  grand_summary_rows(
+    columns = c(당선, 낙선, 합계),
+    fns =  list(label = "합계", id = "권역", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "top"
+  ) |>
+  grand_summary_rows(
+    columns = 당선율,
+    fns =  list(label = "합계", id = "권역", fn = "mean"),
+    fmt = ~ fmt_percent(., decimals = 0),
+    side = "top"
+  ) |>
+  ## 표 부분 합계 -------------------------------------
+  summary_rows(
+    # groups = TRUE,
+    columns = c(당선, 낙선, 합계),
+    fns = list(권역합계 = ~ sum(.))
+  ) |> 
+  summary_rows(
+    # groups = TRUE,
+    columns = c(당선율),
+    fns = list(권역합계 = ~ mean(.)),
+    fmt = ~ fmt_percent(., decimals = 0)
+  ) |> 
+  ## 강조 -------------------------------------  
+  tab_style(
+    style = cell_text(color = "blue", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      rows = 공천_유형 == "단수 공천" & 권역 == "수도권",
+      columns  = 당선율
+    )
+  ) |> 
+  tab_style(
+    style = cell_text(color = "red", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      rows = 공천_유형 == "단수 공천" & 권역 == "대구경북 부울경",
+      columns  = 당선율
+    )
+  ) 
+  
+region_type_gt
+
+region_type_gt |>
+  gtsave(filename = "images/region_type_gt.png")
+
+```
+
+
