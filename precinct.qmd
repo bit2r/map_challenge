@@ -37,6 +37,15 @@ editor_options:
   chunk_output_type: console
 ---
 
+::: {.callout-note}
+# 오마이뉴스 뉴스기사 (2023년 7월 24일)
+
+지난 총선 민주당 데이터 보니, 수도권도 '단수공천' 집중 '총선 후보자선출규정 특별당규 개정' 청원동의 5만 넘어... 민주당의 답변에 '주목'
+
+[뉴스기사 바로가기](https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0002947130&PAGE_CD=N0002&CMPT_CD=M0117)
+
+:::
+
 
 # 오마이뉴스 선거구
 
@@ -54,7 +63,10 @@ st_geometry(precinct) |> plot()
 ```
 
 
-## 데이터셋
+# 데이터셋
+
+더불어민주당 국민응답센터 [제22대 총선 후보자선출규정 특별당규 개정 청원](https://petitions.theminjoo.kr/23175005A8KKNN2)에서 청원에 담긴 내용 중 위키백과
+[대한민국 제21대 국회의원 선거 더불어민주당 후보 목록](https://bit.ly/41MRGay) 지역구와 후보자 데이터를 긁어온다.
 
 ```{r}
 library(rvest)
@@ -79,12 +91,21 @@ nomination <- sido_name |>
   select(-name) |> 
   janitor::clean_names(ascii = FALSE) 
 
-nomination
+nomination |> 
+  slice_sample(n = 10) |> 
+  select(-경력) |> 
+  gt::gt()
+
+# nomination |> 
+#   write_csv("data/nomination_wiki.csv")
+
 ```
 
 # 출판용
 
 ## 공천 유형
+
+전체 지역구 253개 중에 공천 유형별로 출판용 표로 제작한다.
 
 ```{r}
 library(janitor)
@@ -119,14 +140,14 @@ nomination_type_gt <- nomination |>
 
 nomination_type_gt
 
-nomination_type_gt |> 
-  gtsave(filename = "images/nomation_type_gt.png")
-
+# nomination_type_gt |> 
+#   gtsave(filename = "images/nomation_type_gt.png")
   
 ```
 
 
 ## 공천 상세
+
 
 ```{r}
 library(gt)
@@ -155,90 +176,32 @@ nomination |>
 ```
 
 
-# 카토그램
+# 인터랙티브 표
 
-[출처: [Mapping UN Votes on a hex grid](https://www.simoncoulombe.com/2018/01/unvotes_hexgrid/)]{.aside}
+`crosstalk` 패키지를 사용하여 시도별로 해당 후보만 살펴볼 수 있게 준비한다.
+`reactable` 패키지를 사용할 경우 더욱 미려한 출력결과를 얻을 수 있다.
 
-## 전국
+[[Client-side interactivity - do more with Crosstalk: Because sharing data is caring](https://themockup.blog/posts/2020-05-29-client-side-interactivity-do-more-with-crosstalk/index.html)]{.aside}
 
 ```{r}
-#| eval: false
+library(crosstalk)
+library(DT)
 
-library(geogrid)
-library(ggrepel)
+shared_nomination <- SharedData$new(nomination)
 
-precinct_cells <-  calculate_grid(precinct, 0.1, 'hexagonal')
-precinct_hex <- assign_polygons(precinct, precinct_cells)
-
-precinct_hex |> 
-  write_rds("data/precinct_hex.rds")
+bscols(
+  widths = c(3,NA),
+  list(
+    filter_select("시도명", label="시도명", shared_nomination, group = ~시도명)
+  ),
+  datatable(shared_nomination)
+)
 ```
 
 
+# 선거구와 공천유형
 
-```{r}
-precinct_hex <- 
-  read_rds("data/precinct_hex.rds")
-
-precinct_hex |> 
-  # filter(SGG_1 == '제주') |> 
-  ggplot() +
-    geom_sf() +
-    ggrepel::geom_text_repel(
-      data = precinct_hex,
-        aes(label = SGG_3, geometry = geometry), stat = "sf_coordinates", 
-        min.segment.length = 1, size = 2, max.overlaps = Inf
-    ) 
-```
-
-
-## 서울
-
-```{r}
-library(geogrid)
-library(ggrepel)
-
-
-seoul_precinct <- precinct |> filter(SGG_1 == "서울")
-
-seoul_precinct_cells <-  calculate_grid(shape=seoul_precinct, grid_type='hexagonal')
-seoul_precinct_hex <- assign_polygons(seoul_precinct, seoul_precinct_cells)
-
-
-seoul_precinct_hex |> 
-  ggplot() +
-    geom_sf() +
-    ggrepel::geom_text_repel(
-      data = seoul_precinct_hex,
-        aes(label = SGG_3, geometry = geometry), stat = "sf_coordinates", 
-        min.segment.length = 1, size = 3, max.overlaps = Inf
-    )
-
-seoul_precinct_hex |>
-  st_union() %>%
-  st_boundary() %>%
-  ggplot() +
-    geom_sf( lwd = 2 )
-
-
-# seoul_precinct <- seoul_precinct %>%
-#   mutate(tile_map = generate_map(geometry, square = FALSE, flat_topped = TRUE))
-
-
-# seoul_precinct |>
-#   st_union() %>%
-#   st_boundary() %>%
-#   ggplot() +
-#     geom_sf( lwd = 2 )
-
-# 
-# ggplot(seoul_precinct) +
-#   geom_sf(aes(geometry = tile_map))
-
-```
-
-
-# 선거구와 공천
+## 데이터셋
 
 `fuzzyjjoin` 함수를 사용해서 매칭을 하고 일부 잘못 매칭된 것은 수작업으로 보정한다.
 
@@ -257,6 +220,17 @@ precinct_nomination <- stringdist_left_join(precinct, nomination_tbl,
 precinct_nomination
 ```
 
+
+
+```{r}
+xfun::embed_file('data/precinct_nomination.xlsx')
+```
+
+## 지도 시각화
+
+민주당 후보와 공천유형에 대한 데이터 준비를 한 후에 공간정보 시각화를 위해서 
+지도데이터와 매핑 작업을 수행한 후에 전국과 수도권 지도를 결합시켜 시각화 결과물을 
+마무리한다.
 
 ```{r}
 extrafont::loadfonts()
@@ -315,7 +289,120 @@ nomination_type_final
 ```
 
 
+# 카토그램
+
+[출처: [Mapping UN Votes on a hex grid](https://www.simoncoulombe.com/2018/01/unvotes_hexgrid/)]{.aside}
+
+면적중심의 지도보다 인구비례로 작성된 지도가 훨씬 가독성이 좋고 상황을 파악하기 용이하다.
+이를 위해서 면적을 인구비례로 지도를 다시 제작한 후 결과값을 시각화한다.
+
+## 전국
+
 ```{r}
-xfun::embed_file('data/precinct_nomination.xlsx')
+#| eval: false
+
+library(geogrid)
+library(ggrepel)
+
+precinct_cells <-  calculate_grid(precinct, 0.1, 'hexagonal')
+precinct_hex <- assign_polygons(precinct, precinct_cells)
+
+precinct_hex |> 
+  write_rds("data/precinct_hex.rds")
 ```
+
+```{r}
+precinct_hex <- 
+  read_rds("data/precinct_hex.rds")
+
+precinct_hex |> 
+  ggplot() +
+    geom_sf()
+```
+
+
+## 서울
+
+```{r}
+sf_use_s2(FALSE)
+
+centroids <- precinct |> 
+  st_centroid() |> 
+  st_coordinates() %>% 
+  as_tibble()
+
+precinct_centroids <- precinct |> 
+  st_drop_geometry() |> 
+  as_tibble() |> 
+  bind_cols(centroids)
+
+precinct_centroids
+```
+
+
+```{r}
+library(geogrid)
+library(ggrepel)
+
+seoul_precinct <- precinct |> filter(SGG_1 == "서울")
+
+seoul_precinct_cells <-  calculate_grid(shape=seoul_precinct, grid_type='hexagonal')
+seoul_precinct_hex <- assign_polygons(seoul_precinct, seoul_precinct_cells)
+
+seoul_centroids_tbl <- seoul_precinct_hex |> 
+  st_centroid() |> 
+  st_coordinates() |> 
+  as_tibble() |> 
+  bind_cols(seoul_precinct_hex |> st_drop_geometry()) |> 
+  mutate(SGG_3 = str_remove(SGG_3, "서울\\s+"))
+
+seoul_precinct_hex |>
+  st_buffer(0.001) |> 
+  st_union() %>%
+  st_boundary() %>%
+  ggplot() +
+    geom_sf( lwd = 2 ) +
+    geom_sf(data = seoul_precinct_hex) +
+    geom_text(
+      data = seoul_centroids_tbl,
+        aes(x = X, y = Y, label = SGG_3), size = 4
+    ) 
+```
+
+## 수도권
+
+```{r}
+metro_precinct <- precinct |> filter(SGG_1 %in% c("서울", "경기", "인천"))
+
+metro_precinct_cells <-  calculate_grid(shape = metro_precinct, grid_type='hexagonal')
+metro_precinct_hex <- assign_polygons(metro_precinct, metro_precinct_cells)
+
+
+metro_centroids_tbl <- metro_precinct_hex |> 
+  st_centroid() |> 
+  st_coordinates() |> 
+  as_tibble() |> 
+  bind_cols(metro_precinct_hex |> st_drop_geometry()) |> 
+  mutate(SGG_3 = str_remove(SGG_3, "(서울)|(경기)|(인천)\\s+"))
+
+seoul_boundary_hex <- metro_precinct_hex |>
+  filter(SGG_1 == "서울") |> 
+  st_buffer(0.01) |> 
+  st_union() %>%
+  st_boundary() 
+
+metro_precinct_hex |>
+  st_buffer(0.001) |> 
+  st_union() %>%
+  st_boundary() %>%
+  ggplot() +
+    geom_sf( lwd = 2 ) +
+    geom_sf(data = metro_precinct_hex, fill = "transparent") +
+    geom_sf(data = seoul_boundary_hex, color = "blue", fill = "skyblue", lwd = 3) +
+    geom_text(
+      data = metro_centroids_tbl,
+        aes(x = X, y = Y, label = SGG_3), size = 3
+    ) 
+```
+
 
