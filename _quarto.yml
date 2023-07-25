@@ -58,6 +58,8 @@ website:
             text: "국회의원 선거구"
           - href: minju_nomination.qmd
             text: "민주당 전략공천 성과"
+          - href: electorate.qmd
+            text: "제21대 총선 선거인수"
 format:
   html:
     theme:
