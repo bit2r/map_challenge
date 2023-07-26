@@ -334,19 +334,33 @@ pop_tbl |>
 
 ```
 
-# 2. 분석
+## 분석
 
 ```{r}
-#| eval: false
-pop_tbl |> 
-  mutate(인구수 = parse_number(인구수)) |>
-  filter(인구수 == min(인구수) |
-         인구수 == max(인구수) |
-         인구수 == median(인구수) )
+
+pop_tbl <- 
+  read_csv("data/제21대총선_선거구_획정.csv")
 
 pop_tbl |> 
   ggplot(aes(x=시도명, y=인구수, group = 시도명)) +
     geom_boxplot() +
     theme_linedraw(base_family = "AppleGothic")
+```
+
+
+
+```{r}
+pop_tbl |> 
+  mutate(변동여부 = ifelse(is.na(변동), "없음", "변동")) |> 
+  count(변동여부)
+```
+
+
+```{r}
+library(ggbeeswarm)
+
+pop_tbl |> 
+  ggplot(aes(x = 시도명, y=인구수)) +
+    geom_beeswarm()
 ```
 

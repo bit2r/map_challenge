@@ -40,11 +40,8 @@ website:
             text: "지오코딩"
           - href: day_heatmap.qmd
             text: "열지도(heatmap)"
-      - text: "광명시"
-        menu: 
-          - href: km_school.qmd
-            text: "학교와 CCTV"
-      - text: "GIS 도구"
+            
+      - text: "GIS 분석"
         menu: 
           - href: spatial_map.qmd
             text: "지도(Map)"
@@ -54,12 +51,19 @@ website:
             text: "황해"
           - href: yellow_sea2.qmd
             text: "황해2"
+          - href: gg_analytics_center.qmd
+            text: "경기 데이터 분석 센터"            
+          - href: km_school.qmd
+            text: "광명시 학교와 CCTV"
+
+      - text: "제21대 국회의원 선거"
+        menu: 
           - href: precinct.qmd
             text: "국회의원 선거구"
           - href: minju_nomination.qmd
             text: "민주당 전략공천 성과"
           - href: electorate.qmd
-            text: "제21대 총선 선거인수"
+            text: "제21대 총선 선거인수"            
 format:
   html:
     theme:
