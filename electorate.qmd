@@ -1,8 +1,8 @@
 ---
 title: "지도제작 대회"
-subtitle: "선거인수"
+subtitle: "선거구 유권자수"
 description: |
-  제21대 총선 선거구별 선거인수 데이터를 분석한다.
+  선거획정위원회 선거구 유권자수 변화를 살펴보자.
 author:
   - name: 이광춘
     url: https://www.linkedin.com/in/kwangchunlee/
@@ -38,245 +38,10 @@ editor_options:
 ---
 
 
-# 선거구 SVG 파일
 
-[File:South Korean legislative election map (2020).svg](https://commons.wikimedia.org/wiki/File:South_Korean_legislative_election_map_(2020).svg) 파일을 가져와서 시각화한다.
+# 제21대 국회의원
 
-```{r}
-library(magick)
-
-precinct_svg <- magick::image_read("data/South_Korean_legislative_election_map_(2020).svg")
-image_ggplot(precinct_svg)
-```
-
-
-# 선거구
-
-## 선거구수 및 정수 현황
-
-```{r}
-library(tidyverse)
-
-election_cd <- tribble(~"선거코드", ~"선거명",
-         "20200415", "제21대",
-         "20160413", "제20대",
-         "20120411", "제19대",
-         "20080409", "제18대",
-         "20040415", "제17대")
-
-election_cd |> 
-  gt::gt()
-```
-
-
-## 제21대 총선
-
-```{r}
-library(httr)
-library(rvest)
-
-req_url <- glue::glue("http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?electionId=0000000000",
-           "&requestURI=%2Felectioninfo%2F0000000000%2Fbi%2Fbigi01.jsp",             
-           "&topMenuId=BI",
-           "&secondMenuId=BIGI01", 
-           "&menuId=BIGI01", 
-           "&statementId=BIGI02",
-           "&oldElectionType=", 
-           "&electionType=2",
-           "&electionName=20200415",
-           "&electionCode=-1",
-           "&x=73", 
-           "&y=20")
-
-resp <- httr::GET(req_url)
-
-resp_lst <- content(resp) |> 
-  html_table()
-
-precinct <- resp_lst[[1]] |> 
-  janitor::clean_names() |> 
-  select(1:3) |> 
-  set_names(c("시도명", "선거구수", "정수")) |> 
-  slice(4:n()) 
-
-precinct |> 
-  gt::gt()
-
-```
-
-## 함수로 변환
-
-```{r}
-get_precinct <- function(election='20200415') {
-  
-  req_url <- glue::glue("http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?electionId=0000000000",
-           "&requestURI=%2Felectioninfo%2F0000000000%2Fbi%2Fbigi01.jsp",             
-           "&topMenuId=BI",
-           "&secondMenuId=BIGI01", 
-           "&menuId=BIGI01", 
-           "&statementId=BIGI02",
-           "&oldElectionType=", 
-           "&electionType=2",
-           "&electionName={election}",
-           "&electionCode=-1",
-           "&x=73", 
-           "&y=20")
-
-  resp <- httr::GET(req_url)
-  
-  resp_lst <- content(resp) |> 
-    html_table()
-  
-  precinct <- resp_lst[[1]] |> 
-    janitor::clean_names() |> 
-    select(1:3) |> 
-    set_names(c("시도명", "선거구수", "정수")) |> 
-    slice(4:n()) 
-  
-  return(precinct)
-}
-
-get_precinct()
-```
-
-
-
-## 제17~21대 총선
-
-
-```{r}
-precinct_raw <- election_cd |> 
-  mutate(data = map(선거코드, get_precinct))
-
-# precinct_raw |> 
-#   write_rds("data/precinct_raw.rds")
-
-precinct_raw
-```
-
-# 분석
-
-## 지역구 vs 비례대표
-
-```{r}
-library(ggrepel)
-extrafont::loadfonts()
-
-precinct_raw <- 
-  read_rds("data/precinct_raw.rds")
-
-precinct_tbl <- precinct_raw |> 
-  unnest() |> 
-  mutate(선거구수 = parse_integer(선거구수),
-         정수     = parse_integer(정수)) |> 
-  mutate(지역비례 = ifelse(str_detect(시도명, "전국"), "비례대표", "지역구")) |> 
-  mutate(시도명 = ifelse(시도명 == "제주도", "제주특별자치도", 시도명))
-
-local_prop_gg <- precinct_tbl |> 
-  group_by(선거명, 지역비례) |> 
-  summarise(정수 = sum(정수)) |> 
-  ggplot(aes(x = 선거명, y = 정수, group=지역비례)) +
-    geom_line(aes(color = 지역비례)) +
-    geom_point(aes(color = 지역비례), size = 3) +
-    geom_text_repel(aes(label = 정수, color = 지역비례), size = 4) +
-    theme_light(base_family = "MaruBuri") +
-    labs(x = "",
-         title = "역대 국회의원선거 비례대표와 지역구 정수변화",
-         ) +
-    theme(legend.position = "top") +
-    scale_color_manual(values = c("black", "blue")) +
-    expand_limits(y=0)
-
-local_prop_gg
-
-ragg::agg_jpeg("images/국회의원_지역_비례_정수.jpg", 
-              width = 10, height = 7, units = "in", res = 600)
-local_prop_gg
-dev.off()
-
-```
-
-
-## 지역구 시도
-
-```{r}
-library(gt)
-library(gtExtras)
-
-precinct_sido <- precinct_tbl |> 
-  mutate(선거코드 = as.integer(선거코드)) |> 
-  filter(!str_detect(시도명, "전국")) |> 
-  filter(선거코드 == max(선거코드) | 선거코드 == min(선거코드)) |> 
-  select(시도명, 선거코드, 정수) |> 
-  pivot_wider(names_from = 선거코드, values_from = 정수, values_fill = 0) |> 
-  mutate(정수변화 =  `20200415` - `20040415`) |> 
-  arrange(-정수변화)
-  # janitor::adorn_totals(name = "총합")
-  
-
-precinct_chg_gt <- precinct_sido |> 
-  gt() |> 
-  gt_theme_538() |> 
-  tab_options(
-    heading.title.font.size = px(16L),
-    column_labels.font.size = px(14L),
-    table.font.size = px(12L)
-  ) |> 
-  cols_align(align = "center") |> 
-  tab_header(
-    title = md("국회의원 선거 지역구 시도별 정수 변화"),
-    subtitle = md("중앙선거관리위원회 선거통계")
-  ) |> 
-  ## 표 전체 합계 -------------------------------------
-  grand_summary_rows(
-    columns = c(`20200415`,	`20040415`,	정수변화),
-    fns =  list(label = "", fn = "sum"),
-    fmt = ~ fmt_integer(.),
-    side = "top"
-  ) |> 
-  ## 강조 -------------------------------------  
-  tab_style(
-    style = cell_text(color = "blue", size = px(15L), weight = "bold"),
-    locations = cells_body(
-      rows = 시도명 == "경기도",
-      columns  = 정수변화
-    )
-  ) |> 
-  tab_style(
-    style = cell_fill(color = "blue", alpha = 0.1),
-    locations = cells_body(
-      rows = 정수변화 > 0
-    )
-  ) |> 
-  tab_style(
-    style = cell_text(color = "red", size = px(15L), weight = "bold"),
-    locations = cells_body(
-      rows = 정수변화 < 0,
-      columns  = 정수변화
-    )
-  )  |> 
-  tab_style(
-    style = cell_fill(color = "red", alpha = 0.1),
-    locations = cells_body(
-      rows = 정수변화 < 0
-    )
-  ) |>    
-  ## 변수명 -------------------------------------    
-  cols_label(
-    `20200415` = html("제21대 <br> 20200415"),
-    `20040415` = html("제17대 <br> 20040415")
-  )
-
-precinct_chg_gt
-
-
-precinct_chg_gt |>
-  gtsave(filename = "images/precinct_chg_gt.png")
-
-```
-
-
-# 선거구와 선거인수
+## 데이터셋
 
 ``` {r}
 #| eval: false
@@ -327,7 +92,8 @@ sido_pop <- sido_raw |>
 pop_tbl <- bind_cols(sido_tbl, sido_pop) |> 
   unnest(value) |> 
   rename(인구수 =  `인구[A]`) |> 
-  mutate(인구수 = parse_number(인구수))
+  mutate(인구수 = parse_number(인구수)) |> 
+  mutate(선거구 = str_remove(선거구, "\\[\\d{1,3}\\]"))  
 
 pop_tbl |> 
   write_csv("data/제21대총선_선거구_획정.csv")
@@ -336,31 +102,126 @@ pop_tbl |>
 
 ## 분석
 
+### 총계
+
 ```{r}
+library(tidyverse)
 
 pop_tbl <- 
   read_csv("data/제21대총선_선거구_획정.csv")
 
 pop_tbl |> 
-  ggplot(aes(x=시도명, y=인구수, group = 시도명)) +
-    geom_boxplot() +
-    theme_linedraw(base_family = "AppleGothic")
-```
-
-
-
-```{r}
-pop_tbl |> 
   mutate(변동여부 = ifelse(is.na(변동), "없음", "변동")) |> 
-  count(변동여부)
+  count(변동여부, name = "선거구수") |> 
+  mutate(비율 = 선거구수 / sum(선거구수)) |> 
+  janitor::adorn_totals(name = "합계")
 ```
 
+### 시도별
 
 ```{r}
-library(ggbeeswarm)
+pop_tbl |> 
+  mutate(변동여부 = ifelse(is.na(변동), "미변동", "변동")) |> 
+  count(시도명, 변동여부, name = "선거구수") |> 
+  pivot_wider(names_from = 변동여부, values_from = 선거구수, values_fill = 0) |> 
+  mutate(총선거구 = 변동 + 미변동) |> 
+  mutate(변동비율 = 변동 / 총선거구) |> 
+  arrange(desc(변동비율))
+```
+
+
+# 제20대 국회의원
+
+## 데이터셋
+
+``` {r}
+#| eval: false
+
+# 0. packages -------------------------------------------------------------
+
+library(tidyverse)
+library(rvest)
+
+# 1. data -----------------------------------------------------------------
+url <- "https://namu.wiki/w/%EC%A0%9C20%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EC%84%A0%EA%B1%B0/%EC%84%A0%EA%B1%B0%EA%B5%AC%20%ED%9A%8D%EC%A0%95"
+
+sido_names <- read_html(url) |> 
+  html_nodes("h3") |> 
+  html_text()
+
+sido20_tbl <- sido_names |> 
+  enframe() |> 
+  separate(value, into = c("index", "idx2", "시도명"), sep = "\\.")  |> 
+  mutate(시도명 = str_extract(시도명, pattern = '(.*?)(?=\\[)') |> str_trim())  |> 
+  select(시도명)
+
+sido20_tbl
+
+## 1.2. 시도 인구수-----------------------------------------------------------------
+
+sido20_raw <- read_html(url) |> 
+  html_nodes("table") |> 
+  html_table(header = TRUE)
+
+sido20_pop <- sido20_raw |> 
+  enframe() |> 
+  mutate(names = map(value, names)) |> 
+  mutate(names = map_chr(names, paste0, collapse=" ")) |> 
+  filter(str_detect(names, "선거구의 명칭")) |> 
+  select(value) 
+
+## 1.3. 결합-----------------------------------------------------------------
+
+pop20_tbl <- bind_cols(sido20_tbl, sido20_pop) |> 
+  unnest(value) |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  rename(인구수 =  인구,
+         선거구 = 선거구의_명칭) |> 
+  mutate(인구수 = parse_number(인구수)) |> 
+  mutate(선거구 = str_remove(선거구, "\\[\\d{1,3}\\]"))
+
+pop20_tbl |> 
+  write_csv("data/제20대총선_선거구_획정.csv")
+
+```
+
+## 분석
+
+### 총계
+
+```{r}
+library(tidyverse)
+
+pop20_tbl <- 
+  read_csv("data/제20대총선_선거구_획정.csv")
+```
+
+### 시도별
+
+```{r}
+pop20_tbl |> 
+  count(시도명, name = "선거구수", sort=TRUE) |> 
+  mutate(비율 = 선거구수 / sum(선거구수)) |> 
+  arrange(desc(비율)) |> 
+  mutate(누적비율 = cumsum(비율)) 
+```
+
+# 제20~21대 교차분석
+
+```{r}
+pop21_tbl <- pop_tbl |> 
+  select(시도명, 선거구, 인구수21=인구수)
+
+pop_tbl <- pop21_tbl |> 
+  full_join(pop20_tbl |> rename(인구수20 = 인구수) |> select(-상세), 
+            by = c("시도명", "선거구")) |> 
+  distinct() |> 
+  relocate(인구수20, .before=인구수21)
 
 pop_tbl |> 
-  ggplot(aes(x = 시도명, y=인구수)) +
-    geom_beeswarm()
+  arrange(시도명, 선거구) |> 
+  View()
+
 ```
+
 
