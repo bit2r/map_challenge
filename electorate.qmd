@@ -41,6 +41,9 @@ editor_options:
 
 # 제21대 국회의원
 
+- [제21대 국회의원 선거/선거구 획정 ](https://namu.wiki/w/%EC%A0%9C21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EC%84%A0%EA%B1%B0/%EC%84%A0%EA%B1%B0%EA%B5%AC%20%ED%9A%8D%EC%A0%95)
+- [제20대 국회의원 선거/선거구 획정 ](https://namu.wiki/w/%EC%A0%9C20%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EC%84%A0%EA%B1%B0/%EC%84%A0%EA%B1%B0%EA%B5%AC%20%ED%9A%8D%EC%A0%95)
+
 ## 데이터셋
 
 ``` {r}
@@ -228,14 +231,6 @@ pop_tbl <- pop21_tbl |> rename(인구수21 = 인구수) |>
 ```
 
 
-## 변경된 선거구
-
-```{r}
-pop_tbl |> 
-  count(변경내역)
-```
-
-
 ## 제21대 선거결과
 
 ```{r}
@@ -272,15 +267,171 @@ pop_tbl |>
 ```
 
 
-# 표
+# 기사화
+
+## 선거구 총계
 
 ```{r}
-pop_tbl |> 
-  filter(변경내역 != "변동없음") |> 
-  select(시도명, 선거구, 변경내역) |> 
-  arrange(시도명, 선거구)
+library(gt)
+library(gtExtras)
+
+chg_total_gt <- pop_tbl |> 
+  count(변경내역, name = "선거구수") |> 
+  pivot_wider(names_from = 변경내역, values_from = 선거구수)  |> 
+  mutate(비율 = 생성 / (변동없음+생성),
+         총선거구 = 생성 + 변동없음) |> 
+  relocate(총선거구, .before = 변동없음) |> 
+  gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |> 
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("변경된 국회의원 선거구"),
+    subtitle = md("나무위키: 제21대 국회의원 선거/선거구 획정 ")
+  ) |> 
+  fmt_percent(columns = 비율, decimals = 1) |> 
+  tab_spanner(
+    label = "변경 선거구수",
+    columns = c(
+      생성, 소멸
+    )
+  ) |> 
+  tab_style(
+    style = cell_text(color = "blue", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      columns  = 비율
+    )
+  )
+
+chg_total_gt
+
+chg_total_gt |>
+  gtsave(filename = "images/chg_total_gt.png")
+```
+
+
+## 정당별 선거결과
+
+```{r}
+winner_21 <- krvote::chongun_winner |> 
+  ungroup() |> 
+  rename(시도명 = sido_name,
+         선거구 = 선거구명) |>  
+  filter(cs_name == "제21대")
+
+chg_party_gt <- pop_tbl |> 
+  filter(변경내역 == "생성") |> 
+  left_join(winner_21, by = c("시도명", "선거구")) |> 
+  count(정당명, name = "지역구수") |> 
+  mutate(비율 = 지역구수 / sum(지역구수)) |> 
+  arrange(desc(지역구수)) |> 
+  gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |> 
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("변경 국회의원 선거구 선거결과"),
+    subtitle = md("나무위키 및 중앙선거관리위원회 선거통계")
+  ) |> 
+  fmt_percent(columns = 비율, decimals = 1) |> 
+  ## 표 전체 합계 -------------------------------------
+  grand_summary_rows(
+    columns = c(지역구수),
+    fns =  list(label = "", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "top"
+  ) |> 
+  grand_summary_rows(
+    columns = 비율,
+    fns =  list(label = "", fn = "sum"),
+    fmt = ~ fmt_percent(., decimals = 1),
+    side = "top"
+  )  
+
+chg_party_gt
+
+chg_party_gt |>
+  gtsave(filename = "images/chg_party_gt.png")
+
 ```
 
 
 
+## 시도별 선거구
+
+```{r}
+winner_21 <- krvote::chongun_winner |> 
+  ungroup() |> 
+  rename(시도명 = sido_name,
+         선거구 = 선거구명) |>  
+  filter(cs_name == "제21대")
+
+chg_party_sido_gt <- pop_tbl |> 
+  filter(변경내역 == "생성") |> 
+  left_join(winner_21, by = c("시도명", "선거구")) |> 
+  count(시도명, 정당명, name = "지역구수") |> 
+  mutate(비율 = 지역구수 / sum(지역구수)) |> 
+  arrange(desc(지역구수)) |> 
+  gt(groupname_col = "정당명") |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |> 
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("변경 국회의원 선거구 선거결과"),
+    subtitle = md("나무위키 및 중앙선거관리위원회 선거통계")
+  ) |> 
+  fmt_percent(columns = 비율, decimals = 1) |> 
+  ## 표 전체 합계 -------------------------------------
+  grand_summary_rows(
+    columns = c(지역구수),
+    fns =  list(label = "", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "top"
+  ) |> 
+  grand_summary_rows(
+    columns = 비율,
+    fns =  list(label = "", fn = "sum"),
+    fmt = ~ fmt_percent(., decimals = 1),
+    side = "top"
+  )  
+
+chg_party_sido_gt
+
+chg_party_gt |>
+  gtsave(filename = "images/chg_party_sido_gt.png")
+
+```
+
+# 상세
+
+```{r}
+pop_tbl |> 
+  filter(변경내역 == "생성") |> 
+  left_join(winner_21, by = c("시도명", "선거구")) |> 
+  select(시도명, 선거구, 정당명, `성명(한자)`, 득표수, 득표율, 관할구역) |> 
+  gt(groupname_col = "시도명") |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |> 
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("변경 국회의원 선거구 선거결과 상세"),
+    subtitle = md("나무위키 및 중앙선거관리위원회 선거통계")
+  ) 
+```
 
