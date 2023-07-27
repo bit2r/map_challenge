@@ -194,6 +194,10 @@ library(tidyverse)
 
 pop20_tbl <- 
   read_csv("data/제20대총선_선거구_획정.csv")
+
+pop21_tbl <- 
+  read_csv("data/제21대총선_선거구_획정.csv")
+
 ```
 
 ### 시도별
@@ -209,19 +213,74 @@ pop20_tbl |>
 # 제20~21대 교차분석
 
 ```{r}
-pop21_tbl <- pop_tbl |> 
-  select(시도명, 선거구, 인구수21=인구수)
 
-pop_tbl <- pop21_tbl |> 
+pop_tbl <- pop21_tbl |> rename(인구수21 = 인구수) |> 
   full_join(pop20_tbl |> rename(인구수20 = 인구수) |> select(-상세), 
             by = c("시도명", "선거구")) |> 
   distinct() |> 
-  relocate(인구수20, .before=인구수21)
+  relocate(인구수20, .before=인구수21) |> 
+  mutate(변경여부 = ifelse(is.na(인구수20) | is.na(인구수21), "변경", "미변경")) |>
+  mutate(변경내역 = case_when(is.na(인구수20) & !is.na(인구수21) ~ "생성", 
+                              !is.na(인구수20) & is.na(인구수21) ~ "소멸",
+                              TRUE ~ "변동없음")) |> 
+  mutate(선거구 = str_extract_all(선거구, "[가-힣]+")) |> 
+  mutate(선거구 = map_chr(선거구, paste0, collapse=""))
+```
+
+
+## 변경된 선거구
+
+```{r}
+pop_tbl |> 
+  count(변경내역)
+```
+
+
+## 제21대 선거결과
+
+```{r}
+winner_21 <- krvote::chongun_winner |> 
+  ungroup() |> 
+  rename(시도명 = sido_name,
+         선거구 = 선거구명) |>  
+  filter(cs_name == "제21대")
+
 
 pop_tbl |> 
-  arrange(시도명, 선거구) |> 
-  View()
-
+  filter(변경내역 == "생성") |> 
+  left_join(winner_21, by = c("시도명", "선거구")) |> 
+  count(정당명, name = "지역구수") |> 
+  mutate(비율 = 지역구수 / sum(지역구수))
 ```
+
+
+## 제20대 선거결과
+
+```{r}
+winner_20 <- krvote::chongun_winner |> 
+  ungroup() |> 
+  rename(시도명 = sido_name,
+         선거구 = 선거구명) |>  
+  filter(cs_name == "제20대")
+
+
+pop_tbl |> 
+  filter(변경내역 == "소멸") |> 
+  left_join(winner_20, by = c("시도명", "선거구")) |> 
+  count(정당명, name = "지역구수") |> 
+  mutate(비율 = 지역구수 / sum(지역구수))
+```
+
+
+# 표
+
+```{r}
+pop_tbl |> 
+  filter(변경내역 != "변동없음") |> 
+  select(시도명, 선거구, 변경내역) |> 
+  arrange(시도명, 선거구)
+```
+
+
 
 

@@ -942,7 +942,7 @@
     "href": "electorate.html#분석-1",
     "title": "지도제작 대회",
     "section": "\n2.2 분석",
-    "text": "2.2 분석\n\n2.2.1 총계\n\n코드library(tidyverse)\n\npop20_tbl &lt;- \n  read_csv(\"data/제20대총선_선거구_획정.csv\")\n\n\n\n2.2.2 시도별\n\n코드pop20_tbl |&gt; \n  count(시도명, name = \"선거구수\", sort=TRUE) |&gt; \n  mutate(비율 = 선거구수 / sum(선거구수)) |&gt; \n  arrange(desc(비율)) |&gt; \n  mutate(누적비율 = cumsum(비율)) \n#&gt; # A tibble: 17 × 4\n#&gt;    시도명         선거구수    비율 누적비율\n#&gt;    &lt;chr&gt;             &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;\n#&gt;  1 경기도               65 0.246      0.246\n#&gt;  2 서울특별시           50 0.189      0.436\n#&gt;  3 부산광역시           19 0.0720     0.508\n#&gt;  4 경상남도             16 0.0606     0.568\n#&gt;  5 경상북도             13 0.0492     0.617\n#&gt;  6 인천광역시           13 0.0492     0.667\n#&gt;  7 충청남도             13 0.0492     0.716\n#&gt;  8 대구광역시           12 0.0455     0.761\n#&gt;  9 전라북도             11 0.0417     0.803\n#&gt; 10 전라남도             10 0.0379     0.841\n#&gt; 11 광주광역시            9 0.0341     0.875\n#&gt; 12 강원도                8 0.0303     0.905\n#&gt; 13 충청북도              8 0.0303     0.936\n#&gt; 14 대전광역시            7 0.0265     0.962\n#&gt; 15 울산광역시            6 0.0227     0.985\n#&gt; 16 제주특별자치도        3 0.0114     0.996\n#&gt; 17 세종특별자치시        1 0.00379    1"
+    "text": "2.2 분석\n\n2.2.1 총계\n\n코드library(tidyverse)\n\npop20_tbl &lt;- \n  read_csv(\"data/제20대총선_선거구_획정.csv\")\n\npop21_tbl &lt;- \n  read_csv(\"data/제21대총선_선거구_획정.csv\")\n\n\n\n2.2.2 시도별\n\n코드pop20_tbl |&gt; \n  count(시도명, name = \"선거구수\", sort=TRUE) |&gt; \n  mutate(비율 = 선거구수 / sum(선거구수)) |&gt; \n  arrange(desc(비율)) |&gt; \n  mutate(누적비율 = cumsum(비율)) \n#&gt; # A tibble: 17 × 4\n#&gt;    시도명         선거구수    비율 누적비율\n#&gt;    &lt;chr&gt;             &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;\n#&gt;  1 경기도               65 0.246      0.246\n#&gt;  2 서울특별시           50 0.189      0.436\n#&gt;  3 부산광역시           19 0.0720     0.508\n#&gt;  4 경상남도             16 0.0606     0.568\n#&gt;  5 경상북도             13 0.0492     0.617\n#&gt;  6 인천광역시           13 0.0492     0.667\n#&gt;  7 충청남도             13 0.0492     0.716\n#&gt;  8 대구광역시           12 0.0455     0.761\n#&gt;  9 전라북도             11 0.0417     0.803\n#&gt; 10 전라남도             10 0.0379     0.841\n#&gt; 11 광주광역시            9 0.0341     0.875\n#&gt; 12 강원도                8 0.0303     0.905\n#&gt; 13 충청북도              8 0.0303     0.936\n#&gt; 14 대전광역시            7 0.0265     0.962\n#&gt; 15 울산광역시            6 0.0227     0.985\n#&gt; 16 제주특별자치도        3 0.0114     0.996\n#&gt; 17 세종특별자치시        1 0.00379    1"
   },
   {
     "objectID": "electorate.html#데이터셋",
@@ -964,5 +964,26 @@
     "title": "지도제작 대회",
     "section": "\n2.1 데이터셋",
     "text": "2.1 데이터셋\n\n코드# 0. packages -------------------------------------------------------------\n\nlibrary(tidyverse)\nlibrary(rvest)\n\n# 1. data -----------------------------------------------------------------\nurl &lt;- \"https://namu.wiki/w/%EC%A0%9C20%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%20%EC%84%A0%EA%B1%B0/%EC%84%A0%EA%B1%B0%EA%B5%AC%20%ED%9A%8D%EC%A0%95\"\n\nsido_names &lt;- read_html(url) |&gt; \n  html_nodes(\"h3\") |&gt; \n  html_text()\n\nsido20_tbl &lt;- sido_names |&gt; \n  enframe() |&gt; \n  separate(value, into = c(\"index\", \"idx2\", \"시도명\"), sep = \"\\\\.\")  |&gt; \n  mutate(시도명 = str_extract(시도명, pattern = '(.*?)(?=\\\\[)') |&gt; str_trim())  |&gt; \n  select(시도명)\n\nsido20_tbl\n\n## 1.2. 시도 인구수-----------------------------------------------------------------\n\nsido20_raw &lt;- read_html(url) |&gt; \n  html_nodes(\"table\") |&gt; \n  html_table(header = TRUE)\n\nsido20_pop &lt;- sido20_raw |&gt; \n  enframe() |&gt; \n  mutate(names = map(value, names)) |&gt; \n  mutate(names = map_chr(names, paste0, collapse=\" \")) |&gt; \n  filter(str_detect(names, \"선거구의 명칭\")) |&gt; \n  select(value) \n\n## 1.3. 결합-----------------------------------------------------------------\n\npop20_tbl &lt;- bind_cols(sido20_tbl, sido20_pop) |&gt; \n  unnest(value) |&gt; \n  janitor::clean_names(ascii = FALSE) |&gt; \n  rename(인구수 =  인구,\n         선거구 = 선거구의_명칭) |&gt; \n  mutate(인구수 = parse_number(인구수)) |&gt; \n  mutate(선거구 = str_remove(선거구, \"\\\\[\\\\d{1,3}\\\\]\"))\n\npop20_tbl |&gt; \n  write_csv(\"data/제20대총선_선거구_획정.csv\")"
+  },
+  {
+    "objectID": "electorate.html#변경된-선거구",
+    "href": "electorate.html#변경된-선거구",
+    "title": "지도제작 대회",
+    "section": "\n3.1 변경된 선거구",
+    "text": "3.1 변경된 선거구\n\n코드pop_tbl |&gt; \n  count(변경내역)\n#&gt; # A tibble: 3 × 2\n#&gt;   변경내역     n\n#&gt;   &lt;chr&gt;    &lt;int&gt;\n#&gt; 1 변동없음   232\n#&gt; 2 생성        21\n#&gt; 3 소멸        21"
+  },
+  {
+    "objectID": "electorate.html#제21대-선거결과",
+    "href": "electorate.html#제21대-선거결과",
+    "title": "지도제작 대회",
+    "section": "\n3.2 제21대 선거결과",
+    "text": "3.2 제21대 선거결과\n\n코드winner_21 &lt;- krvote::chongun_winner |&gt; \n  ungroup() |&gt; \n  rename(시도명 = sido_name,\n         선거구 = 선거구명) |&gt;  \n  filter(cs_name == \"제21대\")\n\n\npop_tbl |&gt; \n  filter(변경내역 == \"생성\") |&gt; \n  left_join(winner_21, by = c(\"시도명\", \"선거구\")) |&gt; \n  count(정당명, name = \"지역구수\") |&gt; \n  mutate(비율 = 지역구수 / sum(지역구수))\n#&gt; # A tibble: 3 × 3\n#&gt;   정당명       지역구수   비율\n#&gt;   &lt;chr&gt;           &lt;int&gt;  &lt;dbl&gt;\n#&gt; 1 더불어민주당       11 0.524 \n#&gt; 2 무소속              1 0.0476\n#&gt; 3 미래통합당          9 0.429"
+  },
+  {
+    "objectID": "electorate.html#제20대-선거결과",
+    "href": "electorate.html#제20대-선거결과",
+    "title": "지도제작 대회",
+    "section": "\n3.3 제20대 선거결과",
+    "text": "3.3 제20대 선거결과\n\n코드winner_20 &lt;- krvote::chongun_winner |&gt; \n  ungroup() |&gt; \n  rename(시도명 = sido_name,\n         선거구 = 선거구명) |&gt;  \n  filter(cs_name == \"제20대\")\n\n\npop_tbl |&gt; \n  filter(변경내역 == \"소멸\") |&gt; \n  left_join(winner_20, by = c(\"시도명\", \"선거구\")) |&gt; \n  count(정당명, name = \"지역구수\") |&gt; \n  mutate(비율 = 지역구수 / sum(지역구수))\n#&gt; # A tibble: 4 × 3\n#&gt;   정당명       지역구수   비율\n#&gt;   &lt;chr&gt;           &lt;int&gt;  &lt;dbl&gt;\n#&gt; 1 국민의당            1 0.0476\n#&gt; 2 더불어민주당        6 0.286 \n#&gt; 3 무소속              4 0.190 \n#&gt; 4 새누리당           10 0.476"
   }
 ]
