@@ -389,7 +389,7 @@ chg_party_sido_gt <- pop_tbl |>
   ) |> 
   cols_align(align = "center") |> 
   tab_header(
-    title = md("변경 국회의원 선거구 선거결과"),
+    title = md("시도별 변경 국회의원 선거구 선거결과"),
     subtitle = md("나무위키 및 중앙선거관리위원회 선거통계")
   ) |> 
   fmt_percent(columns = 비율, decimals = 1) |> 
@@ -409,7 +409,7 @@ chg_party_sido_gt <- pop_tbl |>
 
 chg_party_sido_gt
 
-chg_party_gt |>
+chg_party_sido_gt |>
   gtsave(filename = "images/chg_party_sido_gt.png")
 
 ```
