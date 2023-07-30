@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR" xml:lang="ko-KR"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="이광춘">
+<meta name="description" content="국회의원 선거구획정 선거구별 평균, 상한/하한 인구수 분석">
+<title>지도제작 대회</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script><link rel="stylesheet" href="css/quarto.scss">
+</head>
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">지도제작 대회</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="검색"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">지도 그리기</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">
+<li>
+    <a class="dropdown-item" href="./day_01.html" rel="" target="">
+ <span class="dropdown-text">지도 색칠</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_02.html" rel="" target="">
+ <span class="dropdown-text">인구수 점(Point)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_03.html" rel="" target="">
+ <span class="dropdown-text">스파이크(Spike map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_04.html" rel="" target="">
+ <span class="dropdown-text">지형도(Topographic map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_05.html" rel="" target="">
+ <span class="dropdown-text">3D 표고 지도(독도)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_06.html" rel="" target="">
+ <span class="dropdown-text">아시아국가 실업율(%)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_07.html" rel="" target="">
+ <span class="dropdown-text">인터랙티브 지도(Mapview)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_08.html" rel="" target="">
+ <span class="dropdown-text">지오코딩</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_heatmap.html" rel="" target="">
+ <span class="dropdown-text">열지도(heatmap)</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">GIS 분석</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-분석">
+<li>
+    <a class="dropdown-item" href="./spatial_map.html" rel="" target="">
+ <span class="dropdown-text">지도(Map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./jeju_map.html" rel="" target="">
+ <span class="dropdown-text">제주도 높이 지도</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./yellow_sea.html" rel="" target="">
+ <span class="dropdown-text">황해</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./yellow_sea2.html" rel="" target="">
+ <span class="dropdown-text">황해2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gg_analytics_center.html" rel="" target="">
+ <span class="dropdown-text">경기 데이터 분석 센터</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./km_school.html" rel="" target="">
+ <span class="dropdown-text">광명시 학교와 CCTV</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">제21대 국회의원 선거</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">
+<li>
+    <a class="dropdown-item" href="./precinct.html" rel="" target="">
+ <span class="dropdown-text">국회의원 선거구</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./minju_nomination.html" rel="" target="">
+ <span class="dropdown-text">민주당 전략공천 성과</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./precinct_history.html" rel="" target="">
+ <span class="dropdown-text">선거구와 정수</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./electorate.html" rel="" target="">
+ <span class="dropdown-text">변경된 선거구</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./precinct_district.qmd" rel="" target="">
+ <span class="dropdown-text">선거구 평균 인구수</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<div class="quarto-navbar-tools ms-auto">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="다크 모드 전환"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">지도제작 대회</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> 코드</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">전체 코드 표시</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">전체 코드 숨기기</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">소스 코드 표시</a></li></ul></div></div>
+            <p class="subtitle lead">선거구 평균 인구수</p>
+                  <div>
+        <div class="description">
+          <p>국회의원 선거구획정 선거구별 평균, 상한/하한 인구수 분석</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">저자</div>
+    <div class="quarto-title-meta-heading">소속</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://www.linkedin.com/in/kwangchunlee/">이광춘</a> </p>
+    </div>
+      <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://github.com/bit2r">
+              한국 R 사용자회
+              </a>
+            </p>
+        </div>
+      </div>
+
+  <div class="quarto-title-meta">
+
+        
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">목차</h2>
+   
+  <ul>
+<li>
+<a href="#%EC%84%A0%EA%B1%B0%EA%B5%AC%ED%9A%8D%EC%A0%95" id="toc-선거구획정" class="nav-link active" data-scroll-target="#%EC%84%A0%EA%B1%B0%EA%B5%AC%ED%9A%8D%EC%A0%95"><span class="header-section-number">1</span> 선거구획정</a>
+  <ul class="collapse">
+<li><a href="#%EC%A0%9C20%EB%8C%80-%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%EC%84%A0%EA%B1%B0" id="toc-제20대-국회의원선거" class="nav-link" data-scroll-target="#%EC%A0%9C20%EB%8C%80-%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%EC%84%A0%EA%B1%B0"><span class="header-section-number">1.1</span> 제20대 국회의원선거</a></li>
+  <li><a href="#%EC%A0%9C21%EB%8C%80-%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%EC%84%A0%EA%B1%B0" id="toc-제21대-국회의원선거" class="nav-link" data-scroll-target="#%EC%A0%9C21%EB%8C%80-%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90%EC%84%A0%EA%B1%B0"><span class="header-section-number">1.2</span> 제21대 국회의원선거</a></li>
+  <li><a href="#%EB%B9%84%EA%B5%90" id="toc-비교" class="nav-link" data-scroll-target="#%EB%B9%84%EA%B5%90"><span class="header-section-number">1.3</span> 비교</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="선거구획정" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> 선거구획정</h1>
+<p>국회전자도서관에서 제20/21대 국회의원 선거 선거구획정위원회 백서 PDF 파일을 받을 수 있다.</p>
+<section id="제20대-국회의원선거" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="제20대-국회의원선거">
+<span class="header-section-number">1.1</span> 제20대 국회의원선거</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/precinct_table_2016.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/precinct_table_2016.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/">gt</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jthomasmock/gtExtras">gtExtras</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">precinct_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="st">"총인구수"</span>, <span class="op">~</span><span class="st">"지역선거구"</span>, <span class="op">~</span><span class="st">"평균인구수"</span>, <span class="op">~</span><span class="st">"상한인구수"</span>, <span class="op">~</span><span class="st">"하한인구수"</span>,</span>
+<span>        <span class="st">"51,465,228"</span>,  <span class="st">"246"</span>, <span class="st">"209,209"</span>, <span class="st">"278,945"</span>, <span class="st">"139,473"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">precinct_2016_tbl</span> <span class="op">&lt;-</span> <span class="va">precinct_2016</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">parse_number</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">precinct_2016_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>평균 <span class="op">=</span> <span class="va">총인구수</span> <span class="op">/</span> <span class="va">지역선거구</span>,</span>
+<span>         상한 <span class="op">=</span> <span class="va">평균</span> <span class="op">*</span> <span class="fl">4</span><span class="op">/</span><span class="fl">3</span>,</span>
+<span>         하한 <span class="op">=</span> <span class="va">평균</span> <span class="op">*</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://jthomasmock.github.io/gtExtras/reference/gt_theme_538.html">gt_theme_538</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_integer.html">fmt_integer</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_spanner.html">tab_spanner</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="st">"평균 및 상하한 인구수"</span>,</span>
+<span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="va">평균인구수</span>, <span class="va">상한인구수</span>, <span class="va">하한인구수</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_spanner.html">tab_spanner</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="st">"검증"</span>,</span>
+<span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="va">평균</span>, <span class="va">상한</span>, <span class="va">하한</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span>  <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_align.html">cols_align</a></span><span class="op">(</span>align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html">tab_header</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/md.html">md</a></span><span class="op">(</span><span class="st">"제20대 국회의원 선거구획정 인구자료"</span><span class="op">)</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/md.html">md</a></span><span class="op">(</span><span class="st">"국회의원 선거구획정위원회"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+
+<div id="kotvqtlxbi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#kotvqtlxbi table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#kotvqtlxbi thead, #kotvqtlxbi tbody, #kotvqtlxbi tfoot, #kotvqtlxbi tr, #kotvqtlxbi td, #kotvqtlxbi th {
+  border-style: none;
+}
+
+#kotvqtlxbi p {
+  margin: 0;
+  padding: 0;
+}
+
+#kotvqtlxbi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: none;
+  border-top-width: 3px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#kotvqtlxbi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kotvqtlxbi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kotvqtlxbi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_bottom_border {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_col_headings {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: normal;
+  text-transform: uppercase;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kotvqtlxbi .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: normal;
+  text-transform: uppercase;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kotvqtlxbi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kotvqtlxbi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kotvqtlxbi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kotvqtlxbi .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#kotvqtlxbi .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#kotvqtlxbi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #FFFFFF;
+  vertical-align: middle;
+}
+
+#kotvqtlxbi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kotvqtlxbi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kotvqtlxbi .gt_row {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kotvqtlxbi .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
+  border-right-style: solid;
+  border-right-width: 0px;
+  border-right-color: #FFFFFF;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kotvqtlxbi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#kotvqtlxbi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#kotvqtlxbi .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#kotvqtlxbi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kotvqtlxbi .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#kotvqtlxbi .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kotvqtlxbi .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#kotvqtlxbi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kotvqtlxbi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kotvqtlxbi .gt_sourcenote {
+  font-size: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kotvqtlxbi .gt_left {
+  text-align: left;
+}
+
+#kotvqtlxbi .gt_center {
+  text-align: center;
+}
+
+#kotvqtlxbi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kotvqtlxbi .gt_font_normal {
+  font-weight: normal;
+}
+
+#kotvqtlxbi .gt_font_bold {
+  font-weight: bold;
+}
+
+#kotvqtlxbi .gt_font_italic {
+  font-style: italic;
+}
+
+#kotvqtlxbi .gt_super {
+  font-size: 65%;
+}
+
+#kotvqtlxbi .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#kotvqtlxbi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#kotvqtlxbi .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#kotvqtlxbi .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#kotvqtlxbi .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#kotvqtlxbi .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#kotvqtlxbi .gt_indent_5 {
+  text-indent: 25px;
+}
+
+tbody tr:last-child {
+  border-bottom: 2px solid #ffffff00;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading">
+<td colspan="8" class="gt_heading gt_title gt_font_normal" style="">제20대 국회의원 선거구획정 인구자료</td>
+    </tr>
+<tr class="gt_heading">
+<td colspan="8" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">국회의원 선거구획정위원회</td>
+    </tr>
+<tr class="gt_col_headings gt_spanner_row">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="총인구수">총인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="지역선거구">지역선거구</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="평균 및 상하한 인구수">
+        <span class="gt_column_spanner">평균 및 상하한 인구수</span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="검증">
+        <span class="gt_column_spanner">검증</span>
+      </th>
+    </tr>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="평균인구수">평균인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="상한인구수">상한인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="하한인구수">하한인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="평균">평균</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="상한">상한</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="하한">하한</th>
+    </tr>
+</thead>
+<tbody class="gt_table_body"><tr>
+<td headers="총인구수" class="gt_row gt_center">51,465,228</td>
+<td headers="지역선거구" class="gt_row gt_center">246</td>
+<td headers="평균인구수" class="gt_row gt_center">209,209</td>
+<td headers="상한인구수" class="gt_row gt_center">278,945</td>
+<td headers="하한인구수" class="gt_row gt_center">139,473</td>
+<td headers="평균" class="gt_row gt_center">209,208</td>
+<td headers="상한" class="gt_row gt_center">278,944</td>
+<td headers="하한" class="gt_row gt_center">139,472</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</div>
+</section><section id="제21대-국회의원선거" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="제21대-국회의원선거">
+<span class="header-section-number">1.2</span> 제21대 국회의원선거</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/precinct_table_2020.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/precinct_table_2020.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/">gt</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jthomasmock/gtExtras">gtExtras</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">precinct_2020</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="st">"총인구수"</span>, <span class="op">~</span><span class="st">"선거구수"</span>, <span class="op">~</span><span class="st">"평균인구수"</span>, <span class="op">~</span><span class="st">"하한인구수"</span>, <span class="op">~</span><span class="st">"상한인구수"</span>,</span>
+<span>        <span class="st">"51,826,287"</span>, <span class="st">"253"</span>, <span class="st">"204,847"</span>, <span class="st">"136,565"</span>, <span class="st">"273,129"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">precinct_2020_tbl</span> <span class="op">&lt;-</span> <span class="va">precinct_2020</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">parse_number</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">precinct_2020_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>평균 <span class="op">=</span> <span class="va">총인구수</span> <span class="op">/</span> <span class="va">선거구수</span>,</span>
+<span>         상한 <span class="op">=</span> <span class="va">평균</span> <span class="op">*</span> <span class="fl">4</span><span class="op">/</span><span class="fl">3</span>,</span>
+<span>         하한 <span class="op">=</span> <span class="va">평균</span> <span class="op">*</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://jthomasmock.github.io/gtExtras/reference/gt_theme_538.html">gt_theme_538</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_integer.html">fmt_integer</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_spanner.html">tab_spanner</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="st">"평균 및 상하한 인구수"</span>,</span>
+<span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="va">평균인구수</span>, <span class="va">상한인구수</span>, <span class="va">하한인구수</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_spanner.html">tab_spanner</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="st">"검증"</span>,</span>
+<span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="va">평균</span>, <span class="va">상한</span>, <span class="va">하한</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span>  <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_align.html">cols_align</a></span><span class="op">(</span>align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html">tab_header</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/md.html">md</a></span><span class="op">(</span><span class="st">"제20대 국회의원 선거구획정 인구자료"</span><span class="op">)</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/md.html">md</a></span><span class="op">(</span><span class="st">"국회의원 선거구획정위원회"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+
+<div id="dyuxmbktqk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#dyuxmbktqk table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#dyuxmbktqk thead, #dyuxmbktqk tbody, #dyuxmbktqk tfoot, #dyuxmbktqk tr, #dyuxmbktqk td, #dyuxmbktqk th {
+  border-style: none;
+}
+
+#dyuxmbktqk p {
+  margin: 0;
+  padding: 0;
+}
+
+#dyuxmbktqk .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: none;
+  border-top-width: 3px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#dyuxmbktqk .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#dyuxmbktqk .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#dyuxmbktqk .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_bottom_border {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_col_headings {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: normal;
+  text-transform: uppercase;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#dyuxmbktqk .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: normal;
+  text-transform: uppercase;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#dyuxmbktqk .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#dyuxmbktqk .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#dyuxmbktqk .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#dyuxmbktqk .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#dyuxmbktqk .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#dyuxmbktqk .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #FFFFFF;
+  vertical-align: middle;
+}
+
+#dyuxmbktqk .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#dyuxmbktqk .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#dyuxmbktqk .gt_row {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#dyuxmbktqk .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
+  border-right-style: solid;
+  border-right-width: 0px;
+  border-right-color: #FFFFFF;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dyuxmbktqk .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#dyuxmbktqk .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#dyuxmbktqk .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#dyuxmbktqk .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dyuxmbktqk .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#dyuxmbktqk .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dyuxmbktqk .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#dyuxmbktqk .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dyuxmbktqk .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dyuxmbktqk .gt_sourcenote {
+  font-size: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dyuxmbktqk .gt_left {
+  text-align: left;
+}
+
+#dyuxmbktqk .gt_center {
+  text-align: center;
+}
+
+#dyuxmbktqk .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#dyuxmbktqk .gt_font_normal {
+  font-weight: normal;
+}
+
+#dyuxmbktqk .gt_font_bold {
+  font-weight: bold;
+}
+
+#dyuxmbktqk .gt_font_italic {
+  font-style: italic;
+}
+
+#dyuxmbktqk .gt_super {
+  font-size: 65%;
+}
+
+#dyuxmbktqk .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#dyuxmbktqk .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#dyuxmbktqk .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#dyuxmbktqk .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#dyuxmbktqk .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#dyuxmbktqk .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#dyuxmbktqk .gt_indent_5 {
+  text-indent: 25px;
+}
+
+tbody tr:last-child {
+  border-bottom: 2px solid #ffffff00;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading">
+<td colspan="8" class="gt_heading gt_title gt_font_normal" style="">제20대 국회의원 선거구획정 인구자료</td>
+    </tr>
+<tr class="gt_heading">
+<td colspan="8" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">국회의원 선거구획정위원회</td>
+    </tr>
+<tr class="gt_col_headings gt_spanner_row">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="총인구수">총인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="선거구수">선거구수</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="평균 및 상하한 인구수">
+        <span class="gt_column_spanner">평균 및 상하한 인구수</span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="검증">
+        <span class="gt_column_spanner">검증</span>
+      </th>
+    </tr>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="평균인구수">평균인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="상한인구수">상한인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="하한인구수">하한인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="평균">평균</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="상한">상한</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="하한">하한</th>
+    </tr>
+</thead>
+<tbody class="gt_table_body"><tr>
+<td headers="총인구수" class="gt_row gt_center">51,826,287</td>
+<td headers="선거구수" class="gt_row gt_center">253</td>
+<td headers="평균인구수" class="gt_row gt_center">204,847</td>
+<td headers="상한인구수" class="gt_row gt_center">273,129</td>
+<td headers="하한인구수" class="gt_row gt_center">136,565</td>
+<td headers="평균" class="gt_row gt_center">204,847</td>
+<td headers="상한" class="gt_row gt_center">273,129</td>
+<td headers="하한" class="gt_row gt_center">136,565</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</div>
+</section><section id="비교" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="비교">
+<span class="header-section-number">1.3</span> 비교</h2>
+<p>현재시점 2023-07-30 기준 51,558,034명</p>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">precincts_tbl</span> <span class="op">&lt;-</span> <span class="va">precinct_2016_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>선거 <span class="op">=</span> <span class="st">"제20대"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">선거</span>, <span class="va">총인구수</span>, 선거구수 <span class="op">=</span> <span class="va">지역선거구</span>, <span class="va">평균인구수</span>, <span class="va">상한인구수</span>, <span class="va">하한인구수</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span></span>
+<span>    <span class="va">precinct_2020_tbl</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>선거 <span class="op">=</span> <span class="st">"제21대"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">선거</span>, <span class="va">총인구수</span>, <span class="va">선거구수</span>, <span class="va">평균인구수</span>, <span class="va">상한인구수</span>, <span class="va">하한인구수</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">precincts_district_gt</span> <span class="op">&lt;-</span> <span class="va">precincts_tbl</span> <span class="op">|&gt;</span>  </span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/add_row.html">add_row</a></span><span class="op">(</span>선거 <span class="op">=</span> <span class="st">"제22대"</span>, 총인구수 <span class="op">=</span> <span class="fl">51558034</span>, 선거구수 <span class="op">=</span> <span class="fl">253</span>, </span>
+<span>          평균인구수 <span class="op">=</span> <span class="fl">203786.7</span>, 상한인구수 <span class="op">=</span> <span class="fl">271715.6</span>, 하한인구수 <span class="op">=</span> <span class="fl">135857.8</span> <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">선거</span>, names_to <span class="op">=</span> <span class="st">"구분"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">선거</span>, values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>차이 <span class="op">=</span> <span class="va">제21대</span> <span class="op">-</span> <span class="va">제20대</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">차이</span>, .after <span class="op">=</span> <span class="va">제20대</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>차이2 <span class="op">=</span> <span class="va">제22대</span> <span class="op">-</span> <span class="va">제21대</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">차이2</span>, .after <span class="op">=</span> <span class="va">제21대</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://jthomasmock.github.io/gtExtras/reference/gt_theme_538.html">gt_theme_538</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_options.html">tab_options</a></span><span class="op">(</span></span>
+<span>    heading.title.font.size <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/px.html">px</a></span><span class="op">(</span><span class="fl">16L</span><span class="op">)</span>,</span>
+<span>    column_labels.font.size <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/px.html">px</a></span><span class="op">(</span><span class="fl">14L</span><span class="op">)</span>,</span>
+<span>    table.font.size <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/px.html">px</a></span><span class="op">(</span><span class="fl">12L</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span>   </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_align.html">cols_align</a></span><span class="op">(</span>align <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_header.html">tab_header</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/md.html">md</a></span><span class="op">(</span><span class="st">"제20/21대 국회의원 선거구획정 비교"</span><span class="op">)</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/md.html">md</a></span><span class="op">(</span><span class="st">"국회의원 선거구획정위원회"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_integer.html">fmt_integer</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="op">-</span><span class="va">구분</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_label.html">cols_label</a></span><span class="op">(</span></span>
+<span>    차이 <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/md.html">md</a></span><span class="op">(</span><span class="st">"&lt;small&gt;차이&lt;/small&gt;"</span><span class="op">)</span>,</span>
+<span>    차이2 <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/md.html">md</a></span><span class="op">(</span><span class="st">"&lt;small&gt;차이&lt;/small&gt;"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>  <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_spanner.html">tab_spanner</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="st">"제21 - 20대 차이"</span>,</span>
+<span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="va">제20대</span>, <span class="va">차이</span>, <span class="va">제21대</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_spanner.html">tab_spanner</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="st">"제22 - 21대 차이"</span>,</span>
+<span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="va">제21대</span>, <span class="va">차이2</span>, <span class="va">제22대</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_style.html">tab_style</a></span><span class="op">(</span></span>
+<span>    style <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cell_text.html">cell_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span>, size <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/px.html">px</a></span><span class="op">(</span><span class="fl">13L</span><span class="op">)</span>, weight <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
+<span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_body.html">cells_body</a></span><span class="op">(</span></span>
+<span>      columns  <span class="op">=</span> <span class="va">차이</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_style.html">tab_style</a></span><span class="op">(</span></span>
+<span>    style <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cell_text.html">cell_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/px.html">px</a></span><span class="op">(</span><span class="fl">13L</span><span class="op">)</span>, weight <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
+<span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_body.html">cells_body</a></span><span class="op">(</span></span>
+<span>      columns  <span class="op">=</span> <span class="va">차이2</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html">tab_footnote</a></span><span class="op">(</span></span>
+<span>    footnote <span class="op">=</span> <span class="st">"출처: 국가통계포털(KOSIS), https://kosis.kr/search/search.do?query=인구수"</span>,</span>
+<span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_column_labels.html">cells_column_labels</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="va">제22대</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>  </span>
+<span></span>
+<span><span class="va">precincts_district_gt</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gtsave.html">gtsave</a></span><span class="op">(</span><span class="st">"images/precincts_district_gt.png"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+
+<!-- -->
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">소스 코드</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "선거구 평균 인구수"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">  국회의원 선거구획정 선거구별 평균, 상한/하한 인구수 분석</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="fu"># 선거구획정</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>국회전자도서관에서 제20/21대 국회의원 선거 선거구획정위원회 백서 PDF 파일을 받을 수 있다.</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## 제20대 국회의원선거</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/precinct_table_2016.jpg)</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtExtras)</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>precinct_2016 <span class="ot">&lt;-</span> <span class="fu">tribble</span>(<span class="sc">~</span><span class="st">"총인구수"</span>, <span class="sc">~</span><span class="st">"지역선거구"</span>, <span class="sc">~</span><span class="st">"평균인구수"</span>, <span class="sc">~</span><span class="st">"상한인구수"</span>, <span class="sc">~</span><span class="st">"하한인구수"</span>,</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>        <span class="st">"51,465,228"</span>,  <span class="st">"246"</span>, <span class="st">"209,209"</span>, <span class="st">"278,945"</span>, <span class="st">"139,473"</span>)</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>precinct_2016_tbl <span class="ot">&lt;-</span> precinct_2016 <span class="sc">|&gt;</span> </span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>(parse_number)</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>precinct_2016_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(평균 <span class="ot">=</span> 총인구수 <span class="sc">/</span> 지역선거구,</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>         상한 <span class="ot">=</span> 평균 <span class="sc">*</span> <span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>         하한 <span class="ot">=</span> 평균 <span class="sc">*</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_538</span>() <span class="sc">|&gt;</span>  </span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"평균 및 상하한 인구수"</span>,</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>      평균인구수, 상한인구수, 하한인구수</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"검증"</span>,</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>      평균, 상한, 하한</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>  )  <span class="sc">|&gt;</span> </span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">"제20대 국회의원 선거구획정 인구자료"</span>),</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="st">"국회의원 선거구획정위원회"</span>)</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## 제21대 국회의원선거</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/precinct_table_2020.jpg)</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtExtras)</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>precinct_2020 <span class="ot">&lt;-</span> <span class="fu">tribble</span>(<span class="sc">~</span><span class="st">"총인구수"</span>, <span class="sc">~</span><span class="st">"선거구수"</span>, <span class="sc">~</span><span class="st">"평균인구수"</span>, <span class="sc">~</span><span class="st">"하한인구수"</span>, <span class="sc">~</span><span class="st">"상한인구수"</span>,</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>        <span class="st">"51,826,287"</span>, <span class="st">"253"</span>, <span class="st">"204,847"</span>, <span class="st">"136,565"</span>, <span class="st">"273,129"</span>)</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>precinct_2020_tbl <span class="ot">&lt;-</span> precinct_2020 <span class="sc">|&gt;</span> </span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>(parse_number)</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>precinct_2020_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(평균 <span class="ot">=</span> 총인구수 <span class="sc">/</span> 선거구수,</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>         상한 <span class="ot">=</span> 평균 <span class="sc">*</span> <span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>         하한 <span class="ot">=</span> 평균 <span class="sc">*</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_538</span>() <span class="sc">|&gt;</span>  </span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"평균 및 상하한 인구수"</span>,</span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>      평균인구수, 상한인구수, 하한인구수</span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"검증"</span>,</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>      평균, 상한, 하한</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>  )  <span class="sc">|&gt;</span> </span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">"제20대 국회의원 선거구획정 인구자료"</span>),</span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="st">"국회의원 선거구획정위원회"</span>)</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## 비교</span></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>현재시점 2023-07-30 기준 51,558,034명</span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>precincts_tbl <span class="ot">&lt;-</span> precinct_2016_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거 <span class="ot">=</span> <span class="st">"제20대"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(선거, 총인구수, 선거구수 <span class="ot">=</span> 지역선거구, 평균인구수, 상한인구수, 하한인구수) <span class="sc">|&gt;</span> </span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>    precinct_2020_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(선거 <span class="ot">=</span> <span class="st">"제21대"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(선거, 총인구수, 선거구수, 평균인구수, 상한인구수, 하한인구수)</span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>precincts_district_gt <span class="ot">&lt;-</span> precincts_tbl <span class="sc">|&gt;</span>  </span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_row</span>(선거 <span class="ot">=</span> <span class="st">"제22대"</span>, 총인구수 <span class="ot">=</span> <span class="dv">51558034</span>, 선거구수 <span class="ot">=</span> <span class="dv">253</span>, </span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>          평균인구수 <span class="ot">=</span> <span class="fl">203786.7</span>, 상한인구수 <span class="ot">=</span> <span class="fl">271715.6</span>, 하한인구수 <span class="ot">=</span> <span class="fl">135857.8</span> ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>선거, <span class="at">names_to =</span> <span class="st">"구분"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> 선거, <span class="at">values_from =</span> value) <span class="sc">|&gt;</span> </span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(차이 <span class="ot">=</span> 제21대 <span class="sc">-</span> 제20대)  <span class="sc">|&gt;</span> </span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(차이, <span class="at">.after =</span> 제20대) <span class="sc">|&gt;</span> </span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(차이2 <span class="ot">=</span> 제22대 <span class="sc">-</span> 제21대) <span class="sc">|&gt;</span> </span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(차이2, <span class="at">.after =</span> 제21대) <span class="sc">|&gt;</span></span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_538</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.title.font.size =</span> <span class="fu">px</span>(16L),</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.font.size =</span> <span class="fu">px</span>(14L),</span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(12L)</span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span>   </span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">"제20/21대 국회의원 선거구획정 비교"</span>),</span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="st">"국회의원 선거구획정위원회"</span>)</span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> <span class="sc">-</span>구분) <span class="sc">|&gt;</span> </span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>    차이 <span class="ot">=</span> <span class="fu">md</span>(<span class="st">"&lt;small&gt;차이&lt;/small&gt;"</span>),</span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>    차이2 <span class="ot">=</span> <span class="fu">md</span>(<span class="st">"&lt;small&gt;차이&lt;/small&gt;"</span>)</span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>  )  <span class="sc">|&gt;</span> </span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"제21 - 20대 차이"</span>,</span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>      제20대, 차이, 제21대</span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span>  </span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"제22 - 21대 차이"</span>,</span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>      제21대, 차이2, 제22대</span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="fu">px</span>(13L), <span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns  =</span> 차이</span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="fu">px</span>(13L), <span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns  =</span> 차이2</span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">"출처: 국가통계포털(KOSIS), https://kosis.kr/search/search.do?query=인구수"</span>,</span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> 제22대)</span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a>  )  </span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a>precincts_district_gt <span class="sc">|&gt;</span> </span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gtsave</span>(<span class="st">"images/precincts_district_gt.png"</span>)</span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left"><a href="https://quarto.org/">Quarto</a> 로 제작</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer><script>var lightboxQuarto = GLightbox({"loop":true,"selector":".lightbox","openEffect":"zoom","descPosition":"bottom","closeEffect":"zoom"});</script>
+
+
+</body></html>

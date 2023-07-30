@@ -1,0 +1,247 @@
+---
+title: "지도제작 대회"
+subtitle: "시도 선거구수"
+description: |
+  국회의원 선거에서 시도별 선거구수 변화를 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+# 데이터
+
+```{r}
+library(tidyverse)
+library(httr2)
+
+library(httr)
+
+# Set the parameters
+params <- list(
+  pageNo = 1,
+  numOfRows = 1000,
+  resultType = "json",
+  sgId = 20200415,
+  sgTypecode = 2,
+  sdName = "서울특별시",
+  wiwName = "종로구",
+  serviceKey = Sys.getenv('NEC_KEY')
+)
+
+# Construct the URL
+URL <- "http://apis.data.go.kr/9760000/ElcntInfoInqireService/getElpcElcntInfoInqire"
+
+# Make the GET request
+res <- GET(url = URL, query = params)
+
+res_text <- content(res, as = 'text')
+
+res_json <- jsonlite::fromJSON(res_text)
+
+res_json$getElpcElcntInfoInqire$item 
+
+```
+
+# 선거구획정
+
+국회전자도서관에서 제20/21대 국회의원 선거 선거구획정위원회 백서 PDF 파일을 받을 수 있다.
+
+## 제20대 국회의원선거
+
+![](images/precinct_table_2016.jpg)
+
+```{r}
+library(tidyverse)
+library(gt)
+library(gtExtras)
+
+precinct_2016 <- tribble(~"총인구수", ~"지역선거구", ~"평균인구수", ~"상한인구수", ~"하한인구수",
+        "51,465,228",  "246", "209,209", "278,945", "139,473")
+
+precinct_2016_tbl <- precinct_2016 |> 
+  mutate_all(parse_number)
+
+precinct_2016_tbl |> 
+  mutate(평균 = 총인구수 / 지역선거구,
+         상한 = 평균 * 4/3,
+         하한 = 평균 * 2/3) |> 
+  gt() |> 
+  gt_theme_538() |>  
+  fmt_integer(columns = everything()) |> 
+  tab_spanner(
+    label = "평균 및 상하한 인구수",
+    columns = c(
+      평균인구수, 상한인구수, 하한인구수
+    )
+  ) |> 
+  tab_spanner(
+    label = "검증",
+    columns = c(
+      평균, 상한, 하한
+    )
+  )  |> 
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("제20대 국회의원 선거구획정 인구자료"),
+    subtitle = md("국회의원 선거구획정위원회")
+  ) 
+
+```
+
+
+
+## 제21대 국회의원선거
+
+![](images/precinct_table_2020.jpg)
+
+```{r}
+library(tidyverse)
+library(gt)
+library(gtExtras)
+
+precinct_2020 <- tribble(~"총인구수", ~"선거구수", ~"평균인구수", ~"하한인구수", ~"상한인구수",
+        "51,826,287", "253", "204,847", "136,565", "273,129")
+
+
+precinct_2020_tbl <- precinct_2020 |> 
+  mutate_all(parse_number)
+
+precinct_2020_tbl |> 
+  mutate(평균 = 총인구수 / 선거구수,
+         상한 = 평균 * 4/3,
+         하한 = 평균 * 2/3) |> 
+  gt() |> 
+  gt_theme_538() |>  
+  fmt_integer(columns = everything()) |> 
+  tab_spanner(
+    label = "평균 및 상하한 인구수",
+    columns = c(
+      평균인구수, 상한인구수, 하한인구수
+    )
+  ) |> 
+  tab_spanner(
+    label = "검증",
+    columns = c(
+      평균, 상한, 하한
+    )
+  )  |> 
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("제20대 국회의원 선거구획정 인구자료"),
+    subtitle = md("국회의원 선거구획정위원회")
+  ) 
+```
+
+## 비교
+
+현재시점 2023-07-30 기준 51,558,034명
+
+```{r}
+precincts_tbl <- precinct_2016_tbl |> 
+  mutate(선거 = "제20대") |> 
+  select(선거, 총인구수, 선거구수 = 지역선거구, 평균인구수, 상한인구수, 하한인구수) |> 
+  bind_rows(
+    precinct_2020_tbl |> 
+    mutate(선거 = "제21대") |> 
+    select(선거, 총인구수, 선거구수, 평균인구수, 상한인구수, 하한인구수)
+  )
+
+precincts_district_gt <- precincts_tbl |>  
+  add_row(선거 = "제22대", 총인구수 = 51558034, 선거구수 = 253, 
+          평균인구수 = 203786.7, 상한인구수 = 271715.6, 하한인구수 = 135857.8 ) |> 
+  pivot_longer(-선거, names_to = "구분") |> 
+  pivot_wider(names_from = 선거, values_from = value) |> 
+  mutate(차이 = 제21대 - 제20대)  |> 
+  relocate(차이, .after = 제20대) |> 
+  mutate(차이2 = 제22대 - 제21대) |> 
+  relocate(차이2, .after = 제21대) |>
+  gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |>   
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("제20/21대 국회의원 선거구획정 비교"),
+    subtitle = md("국회의원 선거구획정위원회")
+  ) |> 
+  fmt_integer(columns = -구분) |> 
+  cols_label(
+    차이 = md("<small>차이</small>"),
+    차이2 = md("<small>차이</small>")
+  )  |> 
+  tab_spanner(
+    label = "제21 - 20대 차이",
+    columns = c(
+      제20대, 차이, 제21대
+    )
+  ) |>  
+  tab_spanner(
+    label = "제22 - 21대 차이",
+    columns = c(
+      제21대, 차이2, 제22대
+    )
+  ) |> 
+  tab_style(
+    style = cell_text(color = "blue", size = px(13L), weight = "bold"),
+    locations = cells_body(
+      columns  = 차이
+    )
+  ) |> 
+  tab_style(
+    style = cell_text(color = "red", size = px(13L), weight = "bold"),
+    locations = cells_body(
+      columns  = 차이2
+    )
+  ) |> 
+  tab_footnote(
+    footnote = "출처: 국가통계포털(KOSIS), https://kosis.kr/search/search.do?query=인구수",
+    locations = cells_column_labels(columns = 제22대)
+  )  
+
+precincts_district_gt |> 
+  gtsave("images/precincts_district_gt.png")
+
+
+```
+
+
+
+
+
+
+
+
