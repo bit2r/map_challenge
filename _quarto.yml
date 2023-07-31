@@ -68,6 +68,8 @@ website:
             text: "변경된 선거구"
           - href: precinct_district.qmd
             text: "선거구 평균 인구수"
+          - href: district_issue.qmd
+            text: "인구수 문제 선거구"
 format:
   html:
     theme:

@@ -1,0 +1,474 @@
+---
+title: "지도제작 대회"
+subtitle: "인구수 문제 선거구"
+description: |
+  국회의원 선거구획정 인구수 문제 선거구 상&middot;하한 초과
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 기준정보코드
+
+[중앙선거관리위원회 코드정보](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15000897)에서 다음 정보를 API로 불러올 수 있다.
+
+- getCommonSgCodeList: 선거코드 조회
+- getCommonGusigunCodeList: 구시군코드 조회
+- getCommonSggCodeList: 선거구코드 조회
+- getCommonPartyCodeList: 정당코드 조회
+- getCommonJobCodeList: 직업코드 조회
+- getCommonEduBckgrdCodeList: 학력코드 조회
+
+
+## 선거코드
+
+
+```{r}
+library(tidyverse)
+library(httr2)
+library(httr)
+
+##---------------------------------------------------------------- ---
+##                      선거코드                                --
+##---------------------------------------------------------------- ---
+
+# 1. 선거코드 -------------------------
+## 1.1. GET 요청 -------------------------
+
+data_portal_election_code_request <-
+  glue::glue("http://apis.data.go.kr/9760000/CommonCodeService/getCommonSgCodeList",
+             "?resultType=json",
+             "&numOfRows=1000",
+             "&serviceKey={Sys.getenv('PORTAL_NEC_KEY')}")
+
+
+election_code_list <- GET(data_portal_election_code_request) %>%
+  content(as = "text") %>%
+  jsonlite::fromJSON()
+
+## 1.2. 데이터 정제 -------------------------
+code_election <- election_code_list %>%
+  pluck('getCommonSgCodeList') %>%
+  pluck('item') %>%
+  as_tibble() %>%
+  janitor::clean_names(ascii = FALSE) %>%
+  select(선거코드 = sg_id, 선거명 = sg_name, 선거구분 = sg_typecode)
+
+code_election
+```
+
+## 선거구
+
+
+
+```{r}
+
+sgg_resp <- GET(url = "http://apis.data.go.kr/9760000/CommonCodeService/getCommonGusigunCodeList", 
+           query = list(             
+             resultType='json',
+             sgId='20220309',
+             sdName='서울특별시',
+             numOfRows='1000',
+             pageNo='1',
+             serviceKey=I(Sys.getenv('PORTAL_NEC_KEY'))))
+
+
+sgg_code_list <- sgg_resp %>%
+  content(as = "text") %>%
+  jsonlite::fromJSON()
+
+## 1.2. 데이터 정제 -------------------------
+sgg_code <- sgg_code_list %>%
+  pluck('getCommonGusigunCodeList') %>%
+  pluck('item') %>%
+  as_tibble() %>%
+  janitor::clean_names(ascii=FALSE) |> 
+  select(선거코드 = sg_id, 선거구명 = wiw_name, 시도명 = sd_name)
+
+```
+
+# 나무위키 데이터
+
+```{r}
+electroate20_tbl <- read_csv("data/제20대총선_선거구_획정.csv")
+electroate21_tbl <- read_csv("data/제21대총선_선거구_획정.csv")
+```
+
+## 제20대
+
+```{r}
+library(ggbeeswarm)
+
+electroate20_tbl |> 
+ggplot(aes(x = "", y = 인구수)) + 
+  geom_violin(trim=FALSE,fill="gray") + 
+  geom_boxplot(width=0.1) + 
+  geom_jitter() +
+  # geom_beeswarm(method ="compactswarm", priority = "density") +
+  theme_minimal() +
+  labs(x = "전국 선거구",
+       y = "선거구별 인구수") +
+  scale_y_continuous(labels = scales::comma) +
+  geom_hline(yintercept = 209209) +
+  geom_hline(yintercept = 209209*2/3, linetype=2) +
+  geom_hline(yintercept = 209209*4/3, linetype=2) 
+```
+
+## 제21대
+
+```{r}
+library(ggbeeswarm)
+
+electroate21_tbl |> 
+ggplot(aes(x = "", y = 인구수)) + 
+  geom_violin(trim=FALSE,fill="gray") + 
+  geom_boxplot(width=0.1) + 
+  geom_jitter() +
+  # geom_beeswarm(method ="compactswarm", priority = "density") +
+  theme_minimal() +
+  labs(x = "전국 선거구",
+       y = "선거구별 인구수") +
+  scale_y_continuous(labels = scales::comma) +
+  geom_hline(yintercept = 204847) +
+  geom_hline(yintercept = 204847*2/3, linetype=2) +
+  geom_hline(yintercept = 204847*4/3, linetype=2) 
+
+```
+
+
+# 선관위
+
+## 강원도 인구수
+
+```{r}
+library(rvest)
+
+url <- "http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml"
+
+params <- list(
+              "electionId"= "0000000000",
+              "requestURI"= "/electioninfo/0000000000/cd/cdpb02.jsp",
+              "topMenuId"= "CD",
+              "secondMenuId"= "CDPB02",
+              "menuId"= "CDPB02",
+              "statementId"= "CDPB02_#3_2_1",
+              "oldElectionType"= "1",
+              "electionType"= "2",
+              "electionName"= "20200415",
+              "searchType"= "3",
+              "electionCode"= "2",
+              "cityCode"= "4900",
+              "townCode"= "-1",
+              "sggCityCode"= "-1",
+              "x"= "48",
+              "y"= "22")
+
+electorate <- GET(url = url,
+    query = params)
+
+electorate_tables <- electorate |> 
+  read_html() |> 
+  html_nodes('.table01') |> 
+  html_table()
+
+electorate_tbl <- electorate_tables[[2]] |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  filter(선거구명 != "합계",
+         선거구명 != "")  |> 
+  select(선거구명, 인구수 = 인구수_선거인명부작성기준일_현재,
+         성별 = 확정선거인수, 선거인수 = 확정선거인수_2) |> 
+  filter(성별 == "계") |> 
+  ## 인구수 --------------------------
+  separate(인구수, into = c("인구수", "재외및외국"), sep = "\\(") |> 
+  separate(재외및외국, into = c("재외국민", "외국인"), sep = ",") |> 
+  mutate(인구수   = parse_number(인구수),
+         재외국민 = parse_number(재외국민),
+         외국인 = parse_number(외국인)) |> 
+  ## 선거인수 --------------------------
+  separate(선거인수, into = c("선거인수", "선거인_재외및외국"), sep = "\\(") |> 
+  separate(선거인_재외및외국, into = c("선거재외국민", "선거외국인"), sep = ",") |> 
+  mutate(선거인수   = parse_number(선거인수),
+         선거재외국민 = parse_number(선거재외국민),
+         선거외국인 = parse_number(선거외국인))  |> 
+  select(-성별)
+  
+electorate_tbl
+```
+
+
+## 함수
+
+```{r}
+
+get_electorate <- function(cityCode = "4900") { # 제주도
+  
+  url <- "http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml"
+
+  params <- list(
+                "electionId"= "0000000000",
+                "requestURI"= "/electioninfo/0000000000/cd/cdpb02.jsp",
+                "topMenuId"= "CD",
+                "secondMenuId"= "CDPB02",
+                "menuId"= "CDPB02",
+                "statementId"= "CDPB02_#3_2_1",
+                "oldElectionType"= "1",
+                "electionType"= "2",
+                "electionName"= "20200415",
+                "searchType"= "3",
+                "electionCode"= "2",
+                "cityCode"= cityCode,
+                "townCode"= "-1",
+                "sggCityCode"= "-1",
+                "x"= "48",
+                "y"= "22")
+  
+  electorate <- GET(url = url,
+      query = params)
+  
+  electorate_tables <- electorate |> 
+    read_html() |> 
+    html_nodes('.table01') |> 
+    html_table()
+  
+  electorate_tbl <- electorate_tables[[2]] |> 
+    janitor::clean_names(ascii = FALSE) |> 
+    filter(선거구명 != "합계",
+           선거구명 != "")  |> 
+    select(선거구명, 인구수 = 인구수_선거인명부작성기준일_현재,
+           성별 = 확정선거인수, 선거인수 = 확정선거인수_2) |> 
+    filter(성별 == "계") |> 
+    ## 인구수 --------------------------
+    separate(인구수, into = c("인구수", "재외및외국"), sep = "\\(") |> 
+    separate(재외및외국, into = c("재외국민", "외국인"), sep = ",") |> 
+    mutate(인구수   = parse_number(인구수),
+           재외국민 = parse_number(재외국민),
+           외국인 = parse_number(외국인)) |> 
+    ## 선거인수 --------------------------
+    separate(선거인수, into = c("선거인수", "선거인_재외및외국"), sep = "\\(") |> 
+    separate(선거인_재외및외국, into = c("선거재외국민", "선거외국인"), sep = ",") |> 
+    mutate(선거인수   = parse_number(선거인수),
+           선거재외국민 = parse_number(선거재외국민),
+           선거외국인 = parse_number(선거외국인))  |> 
+    select(-성별)
+    
+  return(electorate_tbl)
+}
+
+get_electorate("4900")
+```
+
+
+## 제21대 총선
+
+```{r}
+#| eval: false
+
+sido_tbl <- tribble(~"sido_cd", ~"sido_nm",
+                    '1100', "서울특별시", 
+                    '2600', "부산광역시", 
+                    '2700', "대구광역시", 
+                    '2800', "인천광역시", 
+                    '2900', "광주광역시", 
+                    '3000', "대전광역시", 
+                    '3100', "울산광역시", 
+                    '5100', "세종특별자치시", 
+                    '4100', "경기도", 
+                    '4200', "강원도", 
+                    '4300', "충청북도", 
+                    '4400', "충청남도", 
+                    '4500', "전라북도", 
+                    '4600', "전라남도", 
+                    '4700', "경상북도", 
+                    '4800', "경상남도", 
+                    '4900', "제주특별자치도")
+
+electorate_raw <- sido_tbl |> 
+  mutate(data = map(sido_cd, get_electorate))
+
+electorate_2020_tbl <- electorate_raw |> 
+  rename(시도코드 = sido_cd, 시도명 = sido_nm) |> 
+  unnest(data)
+
+electorate_2020_tbl |> 
+  write_rds("data/electorate_2020_tbl.rds")
+
+```
+
+
+# 분석 시각화
+
+## 선거구획정 표
+
+```{r}
+library(gt)
+library(gtExtras)
+
+electorate_2020_tbl <- 
+  read_rds("data/electorate_2020_tbl.rds")
+
+get_percentage <- function(dataframe) {
+  pcnt_number <- dataframe |> 
+    select(-비적정비율) |> 
+    summarise_if(is.numeric, sum) |> 
+    mutate(비적정비율 = (상한초과 + 하한미달) / (적정 + 상한초과 + 하한미달)) |> 
+    pull(비적정비율)
+  
+  return(pcnt_number)
+}
+
+electorate_2020_gt_tbl <- electorate_2020_tbl |> 
+  mutate(획정구 = case_when(인구수 > 204847*4/3 ~ "상한초과",
+                         인구수 < 204847*2/3 ~ "하한미달",
+                         TRUE ~ "적정")) |> 
+  count(시도명, 획정구) |> 
+  pivot_wider(names_from = 획정구, values_from = n, values_fill = 0)  |> 
+  arrange(desc(상한초과)) |> 
+  mutate(비적정비율 = (상한초과 + 하한미달) / (적정+상한초과 + 하한미달)) |> 
+  arrange(desc(비적정비율))
+
+electorate_2020_gt <- electorate_2020_gt_tbl |> 
+  gt::gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |>   
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("제21대 국회의원 선거구획정 현황"),
+    subtitle = md("중앙선거관리위원회 선거인수현황 통계")
+  ) |> 
+  fmt_percent(columns = 비적정비율, decimals = 1) |> 
+  tab_spanner(
+    label = "선거구 현황",
+    columns = c(
+      적정, 상한초과, 하한미달
+    )
+  )  |> 
+  tab_footnote(
+    footnote = md("선거구별 **271,716** 명 초과시"),
+    locations = cells_column_labels(columns = 상한초과)
+  )  |> 
+  tab_footnote(
+    footnote = md("선거구별 **136,565** 명 미달시"),
+    locations = cells_column_labels(columns = 하한미달)
+  ) |> 
+  tab_style(
+    style = cell_text(color = "red", size = px(13L), weight = "bold"),
+    locations = cells_body(
+      rows  = 상한초과 > 0,
+      columns = 상한초과
+    )
+  ) |> 
+  tab_style(
+    style = cell_text(color = "blue", size = px(13L), weight = "bold"),
+    locations = cells_body(
+      rows  = 하한미달 > 0,
+      columns = 하한미달
+    )
+  ) |> 
+  ## 표 전체 합계 -------------------------------------
+  grand_summary_rows(
+    columns = c(적정, 상한초과, 하한미달),
+    fns =  list(label = "선거구수", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "top"
+  ) |> 
+  grand_summary_rows(
+    columns = 비적정비율,
+    fns =  list("선거구비율" = ~ get_percentage(electorate_2020_gt_tbl)),
+    fmt = ~ fmt_percent(., decimals = 1),
+    side = "top"
+  )    
+
+electorate_2020_gt
+
+# electorate_2020_gt |> 
+#   gtsave("images/electorate_2020_gt.png")
+
+```
+
+## 조정 필요 선거구
+
+
+```{r}
+library(ggrepel)
+extrafont::loadfonts()
+
+electorate_2020_region <- electorate_2020_tbl |> 
+  mutate(시도권역 = case_when(str_detect(시도명, "자치|강원") ~ "강원/제주/세종",
+                              str_detect(시도명, "경상") ~ "경상남북",
+                              str_detect(시도명, "전라") ~ "전라남북",
+                              str_detect(시도명, "충청") ~ "충청남북",
+                              TRUE ~ 시도명)) |>
+  mutate(시도권역 = factor(시도권역, levels = c("서울특별시", "경기도", "광주광역시", "대구광역시", 
+                                        "대전광역시", "부산광역시", "울산광역시", "인천광역시", 
+                                        "경상남북", "전라남북", "충청남북", "강원/제주/세종"))) 
+
+electorate_2020_region_issue <- electorate_2020_region |> 
+  mutate(획정구 = case_when(인구수 > 204847*4/3 ~ "상한초과",
+                         인구수 < 204847*2/3 ~ "하한미달",
+                         TRUE ~ "적정")) |> 
+  filter(획정구 != "적정")
+
+electorate_2020_region_gg <-  electorate_2020_region |> 
+  ggplot(aes(x = 인구수, y = 선거인수, color = 시도권역)) +
+    geom_point(size = 0.7) +
+    geom_smooth(method = "lm", se=FALSE, size=0.4) +
+    geom_vline(xintercept = 204847) +
+    geom_vline(xintercept = 204847*2/3, linetype=2) +
+    geom_vline(xintercept = 204847*4/3, linetype=2)  +
+    facet_wrap(~시도권역) +
+    theme_minimal(base_family="MaruBrui") +
+    theme(legend.position = "none") +
+    labs(title = "제21대 국회의원 선거 시도별 인구 상·하한 초과·미달 선거구",
+         x = "선거구 인구수",
+         y = "선거구 선거인수") +
+    scale_x_continuous(labels = scales::unit_format(unit = "만", scale = 1e-4, sep = "")) +
+    scale_y_continuous(labels = scales::unit_format(unit = "만", scale = 1e-4, sep = "")) +
+    geom_text_repel(data = electorate_2020_region_issue, aes(label = 선거구명),
+                    size = 1.5, min.segment.length = 0, force = 0.5, max.overlaps=Inf,
+                    color = "black") +
+    geom_point(data = electorate_2020_region_issue, 
+                    size = 1)
+
+electorate_2020_region_gg
+
+# ragg::agg_jpeg("images/제21대_국회의원선거_인구수_조정선거구.png",
+#               width = 10, height = 7, units = "in", res = 600)
+# electorate_2020_region_gg
+# dev.off()
+
+```
+
