@@ -472,3 +472,119 @@ electorate_2020_region_gg
 
 ```
 
+
+# 시도별 선거구수
+
+- 2023년 6월말 기준 인구수: [나무위키 대한민국/인구](https://namu.wiki/w/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD/%EC%9D%B8%EA%B5%AC)
+- 중앙선관위 선거구수 및 정수현황 (국회의원): [선거통계시스템](http://info.nec.go.kr/)
+
+## 데이터
+
+### 시도별 인구수
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+namu_url <- "https://namu.wiki/w/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD/%EC%9D%B8%EA%B5%AC"
+
+namu_html <- read_html(namu_url)
+
+namu_lst <- namu_html |> 
+  html_nodes("table") |> 
+  html_table(header = TRUE)
+
+avg_electorate <- 51392745 / 253
+
+electorate_tbl <- namu_lst[[13]] |> 
+  mutate(인구 = parse_number(인구),
+         비율 = parse_number(비율)/100) |> 
+  mutate(선거구수 = 인구/ avg_electorate)
+
+electorate_tbl
+```
+
+
+### 선거구
+
+```{r}
+library(readxl)
+
+nec_raw <- read_excel("data/선거구수_및_정수현황.xlsx", skip = 5)
+
+nec_tbl <- nec_raw |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  select(1:2) |> 
+  set_names(c("광역자치단체", "현선거구수"))
+
+nec_tbl
+```
+
+
+### 결합
+
+```{r}
+electorate_table <- electorate_tbl |> 
+  filter(순위 != "총합") |> 
+  left_join(nec_tbl |> mutate(광역자치단체 = ifelse(str_detect(광역자치단체, "강원"), 
+                                              "강원특별자치도", 광역자치단체))) |> 
+  mutate(현선거구수 = parse_integer(현선거구수)) |> 
+  mutate(차이 = round(현선거구수 - 선거구수, 1)) |> 
+  janitor::adorn_totals(name = "합계")
+
+electorate_table
+```
+
+## 시각화
+
+### 표
+
+```{r}
+library(gt)
+library(gtExtras)
+
+electorate_diff_gt <- electorate_table |> 
+  relocate(차이, .before = 현선거구수) |> 
+  gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    heading.title.font.size = px(16L),
+    column_labels.font.size = px(14L),
+    table.font.size = px(12L)
+  ) |>   
+  cols_align(align = "center") |> 
+  tab_header(
+    title = md("국회의원 선거구 시도별 적정 인구수"),
+    subtitle = md("중앙선관위 선거구수 및 정수현황과 시도별 인구수")
+  )  |> 
+  fmt_integer(인구) |>
+  fmt_number(선거구수, decimals = 1) |>   
+  fmt_percent(비율, decimals = 1) |> 
+  cols_align("center") |> 
+  tab_spanner(label = "선거구수 비교",
+              columns = c(선거구수, 차이, 현선거구수)) |> 
+  ## 차이 색상표식 ---------------------
+  tab_style(
+    style = cell_text(color = "red", size = px(13L), weight = "bold"),
+    locations = cells_body(
+      rows  = 차이 > 0.5,
+      columns = 차이
+    )
+  )  |> 
+  tab_style(
+    style = cell_text(color = "blue", size = px(13L), weight = "bold"),
+    locations = cells_body(
+      rows  = 차이 < -0.5,
+      columns = 차이
+    )
+  )    
+
+electorate_diff_gt
+
+# chromote::default_chromote_object()
+
+# electorate_diff_gt |>
+#   gtsave(filename = "images/electorate_diff_gt.png")
+
+```
+
