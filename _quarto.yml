@@ -70,6 +70,8 @@ website:
             text: "선거구 평균 인구수"
           - href: district_issue.qmd
             text: "인구수 문제 선거구"
+          - href: kwangmyung.qmd
+            text: "광명시(총/대/지)"
 format:
   html:
     theme:

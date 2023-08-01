@@ -1,0 +1,350 @@
+---
+title: "지도제작 대회"
+subtitle: "광명시(총/대/지)"
+description: |
+  광명시 총/대/지선 선거결과를 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터
+
+```{r}
+library(tidyverse)
+library(krvote)
+
+president <- krvote::election_20220309$득표율 |> 
+  filter(시도명 == "경기도",
+         구시군명 == "광명시")
+
+local_sido <- krvote::local_sido_20220601 |> 
+  filter(선거구명 == "경기도") |> 
+  unnest(data) |> 
+  filter(구시군명 == "광명시")
+
+local_mayor <- krvote::local_sgg_20220601 |> 
+  filter(시도명 == "경기도",
+         구시군명 == "광명시")
+
+chongsun <- krvote::general_2020 |> 
+  filter(시도 == "경기",
+         str_detect(선거구, "광명")) |> 
+  unnest(data) |> 
+  mutate(구분 = case_when(str_detect(구분, "^[가-힣]") ~ 구분,
+                            TRUE ~ iconv(구분, from = "CP949", to = "UTF-8")))
+```
+
+|      선거      | 민주당  | 국민의힘 |
+|:--------------:|:-------:|:--------:|
+|  2022년 대선   | 103,470 |  87,112  |
+| 2022년 도지사  | 72,415  |  63,270  |
+|  2022년 시장   | 73,759  |  64,255  |
+| 2020년 총선 갑 | 43,019  |  33,380  |
+| 2020년 총선 을 | 58,130  |  27,671  |
+
+# 분석
+
+## 종합
+
+```{r}
+# 대통령
+president_ttl <- president |> 
+  pivot_longer(이재명:김민찬) |> 
+  mutate(정당 = case_when(name == "이재명" ~ "민주당",
+                          name == "윤석열" ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  group_by(정당) |> 
+  summarise(득표 = sum(value)) |> 
+  mutate(선거 = "대선_2022")
+
+# 도지사
+local_sido_ttl <- local_sido |> 
+  pivot_longer(더불어민주당_김동연:무소속_강용석) |> 
+  separate(name, into = c("정당", "후보명"), sep = "_") |> 
+  mutate(정당 = case_when(str_detect(정당, "더불어민주당") ~ "민주당",
+                          str_detect(정당, "국민의힘") ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  group_by(정당) |> 
+  summarise(득표 = sum(value)) |> 
+  mutate(선거 = "도지사_2022")  
+
+# 시장
+local_mayor_ttl <- local_mayor |> 
+  mutate(득표 = parse_number(득표)) |> 
+  mutate(정당 = case_when(str_detect(정당, "더불어민주당") ~ "민주당",
+                          str_detect(정당, "국민의힘") ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  group_by(정당) |> 
+  summarise(득표 = sum(득표)) |> 
+  mutate(선거 = "시장_2022")    
+
+# 국회의원
+chongsun_ttl <- chongsun |> 
+  filter(구분 %in% c("국가혁명배당금당 김상연", "국가혁명배당금당 김현애", "더불어민주당 양기대", "더불어민주당 임오경", "무소속 권태진", "무소속 김경표", "무소속 김기윤", "미래통합당 김용태", "미래통합당 양주상", "민생당 양순필")) |> 
+  separate(구분, into = c("정당", "후보"), sep = " ") |> 
+  mutate(정당 = case_when(str_detect(정당, "더불어민주당") ~ "민주당",
+                          str_detect(정당, "미래통합당") ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  group_by(정당) |> 
+  summarise(득표 = sum(사람수)) |> 
+  mutate(선거 = "총선_2020")      
+```
+
+```{r}
+#| eval: false
+
+ttl_tbl <- bind_rows(chongsun_ttl, president_ttl) |> 
+  bind_rows(local_sido_ttl) |> 
+  bind_rows(local_mayor_ttl) |> 
+  mutate(선거 = factor(선거, levels = c("총선_2020", "대선_2022", "도지사_2022", "시장_2022")))
+
+kwangmyung_ttl_gg <- ttl_tbl |> 
+  ggplot(aes(x = 선거, y = 득표, color = 정당, group = 정당)) +
+    geom_line() +
+    geom_point() +
+    scale_y_continuous(labels = scales::comma) +
+    labs(x="", y="득표수",
+         title = "광명시 역대 선거 정당별 득표수") +
+    scale_color_manual(values = c("국민의힘" = "red",
+                                  "민주당"   = "blue",
+                                  "기타"     = "gray50")) +
+    theme(legend.position = "top")
+
+kwangmyung_ttl_gg
+
+ragg::agg_jpeg("images/kwangmyung/광명시_총계.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+kwangmyung_ttl_gg
+dev.off()
+```
+
+
+![](images/kwangmyung/광명시_총계.jpeg)
+
+
+## 동별
+
+```{r}
+# 대통령
+president_dong <- president |> 
+  pivot_longer(이재명:김민찬) |> 
+  mutate(정당 = case_when(name == "이재명" ~ "민주당",
+                          name == "윤석열" ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  filter(!str_detect(읍면동명, "^잘못")) |> 
+  mutate(읍면동명 = case_when(str_detect(읍면동명, "국외|재외") ~ "국외부재자",
+                              str_detect(읍면동명, "거소") ~ "거소·선상",
+                              TRUE ~ 읍면동명)) |>   
+  group_by(읍면동명, 정당) |> 
+  summarise(득표 = sum(value)) |> 
+  ungroup() |> 
+  mutate(선거 = "대선_2022")
+
+# 도지사
+local_sido_dong <- local_sido |> 
+  pivot_longer(더불어민주당_김동연:무소속_강용석) |> 
+  separate(name, into = c("정당", "후보명"), sep = "_") |> 
+  mutate(정당 = case_when(str_detect(정당, "더불어민주당") ~ "민주당",
+                          str_detect(정당, "국민의힘") ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  filter(!str_detect(읍면동명, "^잘못")) |> 
+  mutate(읍면동명 = case_when(str_detect(읍면동명, "국외|재외") ~ "국외부재자",
+                              str_detect(읍면동명, "거소") ~ "거소·선상",
+                              TRUE ~ 읍면동명)) |>   
+  group_by(읍면동명, 정당) |> 
+  summarise(득표 = sum(value)) |> 
+  ungroup() |>   
+  mutate(선거 = "도지사_2022")
+
+# 시장
+local_mayor_dong <- local_mayor |> 
+  mutate(득표 = parse_number(득표)) |> 
+  mutate(정당 = case_when(str_detect(정당, "더불어민주당") ~ "민주당",
+                          str_detect(정당, "국민의힘") ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  filter(!str_detect(읍면동명, "^잘못")) |> 
+  mutate(읍면동명 = case_when(str_detect(읍면동명, "국외|재외") ~ "국외부재자",
+                              str_detect(읍면동명, "거소") ~ "거소·선상",
+                              TRUE ~ 읍면동명)) |>   
+  group_by(읍면동명, 정당) |> 
+  summarise(득표 = sum(득표)) |> 
+  ungroup() |>     
+  mutate(선거 = "시장_2022")
+
+
+# 국회의원
+chongsun_dong <- chongsun |> 
+  filter(구분 %in% c("국가혁명배당금당 김상연", "국가혁명배당금당 김현애", "더불어민주당 양기대", "더불어민주당 임오경", "무소속 권태진", "무소속 김경표", "무소속 김기윤", "미래통합당 김용태", "미래통합당 양주상", "민생당 양순필")) |> 
+  separate(구분, into = c("정당", "후보"), sep = " ") |> 
+  mutate(정당 = case_when(str_detect(정당, "더불어민주당") ~ "민주당",
+                          str_detect(정당, "미래통합당") ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  filter(!str_detect(읍면동명, "^잘못")) |> 
+  mutate(읍면동명 = case_when(str_detect(읍면동명, "국외|재외") ~ "국외부재자",
+                              str_detect(읍면동명, "거소") ~ "거소·선상",
+                              TRUE ~ 읍면동명)) |>   
+  group_by(읍면동명, 정당) |> 
+  summarise(득표 = sum(사람수)) |> 
+  ungroup() |>       
+  mutate(선거 = "총선_2020")
+     
+  
+```
+
+```{r}
+#| eval: false
+
+dong_tbl <- bind_rows(chongsun_dong, president_dong) |> 
+  bind_rows(local_sido_dong) |> 
+  bind_rows(local_mayor_dong) |> 
+  mutate(선거 = factor(선거, levels = c("총선_2020", "대선_2022", "도지사_2022", "시장_2022")))
+
+kwangmyung_dong_gg <- dong_tbl |> 
+  ggplot(aes(x = 선거, y = 득표, color = 정당, group = 정당)) +
+    geom_line() +
+    geom_point() +
+    scale_y_continuous(labels = scales::comma) +
+    labs(x="", y="득표수",
+         title = "광명시 역대 선거 정당별 득표수") +
+    scale_color_manual(values = c("국민의힘" = "red",
+                                  "민주당"   = "blue",
+                                  "기타"     = "gray50")) +
+    theme(legend.position = "top") +
+    facet_wrap(~읍면동명, scales = "free_y")
+
+kwangmyung_dong_gg
+
+ragg::agg_jpeg("images/kwangmyung/광명시_동별.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+kwangmyung_dong_gg
+dev.off()
+```
+
+
+![](images/kwangmyung/광명시_동별.jpeg)
+
+# 인구수
+
+## 데이터 
+
+행정안전부 [주민등록 인구통계](https://jumin.mois.go.kr/)
+
+```{r}
+#| eval: false
+
+library(readxl)
+
+# 2020-04-15 ---------------------------------
+pop_202004_raw <- read_excel("data/202004_202004_연령별인구현황_월간.xlsx", skip = 2)
+
+pop_202004 <- pop_202004_raw |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  select(x1, x2, x107:x208, x210:x311) |> 
+  janitor::row_to_names(row_number = 1) |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  pivot_longer(cols = 연령구간인구수:x100세_이상_2) |> 
+  filter(!str_detect(name, "^연령구간")) |> 
+  mutate(성별 = ifelse(str_detect(name, "_2$"), "여자", "남자")) |> 
+  mutate(나이 = parse_number(name),
+         인구수 = parse_number(value)) |> 
+  filter(!str_detect(행정기관, "경기도 경기도") )  |> 
+  mutate(행정동 = str_remove(행정기관, "경기도 광명시 ")) |> 
+  mutate(시점 = "2020-04-15") |> 
+  select(시점, 행정동, 성별, 나이, 인구수) 
+
+pop_202004
+
+# 2022-03-15 ---------------------------------
+pop_202203_raw <- read_excel("data/202203_202203_연령별인구현황_월간.xlsx", skip = 2)
+
+pop_202203 <- pop_202203_raw |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  select(x1, x2, x107:x208, x210:x311) |> 
+  janitor::row_to_names(row_number = 1) |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  pivot_longer(cols = 연령구간인구수:x100세_이상_2) |> 
+  filter(!str_detect(name, "^연령구간")) |> 
+  mutate(성별 = ifelse(str_detect(name, "_2$"), "여자", "남자")) |> 
+  mutate(나이 = parse_number(name),
+         인구수 = parse_number(value)) |> 
+  filter(!str_detect(행정기관, "경기도 경기도") )  |> 
+  mutate(행정동 = str_remove(행정기관, "경기도 광명시 ")) |> 
+  mutate(시점 = "2022-03-15") |> 
+  select(시점, 행정동, 성별, 나이, 인구수) 
+
+pop_202203
+
+# 2023-07-15 ---------------------------------
+pop_202307_raw <- read_excel("data/202307_202307_연령별인구현황_월간.xlsx", skip = 2)
+
+pop_202307 <- pop_202307_raw |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  select(x1, x2, x107:x208, x210:x311) |> 
+  janitor::row_to_names(row_number = 1) |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  pivot_longer(cols = 연령구간인구수:x100세_이상_2) |> 
+  filter(!str_detect(name, "^연령구간")) |> 
+  mutate(성별 = ifelse(str_detect(name, "_2$"), "여자", "남자")) |> 
+  mutate(나이 = parse_number(name),
+         인구수 = parse_number(value)) |> 
+  filter(!str_detect(행정기관, "경기도 경기도") )  |> 
+  mutate(행정동 = str_remove(행정기관, "경기도 광명시 ")) |> 
+  mutate(시점 = "2023-07-15") |> 
+  select(시점, 행정동, 성별, 나이, 인구수) 
+
+pop_202307
+
+pop_tbl <- bind_rows(pop_202307, pop_202203, pop_202004)
+
+pop_tbl |> 
+  write_rds("data/kwangmyung_pop.rds")
+
+
+```
+
+
+```{r}
+pop_tbl <- 
+  read_rds("data/kwangmyung_pop.rds")
+
+pop_tbl |> 
+  group_by(시점, 행정동) |> 
+  summarise(인구수 = sum(인구수)) |> 
+  ggplot(aes(x = 시점, y = 인구수, group = 행정동, color = 행정동)) +
+    geom_line()
+
+```
+
+
+
+
