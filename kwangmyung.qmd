@@ -329,22 +329,249 @@ pop_tbl <- bind_rows(pop_202307, pop_202203, pop_202004)
 pop_tbl |> 
   write_rds("data/kwangmyung_pop.rds")
 
-
 ```
 
+
+## 분석
+
+### 유권자
 
 ```{r}
-pop_tbl <- 
-  read_rds("data/kwangmyung_pop.rds")
+#| eval: false
+library(ggrepel)
 
-pop_tbl |> 
-  group_by(시점, 행정동) |> 
+pop_tbl <- 
+  read_rds("data/kwangmyung_pop.rds") |> 
+  mutate(시점 = lubridate::ymd(시점))
+
+km_voter_ttl_gg <- pop_tbl |> 
+  mutate(유권자 = ifelse(나이 >= 19, "유권자", "무권자")) |> 
+  group_by(시점, 유권자) |> 
   summarise(인구수 = sum(인구수)) |> 
-  ggplot(aes(x = 시점, y = 인구수, group = 행정동, color = 행정동)) +
-    geom_line()
+  ggplot(aes(x = 시점, y = 인구수, group = 유권자, color = 유권자)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_continuous(labels = scales::comma) +
+    expand_limits(y = c(0, 300000)) +
+    geom_text_repel(aes(label = scales::comma(인구수))) +
+    labs(x = "",
+         y = "인구수",
+         title = "광명시 최근 인구수와 유권자수",
+         subtitle = "행정안전부 주민등록, 광명시 19세이상 유권자 기준") +
+    theme(legend.position = "top") +
+    scale_color_manual(values = c("유권자" = "blue",
+                                  "무권자" = "gray30")) +
+    scale_x_date(date_labels = "%y-%m", date_breaks = "6 month")
+
+km_voter_ttl_gg
+
+ragg::agg_jpeg("images/kwangmyung/광명시_유권자수.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+km_voter_ttl_gg
+dev.off()  
+```
+
+![](images/kwangmyung/광명시_유권자수.jpeg)
+
+
+### 동별 유권자
+
+```{r}
+#| eval: false
+km_voter_dong_gg <- pop_tbl |> 
+  mutate(유권자 = ifelse(나이 >= 19, "유권자", "무권자")) |> 
+  group_by(시점, 행정동, 유권자) |> 
+  summarise(인구수 = sum(인구수)) |> 
+  mutate(유권자비율 = 인구수 / sum(인구수)) |> 
+  ungroup() |> 
+  ggplot(aes(x = 시점, y = 인구수, group = 유권자, color = 유권자)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_sqrt(labels = scales::comma) +
+    expand_limits(y = c(0, 45000)) +
+    geom_text_repel(aes(label = scales::comma(인구수))) +
+    labs(x = "",
+         y = "인구수",
+         title = "광명시 동별 인구수와 유권자수",
+         subtitle = "행정안전부 주민등록, 광명시 19세이상 유권자 기준") +
+    theme(legend.position = "top",
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values = c("유권자" = "blue",
+                                  "무권자" = "gray30")) +
+    facet_wrap(~행정동) +
+    scale_x_date(date_labels = "%y-%m", date_breaks = "6 month")
+  
+
+km_voter_dong_gg
+
+ragg::agg_jpeg("images/kwangmyung/광명시_동별_유권자수.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+km_voter_dong_gg
+dev.off()  
 
 ```
 
+![](images/kwangmyung/광명시_동별_유권자수.jpeg)
+
+### 세대별 (3040기준)
+
+```{r}
+#| eval: false
+km_age_ttl_gg <- pop_tbl |> 
+  mutate(세대 = case_when(나이 >= 19 & 나이 < 30 ~ "1020대",
+                            나이 >= 30 & 나이 < 50 ~ "3040대",
+                            나이 >= 50 ~ "50이상")) |> 
+  filter(!is.na(세대)) |> 
+  group_by(시점, 세대) |> 
+  summarise(인구수 = sum(인구수)) |> 
+  ungroup() |> 
+  ggplot(aes(x = 시점, y = 인구수, group = 세대, color = 세대)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_continuous(labels = scales::comma) +
+    expand_limits(y = c(50000, 120000)) +
+    geom_text_repel(aes(label = scales::comma(인구수))) +
+    labs(x = "",
+         y = "인구수",
+         title = "광명시 연령별 유권자수",
+         subtitle = "행정안전부 주민등록, 광명시 19세이상 유권자 기준") +
+    theme(legend.position = "top",
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values = c("1020대" = "black",
+                                  "3040대" = "blue",
+                                  "50이상" = "red")) +
+    scale_x_date(date_labels = "%y-%m", date_breaks = "6 month")
+  
+
+km_age_ttl_gg
+
+ragg::agg_jpeg("images/kwangmyung/광명시_세대별_유권자수.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+km_age_ttl_gg
+dev.off()  
+
+```
+
+![](images/kwangmyung/광명시_세대별_유권자수.jpeg)
+
+### 세대별 (4050기준)
+
+```{r}
+#| eval: false
+km_age_ttl_4050_gg <- pop_tbl |> 
+  mutate(세대 = case_when(나이 >= 19 & 나이 < 40 ~ "1030대",
+                            나이 >= 40 & 나이 < 60 ~ "4050대",
+                            나이 >= 60 ~ "60이상")) |> 
+  filter(!is.na(세대)) |> 
+  group_by(시점, 세대) |> 
+  summarise(인구수 = sum(인구수)) |> 
+  ungroup() |> 
+  ggplot(aes(x = 시점, y = 인구수, group = 세대, color = 세대)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_continuous(labels = scales::comma) +
+    expand_limits(y = c(50000, 120000)) +
+    geom_text_repel(aes(label = scales::comma(인구수))) +
+    labs(x = "",
+         y = "인구수",
+         title = "광명시 연령별 유권자수",
+         subtitle = "행정안전부 주민등록, 광명시 19세이상 유권자 기준") +
+    theme(legend.position = "top",
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values = c("1030대" = "black",
+                                  "4050대" = "blue",
+                                  "60이상" = "red")) +
+    scale_x_date(date_labels = "%y-%m", date_breaks = "6 month")
+  
+
+km_age_ttl_4050_gg
+
+ragg::agg_jpeg("images/kwangmyung/광명시_세대별_4050_유권자수.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+km_age_ttl_4050_gg
+dev.off()  
+```
+
+![](images/kwangmyung/광명시_세대별_4050_유권자수.jpeg)
 
 
+### 동별X세대별 (3040기준)
 
+```{r}
+#| eval: false
+km_age_dong_gg <- pop_tbl |> 
+  mutate(세대 = case_when(나이 >= 19 & 나이 < 30 ~ "1020대",
+                            나이 >= 30 & 나이 < 50 ~ "3040대",
+                            나이 >= 50 ~ "50이상")) |> 
+  filter(!is.na(세대)) |> 
+  group_by(시점, 행정동, 세대) |> 
+  summarise(인구수 = sum(인구수)) |> 
+  ungroup() |> 
+  ggplot(aes(x = 시점, y = 인구수, group = 세대, color = 세대)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_continuous(labels = scales::comma) +
+    geom_text_repel(aes(label = scales::comma(인구수))) +
+    labs(x = "",
+         y = "인구수",
+         title = "광명시 동별, 연령별 유권자수(3040기준)",
+         subtitle = "행정안전부 주민등록, 광명시 19세이상 유권자 기준") +
+    theme(legend.position = "top",
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values = c("1020대" = "black",
+                                  "3040대" = "blue",
+                                  "50이상" = "red")) +
+    scale_x_date(date_labels = "%y-%m", date_breaks = "6 month") +
+    facet_wrap(~행정동)
+  
+
+km_age_dong_gg
+
+ragg::agg_jpeg("images/kwangmyung/광명시_동별_세대별_유권자수.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+km_age_dong_gg
+dev.off()  
+```
+
+
+![](images/kwangmyung/광명시_동별_세대별_유권자수.jpeg)
+
+### 동별X세대별 (4050기준)
+
+```{r}
+#| eval: false
+km_age_dong_4050_gg <- pop_tbl |> 
+  mutate(세대 = case_when(나이 >= 19 & 나이 < 40 ~ "1030대",
+                            나이 >= 40 & 나이 < 60 ~ "4050대",
+                            나이 >= 60 ~ "60이상")) |> 
+  filter(!is.na(세대)) |> 
+  group_by(시점, 행정동, 세대) |> 
+  summarise(인구수 = sum(인구수)) |> 
+  ungroup() |> 
+  ggplot(aes(x = 시점, y = 인구수, group = 세대, color = 세대)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_continuous(labels = scales::comma) +
+    geom_text_repel(aes(label = scales::comma(인구수))) +
+    labs(x = "",
+         y = "인구수",
+         title = "광명시 연령별 행정동별 유권자수 (4050기준)",
+         subtitle = "행정안전부 주민등록, 광명시 19세이상 유권자 기준") +
+    theme(legend.position = "top",
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values = c("1030대" = "black",
+                                  "4050대" = "blue",
+                                  "60이상" = "red")) +
+    scale_x_date(date_labels = "%y-%m", date_breaks = "6 month") +
+    facet_wrap(~행정동)
+
+km_age_dong_4050_gg
+
+ragg::agg_jpeg("images/kwangmyung/광명시_세대별_동별_4050_유권자수.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+km_age_dong_4050_gg
+dev.off()  
+
+```
+
+![](images/kwangmyung/광명시_세대별_동별_4050_유권자수.jpeg)
