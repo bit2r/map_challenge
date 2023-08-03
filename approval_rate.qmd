@@ -1,0 +1,381 @@
+---
+title: "지도제작 대회"
+subtitle: "대통령 지지율"
+description: |
+  대한민국 대통령 역대 지지율을 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 윤석열 대통령
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+yoon_url <- 'https://namu.wiki/w/%EC%9C%A4%EC%84%9D%EC%97%B4/%EC%A7%80%EC%A7%80%EC%9C%A8'
+
+yoon_html <- read_html(yoon_url)
+
+yoon_list <- yoon_html |> 
+  html_nodes('table') |> 
+  html_table(header = TRUE)
+
+yoon_raw <- yoon_list |> 
+  enframe() |> 
+  mutate(nrow = map_int(value, nrow)) |> 
+  filter(nrow > 54) |> 
+  mutate(조사회사 = c("한국갤럽", "리얼미터", "전국지표조사")) 
+
+clean_tbl <- function(dataframe) {
+  three_tbl <- dataframe |> 
+    janitor::clean_names(ascii = FALSE) |> 
+    select(1:3) |> 
+    set_names(c("조사기간", "긍정", "부정")) |> 
+    filter(str_detect(조사기간, "^\\d{4}년"))
+}
+
+yoon_tbl <- yoon_raw |> 
+  mutate(data = map(value, clean_tbl)) |> 
+  select(조사회사, data) |> 
+  unnest(data) |> 
+  mutate(긍정 = parse_number(긍정),
+         부정 = parse_number(부정)) |> 
+  fill(긍정, .direction = "down") |> 
+  fill(부정, .direction = "down") |> 
+  pivot_longer(긍정:부정, names_to = "긍부정", values_to = "지지율") 
+
+convert_korean_date <- function(korean_date) {
+  # Split the input into components
+  components <- strsplit(korean_date, " ")[[1]]
+  
+  # Extract year, month, and week
+  year <- as.numeric(gsub("년", "", components[1]))
+  month <- as.numeric(gsub("월", "", components[2]))
+  week <- as.numeric(gsub("주", "", components[3]))
+  
+  # Construct the date - the first day of the month and year, then add weeks
+  date <- make_date(year, month, 1) + weeks(week - 1)
+  
+  return(date)
+}
+  
+yoon_approval_gg <- yoon_tbl |> 
+  mutate(조사기간 = map(조사기간, convert_korean_date)) |> 
+  unnest(조사기간) |> 
+  mutate(조사회사 = factor(조사회사, levels = c("한국갤럽", "리얼미터", "전국지표조사"))) |> 
+  filter(조사회사 == "한국갤럽",
+         조사기간 >= as.Date("2022-05-07")) |> 
+  ggplot(aes(x = 조사기간, y = 지지율, color= 긍부정)) +
+    geom_hline(yintercept = 50, linetype = 2, color = "gray50") +  
+    geom_line() +
+    facet_wrap(~조사회사) +
+    scale_color_manual(values = c("긍정" = "blue", "부정" = "red")) +
+    labs(x = "",
+         y = "지지율(%)",
+         title = "윤석열 대통령 지지율 추세") +
+    theme(legend.position = "top") +
+    expand_limits(x = c(as.Date("2022-05-10"), as.Date("2027-05-09"))) +
+    scale_x_date(date_labels =  "%Y", breaks = "1 year")  
+
+yoon_approval_gg
+```
+
+
+# 문재인 대통령
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+moon_url <- 'https://namu.wiki/w/%EB%AC%B8%EC%9E%AC%EC%9D%B8/%EC%A7%80%EC%A7%80%EC%9C%A8'
+
+moon_html <- read_html(moon_url)
+
+moon_list <- moon_html |> 
+  html_nodes('table') |> 
+  html_table(header = TRUE)
+
+moon_raw <- moon_list |> 
+  enframe() |> 
+  mutate(nrow = map_int(value, nrow)) |> 
+  filter(nrow > 30) |> 
+  mutate(id = row_number(),
+         조사회사 = ifelse(id >6, "리얼미터", "한국갤럽")) 
+
+clean_tbl <- function(dataframe) {
+  three_tbl <- dataframe |> 
+    janitor::clean_names(ascii = FALSE) |> 
+    select(1:3) |> 
+    set_names(c("조사기간", "긍정", "부정")) |> 
+    filter(str_detect(조사기간, "^\\d{4}년"))
+}
+
+moon_tbl <- moon_raw |> 
+  mutate(data = map(value, clean_tbl)) |> 
+  filter(nrow > 250) |> 
+  select(조사회사, data) |> 
+  unnest(data) |> 
+  mutate(긍정 = parse_number(긍정),
+         부정 = parse_number(부정)) |> 
+  fill(긍정, .direction = "down") |> 
+  fill(부정, .direction = "down") |> 
+  pivot_longer(긍정:부정, names_to = "긍부정", values_to = "지지율") 
+
+convert_korean_date <- function(korean_date) {
+  # Split the input into components
+  components <- strsplit(korean_date, " ")[[1]]
+  
+  # Extract year, month, and week
+  year <- as.numeric(gsub("년", "", components[1]))
+  month <- as.numeric(gsub("월", "", components[2]))
+  week <- as.numeric(gsub("주", "", components[3]))
+  
+  # Construct the date - the first day of the month and year, then add weeks
+  date <- make_date(year, month, 1) + weeks(week - 1)
+  
+  return(date)
+}
+  
+moon_approval_gg <- moon_tbl |> 
+  mutate(조사기간 = map(조사기간, convert_korean_date)) |> 
+  unnest(조사기간) |> 
+  mutate(조사회사 = factor(조사회사, levels = c("한국갤럽", "리얼미터"))) |> 
+  filter(조사회사 == "한국갤럽") |> 
+  ggplot(aes(x = 조사기간, y = 지지율, color= 긍부정)) +
+    geom_hline(yintercept = 50, linetype = 2, color = "gray50") +  
+    geom_line() +
+    facet_wrap(~조사회사) +
+    scale_color_manual(values = c("긍정" = "blue", "부정" = "red")) +
+    labs(x = "",
+         y = "지지율(%)",
+         title = "문재인 대통령 지지율 추세") +
+    theme(legend.position = "top")
+
+moon_approval_gg
+```
+
+
+# 박근혜 대통령
+
+```{r}
+
+park_url <- 'https://namu.wiki/w/%EB%B0%95%EA%B7%BC%ED%98%9C/%EC%A7%80%EC%A7%80%EC%9C%A8'
+
+park_html <- read_html(park_url)
+
+park_list <- park_html |> 
+  html_nodes('table') |> 
+  html_table(header = TRUE)
+
+park_raw <- park_list |> 
+  enframe() |> 
+  mutate(nrow = map_int(value, nrow)) |> 
+  filter(nrow > 30) |> 
+  mutate(조사회사 = "한국갤럽") 
+
+
+park_tbl <- park_raw |> 
+  mutate(data = map(value, clean_tbl)) |> 
+  filter(nrow > 200) |> 
+  select(조사회사, data) |> 
+  unnest(data) |> 
+  mutate(긍정 = parse_number(긍정),
+         부정 = parse_number(부정)) |> 
+  fill(긍정, .direction = "down") |> 
+  fill(부정, .direction = "down") |> 
+  pivot_longer(긍정:부정, names_to = "긍부정", values_to = "지지율") 
+
+park_approval_gg <- park_tbl |> 
+  mutate(조사기간 = map(조사기간, convert_korean_date)) |> 
+  unnest(조사기간) |> 
+  ggplot(aes(x = 조사기간, y = 지지율, color= 긍부정)) +
+    geom_hline(yintercept = 50, linetype = 2, color = "gray50") +  
+    geom_line() +
+    scale_color_manual(values = c("긍정" = "blue", "부정" = "red")) +
+    labs(x = "",
+         y = "지지율(%)",
+         title = "박근혜 대통령 지지율 추세") +
+    theme(legend.position = "top")
+
+park_approval_gg
+
+```
+
+
+
+# 이명박 대통령
+
+```{r}
+
+lee_url <- 'https://namu.wiki/w/%EC%9D%B4%EB%AA%85%EB%B0%95/%EC%A7%80%EC%A7%80%EC%9C%A8'
+
+lee_html <- read_html(lee_url)
+
+lee_list <- lee_html |> 
+  html_nodes('table') |> 
+  html_table(header = TRUE)
+
+lee_raw <- lee_list |> 
+  enframe() |> 
+  mutate(nrow = map_int(value, nrow)) |> 
+  filter(nrow > 30) |> 
+  mutate(조사회사 = "한국갤럽") 
+
+convert_ym_date <- function(korean_date) {
+  
+  # Split the input into components
+  components <- strsplit(korean_date, " ")[[1]]
+  
+  # Extract year and month
+  year <- as.numeric(gsub("년", "", components[1]))
+  month <- as.numeric(gsub("월", "", components[2]))
+  
+  # Construct the date - the first day of the month and year
+  date <- make_date(year, month, 15)
+  
+  return(date)
+}
+
+lee_tbl <- lee_raw |> 
+  mutate(data = map(value, clean_tbl)) |> 
+  filter(nrow > 90) |> 
+  select(조사회사, data) |> 
+  unnest(data) |> 
+  mutate(긍정 = parse_number(긍정),
+         부정 = parse_number(부정)) |> 
+  fill(긍정, .direction = "down") |> 
+  fill(부정, .direction = "down") |> 
+  separate(조사기간, into = c("시작", "끝"), sep = "-") |> 
+  select(-끝) |> 
+  mutate(조사기간 = case_when(str_detect(시작, "주$") ~ map(시작, convert_korean_date), 
+                              TRUE ~                    map(시작, convert_ym_date))) |> 
+  unnest(조사기간) |> 
+  mutate(조사기간 = as.Date(조사기간, origin = "1970-01-01"))
+  
+
+lee_approval_gg <- lee_tbl |> 
+  pivot_longer(긍정:부정, names_to = "긍부정", values_to = "지지율") |>
+  ggplot(aes(x = 조사기간, y = 지지율, color= 긍부정)) +
+    geom_hline(yintercept = 50, linetype = 2, color = "gray50") +  
+    geom_line() +
+    scale_color_manual(values = c("긍정" = "blue", "부정" = "red")) +
+    labs(x = "",
+         y = "지지율(%)",
+         title = "이명박 대통령 지지율 추세") +
+    theme(legend.position = "top") +
+    scale_x_date(date_labels =  "%Y", breaks = "1 year")
+
+lee_approval_gg
+    
+
+```
+
+
+# 노무현 대통령
+
+```{r}
+
+rho_url <- 'https://namu.wiki/w/%ED%8B%80:%ED%95%9C%EA%B5%AD%EA%B0%A4%EB%9F%BD%20%EB%85%B8%EB%AC%B4%ED%98%84%20%EB%8C%80%ED%86%B5%EB%A0%B9%20%EA%B5%AD%EC%A0%95%EC%A7%80%EC%A7%80%EC%9C%A8'
+
+rho_html <- read_html(rho_url)
+
+rho_list <- rho_html |> 
+  html_nodes('table') |> 
+  html_table(header = TRUE)
+
+rho_raw <- rho_list |> 
+  enframe() |> 
+  mutate(nrow = map_int(value, nrow)) |> 
+  filter(nrow > 30) |> 
+  mutate(조사회사 = "한국갤럽") 
+
+
+rho_tbl <- rho_raw |> 
+  mutate(data = map(value, clean_tbl)) |> 
+  filter(nrow > 20) |> 
+  select(조사회사, data) |> 
+  unnest(data) |> 
+  mutate(긍정 = parse_number(긍정),
+         부정 = parse_number(부정)) |> 
+  fill(긍정, .direction = "down") |> 
+  fill(부정, .direction = "down") |> 
+  separate(조사기간, into = c("시작", "끝"), sep = "-") |> 
+  select(-끝) |> 
+  mutate(조사기간 = case_when(str_detect(시작, "주$") ~ map(시작, convert_korean_date), 
+                              TRUE ~                    map(시작, convert_ym_date))) |> 
+  unnest(조사기간) |> 
+  mutate(조사기간 = as.Date(조사기간, origin = "1970-01-01"))
+  
+
+rho_approval_gg <- rho_tbl |> 
+  pivot_longer(긍정:부정, names_to = "긍부정", values_to = "지지율") |>
+  ggplot(aes(x = 조사기간, y = 지지율, color= 긍부정)) +
+    geom_hline(yintercept = 50, linetype = 2, color = "gray50") +  
+    geom_line() +
+    scale_color_manual(values = c("긍정" = "blue", "부정" = "red")) +
+    labs(x = "",
+         y = "지지율(%)",
+         title = "노무현 대통령 지지율 추세") +
+    theme(legend.position = "top")
+
+rho_approval_gg
+```
+
+
+# 결합
+
+```{r}
+rho_tbl |> select(조사회사, 조사기간, 긍정, 부정)
+
+lee_tbl |> select(조사회사, 조사기간, 긍정, 부정)
+
+park_tbl |> pivot_wider(names_from = 긍부정, values_from = 지지율) |> 
+  filter(조사회사 == "한국갤럽")
+
+moon_tbl |> pivot_wider(names_from = 긍부정, values_from = 지지율) |> 
+  filter(조사회사 == "한국갤럽")
+
+```
+
+
+```{r}
+library(patchwork)
+
+(rho_approval_gg + lee_approval_gg + park_approval_gg)  /
+(moon_approval_gg + yoon_approval_gg)
+
+(lee_approval_gg)  / (yoon_approval_gg)
+
+```
+

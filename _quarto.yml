@@ -72,6 +72,8 @@ website:
             text: "인구수 문제 선거구"
           - href: kwangmyung.qmd
             text: "광명시(총/대/지)"
+          - href: approval_rate.qmd
+            text: "대통령 지지율"
 format:
   html:
     theme:
