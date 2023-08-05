@@ -27,6 +27,7 @@ lightbox: auto
 link-citations: true
 knitr:
   opts_chunk: 
+    eval: false
     message: false
     warning: false
     collapse: true
@@ -37,11 +38,16 @@ editor_options:
   chunk_output_type: console
 ---
 
-# 윤석열 대통령
+# 대통령 지지율
+
+:::{.panel-tabset}
+
+## 윤석열 대통령
 
 ```{r}
 library(tidyverse)
 library(rvest)
+extrafont::loadfonts()
 
 yoon_url <- 'https://namu.wiki/w/%EC%9C%A4%EC%84%9D%EC%97%B4/%EC%A7%80%EC%A7%80%EC%9C%A8'
 
@@ -90,29 +96,51 @@ convert_korean_date <- function(korean_date) {
   return(date)
 }
   
-yoon_approval_gg <- yoon_tbl |> 
+yoon_gg_tbl <- yoon_tbl |> 
   mutate(조사기간 = map(조사기간, convert_korean_date)) |> 
   unnest(조사기간) |> 
   mutate(조사회사 = factor(조사회사, levels = c("한국갤럽", "리얼미터", "전국지표조사"))) |> 
   filter(조사회사 == "한국갤럽",
-         조사기간 >= as.Date("2022-05-07")) |> 
+         조사기간 >= as.Date("2022-05-07"))
+
+election_interval <- -interval(ymd("2024-04-10"), ymd('2023-08-05'))
+
+election_period   <- as.period(election_interval, unit = "month") 
+
+remaining_ymd <- glue::glue("남은 기간:\n {month(election_period)}월 {day(election_period)}일")
+
+yoon_approval_gg <- yoon_gg_tbl  |> 
   ggplot(aes(x = 조사기간, y = 지지율, color= 긍부정)) +
-    geom_hline(yintercept = 50, linetype = 2, color = "gray50") +  
+    geom_point(data = yoon_gg_tbl |> filter(조사기간 == max(조사기간)), 
+               aes(x = 조사기간, y = 지지율, color= 긍부정), size = 1.5) +
+    geom_hline(yintercept = 50, linetype = 2, color = "gray50") +
+    geom_vline(xintercept = as.Date("2024-04-10"), linetype = 1, color = "gray50") +    
     geom_line() +
-    facet_wrap(~조사회사) +
     scale_color_manual(values = c("긍정" = "blue", "부정" = "red")) +
     labs(x = "",
          y = "지지율(%)",
          title = "윤석열 대통령 지지율 추세") +
     theme(legend.position = "top") +
     expand_limits(x = c(as.Date("2022-05-10"), as.Date("2027-05-09"))) +
-    scale_x_date(date_labels =  "%Y", breaks = "1 year")  
+    scale_x_date(date_labels =  "%Y", breaks = "1 year")  +
+    geom_text(aes(x=as.Date("2023-12-01"), y = 60, label = remaining_ymd), 
+              color = "gray10", size = 3, family = "MaruBrui") +
+    geom_text(aes(x=as.Date("2024-08-01"), y = 65, label = "제22대 총선\n4월10일"), 
+              color = "gray10", size = 3, family = "MaruBrui")  
 
 yoon_approval_gg
+
+ragg::agg_jpeg("images/대통령지지율/윤석열.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+yoon_approval_gg
+dev.off()
+
 ```
 
+![](images/대통령지지율/윤석열.jpeg)
 
-# 문재인 대통령
+
+## 문재인 대통령
 
 ```{r}
 library(tidyverse)
@@ -175,7 +203,7 @@ moon_approval_gg <- moon_tbl |>
   ggplot(aes(x = 조사기간, y = 지지율, color= 긍부정)) +
     geom_hline(yintercept = 50, linetype = 2, color = "gray50") +  
     geom_line() +
-    facet_wrap(~조사회사) +
+    # facet_wrap(~조사회사) +
     scale_color_manual(values = c("긍정" = "blue", "부정" = "red")) +
     labs(x = "",
          y = "지지율(%)",
@@ -183,10 +211,17 @@ moon_approval_gg <- moon_tbl |>
     theme(legend.position = "top")
 
 moon_approval_gg
+
+ragg::agg_jpeg("images/대통령지지율/문재인.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+moon_approval_gg
+dev.off()
+
 ```
 
+![](images/대통령지지율/문재인.jpeg)
 
-# 박근혜 대통령
+## 박근혜 대통령
 
 ```{r}
 
@@ -230,11 +265,17 @@ park_approval_gg <- park_tbl |>
 
 park_approval_gg
 
+ragg::agg_jpeg("images/대통령지지율/박근혜.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+park_approval_gg
+dev.off()
 ```
 
 
+![](images/대통령지지율/박근혜.jpeg)
 
-# 이명박 대통령
+
+## 이명박 대통령
 
 ```{r}
 
@@ -282,11 +323,20 @@ lee_tbl <- lee_raw |>
                               TRUE ~                    map(시작, convert_ym_date))) |> 
   unnest(조사기간) |> 
   mutate(조사기간 = as.Date(조사기간, origin = "1970-01-01"))
-  
+
+previous_date <- ymd("2012-04-11") - election_period
+
+
+lee_current_tbl <- lee_tbl |> 
+  pivot_longer(긍정:부정, names_to = "긍부정", values_to = "지지율") |> 
+  filter(조사기간 == previous_date+9)
 
 lee_approval_gg <- lee_tbl |> 
   pivot_longer(긍정:부정, names_to = "긍부정", values_to = "지지율") |>
   ggplot(aes(x = 조사기간, y = 지지율, color= 긍부정)) +
+    geom_point(data = lee_current_tbl, aes(x = 조사기간, y = 지지율, color= 긍부정)) +
+    geom_text(data = lee_current_tbl, aes(x = 조사기간, y = 지지율, color= 긍부정,
+                                          label = 지지율), vjust = -1.5) +
     geom_hline(yintercept = 50, linetype = 2, color = "gray50") +  
     geom_line() +
     scale_color_manual(values = c("긍정" = "blue", "부정" = "red")) +
@@ -294,15 +344,25 @@ lee_approval_gg <- lee_tbl |>
          y = "지지율(%)",
          title = "이명박 대통령 지지율 추세") +
     theme(legend.position = "top") +
-    scale_x_date(date_labels =  "%Y", breaks = "1 year")
-
+    scale_x_date(date_labels =  "%Y", breaks = "1 year") +
+    geom_vline(xintercept = as.Date("2012-04-11"), linetype = 1, color = "gray50") +
+    geom_text(aes(x=as.Date("2011-12-01"), y = 45, label = remaining_ymd), 
+              color = "gray10", size = 3, family = "MaruBrui") +
+    geom_text(aes(x=as.Date("2012-08-01"), y = 65, label = "제19대 총선\n4월11일"), 
+              color = "gray10", size = 3, family = "MaruBrui")  
+  
 lee_approval_gg
-    
 
+ragg::agg_jpeg("images/대통령지지율/이명박.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+lee_approval_gg
+dev.off()
 ```
 
 
-# 노무현 대통령
+![](images/대통령지지율/이명박.jpeg)
+
+## 노무현 대통령
 
 ```{r}
 
@@ -350,10 +410,17 @@ rho_approval_gg <- rho_tbl |>
     theme(legend.position = "top")
 
 rho_approval_gg
+
+ragg::agg_jpeg("images/대통령지지율/노무현.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+rho_approval_gg
+dev.off()
+
 ```
 
+:::
 
-# 결합
+## 결합
 
 ```{r}
 rho_tbl |> select(조사회사, 조사기간, 긍정, 부정)
@@ -369,13 +436,292 @@ moon_tbl |> pivot_wider(names_from = 긍부정, values_from = 지지율) |>
 ```
 
 
+:::{.panel-tabset}
+
+### 대통령 지지율
+
 ```{r}
 library(patchwork)
 
-(rho_approval_gg + lee_approval_gg + park_approval_gg)  /
+all_approval_gg <- (rho_approval_gg + lee_approval_gg + park_approval_gg)  /
 (moon_approval_gg + yoon_approval_gg)
 
-(lee_approval_gg)  / (yoon_approval_gg)
+ragg::agg_jpeg("images/대통령지지율/전체대통령.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+all_approval_gg
+dev.off()
+```
+
+![](images/대통령지지율/전체대통령.jpeg)
+
+### 이명박/윤석열
+
+```{r}
+two_approval_gg <- (lee_approval_gg)  / (yoon_approval_gg)
+
+ragg::agg_jpeg("images/대통령지지율/두대통령.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+two_approval_gg
+dev.off()
+```
+
+![](images/대통령지지율/두대통령.jpeg)
+
+:::
+
+
+# 정당 지지율
+
+## 1년 기준
+
+```{r}
+
+rm_url <- glue::glue('https://namu.wiki/w/%ED%8B%80:%EB%A6%AC%EC%96%BC%EB%AF%B8%ED%84%B0%20{2006}%EB%85%84%20%EC%A0%95%EB%8B%B9%EC%A7%80%EC%A7%80%EC%9C%A8')
+
+rm_html <- read_html(rm_url)
+
+rm_list <- rm_html |> 
+  html_nodes('table') |> 
+  html_table(header = TRUE)
+
+rm_raw <- rm_list |> 
+  enframe() |> 
+  mutate(nrow = map_int(value, nrow)) |> 
+  filter(name == 1) |> 
+  mutate(조사회사 = "리얼미터") 
+
+remove_last <- function(vector) {
+  if(vector[length(vector)] =="") {
+    vector[1:(length(vector)-1)]
+  } else {
+    vector
+  }
+}
+
+make_dataframe <- function(x_vec, y_vec) {
+  data.frame(x_vec, y_vec)
+}
+
+## 정당명과 지지율
+rm_tbl <- rm_raw |> 
+  mutate(data = map(value, janitor::clean_names, ascii = FALSE)) |> 
+  select(조사회사, data) |> 
+  unnest(data) |>
+  select(contains("정당지지율"), x_2) |> 
+  set_names(c("조사기간", "지지율")) |> 
+  mutate(정당명 = ifelse(str_detect(조사기간, "●"), 
+                      str_split(지지율, "●"), NA)) |> 
+  mutate(정당명 = map_chr(정당명, paste0, collapse="")) |> 
+  mutate(정당명 = ifelse(정당명 == "NA", NA, 정당명)) |> 
+  fill(정당명, .direction = "down") |> 
+  filter(str_detect(조사기간, "^\\d{1,2}월")) |> 
+  mutate(지지율 = str_squish(지지율),
+         정당명 = str_squish(정당명)) |> 
+  mutate(정당명 = str_split(정당명, pattern = "\\s+/\\s+"),
+         지지율 = str_split(지지율, pattern = "%"))  |> 
+  mutate(지지율수 = map_int(지지율, length),
+         정당수   = map_int(정당명, length)) |> 
+  mutate(지지율 = ifelse(지지율수 == 정당수, 지지율,
+                      map(지지율, remove_last))) |> 
+  filter(abs(지지율수 - 정당수)  < 2) |> 
+  mutate(data = map2(지지율, 정당명, make_dataframe)) |> 
+  select(조사기간, data)
+  
+rm_tbl |> 
+  unnest(data)
 
 ```
 
+
+## 함수
+
+```{r}
+
+get_party_data <- function(year = "2012") {
+  
+  rm_url <- glue::glue('https://namu.wiki/w/%ED%8B%80:%EB%A6%AC%EC%96%BC%EB%AF%B8%ED%84%B0%20',
+                       '{year}',
+                       '%EB%85%84%20%EC%A0%95%EB%8B%B9%EC%A7%80%EC%A7%80%EC%9C%A8') |> as.character()
+
+  rm_html <- read_html(rm_url)
+  
+  rm_list <- rm_html |> 
+    html_nodes('table') |> 
+    html_table(header = TRUE)
+  
+  rm_raw <- rm_list |> 
+    enframe() |> 
+    mutate(nrow = map_int(value, nrow)) |> 
+    filter(name == 1) |> 
+    mutate(조사회사 = "리얼미터") 
+  
+  remove_last <- function(vector) {
+    
+    if(length(vector) < 3){
+      vector
+    } else if(vector[length(vector)] =="") {
+      vector[1:(length(vector)-1)]
+    } else {
+      vector
+    }
+  }
+  
+  make_dataframe <- function(x_vec, y_vec) {
+    min_row <- min(length(x_vec), length(y_vec))
+    data.frame(x_vec = x_vec[1:min_row], y_vec = y_vec[1:min_row])
+  }
+  
+  ## 정당명과 지지율
+  rm_tbl <- rm_raw |> 
+    mutate(data = map(value, janitor::clean_names, ascii = FALSE)) |> 
+    select(조사회사, data) |> 
+    unnest(data) |>
+    select(contains("정당지지율"), x_2) |> 
+    set_names(c("조사기간", "지지율")) |> 
+    mutate(정당명 = ifelse(str_detect(조사기간, "●"), 
+                        str_split(지지율, "●"), NA)) |> 
+    mutate(정당명 = map_chr(정당명, paste0, collapse="")) |> 
+    mutate(정당명 = ifelse(정당명 == "NA", NA, 정당명)) |> 
+    fill(정당명, .direction = "down") |> 
+    filter(str_detect(조사기간, "^\\d{1,2}월")) |> 
+    mutate(지지율 = str_squish(지지율),
+           정당명 = str_squish(정당명)) |> 
+    mutate(정당명 = str_split(정당명, pattern = "\\s+/\\s+"),
+           지지율 = str_split(지지율, pattern = "%"))  |> 
+    mutate(지지율수 = map_int(지지율, length),
+           정당수   = map_int(정당명, length)) |> 
+    mutate(지지율 = ifelse(지지율수 == 정당수, 지지율, map(지지율, remove_last))) |> 
+    filter(abs(지지율수 - 정당수)  < 2) |> 
+    mutate(지지율수 = map_int(지지율, length),
+           정당수   = map_int(정당명, length)) |> 
+    mutate(지지율 = ifelse(지지율수 != 정당수, NA, 지지율)) |> 
+    fill(지지율, .direction = "up") |> 
+    mutate(data = map2(지지율, 정당명, make_dataframe)) |> 
+    select(조사기간, data)
+
+  
+  rm_df <- rm_tbl |> unnest(data) |> mutate(x_vec = parse_number(x_vec)) |> 
+    rename(지지율 = x_vec,
+           정당   = y_vec) |> 
+    mutate(연도 = year)
+  
+  return(rm_df)
+}
+
+get_party_data("2018")
+```
+
+
+## 결합
+
+```{r}
+
+safely_get_party_data <- safely(get_party_data, otherwise = "오류")
+
+year <- 2006:2023
+
+party_raw <- year |> 
+  enframe()  |> 
+  mutate(data = map(value, safely_get_party_data))
+
+party_tbl <- party_raw |> 
+  mutate(result = map(data, "result")) |> 
+  mutate(check = map_dbl(result, is_tibble)) |> 
+  unnest(result) |> 
+  select(연도, 조사기간, 정당, 지지율)
+
+party_tbl |> 
+  write_csv("data/리얼미터_정당지지율.csv")
+```
+
+
+# 분석
+
+```{r}
+party_raw <- 
+  read_csv("data/리얼미터_정당지지율.csv")
+
+convert_korean_date <- function(korean_date) {
+  # Split the input into components
+  components <- strsplit(korean_date, " ")[[1]]
+  
+  # Extract year, month, and week
+  year <- as.numeric(gsub("년", "", components[1]))
+  month <- as.numeric(gsub("월", "", components[2]))
+  week <- as.numeric(gsub("주차", "", components[3]))
+  
+  # Construct the date - the first day of the month and year, then add weeks
+  date <- make_date(year, month, 1) + weeks(week - 1)
+  
+  return(date)
+}
+
+party_tbl <- party_raw |> 
+  mutate(조사텍스트 = glue::glue("{연도}년 {조사기간}") |> as.character()) |> 
+  mutate(조사기간 = map(조사텍스트, convert_korean_date))  |> 
+  unnest(조사기간) |> 
+  select(조사기간, 정당, 지지율)  |> 
+  mutate(정당명 = case_when( str_detect(정당, "한나라당|새누리당|국민의힘|자유한국당|미래통합당") ~ "국민의힘",
+                          str_detect(정당, "더불어민주당|민주통합당|열린우리당|새정치민주연합|대통합민주신당") ~ "민주당",
+                          TRUE ~ 정당)) 
+  
+# part_tbl |> 
+#   group_by(조사기간) |> 
+#   mutate(순위 = rank(-지지율)) |> 
+#   mutate(순위확인 = ifelse(순위 <= 2, "여야", "기타")) |> 
+#   ungroup() |> 
+#   mutate(정당명 = case_when( str_detect(정당, "한나라당|새누리당|국민의힘|자유한국당|미래통합당") ~ "국민의힘",
+#                           str_detect(정당, "더불어민주당|민주당|민주통합당|열린우리당|새정치민주연합|대통합민주신당") ~ "민주당",
+#                           TRUE ~ 정당)) |> 
+#   group_by(정당명, 순위확인) |> 
+#   summarise(지지율 = sum(지지율, na.rm=TRUE)) |> 
+#   arrange(desc(지지율))  |> 
+#   View()
+
+party_gg <- party_tbl |> 
+  mutate(정당명 = case_when(정당명 == "민주당" ~ "민주당",
+                            정당명 == "국민의힘" ~ "국민의힘",
+                            TRUE ~ "그외/무응답")) |> 
+  filter(!is.na(지지율))  |> 
+  group_by(조사기간, 정당명) |> 
+  summarise(지지율 = mean(지지율)) |> 
+  ungroup() |> 
+  mutate(정당명 = factor(정당명, levels = c("민주당", "국민의힘", "그외/무응답"))) |> 
+  ggplot(aes( x = 조사기간, y = 지지율, color = 정당명)) +
+    geom_line() +
+    scale_color_manual(values = c("민주당" = "blue",
+                                  "국민의힘" = "red",
+                                  "그외/무응답" = "gray30")) +
+    labs(x = "",
+         y = "지지율(%)",
+         title = "역대 여야 정당 정당지지율 추세",
+         subtitle = "리얼미터 나무위키 (2006 ~ 2023년)") +
+    ## 임기 시작일 ---------------
+    geom_vline(xintercept = as.Date("2022-05-10"), linetype = 1, color = "gray50") +
+    geom_vline(xintercept = as.Date("2017-05-10"), linetype = 1, color = "gray50") +
+    geom_vline(xintercept = as.Date("2013-02-25"), linetype = 1, color = "gray50") +
+    geom_vline(xintercept = as.Date("2008-02-25"), linetype = 1, color = "gray50") +
+    ## 대통령명
+    geom_text(aes(x=as.Date("2006-06-01"), y = 62, label = "노무현"), 
+              color = "blue", size = 7, family = "MaruBrui", fontface="bold") +
+    geom_text(aes(x=as.Date("2010-06-01"), y = 62, label = "이명박"), 
+              color = "red", size = 7, family = "MaruBrui", fontface="bold") +
+    geom_text(aes(x=as.Date("2015-06-01"), y = 62, label = "박근혜"), 
+              color = "red", size = 7, family = "MaruBrui", fontface="bold") +
+    geom_text(aes(x=as.Date("2019-12-01"), y = 62, label = "문재인"), 
+              color = "blue", size = 7, family = "MaruBrui", fontface="bold") +
+    geom_text(aes(x=as.Date("2023-06-01"), y = 62, label = "윤석열"), 
+              color = "red", size = 7, family = "MaruBrui", fontface="bold")  +
+    theme(legend.position = "top")
+
+party_gg
+
+ragg::agg_jpeg("images/대통령지지율/정당지지율.jpg",
+              width = 10, height = 7, units = "in", res = 600)
+party_gg
+dev.off()    
+
+```
+
+
+![](images/대통령지지율/정당지지율.jpg)
