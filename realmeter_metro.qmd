@@ -1,0 +1,235 @@
+---
+title: "지도제작 대회"
+subtitle: "리얼미터 수도권"
+description: |
+  리얼미터 수도권 역대 지지율을 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: false
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 첫시도
+
+## PDF 다운로드 링크
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+rm_url <- glue::glue('http://www.realmeter.net/category/pdf/page/1/')
+
+rm_html <- read_html(rm_url)
+
+## PDF 다운로드 링크 ---------------
+rm_links_text <- rm_html |> 
+  html_nodes("a") |> 
+  html_text()
+
+rm_links <- rm_html |> 
+  html_nodes("a") |> 
+  html_attr("href")
+
+rm_pdf_raw <- tibble('text' = rm_links_text, 'link' = rm_links)
+
+rm_pdf_tbl <- rm_pdf_raw |> 
+  filter(str_detect(text, "주간통계표")) |> 
+  mutate(text = str_extract(text, "\\d{2}년\\s+\\d{1,2}월\\s+\\d{1}주"))  |> 
+  mutate(filename = str_extract(link, '[^/]+\\.pdf'))
+```
+
+
+## PDF 다운로드
+
+```{r}
+#| eval: false
+fs::dir_create("data/realmeter/")
+
+download.file(url = rm_pdf_tbl$link[1], mode='wb', 
+              destfile = glue::glue("data/realmeter/{rm_pdf_tbl$filename[1]}"))
+```
+
+## PDF 다운로드 함수
+
+```{r}
+link <- rm_pdf_tbl$link[2]
+filename <- rm_pdf_tbl$filename[2]
+
+download_pdfs <- function(link, filename) {
+  download.file(url = link, mode='wb', 
+              destfile = glue::glue("data/realmeter/{filename}"))
+}
+
+download_pdfs(link, filename)
+```
+
+
+## 전체 다운로드
+
+```{r}
+
+get_reports <- function(page="1"){
+  
+  rm_url <- glue::glue('http://www.realmeter.net/category/pdf/page/{page}/')
+
+  rm_html <- read_html(rm_url)
+  
+  ## PDF 다운로드 링크 ---------------
+  rm_links_text <- rm_html |> 
+    html_nodes("a") |> 
+    html_text()
+  
+  rm_links <- rm_html |> 
+    html_nodes("a") |> 
+    html_attr("href")
+  
+  rm_pdf_raw <- tibble('text' = rm_links_text, 'link' = rm_links)
+  
+  rm_pdf_tbl <- rm_pdf_raw |> 
+    filter(str_detect(text, "주간통계표")) |> 
+    # mutate(text = str_extract(text, "\\d{2}년\\s+\\d{1,2}월\\s+\\d{1}주"))  |> 
+    mutate(filename = str_extract(link, '[^/]+\\.pdf')) |> 
+    mutate(link = ifelse(str_detect(link, "^http"), link, 
+                         glue::glue("http://realmeter.cafe24.com{link}")))
+  
+  return(rm_pdf_tbl)
+}
+
+get_reports(157)
+
+pdf_pages <- 1:157
+
+pdf_report_raw <- pdf_pages |> 
+  enframe(value = "page")  |> 
+  slice(156) |> 
+  mutate(data = map(page, get_reports)) 
+
+pdf_report_raw |> 
+  unnest(data) |> 
+  pull(link)
+
+pdf_report_raw |> 
+  unnest(data) |> 
+  mutate(report = walk2(link, filename, download_pdfs))
+
+```
+
+
+# 재시도
+
+## 다운로드 목록
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+## 함수
+get_reports <- function(page="1"){
+  
+  cat("\n----------------------------\n", 
+      "     ", page, " 페이지",
+      "\n----------------------------\n")
+  
+  rm_url <- glue::glue('http://www.realmeter.net/category/pdf/page/{page}/')
+
+  rm_html <- read_html(rm_url)
+  
+  ## PDF 다운로드 링크 ---------------
+  rm_links_text <- rm_html |> 
+    html_nodes("a") |> 
+    html_text()
+  
+  rm_links <- rm_html |> 
+    html_nodes("a") |> 
+    html_attr("href")
+  
+  rm_pdf_raw <- tibble('text' = rm_links_text, 'link' = rm_links)
+  
+  rm_pdf_tbl <- rm_pdf_raw |> 
+    filter(str_detect(text, "주간통계표")) |> 
+    # mutate(text = str_extract(text, "\\d{2}년\\s+\\d{1,2}월\\s+\\d{1}주"))  |> 
+    mutate(filename = str_extract(link, '[^/]+\\.pdf')) |> 
+    mutate(link = ifelse(str_detect(link, "^http"), link, 
+                         glue::glue("http://realmeter.cafe24.com{link}")))
+  
+  return(rm_pdf_tbl)
+}
+
+## 다운로드 페이지
+
+pdf_pages <- 1:158
+
+pdf_report_raw <- pdf_pages |> 
+  enframe(value = "page")  |> 
+  mutate(data = map(page, get_reports))
+
+pdf_report_tbl <- pdf_report_raw |> 
+  select(data) |> 
+  mutate(nrow = map_int(data, nrow)) |> 
+  filter(nrow !=0) |> 
+  unnest(data)
+
+pdf_report_tbl |> 
+  write_rds("data/realmeter/pdf_report_tbl.rds")
+```
+
+## PDF 다운로드
+
+```{r}
+#| eval: false
+pdf_report_tbl <- 
+  read_rds("data/realmeter/pdf_report_tbl.rds")
+
+
+download_pdfs <- function(link, filename) {
+  cat("\n----------------------------\n", 
+      "     ", filename, ": 파일명",
+      "\n----------------------------\n")
+  download.file(url = link, mode='wb', 
+              destfile = glue::glue("data/realmeter/{filename}"))
+}
+
+pdf_report_tbl |> 
+  mutate(pdfs = walk2(link, filename, download_pdfs))
+
+```
+
+
+# 분석
+
+```{r}
+pdf_report_tbl 
+  
+```
+
+

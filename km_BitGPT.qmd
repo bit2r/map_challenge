@@ -1,0 +1,85 @@
+---
+title: "지도제작 대회"
+subtitle: "Code Interpreter"
+description: |
+  BitGPT로 Code Interpreter 기능 구현도전!!!
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 데이터셋
+
+```{r}
+library(tidyverse)
+
+pop_tbl <- 
+  read_rds("data/kwangmyung_pop.rds")
+
+pop_tbl |> 
+  head() |> 
+  gt::gt()
+```
+
+
+# 챗GPT
+
+```{r}
+library(openai)
+
+create_chat_completion(
+    model = "gpt-3.5-turbo",
+    messages = list(
+        list(
+            "role" = "system",
+            "content" = "You are a helpful assistant."
+        ),
+        list(
+            "role" = "user",
+            "content" = "Who won the world series in 2020?"
+        ),
+        list(
+            "role" = "assistant",
+            "content" = "The Los Angeles Dodgers won the World Series in 2020."
+        ),
+        list(
+            "role" = "user",
+            "content" = "Where was it played?"
+        )
+    )
+)
+
+
+```
+
