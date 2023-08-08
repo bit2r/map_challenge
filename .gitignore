@@ -16,4 +16,6 @@ data/HangJeongDong_ver20230401.geojson
 data/EDM
 data/gshhg-shp-2.3.7
 data/realmeter/*.pdf
+data/NBS/*.zip
+data/NBS/*.pdf
 

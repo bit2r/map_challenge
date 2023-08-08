@@ -1,0 +1,193 @@
+---
+title: "지도제작 대회"
+subtitle: "한국갤럽 PDF"
+description: |
+  전국지표조사(NBS) 수도권 역대 지지율을 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: false
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 데이터
+
+## 자료실 목록
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+nbs_url <- "http://nbsurvey.kr/files"
+
+nbs_bbs <- read_html(nbs_url)
+
+nbs_bbs_raw <- nbs_bbs |> 
+  html_nodes('.pagination-large') |> 
+  html_nodes('.btn-page') |> 
+  html_nodes('a') |> 
+  html_attr('href')
+
+nbs_bbs_lists <- c('http://nbsurvey.kr/files?mode=list', nbs_bbs_raw[2:length(nbs_bbs_raw)], 'http://nbsurvey.kr/files?mode=list&board_page=11')
+
+nbs_bbs_lists
+```
+
+
+## 페이지별 보고서 링크
+
+```{r}
+
+page_html <- read_html(nbs_bbs_list[2])
+
+page_links <- page_html |> 
+  html_nodes("a") |> 
+  html_attr('href') 
+
+page_report_links_raw <- page_links[str_detect(page_links, "vid=")] 
+
+page_report_links <- page_report_links_raw[!is.na(page_report_links_raw)]
+
+page_report_links
+
+```
+
+
+## 보고서 파일
+
+```{r}
+library(httr)
+
+report_html <- read_html(page_report_links[1])
+
+report_filename <- report_html |> 
+  html_nodes('a.file-download') |> 
+  html_text() |> 
+  str_extract(pattern = "\\((NBS)\\)_\\d+차_결과\\.zip")
+
+
+report_download_url <- glue::glue("http://nbsurvey.kr/wp-content/plugins/mangboard/includes/mb-file.php",
+                                  "?path=MjAyMy8wMy8zMC9GMjc1XyhOQlMpXzkz7LCoX%2BqysOqzvC56aXA%3D",
+                                  "&type=download",
+                                  "&file_name={I(report_filename)}")
+
+# fs::dir_create("data/NBS")
+
+download.file(report_download_url, mode='wb', destfile = glue::glue("data/NBS/{report_filename}"))
+```
+
+
+# 전체 파일 다운로드
+
+## 한 페이지
+
+```{r}
+
+# for(i in 1:length(page_report_links)) {
+#   cat("\n", i, "----------", page_report_links[i], "\n")
+#   download_zip_report(page_report_links[i])
+# }
+
+download_zip_report <- function(page_report_link) {
+  
+  report_html <- read_html(page_report_link)
+
+  report_filename <- report_html |> 
+    html_nodes('a.file-download') |> 
+    html_text() |> 
+    str_extract(pattern = "\\((NBS)\\)_\\d+차_결과\\.zip")
+  
+  
+  report_download_url <- glue::glue("http://nbsurvey.kr/wp-content/plugins/mangboard/includes/mb-file.php",
+                                    "?path=MjAyMy8wMy8zMC9GMjc1XyhOQlMpXzkz7LCoX%2BqysOqzvC56aXA%3D",
+                                    "&type=download",
+                                    "&file_name={I(report_filename)}")
+  
+  download.file(report_download_url, mode='wb', destfile = glue::glue("data/NBS/{report_filename}"))
+}
+
+walk(page_report_links, download_zip_report)
+
+```
+
+
+## 젠체 페이지
+
+```{r}
+
+nbs_bbs_lists
+
+get_page_links <- function(nbs_bbs_list) {
+  
+  page_html <- read_html(nbs_bbs_list)
+
+  page_links <- page_html |> 
+    html_nodes("a") |> 
+    html_attr('href') 
+  
+  page_report_links_raw <- page_links[str_detect(page_links, "vid=")] 
+  
+  page_report_links <- page_report_links_raw[!is.na(page_report_links_raw)]
+  
+  page_report_links
+}
+
+nbs_bbs_tbl <- nbs_bbs_lists |> 
+  enframe(value = "page_url") |> 
+  mutate(data = map(page_url, get_page_links))
+
+nbs_bbs_tbl |> 
+  unnest(data)
+
+
+download_zip_report <- function(page_report_link) {
+  
+  report_html <- read_html(page_report_link)
+
+  report_filename <- report_html |> 
+    html_nodes('a.file-download') |> 
+    html_text() |> 
+    str_extract(pattern = "\\((NBS)\\)_\\d+차_결과\\.zip")
+  
+  
+  report_download_url <- glue::glue("http://nbsurvey.kr/wp-content/plugins/mangboard/includes/mb-file.php",
+                                    "?path=MjAyMy8wMy8zMC9GMjc1XyhOQlMpXzkz7LCoX%2BqysOqzvC56aXA%3D",
+                                    "&type=download",
+                                    "&file_name={I(report_filename)}")
+  
+  download.file(report_download_url, mode='wb', destfile = glue::glue("data/NBS/{report_filename}"))
+}
+
+walk(page_report_links, download_zip_report)
+
+```
+
