@@ -227,9 +227,146 @@ pdf_report_tbl |>
 
 # 분석
 
+## 윤석열 대통령 이후
+
 ```{r}
-pdf_report_tbl 
+library(tidyverse)
+library(fs)
+
+pdf_report_tbl <- 
+  read_rds("data/realmeter/pdf_report_tbl.rds")
+
+local_path_file <- fs::dir_ls("data/realmeter/") |> 
+  enframe(value = "path_file") |> 
+  mutate(filename = path_file(name)) |> 
+  select(path_file, filename)
+
+# 날짜 변환 함수
+convert_to_date <- function(d) {
+  year <- as.numeric(sub("년.*", "", d)) + 2000  # 2000을 더해서 4자리 연도를 만듭니다.
+  month <- as.numeric(sub(".* (\\d+)월.*", "\\1", d))
+  week <- as.numeric(sub(".*월 (\\d+)주", "\\1", d))
+  start_date <- ymd(paste(year, month, 1, sep = "-"))
   
+  return(start_date + days(7 * (week - 1)))
+}
+
+
+yoon_pdf <- pdf_report_tbl |> 
+  left_join(local_path_file) |> 
+  select(text, path_file, filename) |> 
+  mutate(date = str_extract(text, pattern = '(\\d+년 \\d+월 \\d+주)')) |> 
+  mutate(date = convert_to_date(date)) |> 
+  filter(date > as.Date("2022-05-01"),
+         str_detect(filename, "주간통계표")) |> 
+  select(date, path_file, filename) |> 
+  arrange(date)
+
+yoon_pdf
+```
+
+## 응답자 특성
+
+```{r}
+#| eval: false
+library(pdftools)
+library(openai)
+
+raw_text <- pdftools::pdf_text(pdf = "data/realmeter/주간통계표22년5월2주최종_y51w.pdf")
+
+demo_text <- raw_text |> 
+  enframe() |> 
+  mutate(value = str_squish(value)) |> 
+  # filter(str_detect(value, "^(?=.*보수)(?=.*중도)(?=.*진보)")) |> 
+  filter(str_detect(value, "응답자\\s+특성")) |> 
+  pull(value)
+
+system_task <- glue::glue("당신은 통계 데이터 전문가입니다.
+                          당신에게 텍스트 형식의 표로 주어졌을 때,
+                          설명은 없이 텍스트를 표로 바꾸는 것입니다.",
+                          "텍스트 형식의 표는 다음과 같습니다.",
+                          "데이터의 상단에는 표의 칼럼명이 위치하고 첫번째 혹은 
+                          두번째 칼럼은 다차원표의 범주(Level)에 대한 정보를 담고 있고
+                          나머지 셀은 숫자로 구성됩니다.")
+                          # "'만18세 이상 29세 이하'는 하나의 값입니다.")
+
+gpt_response <- create_chat_completion(
+            # model = "gpt-3.5-turbo",
+            model = "gpt-4",
+            messages = list(
+              list(
+                "role" = "system",
+                "content" = system_task
+              ),
+              list(
+                "role" = "user",
+                "content" = demo_text
+              )
+            ),
+            temperature = 0,
+            top_p = 1,
+            n = 1,
+            openai_api_key = Sys.getenv("OPENAI_API_KEY"),
+            openai_organization = NULL
+          )
+
+
+gpt_response |> 
+  write_rds("data/realmeter_deom.rds")
+```
+
+
+```{r}
+#| eval: true
+library(tidyverse)
+library(openai)
+
+gpt_response <- 
+  read_rds("data/realmeter_deom.rds")
+
+result_md <- gpt_response |> 
+  pluck('choices') |> 
+  pull('message.content')  |> 
+  str_split("\n") %>%
+  .[[1]]
+  
+result_md
+
+
+markdown_to_df <- function(markdown_table) {
+  
+  # Remove rows with only dashes (assuming they're separator rows)
+  markdown_table <- markdown_table[!str_detect(markdown_table, "^\\|[-]+\\|")]
+
+  # Split each line into its components based on the pipe delimiter
+  split_lines <- str_split(markdown_table, "\\|")
+  
+  # Extract headers and data
+  headers <- str_trim(unlist(split_lines[1]))
+  data <- do.call(rbind, split_lines[-1])
+  
+  # Convert data to dataframe and assign column names
+  df <- as.data.frame(data, stringsAsFactors = FALSE)
+  colnames(df) <- headers
+  
+  return(df)
+}
+
+demo_raw <- markdown_to_df(result_md)
+
+deom_tbl <- demo_raw |> 
+  janitor::clean_names(ascii= FALSE) |> 
+  select(!starts_with("x")) |> 
+  set_names(c("구분", "완료_사례", "완료_비율", "가중_사례", "가중_비율", "가중값")) |> 
+  as_tibble() |> 
+  mutate_all(str_squish) |> 
+  mutate(구분 = str_remove_all(구분, "\\s+")) |> 
+  mutate(구분 = case_when(str_detect(구분, "만18세이상") ~ "20대",
+                          str_detect(구분, "29세이하") ~ "30대",
+                          TRUE ~ 구분))
+
+deom_tbl |> 
+  gt::gt()
 ```
 
 
