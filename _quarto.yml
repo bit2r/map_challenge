@@ -78,6 +78,8 @@ website:
             text: "광명시(총/대/지)"
           - href: approval_rate.qmd
             text: "대통령 지지율"
+          - href: minju_party.qmd
+            text: "민주당은 전국정당(?)"
           - text: "----------------"
           - href: realmeter_metro.qmd
             text: "리얼미터 PDF"
