@@ -84,7 +84,7 @@ website:
           - href: gallop_metro.qmd
             text: "한국갤럽 PDF"
           - href: nbs_metro.qmd
-            text: "전국지표조사 PDF"            
+            text: "전국지표조사 PDF"
 format:
   html:
     theme:

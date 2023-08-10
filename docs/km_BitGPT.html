@@ -72,7 +72,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -233,9 +236,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./approval_rate.html" rel="" target="">
  <span class="dropdown-text">대통령 지지율</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
         <li>
     <a class="dropdown-item" href="./realmeter_metro.html" rel="" target="">
- <span class="dropdown-text">리얼미터 수도권</span></a>
+ <span class="dropdown-text">리얼미터 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallop_metro.html" rel="" target="">
+ <span class="dropdown-text">한국갤럽 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nbs_metro.html" rel="" target="">
+ <span class="dropdown-text">전국지표조사 PDF</span></a>
   </li>  
     </ul>
 </li>
@@ -288,40 +300,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">목차</h2>
    
   <ul>
-<li><a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B" id="toc-데이터셋" class="nav-link active" data-scroll-target="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B"><span class="header-section-number">1</span> 데이터셋</a></li>
-  <li><a href="#%EC%B1%97gpt" id="toc-챗gpt" class="nav-link" data-scroll-target="#%EC%B1%97gpt"><span class="header-section-number">2</span> 챗GPT</a></li>
-  </ul></nav>
+<li>
+<a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B" id="toc-데이터셋" class="nav-link active" data-scroll-target="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B"><span class="header-section-number">1</span> 데이터셋</a>
+  <ul class="collapse">
+<li><a href="#%EC%9B%90%EB%B3%B8-%EB%8D%B0%EC%9D%B4%ED%84%B0" id="toc-원본-데이터" class="nav-link" data-scroll-target="#%EC%9B%90%EB%B3%B8-%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="header-section-number">1.1</span> 원본 데이터</a></li>
+  <li><a href="#%EA%B0%80%EA%B3%B5%EB%8D%B0%EC%9D%B4%ED%84%B0" id="toc-가공데이터" class="nav-link" data-scroll-target="#%EA%B0%80%EA%B3%B5%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="header-section-number">1.2</span> 가공데이터</a></li>
+  <li><a href="#%EC%B1%97gpt-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%80%ED%99%98" id="toc-챗gpt-데이터-변환" class="nav-link" data-scroll-target="#%EC%B1%97gpt-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B3%80%ED%99%98"><span class="header-section-number">1.3</span> 챗GPT 데이터 변환</a></li>
+  </ul>
+</li>
+  <li><a href="#%EC%B1%97gpt-code-interpreter" id="toc-챗gpt-code-interpreter" class="nav-link" data-scroll-target="#%EC%B1%97gpt-code-interpreter"><span class="header-section-number">2</span> 챗GPT Code Interpreter</a></li>
+  <li><a href="#%EC%A5%AC%ED%94%BC%ED%84%B0-%EB%85%B8%ED%8A%B8%EB%B6%81-%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0" id="toc-쥬피터-노트북-미리보기" class="nav-link" data-scroll-target="#%EC%A5%AC%ED%94%BC%ED%84%B0-%EB%85%B8%ED%8A%B8%EB%B6%81-%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0"><span class="header-section-number">3</span> 쥬피터 노트북 미리보기</a></li>
+  <li>
+<a href="#%EB%A7%88%EB%AC%B4%EB%A6%AC-%EC%9E%91%EC%97%85" id="toc-마무리-작업" class="nav-link" data-scroll-target="#%EB%A7%88%EB%AC%B4%EB%A6%AC-%EC%9E%91%EC%97%85"><span class="header-section-number">4</span> 마무리 작업</a>
+  <ul class="collapse">
+<li><a href="#%EC%97%B0%EB%8F%84%EB%B3%84-%EC%9D%B8%EA%B5%AC%EC%88%98" id="toc-연도별-인구수" class="nav-link" data-scroll-target="#%EC%97%B0%EB%8F%84%EB%B3%84-%EC%9D%B8%EA%B5%AC%EC%88%98"><span class="header-section-number">4.1</span> 연도별 인구수</a></li>
+  <li><a href="#%EC%97%B0%EB%8F%84%EB%B3%84-%EC%9D%B8%EA%B5%AC%EC%88%98-1" id="toc-연도별-인구수-1" class="nav-link" data-scroll-target="#%EC%97%B0%EB%8F%84%EB%B3%84-%EC%9D%B8%EA%B5%AC%EC%88%98-1"><span class="header-section-number">4.2</span> 연도별 인구수</a></li>
+  <li><a href="#%EB%8F%99%EB%B3%84-%EC%9D%B8%EA%B5%AC%EC%88%98" id="toc-동별-인구수" class="nav-link" data-scroll-target="#%EB%8F%99%EB%B3%84-%EC%9D%B8%EA%B5%AC%EC%88%98"><span class="header-section-number">4.3</span> 동별 인구수</a></li>
+  <li><a href="#%EC%9C%A0%EA%B6%8C%EC%9E%90-%EB%B9%84%EC%9C%A8-1" id="toc-유권자-비율-1" class="nav-link" data-scroll-target="#%EC%9C%A0%EA%B6%8C%EC%9E%90-%EB%B9%84%EC%9C%A8-1"><span class="header-section-number">4.4</span> 유권자 비율</a></li>
+  <li><a href="#%EB%82%B4%EB%A6%BC%EC%B0%A8%EC%88%9C-%EC%9C%A0%EA%B6%8C%EC%9E%90%EC%88%98" id="toc-내림차순-유권자수" class="nav-link" data-scroll-target="#%EB%82%B4%EB%A6%BC%EC%B0%A8%EC%88%9C-%EC%9C%A0%EA%B6%8C%EC%9E%90%EC%88%98"><span class="header-section-number">4.5</span> 내림차순 유권자수</a></li>
+  </ul>
+</li>
+  </ul><div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="data\kwangmyung_population_analysis_v2-preview.html"><i class="bi bi-journal-code"></i>kwangmyung_population_analysis_v2.ipynb</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="데이터셋" class="level1" data-number="1"><h1 data-number="1">
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><section id="데이터셋" class="level1 page-columns page-full" data-number="1"><h1 data-number="1">
 <span class="header-section-number">1</span> 데이터셋</h1>
+<section id="원본-데이터" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="원본-데이터">
+<span class="header-section-number">1.1</span> 원본 데이터</h2>
+<p>행정안전부 <a href="https://jumin.mois.go.kr/">주민등록 인구 및 세대현황</a> 웹사이트에서 광명시 최근 데이터를 가져온다.</p>
 <div class="cell">
 <details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">pop_tbl</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.rds"</span><span class="op">)</span></span>
+<span><span class="va">raw_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/202307_202307_연령별인구현황_월간.xlsx"</span>, skip <span class="op">=</span><span class="fl">3</span><span class="op">)</span> </span>
 <span></span>
-<span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">raw_data</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span>ascii <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="iigyrdtjec" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#iigyrdtjec table {
+<div id="oagdizdafp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oagdizdafp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#iigyrdtjec thead, #iigyrdtjec tbody, #iigyrdtjec tfoot, #iigyrdtjec tr, #iigyrdtjec td, #iigyrdtjec th {
+#oagdizdafp thead, #oagdizdafp tbody, #oagdizdafp tfoot, #oagdizdafp tr, #oagdizdafp td, #oagdizdafp th {
   border-style: none;
 }
 
-#iigyrdtjec p {
+#oagdizdafp p {
   margin: 0;
   padding: 0;
 }
 
-#iigyrdtjec .gt_table {
+#oagdizdafp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -347,12 +382,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_caption {
+#oagdizdafp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#iigyrdtjec .gt_title {
+#oagdizdafp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -364,7 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#iigyrdtjec .gt_subtitle {
+#oagdizdafp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -376,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#iigyrdtjec .gt_heading {
+#oagdizdafp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -388,13 +423,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_bottom_border {
+#oagdizdafp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_col_headings {
+#oagdizdafp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -409,7 +444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_col_heading {
+#oagdizdafp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -429,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#iigyrdtjec .gt_column_spanner_outer {
+#oagdizdafp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -441,15 +476,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#iigyrdtjec .gt_column_spanner_outer:first-child {
+#oagdizdafp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iigyrdtjec .gt_column_spanner_outer:last-child {
+#oagdizdafp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iigyrdtjec .gt_column_spanner {
+#oagdizdafp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -461,11 +496,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#iigyrdtjec .gt_spanner_row {
+#oagdizdafp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#iigyrdtjec .gt_group_heading {
+#oagdizdafp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -491,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#iigyrdtjec .gt_empty_group_heading {
+#oagdizdafp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -506,15 +541,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#iigyrdtjec .gt_from_md > :first-child {
+#oagdizdafp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iigyrdtjec .gt_from_md > :last-child {
+#oagdizdafp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iigyrdtjec .gt_row {
+#oagdizdafp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -533,7 +568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#iigyrdtjec .gt_stub {
+#oagdizdafp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -546,7 +581,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#iigyrdtjec .gt_stub_row_group {
+#oagdizdafp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -560,15 +595,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#iigyrdtjec .gt_row_group_first td {
+#oagdizdafp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#iigyrdtjec .gt_row_group_first th {
+#oagdizdafp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#iigyrdtjec .gt_summary_row {
+#oagdizdafp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -578,16 +613,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#iigyrdtjec .gt_first_summary_row {
+#oagdizdafp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_first_summary_row.thick {
+#oagdizdafp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#iigyrdtjec .gt_last_summary_row {
+#oagdizdafp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -597,7 +632,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_grand_summary_row {
+#oagdizdafp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -607,7 +642,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#iigyrdtjec .gt_first_grand_summary_row {
+#oagdizdafp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -617,7 +652,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_last_grand_summary_row_top {
+#oagdizdafp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -627,11 +662,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_striped {
+#oagdizdafp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iigyrdtjec .gt_table_body {
+#oagdizdafp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -640,7 +675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_footnotes {
+#oagdizdafp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -654,7 +689,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_footnote {
+#oagdizdafp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -663,7 +698,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#iigyrdtjec .gt_sourcenotes {
+#oagdizdafp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -677,7 +712,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#iigyrdtjec .gt_sourcenote {
+#oagdizdafp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -685,63 +720,606 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#iigyrdtjec .gt_left {
+#oagdizdafp .gt_left {
   text-align: left;
 }
 
-#iigyrdtjec .gt_center {
+#oagdizdafp .gt_center {
   text-align: center;
 }
 
-#iigyrdtjec .gt_right {
+#oagdizdafp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#iigyrdtjec .gt_font_normal {
+#oagdizdafp .gt_font_normal {
   font-weight: normal;
 }
 
-#iigyrdtjec .gt_font_bold {
+#oagdizdafp .gt_font_bold {
   font-weight: bold;
 }
 
-#iigyrdtjec .gt_font_italic {
+#oagdizdafp .gt_font_italic {
   font-style: italic;
 }
 
-#iigyrdtjec .gt_super {
+#oagdizdafp .gt_super {
   font-size: 65%;
 }
 
-#iigyrdtjec .gt_footnote_marks {
+#oagdizdafp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#iigyrdtjec .gt_asterisk {
+#oagdizdafp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#iigyrdtjec .gt_indent_1 {
+#oagdizdafp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#iigyrdtjec .gt_indent_2 {
+#oagdizdafp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#iigyrdtjec .gt_indent_3 {
+#oagdizdafp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#iigyrdtjec .gt_indent_4 {
+#oagdizdafp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#iigyrdtjec .gt_indent_5 {
+#oagdizdafp .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="행정기관코드">행정기관코드</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="행정기관">행정기관</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="총_인구수">총_인구수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="연령구간인구수_4">연령구간인구수_4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x0세_5">x0세_5</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x1세_6">x1세_6</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x2세_7">x2세_7</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x3세_8">x3세_8</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x4세_9">x4세_9</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x5세_10">x5세_10</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="행정기관코드" class="gt_row gt_right">4121000000</td>
+<td headers="행정기관" class="gt_row gt_left">경기도 경기도 광명시</td>
+<td headers="총_인구수" class="gt_row gt_right">280,986</td>
+<td headers="연령구간인구수_4" class="gt_row gt_right">280,986</td>
+<td headers="x0세_5" class="gt_row gt_right">1,373</td>
+<td headers="x1세_6" class="gt_row gt_right">1,470</td>
+<td headers="x2세_7" class="gt_row gt_right">1,582</td>
+<td headers="x3세_8" class="gt_row gt_right">1,588</td>
+<td headers="x4세_9" class="gt_row gt_right">1,729</td>
+<td headers="x5세_10" class="gt_row gt_right">1,924</td>
+</tr>
+<tr>
+<td headers="행정기관코드" class="gt_row gt_right">4121051000</td>
+<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명1동</td>
+<td headers="총_인구수" class="gt_row gt_right">56</td>
+<td headers="연령구간인구수_4" class="gt_row gt_right">56</td>
+<td headers="x0세_5" class="gt_row gt_right">0</td>
+<td headers="x1세_6" class="gt_row gt_right">0</td>
+<td headers="x2세_7" class="gt_row gt_right">0</td>
+<td headers="x3세_8" class="gt_row gt_right">0</td>
+<td headers="x4세_9" class="gt_row gt_right">0</td>
+<td headers="x5세_10" class="gt_row gt_right">0</td>
+</tr>
+<tr>
+<td headers="행정기관코드" class="gt_row gt_right">4121052000</td>
+<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명2동</td>
+<td headers="총_인구수" class="gt_row gt_right">2,953</td>
+<td headers="연령구간인구수_4" class="gt_row gt_right">2,953</td>
+<td headers="x0세_5" class="gt_row gt_right">9</td>
+<td headers="x1세_6" class="gt_row gt_right">7</td>
+<td headers="x2세_7" class="gt_row gt_right">11</td>
+<td headers="x3세_8" class="gt_row gt_right">5</td>
+<td headers="x4세_9" class="gt_row gt_right">5</td>
+<td headers="x5세_10" class="gt_row gt_right">8</td>
+</tr>
+<tr>
+<td headers="행정기관코드" class="gt_row gt_right">4121054000</td>
+<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명3동</td>
+<td headers="총_인구수" class="gt_row gt_right">9,869</td>
+<td headers="연령구간인구수_4" class="gt_row gt_right">9,869</td>
+<td headers="x0세_5" class="gt_row gt_right">29</td>
+<td headers="x1세_6" class="gt_row gt_right">21</td>
+<td headers="x2세_7" class="gt_row gt_right">20</td>
+<td headers="x3세_8" class="gt_row gt_right">20</td>
+<td headers="x4세_9" class="gt_row gt_right">23</td>
+<td headers="x5세_10" class="gt_row gt_right">24</td>
+</tr>
+<tr>
+<td headers="행정기관코드" class="gt_row gt_right">4121055000</td>
+<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명4동</td>
+<td headers="총_인구수" class="gt_row gt_right">8,114</td>
+<td headers="연령구간인구수_4" class="gt_row gt_right">8,114</td>
+<td headers="x0세_5" class="gt_row gt_right">35</td>
+<td headers="x1세_6" class="gt_row gt_right">29</td>
+<td headers="x2세_7" class="gt_row gt_right">44</td>
+<td headers="x3세_8" class="gt_row gt_right">27</td>
+<td headers="x4세_9" class="gt_row gt_right">28</td>
+<td headers="x5세_10" class="gt_row gt_right">35</td>
+</tr>
+<tr>
+<td headers="행정기관코드" class="gt_row gt_right">4121056000</td>
+<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명5동</td>
+<td headers="총_인구수" class="gt_row gt_right">12,206</td>
+<td headers="연령구간인구수_4" class="gt_row gt_right">12,206</td>
+<td headers="x0세_5" class="gt_row gt_right">41</td>
+<td headers="x1세_6" class="gt_row gt_right">40</td>
+<td headers="x2세_7" class="gt_row gt_right">64</td>
+<td headers="x3세_8" class="gt_row gt_right">51</td>
+<td headers="x4세_9" class="gt_row gt_right">49</td>
+<td headers="x5세_10" class="gt_row gt_right">60</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section><section id="가공데이터" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="가공데이터">
+<span class="header-section-number">1.2</span> 가공데이터</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pop_tbl</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div id="ekmptiwika" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ekmptiwika table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ekmptiwika thead, #ekmptiwika tbody, #ekmptiwika tfoot, #ekmptiwika tr, #ekmptiwika td, #ekmptiwika th {
+  border-style: none;
+}
+
+#ekmptiwika p {
+  margin: 0;
+  padding: 0;
+}
+
+#ekmptiwika .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ekmptiwika .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ekmptiwika .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ekmptiwika .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ekmptiwika .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ekmptiwika .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ekmptiwika .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ekmptiwika .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ekmptiwika .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ekmptiwika .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ekmptiwika .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ekmptiwika .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ekmptiwika .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ekmptiwika .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ekmptiwika .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ekmptiwika .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ekmptiwika .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ekmptiwika .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ekmptiwika .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ekmptiwika .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ekmptiwika .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ekmptiwika .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ekmptiwika .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ekmptiwika .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ekmptiwika .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ekmptiwika .gt_left {
+  text-align: left;
+}
+
+#ekmptiwika .gt_center {
+  text-align: center;
+}
+
+#ekmptiwika .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ekmptiwika .gt_font_normal {
+  font-weight: normal;
+}
+
+#ekmptiwika .gt_font_bold {
+  font-weight: bold;
+}
+
+#ekmptiwika .gt_font_italic {
+  font-style: italic;
+}
+
+#ekmptiwika .gt_super {
+  font-size: 65%;
+}
+
+#ekmptiwika .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ekmptiwika .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ekmptiwika .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ekmptiwika .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ekmptiwika .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ekmptiwika .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ekmptiwika .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -801,66 +1379,250 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-</section><section id="챗gpt" class="level1" data-number="2"><h1 data-number="2">
-<span class="header-section-number">2</span> 챗GPT</h1>
+</section><section id="챗gpt-데이터-변환" class="level2 page-columns page-full" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="챗gpt-데이터-변환">
+<span class="header-section-number">1.3</span> 챗GPT 데이터 변환</h2>
+<p>데이터를 가공한 후 챗GPT Code Interpreter 분석용으로 변환시켜 데이터를 전송한다.</p>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/irudnyts/openai">openai</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://irudnyts.github.io/openai/reference/create_chat_completion.html">create_chat_completion</a></span><span class="op">(</span></span>
-<span>    model <span class="op">=</span> <span class="st">"gpt-3.5-turbo"</span>,</span>
-<span>    messages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>            <span class="st">"role"</span> <span class="op">=</span> <span class="st">"system"</span>,</span>
-<span>            <span class="st">"content"</span> <span class="op">=</span> <span class="st">"You are a helpful assistant."</span></span>
-<span>        <span class="op">)</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>            <span class="st">"role"</span> <span class="op">=</span> <span class="st">"user"</span>,</span>
-<span>            <span class="st">"content"</span> <span class="op">=</span> <span class="st">"Who won the world series in 2020?"</span></span>
-<span>        <span class="op">)</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>            <span class="st">"role"</span> <span class="op">=</span> <span class="st">"assistant"</span>,</span>
-<span>            <span class="st">"content"</span> <span class="op">=</span> <span class="st">"The Los Angeles Dodgers won the World Series in 2020."</span></span>
-<span>        <span class="op">)</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>            <span class="st">"role"</span> <span class="op">=</span> <span class="st">"user"</span>,</span>
-<span>            <span class="st">"content"</span> <span class="op">=</span> <span class="st">"Where was it played?"</span></span>
-<span>        <span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; $id</span></span>
-<span><span class="co">#&gt; [1] "chatcmpl-7kujkISwp9RYXMi8g3Tiu5iNBilQr"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $object</span></span>
-<span><span class="co">#&gt; [1] "chat.completion"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $created</span></span>
-<span><span class="co">#&gt; [1] 1691415540</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $model</span></span>
-<span><span class="co">#&gt; [1] "gpt-3.5-turbo-0613"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $choices</span></span>
-<span><span class="co">#&gt;   index finish_reason message.role</span></span>
-<span><span class="co">#&gt; 1     0          stop    assistant</span></span>
-<span><span class="co">#&gt;                                                             message.content</span></span>
-<span><span class="co">#&gt; 1 The 2020 World Series was played at Globe Life Field in Arlington, Texas.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $usage</span></span>
-<span><span class="co">#&gt; $usage$prompt_tokens</span></span>
-<span><span class="co">#&gt; [1] 53</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $usage$completion_tokens</span></span>
-<span><span class="co">#&gt; [1] 17</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $usage$total_tokens</span></span>
-<span><span class="co">#&gt; [1] 70</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.csv"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/km_code_interpreter.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class=""><a href="data/kwangmyung_pop.csv">CSV 파일 다운로드</a></span></div></div>
+</section></section><section id="챗gpt-code-interpreter" class="level1 page-columns page-full" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> 챗GPT Code Interpreter</h1>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">데이터 불러오기</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">선그래프</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">남녀별</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">동별</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">유권자 비율</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">동별 유권자</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false">동별 유권자(정렬)</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false">동별 유권자(비율)</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-9" role="tab" aria-controls="tabset-1-9" aria-selected="false">동별 유권자(비교)</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-10-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-10" role="tab" aria-controls="tabset-1-10" aria-selected="false">노트북 내보내기</a></li>
+</ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_01.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/km_code_interpreter_01.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_02.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/km_code_interpreter_02.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_03.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/km_code_interpreter_03.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_04.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/km_code_interpreter_04.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_05.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="images/km_code_interpreter_05.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_06.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="images/km_code_interpreter_06.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_07.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/km_code_interpreter_07.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_08.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/km_code_interpreter_08.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_09.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="images/km_code_interpreter_09.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div id="tabset-1-10" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-10-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="images/km_code_interpreter_10.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="images/km_code_interpreter_10.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class="">쥬피터 노트북 <a href="data/kwangmyung_population_analysis_v2.ipynb">다운로드</a></span></div></div>
+</section><section id="쥬피터-노트북-미리보기" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> 쥬피터 노트북 미리보기</h1>
+<div class="quarto-embed-nb-cell">
+
+<a class="quarto-notebook-link" id="nblink-1" href="data\kwangmyung_population_analysis_v2-preview.html#048e386f">원천: kwangmyung_population_analysis_v2.ipynb</a></div>
+</section><section id="마무리-작업" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> 마무리 작업</h1>
+<section id="연도별-인구수" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="연도별-인구수">
+<span class="header-section-number">4.1</span> 연도별 인구수</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pop_tbl</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시점 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">연도</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>인구수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">연도</span>, y<span class="op">=</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"skyblue"</span>, size<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"blue"</span>, size<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"광명시 인구수 변화"</span>, x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">"인구수(명)"</span>,</span>
+<span>         caption <span class="op">=</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="km_BitGPT_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="연도별-인구수-1" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="연도별-인구수-1">
+<span class="header-section-number">4.2</span> 연도별 인구수</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pop_tbl</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시점 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">연도</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>인구수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">연도</span>, y<span class="op">=</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"skyblue"</span>, size<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"blue"</span>, size<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"광명시 인구수 변화"</span>, x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">"인구수(명)"</span>,</span>
+<span>         caption <span class="op">=</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="km_BitGPT_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="동별-인구수" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="동별-인구수">
+<span class="header-section-number">4.3</span> 동별 인구수</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시점 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">연도</span>, <span class="va">행정동</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>인구수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">연도</span>, y<span class="op">=</span><span class="va">인구수</span>, color <span class="op">=</span> <span class="va">행정동</span>, group<span class="op">=</span><span class="va">행정동</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"blue"</span>, size<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"광명시 동별 인구수 변화"</span>, x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">"인구수(명)"</span>,</span>
+<span>         caption <span class="op">=</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="km_BitGPT_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="유권자-비율-1" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="유권자-비율-1">
+<span class="header-section-number">4.4</span> 유권자 비율</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시점 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>유권자 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">나이</span> <span class="op">&gt;=</span><span class="fl">18</span>, <span class="st">"유권자"</span>, <span class="st">"비유권자"</span><span class="op">)</span>,</span>
+<span>         유권자 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">유권자</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"비유권자"</span>, <span class="st">'유권자'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">유권자</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>인구수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="va">인구수</span>, fill <span class="op">=</span> <span class="va">유권자</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span>, stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_polar.html">coord_polar</a></span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"광명시 유권자 비율"</span>,</span>
+<span>         caption <span class="op">=</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span>,</span>
+<span>         fill <span class="op">=</span> <span class="st">"구분"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>유권자 <span class="op">=</span> <span class="st">"blue"</span>, 비유권자<span class="op">=</span><span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="km_BitGPT_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="내림차순-유권자수" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="내림차순-유권자수">
+<span class="header-section-number">4.5</span> 내림차순 유권자수</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시점 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">연도</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">연도</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>유권자 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">나이</span> <span class="op">&gt;=</span><span class="fl">18</span>, <span class="st">"유권자"</span>, <span class="st">"비유권자"</span><span class="op">)</span>,</span>
+<span>         유권자 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">유권자</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"비유권자"</span>, <span class="st">'유권자'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">행정동</span>, <span class="va">유권자</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>인구수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>유권자비율 <span class="op">=</span> <span class="va">인구수</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    </span>
+<span>  <span class="co"># pivot_wider(names_from = 유권자, values_from = 인구수) |&gt; </span></span>
+<span>  <span class="co"># mutate(유권자비율 = 유권자/(비유권자+유권자)) |&gt; </span></span>
+<span>  <span class="co"># arrange(desc(유권자비율))</span></span>
+<span></span>
+<span>  <span class="co"># 시각화 -----------------</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html">fct_reorder2</a></span><span class="op">(</span><span class="va">행정동</span>, <span class="va">유권자</span>, <span class="va">유권자비율</span><span class="op">)</span>, y<span class="op">=</span><span class="va">유권자비율</span>, fill <span class="op">=</span> <span class="va">유권자</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"광명시 동별 유권자 비율"</span>,</span>
+<span>         caption <span class="op">=</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span>,</span>
+<span>         fill <span class="op">=</span> <span class="st">"구분"</span>,</span>
+<span>         x <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>유권자 <span class="op">=</span> <span class="st">"blue"</span>, 비유권자<span class="op">=</span><span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="km_BitGPT_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
 </div>
 
 
 <!-- -->
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1372,90 +2134,266 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">소스 코드</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Code Interpreter"</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">  BitGPT로 Code Interpreter 기능 구현도전!!!</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">    eval: true</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터셋</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="ot">&lt;-</span> </span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">"data/kwangmyung_pop.rds"</span>)</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>()</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="fu"># 챗GPT</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openai)</span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="fu">create_chat_completion</span>(</span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-3.5-turbo"</span>,</span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">messages =</span> <span class="fu">list</span>(</span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span> <span class="ot">=</span> <span class="st">"system"</span>,</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span> <span class="ot">=</span> <span class="st">"You are a helpful assistant."</span></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span> <span class="ot">=</span> <span class="st">"user"</span>,</span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span> <span class="ot">=</span> <span class="st">"Who won the world series in 2020?"</span></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(</span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span> <span class="ot">=</span> <span class="st">"assistant"</span>,</span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span> <span class="ot">=</span> <span class="st">"The Los Angeles Dodgers won the World Series in 2020."</span></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span> <span class="ot">=</span> <span class="st">"user"</span>,</span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span> <span class="ot">=</span> <span class="st">"Where was it played?"</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Code Interpreter"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">  BitGPT로 Code Interpreter 기능 구현도전!!!</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">    eval: true</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터셋</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## 원본 데이터</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>행정안전부 <span class="co">[</span><span class="ot">주민등록 인구 및 세대현황</span><span class="co">](https://jumin.mois.go.kr/)</span> 웹사이트에서 광명시 최근 데이터를 가져온다.</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/202307_202307_연령별인구현황_월간.xlsx"</span>, <span class="at">skip =</span><span class="dv">3</span>) </span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>raw_data <span class="sc">|&gt;</span> </span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="at">ascii =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>()</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## 가공데이터</span></span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="ot">&lt;-</span> </span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">"data/kwangmyung_pop.rds"</span>)</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>()</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## 챗GPT 데이터 변환</span></span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>데이터를 가공한 후 챗GPT Code Interpreter 분석용으로 변환시켜 데이터를 전송한다.</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"data/kwangmyung_pop.csv"</span>)</span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter.png)</span></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>[<span class="co">[</span><span class="ot">CSV 파일 다운로드</span><span class="co">](data/kwangmyung_pop.csv)</span>]{.aside}</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="fu"># 챗GPT Code Interpreter</span></span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset}</span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="fu">### 데이터 불러오기</span></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_01.jpg)</span></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="fu">### 선그래프</span></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_02.jpg)</span></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a><span class="fu">### 남녀별</span></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_03.jpg)</span></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a><span class="fu">### 동별</span></span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_04.jpg)</span></span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a><span class="fu">### 유권자 비율</span></span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_05.jpg)</span></span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a><span class="fu">### 동별 유권자</span></span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_06.jpg)</span></span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a><span class="fu">### 동별 유권자(정렬)</span></span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_07.jpg)</span></span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### 동별 유권자(비율)</span></span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_08.jpg)</span></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="fu">### 동별 유권자(비교)</span></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_09.jpg)</span></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### 노트북 내보내기</span></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/km_code_interpreter_10.jpg)</span></span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">쥬피터 노트북 [다운로드](data/kwangmyung_population_analysis_v2.ipynb)</span><span class="co">]</span>{.aside}</span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="fu"># 쥬피터 노트북 미리보기</span></span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>{{&lt; embed data/kwangmyung_population_analysis_v2.ipynb &gt;}}</span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a><span class="fu"># 마무리 작업</span></span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## 연도별 인구수</span></span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="ot">&lt;-</span> </span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">"data/kwangmyung_pop.rds"</span>)</span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(시점 <span class="ot">=</span> <span class="fu">ymd</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(연도 <span class="ot">=</span> <span class="fu">year</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(연도) <span class="sc">|&gt;</span> </span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(인구수 <span class="ot">=</span> <span class="fu">sum</span>(인구수)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>연도, <span class="at">y=</span>인구수)) <span class="sc">+</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"skyblue"</span>, <span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"광명시 인구수 변화"</span>, <span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">"인구수(명)"</span>,</span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a>         <span class="at">caption =</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span>) <span class="sc">+</span></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="fu">## 연도별 인구수</span></span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="ot">&lt;-</span> </span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">"data/kwangmyung_pop.rds"</span>)</span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(시점 <span class="ot">=</span> <span class="fu">ymd</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(연도 <span class="ot">=</span> <span class="fu">year</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(연도) <span class="sc">|&gt;</span> </span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(인구수 <span class="ot">=</span> <span class="fu">sum</span>(인구수)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>연도, <span class="at">y=</span>인구수)) <span class="sc">+</span></span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"skyblue"</span>, <span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"광명시 인구수 변화"</span>, <span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">"인구수(명)"</span>,</span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a>         <span class="at">caption =</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span>) <span class="sc">+</span></span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## 동별 인구수</span></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(시점 <span class="ot">=</span> <span class="fu">ymd</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(연도 <span class="ot">=</span> <span class="fu">year</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(연도, 행정동) <span class="sc">|&gt;</span> </span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(인구수 <span class="ot">=</span> <span class="fu">sum</span>(인구수)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>연도, <span class="at">y=</span>인구수, <span class="at">color =</span> 행정동, <span class="at">group=</span>행정동)) <span class="sc">+</span></span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"광명시 동별 인구수 변화"</span>, <span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">"인구수(명)"</span>,</span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a>         <span class="at">caption =</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span>) <span class="sc">+</span></span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a><span class="fu">## 유권자 비율</span></span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(시점 <span class="ot">=</span> <span class="fu">ymd</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(연도 <span class="ot">=</span> <span class="fu">year</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(유권자 <span class="ot">=</span> <span class="fu">ifelse</span>(나이 <span class="sc">&gt;=</span><span class="dv">18</span>, <span class="st">"유권자"</span>, <span class="st">"비유권자"</span>),</span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a>         유권자 <span class="ot">=</span> <span class="fu">factor</span>(유권자, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"비유권자"</span>, <span class="st">'유권자'</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(유권자) <span class="sc">|&gt;</span> </span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(인구수 <span class="ot">=</span> <span class="fu">sum</span>(인구수)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span>인구수, <span class="at">fill =</span> 유권자)) <span class="sc">+</span></span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">width =</span> <span class="dv">1</span>, <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_polar</span>(<span class="st">"y"</span>)  <span class="sc">+</span></span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"광명시 유권자 비율"</span>,</span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a>         <span class="at">caption =</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span>,</span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="st">"구분"</span>) <span class="sc">+</span></span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(유권자 <span class="ot">=</span> <span class="st">"blue"</span>, 비유권자<span class="ot">=</span><span class="st">"red"</span>))</span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a><span class="fu">## 내림차순 유권자수</span></span>
+<span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a>pop_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(시점 <span class="ot">=</span> <span class="fu">ymd</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(연도 <span class="ot">=</span> <span class="fu">year</span>(시점)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(연도 <span class="sc">==</span> <span class="fu">max</span>(연도)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(유권자 <span class="ot">=</span> <span class="fu">ifelse</span>(나이 <span class="sc">&gt;=</span><span class="dv">18</span>, <span class="st">"유권자"</span>, <span class="st">"비유권자"</span>),</span>
+<span id="cb9-254"><a href="#cb9-254" aria-hidden="true" tabindex="-1"></a>         유권자 <span class="ot">=</span> <span class="fu">factor</span>(유권자, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"비유권자"</span>, <span class="st">'유권자'</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb9-255"><a href="#cb9-255" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(행정동, 유권자) <span class="sc">|&gt;</span> </span>
+<span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(인구수 <span class="ot">=</span> <span class="fu">sum</span>(인구수)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(유권자비율 <span class="ot">=</span> 인구수<span class="sc">/</span><span class="fu">sum</span>(인구수)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot_wider(names_from = 유권자, values_from = 인구수) |&gt; </span></span>
+<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(유권자비율 = 유권자/(비유권자+유권자)) |&gt; </span></span>
+<span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a>  <span class="co"># arrange(desc(유권자비율))</span></span>
+<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 시각화 -----------------</span></span>
+<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">fct_reorder2</span>(행정동, 유권자, 유권자비율), <span class="at">y=</span>유권자비율, <span class="at">fill =</span> 유권자)) <span class="sc">+</span></span>
+<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb9-267"><a href="#cb9-267" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb9-268"><a href="#cb9-268" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"광명시 동별 유권자 비율"</span>,</span>
+<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a>         <span class="at">caption =</span> <span class="st">"데이터 출처: 행정안전부 주민등록 인구 및 세대현황"</span>,</span>
+<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="st">"구분"</span>,</span>
+<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(유권자 <span class="ot">=</span> <span class="st">"blue"</span>, 비유권자<span class="ot">=</span><span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb9-275"><a href="#cb9-275" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span>
+<span id="cb9-276"><a href="#cb9-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -1470,7 +2408,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":true,"descPosition":"bottom","openEffect":"zoom"});</script>
 
 
 </body></html>

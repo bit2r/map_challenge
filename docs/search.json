@@ -46,7 +46,7 @@
     "href": "km_BitGPT.html",
     "title": "지도제작 대회",
     "section": "",
-    "text": "1 데이터셋\n\n코드library(tidyverse)\n\npop_tbl &lt;- \n  read_rds(\"data/kwangmyung_pop.rds\")\n\npop_tbl |&gt; \n  head() |&gt; \n  gt::gt()\n\n\n\n\n\n시점\n      행정동\n      성별\n      나이\n      인구수\n    \n\n\n2023-07-15\n광명1동\n남자\n0\n0\n\n\n2023-07-15\n광명1동\n남자\n1\n0\n\n\n2023-07-15\n광명1동\n남자\n2\n0\n\n\n2023-07-15\n광명1동\n남자\n3\n0\n\n\n2023-07-15\n광명1동\n남자\n4\n0\n\n\n2023-07-15\n광명1동\n남자\n5\n0\n\n\n\n\n\n\n\n2 챗GPT\n\n코드library(openai)\n\ncreate_chat_completion(\n    model = \"gpt-3.5-turbo\",\n    messages = list(\n        list(\n            \"role\" = \"system\",\n            \"content\" = \"You are a helpful assistant.\"\n        ),\n        list(\n            \"role\" = \"user\",\n            \"content\" = \"Who won the world series in 2020?\"\n        ),\n        list(\n            \"role\" = \"assistant\",\n            \"content\" = \"The Los Angeles Dodgers won the World Series in 2020.\"\n        ),\n        list(\n            \"role\" = \"user\",\n            \"content\" = \"Where was it played?\"\n        )\n    )\n)\n#&gt; $id\n#&gt; [1] \"chatcmpl-7kujkISwp9RYXMi8g3Tiu5iNBilQr\"\n#&gt; \n#&gt; $object\n#&gt; [1] \"chat.completion\"\n#&gt; \n#&gt; $created\n#&gt; [1] 1691415540\n#&gt; \n#&gt; $model\n#&gt; [1] \"gpt-3.5-turbo-0613\"\n#&gt; \n#&gt; $choices\n#&gt;   index finish_reason message.role\n#&gt; 1     0          stop    assistant\n#&gt;                                                             message.content\n#&gt; 1 The 2020 World Series was played at Globe Life Field in Arlington, Texas.\n#&gt; \n#&gt; $usage\n#&gt; $usage$prompt_tokens\n#&gt; [1] 53\n#&gt; \n#&gt; $usage$completion_tokens\n#&gt; [1] 17\n#&gt; \n#&gt; $usage$total_tokens\n#&gt; [1] 70"
+    "text": "행정안전부 주민등록 인구 및 세대현황 웹사이트에서 광명시 최근 데이터를 가져온다.\n\n코드library(tidyverse)\nlibrary(readxl)\n\nraw_data &lt;- read_excel(\"data/202307_202307_연령별인구현황_월간.xlsx\", skip =3) \n\nraw_data |&gt; \n  janitor::clean_names(ascii = FALSE) |&gt; \n  select(1:10) |&gt; \n  head() |&gt; \n  gt::gt()\n\n\n\n\n\n행정기관코드\n      행정기관\n      총_인구수\n      연령구간인구수_4\n      x0세_5\n      x1세_6\n      x2세_7\n      x3세_8\n      x4세_9\n      x5세_10\n    \n\n\n4121000000\n경기도 경기도 광명시\n280,986\n280,986\n1,373\n1,470\n1,582\n1,588\n1,729\n1,924\n\n\n4121051000\n경기도 광명시 광명1동\n56\n56\n0\n0\n0\n0\n0\n0\n\n\n4121052000\n경기도 광명시 광명2동\n2,953\n2,953\n9\n7\n11\n5\n5\n8\n\n\n4121054000\n경기도 광명시 광명3동\n9,869\n9,869\n29\n21\n20\n20\n23\n24\n\n\n4121055000\n경기도 광명시 광명4동\n8,114\n8,114\n35\n29\n44\n27\n28\n35\n\n\n4121056000\n경기도 광명시 광명5동\n12,206\n12,206\n41\n40\n64\n51\n49\n60\n\n\n\n\n\n\n\n\n코드library(tidyverse)\n\npop_tbl &lt;- \n  read_rds(\"data/kwangmyung_pop.rds\")\n\npop_tbl |&gt; \n  head() |&gt; \n  gt::gt()\n\n\n\n\n\n시점\n      행정동\n      성별\n      나이\n      인구수\n    \n\n\n2023-07-15\n광명1동\n남자\n0\n0\n\n\n2023-07-15\n광명1동\n남자\n1\n0\n\n\n2023-07-15\n광명1동\n남자\n2\n0\n\n\n2023-07-15\n광명1동\n남자\n3\n0\n\n\n2023-07-15\n광명1동\n남자\n4\n0\n\n\n2023-07-15\n광명1동\n남자\n5\n0\n\n\n\n\n\n\n\n데이터를 가공한 후 챗GPT Code Interpreter 분석용으로 변환시켜 데이터를 전송한다.\n\n코드pop_tbl |&gt; \n  write_csv(\"data/kwangmyung_pop.csv\")\n\n\n\n\n\n\nCSV 파일 다운로드"
   },
   {
     "objectID": "realmeter_metro.html",
@@ -159,5 +159,61 @@
     "title": "지도제작 대회",
     "section": "",
     "text": "1 데이터"
+  },
+  {
+    "objectID": "km_BitGPT.html#원본-데이터",
+    "href": "km_BitGPT.html#원본-데이터",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "행정안전부 주민등록 인구 및 세대현황 웹사이트에서 광명시 최근 데이터를 가져온다.\n\n코드library(tidyverse)\nlibrary(readxl)\n\nraw_data &lt;- read_excel(\"data/202307_202307_연령별인구현황_월간.xlsx\", skip =3) \n\nraw_data |&gt; \n  janitor::clean_names(ascii = FALSE) |&gt; \n  select(1:10) |&gt; \n  head() |&gt; \n  gt::gt()\n\n\n\n\n\n행정기관코드\n      행정기관\n      총_인구수\n      연령구간인구수_4\n      x0세_5\n      x1세_6\n      x2세_7\n      x3세_8\n      x4세_9\n      x5세_10\n    \n\n\n4121000000\n경기도 경기도 광명시\n280,986\n280,986\n1,373\n1,470\n1,582\n1,588\n1,729\n1,924\n\n\n4121051000\n경기도 광명시 광명1동\n56\n56\n0\n0\n0\n0\n0\n0\n\n\n4121052000\n경기도 광명시 광명2동\n2,953\n2,953\n9\n7\n11\n5\n5\n8\n\n\n4121054000\n경기도 광명시 광명3동\n9,869\n9,869\n29\n21\n20\n20\n23\n24\n\n\n4121055000\n경기도 광명시 광명4동\n8,114\n8,114\n35\n29\n44\n27\n28\n35\n\n\n4121056000\n경기도 광명시 광명5동\n12,206\n12,206\n41\n40\n64\n51\n49\n60"
+  },
+  {
+    "objectID": "km_BitGPT.html#가공데이터",
+    "href": "km_BitGPT.html#가공데이터",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\n\npop_tbl &lt;- \n  read_rds(\"data/kwangmyung_pop.rds\")\n\npop_tbl |&gt; \n  head() |&gt; \n  gt::gt()\n\n\n\n\n\n시점\n      행정동\n      성별\n      나이\n      인구수\n    \n\n\n2023-07-15\n광명1동\n남자\n0\n0\n\n\n2023-07-15\n광명1동\n남자\n1\n0\n\n\n2023-07-15\n광명1동\n남자\n2\n0\n\n\n2023-07-15\n광명1동\n남자\n3\n0\n\n\n2023-07-15\n광명1동\n남자\n4\n0\n\n\n2023-07-15\n광명1동\n남자\n5\n0"
+  },
+  {
+    "objectID": "km_BitGPT.html#챗gpt-데이터-변환",
+    "href": "km_BitGPT.html#챗gpt-데이터-변환",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "데이터를 가공한 후 챗GPT Code Interpreter 분석용으로 변환시켜 데이터를 전송한다.\n\n코드pop_tbl |&gt; \n  write_csv(\"data/kwangmyung_pop.csv\")\n\n\n\n\n\n\nCSV 파일 다운로드"
+  },
+  {
+    "objectID": "km_BitGPT.html#연도별-인구수",
+    "href": "km_BitGPT.html#연도별-인구수",
+    "title": "지도제작 대회",
+    "section": "\n4.1 연도별 인구수",
+    "text": "4.1 연도별 인구수\n\n코드library(tidyverse)\n\npop_tbl &lt;- \n  read_rds(\"data/kwangmyung_pop.rds\")\n\npop_tbl |&gt; \n  mutate(시점 = ymd(시점)) |&gt; \n  mutate(연도 = year(시점)) |&gt; \n  group_by(연도) |&gt; \n  summarise(인구수 = sum(인구수)) |&gt; \n  ggplot(aes(x=연도, y=인구수)) +\n    geom_line(color=\"skyblue\", size=1.5) +\n    geom_point(color=\"blue\", size=3) +\n    labs(title=\"광명시 인구수 변화\", x=\"\", y=\"인구수(명)\",\n         caption = \"데이터 출처: 행정안전부 주민등록 인구 및 세대현황\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::comma)"
+  },
+  {
+    "objectID": "km_BitGPT.html#연도별-인구수-1",
+    "href": "km_BitGPT.html#연도별-인구수-1",
+    "title": "지도제작 대회",
+    "section": "\n4.2 연도별 인구수",
+    "text": "4.2 연도별 인구수\n\n코드library(tidyverse)\n\npop_tbl &lt;- \n  read_rds(\"data/kwangmyung_pop.rds\")\n\npop_tbl |&gt; \n  mutate(시점 = ymd(시점)) |&gt; \n  mutate(연도 = year(시점)) |&gt; \n  group_by(연도) |&gt; \n  summarise(인구수 = sum(인구수)) |&gt; \n  ggplot(aes(x=연도, y=인구수)) +\n    geom_line(color=\"skyblue\", size=1.5) +\n    geom_point(color=\"blue\", size=3) +\n    labs(title=\"광명시 인구수 변화\", x=\"\", y=\"인구수(명)\",\n         caption = \"데이터 출처: 행정안전부 주민등록 인구 및 세대현황\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::comma)"
+  },
+  {
+    "objectID": "km_BitGPT.html#동별-인구수",
+    "href": "km_BitGPT.html#동별-인구수",
+    "title": "지도제작 대회",
+    "section": "\n4.3 동별 인구수",
+    "text": "4.3 동별 인구수\n\n코드\npop_tbl |&gt; \n  mutate(시점 = ymd(시점)) |&gt; \n  mutate(연도 = year(시점)) |&gt; \n  group_by(연도, 행정동) |&gt; \n  summarise(인구수 = sum(인구수)) |&gt; \n  ggplot(aes(x=연도, y=인구수, color = 행정동, group=행정동)) +\n    geom_line(size=1.5) +\n    geom_point(color=\"blue\", size=3) +\n    labs(title=\"광명시 동별 인구수 변화\", x=\"\", y=\"인구수(명)\",\n         caption = \"데이터 출처: 행정안전부 주민등록 인구 및 세대현황\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::comma)"
+  },
+  {
+    "objectID": "km_BitGPT.html#유권자-비율-1",
+    "href": "km_BitGPT.html#유권자-비율-1",
+    "title": "지도제작 대회",
+    "section": "\n4.4 유권자 비율",
+    "text": "4.4 유권자 비율\n\n코드pop_tbl |&gt; \n  mutate(시점 = ymd(시점)) |&gt; \n  mutate(연도 = year(시점)) |&gt; \n  mutate(유권자 = ifelse(나이 &gt;=18, \"유권자\", \"비유권자\"),\n         유권자 = factor(유권자, levels = c(\"비유권자\", '유권자'))) |&gt; \n  group_by(유권자) |&gt; \n  summarise(인구수 = sum(인구수)) |&gt; \n  ggplot(aes(x=\"\", y=인구수, fill = 유권자)) +\n    geom_bar(width = 1, stat = \"identity\") +\n    coord_polar(\"y\")  +\n    labs(title=\"광명시 유권자 비율\",\n         caption = \"데이터 출처: 행정안전부 주민등록 인구 및 세대현황\",\n         fill = \"구분\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::comma) +\n    scale_fill_manual(values = c(유권자 = \"blue\", 비유권자=\"red\"))"
+  },
+  {
+    "objectID": "km_BitGPT.html#내림차순-유권자수",
+    "href": "km_BitGPT.html#내림차순-유권자수",
+    "title": "지도제작 대회",
+    "section": "\n4.5 내림차순 유권자수",
+    "text": "4.5 내림차순 유권자수\n\n코드pop_tbl |&gt; \n  mutate(시점 = ymd(시점)) |&gt; \n  mutate(연도 = year(시점)) |&gt; \n  filter(연도 == max(연도)) |&gt; \n  mutate(유권자 = ifelse(나이 &gt;=18, \"유권자\", \"비유권자\"),\n         유권자 = factor(유권자, levels = c(\"비유권자\", '유권자'))) |&gt; \n  group_by(행정동, 유권자) |&gt; \n  summarise(인구수 = sum(인구수)) |&gt; \n  mutate(유권자비율 = 인구수/sum(인구수)) |&gt; \n  ungroup() |&gt; \n    \n  # pivot_wider(names_from = 유권자, values_from = 인구수) |&gt; \n  # mutate(유권자비율 = 유권자/(비유권자+유권자)) |&gt; \n  # arrange(desc(유권자비율))\n\n  # 시각화 -----------------\n  ggplot(aes(x=fct_reorder2(행정동, 유권자, 유권자비율), y=유권자비율, fill = 유권자)) +\n    geom_col() +\n    coord_flip() +\n    labs(title=\"광명시 동별 유권자 비율\",\n         caption = \"데이터 출처: 행정안전부 주민등록 인구 및 세대현황\",\n         fill = \"구분\",\n         x = \"\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::percent) +\n    scale_fill_manual(values = c(유권자 = \"blue\", 비유권자=\"red\")) +\n    theme(legend.position = \"top\")"
   }
 ]
