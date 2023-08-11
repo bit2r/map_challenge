@@ -41,20 +41,22 @@ editor_options:
 
 # 데이터셋
 
+## 당원 통계
+
 ```{r}
 library(gt)
 library(gtExtras)
 library(tidyverse)
 
 # Creating the tibble using tribble
-age_raw <- tribble(
-  ~`연령대`, ~비율,
+mage_raw <- tribble(
+  ~`연령`, ~비율,
   "10대후반", "0.1%",
   "20_24", "1.7%",
   "25_29", "4.2%",
   "30_34", "5.3%",
   "35_39", "6.3%",
-  "40_45", "9.8%",
+  "40_44", "9.8%",
   "45_49", "12.2%",
   "50_54", "15.8%",
   "55_59", "13.8%",
@@ -63,16 +65,16 @@ age_raw <- tribble(
   "70+", "10.0%"
 )
 
-age_tbl <- age_raw |> 
+mage_tbl <- mage_raw |> 
   mutate(비율 = parse_number(비율)/100) |> 
   mutate(당원수 = 비율 * 2454332)
 
-age_tbl |> 
+mage_tbl |> 
   gt::gt() |> 
   fmt_percent(columns = 비율, decimals = 1) |> 
   fmt_integer(columns = 당원수) |> 
   cols_align("center") |> 
-  ## 표 전체 합계 -------------------------------------
+  ## 표 전체 합계 -------------- -----------------------
   grand_summary_rows(
     columns = 당원수,
     fns =  list(label = "합계", fn = "sum"),
@@ -124,6 +126,70 @@ sido_raw |>
     geom_point() +
     geom_line()
   
+
+```
+
+## 행안부 인구통계
+
+```{r}
+age_raw <- readxl::read_excel("data/혁신안_202307_202307_연령별_월간.xlsx", skip = 3)
+
+male_tbl<- age_raw |> 
+  janitor::clean_names(ascii = FALSE)  |> 
+  select(c("행정기관코드", "행정기관", "남_인구수", "연령구간인구수_4", 
+          "x0_4세_5", "x5_9세_6", "x10_14세_7", "x15_19세_8", "x20_24세_9", 
+          "x25_29세_10", "x30_34세_11", "x35_39세_12", "x40_44세_13", 
+          "x45_49세_14", "x50_54세_15", "x55_59세_16", "x60_64세_17", 
+          "x65_69세_18", "x70_74세_19", "x75_79세_20", "x80_84세_21", 
+          "x85_89세_22", "x90_94세_23", "x95_99세_24", "x100세_이상_25")) |> 
+  pivot_longer(starts_with("x"), names_to = "연령", values_to = "인구수") |> 
+  mutate(성별 = "남") |> 
+  select(행정기관, 성별, 연령, 인구수)
+  
+
+female_tbl <- age_raw |> 
+  janitor::clean_names(ascii = FALSE)  |> 
+  select(c("행정기관코드", "행정기관", "여_인구수", "연령구간인구수_27", 
+           "x0_4세_28", "x5_9세_29", "x10_14세_30", "x15_19세_31", 
+           "x20_24세_32", "x25_29세_33", "x30_34세_34", "x35_39세_35", 
+           "x40_44세_36", "x45_49세_37", "x50_54세_38", "x55_59세_39", 
+           "x60_64세_40", "x65_69세_41", "x70_74세_42", "x75_79세_43", 
+           "x80_84세_44", "x85_89세_45", "x90_94세_46", "x95_99세_47", "x100세_이상_48")) |> 
+  pivot_longer(starts_with("x"), names_to = "연령", values_to = "인구수") |> 
+  mutate(성별 = "여") |> 
+  select(행정기관, 성별, 연령, 인구수)
+
+age_tbl <- bind_rows(male_tbl, female_tbl) |> 
+  filter(!str_detect(행정기관, "전국")) |> 
+  mutate(연령 = str_extract(연령, '(\\d{1,2}_\\d{1,2})'))  |> 
+  mutate(연령대 = case_when(str_detect(연령, "(0_4)|(5_9)|(10_14)|(15_19)") ~ "-19",
+                              str_detect(연령, "(70_74)|(75_79)|(80_84)|(85_89)|(90_94)") ~ "70+",
+                              is.na(연령) ~ "70+",
+                              TRUE ~ 연령)) |> 
+  mutate(인구수 = parse_number(인구수))
+
+# age_tbl |> 
+#   write_rds("data/혁신안_2023년_연령인구수.rds")
+```
+
+# 분석
+
+## 연령비교
+
+```{r}
+mage_temp <- mage_tbl |> 
+  filter(연령 != "10대후반")
+
+age_temp <- age_tbl |> 
+  filter(!str_detect(연령, "(0_4)|(5_9)|(10_14)|(15_19)")) |>   
+  group_by(연령) |> 
+  summarise(인구수 = sum(인구수)) |> 
+  mutate(인구비율 = 인구수 / sum(인구수))
+
+full_join(mage_temp, age_temp)
+
+age_tbl |> 
+  filter(str_detect(연령, "40"))
 
 ```
 
