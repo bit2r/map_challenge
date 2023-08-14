@@ -27,7 +27,7 @@ lightbox: auto
 link-citations: true
 knitr:
   opts_chunk: 
-    eval: true
+    eval: false
     message: false
     warning: false
     collapse: true
@@ -37,7 +37,6 @@ knitr:
 editor_options: 
   chunk_output_type: console
 ---
-
 
 # 데이터셋
 
@@ -162,35 +161,269 @@ female_tbl <- age_raw |>
 age_tbl <- bind_rows(male_tbl, female_tbl) |> 
   filter(!str_detect(행정기관, "전국")) |> 
   mutate(연령 = str_extract(연령, '(\\d{1,2}_\\d{1,2})'))  |> 
-  mutate(연령대 = case_when(str_detect(연령, "(0_4)|(5_9)|(10_14)|(15_19)") ~ "-19",
-                              str_detect(연령, "(70_74)|(75_79)|(80_84)|(85_89)|(90_94)") ~ "70+",
+  mutate(연령대 = case_when(연령 %in% c("0_4", "5_9", "10_14", "15_19") ~ "-19",
+                            연령 %in% c("70_74", "75_79", "80_84", "85_89", "90_94", "95_99") ~ "70+",
                               is.na(연령) ~ "70+",
                               TRUE ~ 연령)) |> 
   mutate(인구수 = parse_number(인구수))
 
-# age_tbl |> 
-#   write_rds("data/혁신안_2023년_연령인구수.rds")
+age_tbl |>
+  write_rds("data/혁신안_2023년_연령인구수.rds")
 ```
 
 # 분석
 
-## 연령비교
+## 유권자와 민주당
 
 ```{r}
+library(gt)
+library(gtExtras)
+
 mage_temp <- mage_tbl |> 
   filter(연령 != "10대후반")
 
 age_temp <- age_tbl |> 
-  filter(!str_detect(연령, "(0_4)|(5_9)|(10_14)|(15_19)")) |>   
-  group_by(연령) |> 
+  filter(연령대 != "-19") |>   
+  group_by(연령대) |> 
   summarise(인구수 = sum(인구수)) |> 
   mutate(인구비율 = 인구수 / sum(인구수))
 
-full_join(mage_temp, age_temp)
+pop_party_raw <- full_join(mage_temp, age_temp, by = c("연령" = "연령대"))
 
-age_tbl |> 
-  filter(str_detect(연령, "40"))
+
+pop_party_tbl <- pop_party_raw |> 
+  rename(연령대 = 연령,
+         당원비율 = 비율) |> 
+  mutate(차이 = 당원비율 - 인구비율) |> 
+  select(연령대, 당원수, 당원비율, 차이, 유권자비율=인구비율, 유권자수=인구수)
+  
+voter_party_gt <- pop_party_tbl |> 
+  gt::gt() |> 
+  gt_theme_538() |> 
+  tab_header(
+    title = md("연령대별 민주당원과 유권자 비교"),
+    subtitle = md("")
+  ) |>   
+  cols_align("center") |> 
+  fmt_percent(columns = c(당원비율, 유권자비율, 차이), decimals = 1) |> 
+  fmt_integer(columns = c(당원수, 유권자수)) |> 
+  tab_spanner(label = "민주당원",
+              id = "party",
+              columns = c(당원수, 당원비율)) |> 
+  tab_spanner(label = "유권자",
+              id = "voter",              
+              columns = c(유권자비율, 유권자수)) |> 
+  ## 차이 색상표식 ---------------------
+  tab_style(
+    style = cell_text(color = "red", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      rows  = 차이 < 0,
+      columns = 차이
+    )
+  )  |> 
+  tab_style(
+    style = cell_text(color = "blue", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      rows  = 차이 > 0,
+      columns = 차이
+    )
+  ) |> 
+  tab_footnote(
+    footnote = "자료출처: 더불어민주당혁신위 혁신안 설명자료",
+    location = cells_column_spanners(spanners = "party")
+  ) |> 
+  tab_footnote(
+    footnote = "자료출처: 행안부 주민등록 인구 및 세대현황",
+    location = cells_column_spanners(spanners = "voter")
+  )  
+
+voter_party_gt
+  
+# voter_party_gt |> 
+#   gtsave(filename = c("data/혁신안_민주당_유권자.png"))
 
 ```
 
+![](data/혁신안_민주당_유권자.png)
+
+# 한국갤럽과 선관위
+
+## 한국갤럽
+
+한국갤럽에서 2022년 3월 10일 실시한 "제20대 대통령선거 사후 조사" 조사에서 
+연령별 지지율은 다은 다음과 같다.
+
+
+|  연령별   | 사례수 | 이재명 | 윤석열 | 심상정 | 기타 인물 | 모름/응답거절 |
+|:---------:|:------:|:------:|:------:|:------:|:---------:|:-------------:|
+| 18\~29세  |  171   |  40%   |  37%   |   4%   |    3%     |      17%      |
+|   30대    |  151   |  47%   |  33%   |   2%   |    2%     |      15%      |
+|   40대    |  186   |  57%   |  26%   |   3%   |           |      14%      |
+|   50대    |  199   |  49%   |  43%   |   1%   |    1%     |      5%       |
+|   60대    |  163   |  28%   |  59%   |   1%   |    3%     |      10%      |
+| 70대 이상 |  133   |  23%   |  61%   |        |           |      14%      |
+
+
+
+```{r}
+gallop_raw <- read.csv(text="
+연령별, 사례수,이재명,윤석열,심상정,기타인물,모름/응답거절
+18~29세,171,40%,37%,4%,3%,17%
+30대,151,47%,33%,2%,2%,15%
+40대,186,57%,26%,3%,,14%
+50대,199,49%,43%,1%,1%,5%
+60대,163,28%,59%,1%,3%,10%
+70대 이상,133,23%,61%,,14%
+", header=T, stringsAsFactors=F)
+
+gallop_tbl <- gallop_raw |> 
+  as_tibble() |> 
+  janitor::clean_names(ascii = FALSE)  |> 
+  select(연령대=연령별, 이재명, 윤석열, 심상정, 기타인물, 모름_응답거절) |> 
+  pivot_longer(-연령대, names_to = "후보", values_to = "지지율") |> 
+  mutate(정당 = case_when(후보 == "이재명" ~ "민주당",
+                          후보 == "윤석열" ~ "국민의힘",
+                          TRUE ~ "기타/무응답")) |> 
+  mutate(지지율 = parse_number(지지율) / 100) |> 
+  group_by(연령대, 정당) |> 
+  summarise(지지율 = sum(지지율, na.rm = TRUE)) |> 
+  ungroup() |> 
+  mutate(연령대 = case_when(연령대 == "18~29세" ~ "20대-",
+                            연령대 == "70대 이상" ~"70대+",
+                            TRUE ~ 연령대)) |> 
+  pivot_wider(names_from = 정당, values_from = 지지율) |> 
+  mutate(차이 = 민주당 - 국민의힘)
+
+gallop_tbl
+```
+
+
+## 민주당 혁신안
+
+
+```{r}
+mage_gallop_tbl <- mage_tbl |> 
+  mutate(연령대 = case_when(연령 %in% c("10대후반", "20_24", "25_29")~ "20대-",
+                            연령 %in% c("30_34", "35_39")~ "30대",
+                            연령 %in% c("40_44", "45_49")~ "40대",
+                            연령 %in% c("50_54", "55_59")~ "50대",
+                            연령 %in% c("60_64", "65_69")~ "60대",
+                            TRUE ~ "70대+")) |> 
+  group_by(연령대) |> 
+  summarise(당원비율 = sum(비율),
+            당원수   = sum(당원수))
+
+mage_gallop_tbl
+```
+
+
+## 행안위 유권자
+
+
+```{r}
+age_tbl <- 
+  read_rds("data/혁신안_2023년_연령인구수.rds")
+
+adm_gallop_tbl <- age_tbl |> 
+  filter(!연령 %in% c("0_4", "5_9", "10_14", "15_19")) |> 
+  mutate(연령대 = case_when(연령대 %in% c("20_24", "25_29") ~ "20대-",
+                            연령대 %in% c("30_34", "35_39") ~ "30대",
+                         연령대 %in% c("40_44", "45_49") ~ "40대",
+                         연령대 %in% c("50_54", "55_59") ~ "50대",
+                         연령대 %in% c("60_64", "65_69") ~ "60대",
+                         TRUE ~ "70대+")) |> 
+  group_by(연령대) |> 
+  summarise(유권자수 = sum(인구수)) |> 
+  mutate(유권자비율 = 유권자수 / sum(유권자수))
+
+adm_gallop_tbl
+```
+
+
+## 결합
+
+```{r}
+merge_tbl <- adm_gallop_tbl |> 
+  left_join(mage_gallop_tbl) |> 
+  left_join(gallop_tbl)
+
+president_age_gt <- merge_tbl |> 
+  rename(득표차이 = 차이) |> 
+  mutate(구성차이 = 당원비율 - 유권자비율) |>
+  relocate(구성차이, .before = 득표차이) |> 
+  relocate(민주당, .before = `기타/무응답`) |> 
+  relocate(국민의힘, .after = `기타/무응답`)  |> 
+  gt() |> 
+  gt_theme_538() |> 
+  tab_options(
+    footnotes.font.size = px(10L)
+  ) |> 
+  tab_header(
+    title = md("연령대별 유권자, 민주당원, 대선 득표 비교"),
+  ) |>   
+  cols_align("center") |> 
+  fmt_percent(columns = c(당원비율, 유권자비율, 구성차이, 득표차이,
+                          국민의힘, `기타/무응답`, 민주당), decimals = 0) |> 
+  fmt_integer(columns = c(당원수, 유권자수)) |> 
+  ## 스패너 ---------------------  
+  tab_spanner(label = "민주당원",
+              id = "party",
+              columns = c(당원수, 당원비율)) |> 
+  tab_spanner(label = "유권자",
+              id = "voter",              
+              columns = c(유권자비율, 유권자수)) |> 
+  tab_spanner(label = "당원과 유권자 구성비",
+              id = "prop",
+              columns = c(당원수, 당원비율, 유권자수, 유권자비율, 구성차이)) |> 
+  tab_spanner(label = "대통령선거",
+              id = "election",              
+              columns = c(득표차이, 민주당, `기타/무응답`, 국민의힘)) |> 
+  ## 차이 색상표식 ---------------------
+  tab_style(
+    style = cell_text(color = "red", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      rows  = 구성차이 < 0,
+      columns = 구성차이
+    )
+  )  |> 
+  tab_style(
+    style = cell_text(color = "blue", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      rows  = 구성차이 > 0,
+      columns = 구성차이
+    )
+  ) |> 
+  tab_footnote(
+    footnote = "자료출처: 더불어민주당혁신위 혁신안 설명자료",
+    location = cells_column_spanners(spanners = "party")
+  ) |> 
+  tab_footnote(
+    footnote = "자료출처: 행안부 주민등록 인구 및 세대현황",
+    location = cells_column_spanners(spanners = "voter")
+  ) |> 
+  tab_footnote(
+    footnote = "자료출처: 한국갤럽 제20대 대통령선거 사후 조사",
+    location = cells_column_spanners(spanners = "election") 
+  )  |> 
+  ## 득표차이 색상표식 ---------------------
+  tab_style(
+    style = cell_text(color = "red", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      rows  = 득표차이 < 0,
+      columns = 득표차이
+    )
+  )  |> 
+  tab_style(
+    style = cell_text(color = "blue", size = px(15L), weight = "bold"),
+    locations = cells_body(
+      rows  = 득표차이 > 0,
+      columns = 득표차이
+    )
+  ) 
+  
+president_age_gt |> 
+  gtsave("data/연령대별_구성비_대선.png")
+```
+
+![](data/연령대별_구성비_대선.png)
 

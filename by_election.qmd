@@ -1,0 +1,102 @@
+---
+title: "지도제작 대회"
+subtitle: "재보궐: 강서구청장"
+description: |
+  강서구청장 재보궐 선거 판세분석
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: false
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 대통령 선거
+
+```{r}
+library(tidyverse)
+
+krvote::election_20220309$득표율 |> 
+  filter(시도명 == "서울특별시",
+         구시군명 == "강서구") |> 
+  summarise(across(이재명:김민찬, sum)) |> 
+  pivot_longer(cols = everything()) |> 
+  mutate(비율 = value/ sum(value))
+```
+
+## 지방선거
+
+### 시도지사
+
+```{r}
+krvote::local_sido_20220601 |> 
+  filter(선거구명 == "서울특별시") |> 
+  unnest(data) |> 
+  filter(선거구명 == "서울특별시",
+         구시군명 == "강서구") |> 
+  summarise(across(더불어민주당_송영길:무소속_김광종, sum)) |> 
+  pivot_longer(cols = everything()) |> 
+  mutate(비율 = value/ sum(value))
+```
+
+
+### 구시군의 장
+
+```{r}
+krvote::local_sgg_20220601 |> 
+  filter(시도명 == "서울특별시",
+         구시군명 == "강서구") |> 
+  mutate(득표 = parse_number(득표)) |> 
+  group_by(후보) |> 
+  summarise(득표 = sum(득표)) |> 
+    mutate(비율 = 득표/ sum(득표))
+```
+
+
+## 국회의원
+
+```{r}
+krvote::general_2020 |> 
+  filter(시도 == "서울",
+         선거구 %in% c("강서구갑", "강서구을", "강서구병")) |> 
+  unnest(data) |> 
+  group_by(구분) |> 
+  summarise(득표 = sum(사람수)) |> 
+  separate(구분, into = c("정당", "후보"), sep = " ") |> 
+  filter(!is.na(후보)) |> 
+  group_by(정당) |> 
+  summarise(득표 = sum(득표)) |> 
+  mutate(비율 = 득표 / sum(득표)) |> 
+  arrange(desc(비율))
+  
+```
+
