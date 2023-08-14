@@ -473,6 +473,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>         subtitle <span class="op">=</span> <span class="st">"총선(20년), 보궐(21년), 대선(22년 3월), 지선 강서구청장(22년 6월)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">(</span><span class="va">지지율</span>, accuracy<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                    show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sgg_gg</span></span>
+<span></span>
+<span><span class="fu">ragg</span><span class="fu">::</span><span class="fu"><a href="https://ragg.r-lib.org/reference/agg_jpeg.html">agg_jpeg</a></span><span class="op">(</span><span class="st">"images/강서구_역대득표율_구청장.jpeg"</span>,</span>
+<span>              width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">7</span>, units <span class="op">=</span> <span class="st">"in"</span>, res <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
+<span><span class="va">sgg_gg</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
 <span>    </span>
 <span><span class="va">sido_gg</span> <span class="op">&lt;-</span> <span class="va">vote_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>선거일 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">선거</span>, <span class="st">"국회의원"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"2020-04-15"</span>,</span>
@@ -504,7 +512,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/강서구청_역대득표율.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/강서구청_역대득표율.jpeg" class="img-fluid figure-img"></a></p>
+<figure class="figure"><p><a href="images/강서구_역대득표율_구청장.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/강서구_역대득표율_구청장.jpeg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 
@@ -1213,39 +1221,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-202"><a href="#cb8-202" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">"총선(20년), 보궐(21년), 대선(22년 3월), 지선 강서구청장(22년 6월)"</span>) <span class="sc">+</span></span>
 <span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(지지율, <span class="at">accuracy=</span><span class="fl">0.1</span>)),</span>
 <span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a>                    <span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>sido_gg <span class="ot">&lt;-</span> vote_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거일 <span class="ot">=</span> <span class="fu">case_when</span>(<span class="fu">str_detect</span>(선거, <span class="st">"국회의원"</span>) <span class="sc">~</span> <span class="st">"2020-04-15"</span>,</span>
-<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(선거, <span class="st">"보궐선거"</span>) <span class="sc">~</span> <span class="st">"2021-04-07"</span>,</span>
-<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(선거, <span class="st">"대선"</span>) <span class="sc">~</span> <span class="st">"2023-03-09"</span>,</span>
-<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(선거, <span class="st">"지선"</span>) <span class="sc">~</span> <span class="st">"2023-06-01"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(선거 <span class="sc">!=</span> <span class="st">"2022_지선_구청장"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(정당 <span class="ot">=</span> <span class="fu">factor</span>(정당, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"민주당"</span>, <span class="st">"국민의힘"</span>, <span class="st">"그외/기타"</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거일 <span class="ot">=</span> <span class="fu">ymd</span>(선거일)) <span class="sc">|&gt;</span> </span>
-<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> 선거일, <span class="at">y =</span> 지지율, <span class="at">group =</span> 정당, <span class="at">color =</span> 정당)) <span class="sc">+</span></span>
-<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"국민의힘"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"민주당"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"그외/기타"</span> <span class="ot">=</span> <span class="st">"gray30"</span>)) <span class="sc">+</span></span>
-<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
-<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>,</span>
-<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"득표율(%)"</span>,</span>
-<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"역대 선거 강서구 정당별 득표율 추세"</span>,</span>
-<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">"총서(20년), 보궐(21년), 대선(22년 3월), 지선 서울시장(22년 6월)"</span>) <span class="sc">+</span></span>
-<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(지지율, <span class="at">accuracy=</span><span class="fl">0.1</span>)),</span>
-<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a>                    <span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a>sgg_gg <span class="sc">+</span> sido_gg</span>
-<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>ragg<span class="sc">::</span><span class="fu">agg_jpeg</span>(<span class="st">"images/강서구청_역대득표율.jpeg"</span>,</span>
-<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">units =</span> <span class="st">"in"</span>, <span class="at">res =</span> <span class="dv">600</span>)</span>
-<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a>sgg_gg <span class="sc">+</span> sido_gg</span>
-<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>sgg_gg</span>
+<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a>ragg<span class="sc">::</span><span class="fu">agg_jpeg</span>(<span class="st">"images/강서구_역대득표율_구청장.jpeg"</span>,</span>
+<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">units =</span> <span class="st">"in"</span>, <span class="at">res =</span> <span class="dv">600</span>)</span>
+<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a>sgg_gg</span>
+<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a>sido_gg <span class="ot">&lt;-</span> vote_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거일 <span class="ot">=</span> <span class="fu">case_when</span>(<span class="fu">str_detect</span>(선거, <span class="st">"국회의원"</span>) <span class="sc">~</span> <span class="st">"2020-04-15"</span>,</span>
+<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(선거, <span class="st">"보궐선거"</span>) <span class="sc">~</span> <span class="st">"2021-04-07"</span>,</span>
+<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(선거, <span class="st">"대선"</span>) <span class="sc">~</span> <span class="st">"2023-03-09"</span>,</span>
+<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">str_detect</span>(선거, <span class="st">"지선"</span>) <span class="sc">~</span> <span class="st">"2023-06-01"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(선거 <span class="sc">!=</span> <span class="st">"2022_지선_구청장"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(정당 <span class="ot">=</span> <span class="fu">factor</span>(정당, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"민주당"</span>, <span class="st">"국민의힘"</span>, <span class="st">"그외/기타"</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거일 <span class="ot">=</span> <span class="fu">ymd</span>(선거일)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> 선거일, <span class="at">y =</span> 지지율, <span class="at">group =</span> 정당, <span class="at">color =</span> 정당)) <span class="sc">+</span></span>
+<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"국민의힘"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"민주당"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"그외/기타"</span> <span class="ot">=</span> <span class="st">"gray30"</span>)) <span class="sc">+</span></span>
+<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
+<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"득표율(%)"</span>,</span>
+<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"역대 선거 강서구 정당별 득표율 추세"</span>,</span>
+<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">"총서(20년), 보궐(21년), 대선(22년 3월), 지선 서울시장(22년 6월)"</span>) <span class="sc">+</span></span>
+<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(지지율, <span class="at">accuracy=</span><span class="fl">0.1</span>)),</span>
+<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a>                    <span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a>sgg_gg <span class="sc">+</span> sido_gg</span>
 <span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/강서구청_역대득표율.jpeg)</span></span>
+<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a>ragg<span class="sc">::</span><span class="fu">agg_jpeg</span>(<span class="st">"images/강서구청_역대득표율.jpeg"</span>,</span>
+<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">units =</span> <span class="st">"in"</span>, <span class="at">res =</span> <span class="dv">600</span>)</span>
+<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a>sgg_gg <span class="sc">+</span> sido_gg</span>
+<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/강서구_역대득표율_구청장.jpeg)</span></span>
 </code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -1260,7 +1277,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","loop":true,"selector":".lightbox"});</script>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","loop":true,"selector":".lightbox","descPosition":"bottom"});</script>
 
 
 </body></html>

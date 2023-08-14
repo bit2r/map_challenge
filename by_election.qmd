@@ -188,6 +188,14 @@ sgg_gg <- vote_tbl |>
          subtitle = "총선(20년), 보궐(21년), 대선(22년 3월), 지선 강서구청장(22년 6월)") +
     geom_text_repel(aes(label = scales::percent(지지율, accuracy=0.1)),
                     show.legend = FALSE)
+
+sgg_gg
+
+ragg::agg_jpeg("images/강서구_역대득표율_구청장.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+sgg_gg
+dev.off()
+
     
 sido_gg <- vote_tbl |> 
   mutate(선거일 = case_when(str_detect(선거, "국회의원") ~ "2020-04-15",
@@ -220,5 +228,6 @@ dev.off()
 ```
 
 
-![](images/강서구청_역대득표율.jpeg)
+
+![](images/강서구_역대득표율_구청장.jpeg)
 
