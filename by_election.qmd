@@ -45,12 +45,20 @@ editor_options:
 ```{r}
 library(tidyverse)
 
-krvote::election_20220309$득표율 |> 
+president_tbl <- krvote::election_20220309$득표율 |> 
   filter(시도명 == "서울특별시",
          구시군명 == "강서구") |> 
   summarise(across(이재명:김민찬, sum)) |> 
   pivot_longer(cols = everything()) |> 
-  mutate(비율 = value/ sum(value))
+  mutate(비율 = value/ sum(value)) |> 
+  mutate(정당 = case_when(str_detect(name, "이재명") ~ "민주당",
+                          str_detect(name, "윤석열") ~ "국민의힘",
+                          TRUE ~ "그외/기타")) |> 
+  group_by(정당) |> 
+  summarise(지지율 = sum(비율)) |> 
+  mutate(선거 = "2022_대선")
+
+president_tbl
 ```
 
 ## 지방선거
@@ -58,34 +66,50 @@ krvote::election_20220309$득표율 |>
 ### 시도지사
 
 ```{r}
-krvote::local_sido_20220601 |> 
+local_sido_tbl <- krvote::local_sido_20220601 |> 
   filter(선거구명 == "서울특별시") |> 
   unnest(data) |> 
   filter(선거구명 == "서울특별시",
          구시군명 == "강서구") |> 
   summarise(across(더불어민주당_송영길:무소속_김광종, sum)) |> 
   pivot_longer(cols = everything()) |> 
-  mutate(비율 = value/ sum(value))
+  mutate(비율 = value/ sum(value)) |> 
+  mutate(정당 = case_when(str_detect(name, "송영길") ~ "민주당",
+                          str_detect(name, "오세훈") ~ "국민의힘",
+                          TRUE ~ "그외/기타")) |> 
+  group_by(정당) |> 
+  summarise(지지율 = sum(비율)) |> 
+  mutate(선거 = "2022_지선_시도지사")  
+
+local_sido_tbl
 ```
 
 
 ### 구시군의 장
 
 ```{r}
-krvote::local_sgg_20220601 |> 
+local_sgg_tbl <- krvote::local_sgg_20220601 |> 
   filter(시도명 == "서울특별시",
          구시군명 == "강서구") |> 
   mutate(득표 = parse_number(득표)) |> 
   group_by(후보) |> 
   summarise(득표 = sum(득표)) |> 
-    mutate(비율 = 득표/ sum(득표))
+    mutate(비율 = 득표/ sum(득표)) |> 
+  mutate(정당 = case_when(str_detect(후보, "김승현") ~ "민주당",
+                          str_detect(후보, "김태우") ~ "국민의힘",
+                          TRUE ~ "그외/기타")) |> 
+  group_by(정당) |> 
+  summarise(지지율 = sum(비율)) |> 
+  mutate(선거 = "2022_지선_구청장")  
+
+local_sgg_tbl
 ```
 
 
 ## 국회의원
 
 ```{r}
-krvote::general_2020 |> 
+general_tbl <- krvote::general_2020 |> 
   filter(시도 == "서울",
          선거구 %in% c("강서구갑", "강서구을", "강서구병")) |> 
   unnest(data) |> 
@@ -96,7 +120,105 @@ krvote::general_2020 |>
   group_by(정당) |> 
   summarise(득표 = sum(득표)) |> 
   mutate(비율 = 득표 / sum(득표)) |> 
-  arrange(desc(비율))
+  arrange(desc(비율)) |> 
+  mutate(정당 = case_when(str_detect(정당, "민주당") ~ "민주당",
+                          str_detect(정당, "미래통합당") ~ "국민의힘",
+                          TRUE ~ "그외/기타")) |> 
+  group_by(정당) |> 
+  summarise(지지율 = sum(비율)) |> 
+  mutate(선거 = "2020_국회의원")  
   
+general_tbl  
 ```
+
+
+## 보궐선거
+
+```{r}
+by_election_tbl <- krvote::by_election_2021 |> 
+  filter(시도명 == "서울특별시",
+         구시군 == "강서구") |> 
+  filter(후보 != "후보_계") |> 
+  group_by(후보) |> 
+  summarise(득표 = sum(득표수)) |> 
+    mutate(비율 = 득표/ sum(득표))  |> 
+  arrange(desc(비율)) |> 
+  mutate(정당 = case_when(str_detect(후보, "박영선") ~ "민주당",
+                          str_detect(후보, "오세훈") ~ "국민의힘",
+                          TRUE ~ "그외/기타")) |> 
+  group_by(정당) |> 
+  summarise(지지율 = sum(비율)) |> 
+  mutate(선거 = "2021_보궐선거")
+
+by_election_tbl
+```
+
+
+## 데이터 병합
+
+```{r}
+vote_tbl <- bind_rows(by_election_tbl, general_tbl, local_sgg_tbl, local_sido_tbl, president_tbl)
+```
+
+
+# 시각화
+
+```{r}
+library(ggrepel)
+library(patchwork)
+
+sgg_gg <- vote_tbl |> 
+  # separate(선거, into = c("연도", "선거명"), sep = "_") |> 
+  mutate(선거일 = case_when(str_detect(선거, "국회의원") ~ "2020-04-15",
+                            str_detect(선거, "보궐선거") ~ "2021-04-07",
+                            str_detect(선거, "대선") ~ "2023-03-09",
+                            str_detect(선거, "지선") ~ "2023-06-01")) |> 
+  filter(선거 != "2022_지선_시도지사") |> 
+  mutate(정당 = factor(정당, levels = c("민주당", "국민의힘", "그외/기타"))) |> 
+  mutate(선거일 = ymd(선거일)) |> 
+  ggplot(aes(x = 선거일, y = 지지율, group = 정당, color = 정당)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_continuous(labels = scales::percent) +
+    scale_color_manual(values = c("국민의힘" = "red", "민주당" = "blue", "그외/기타" = "gray30")) +
+    theme(legend.position = "top") +
+    labs(x = "",
+         y = "득표율(%)",
+         title = "역대 선거 강서구 정당별 득표율 추세",
+         subtitle = "총선(20년), 보궐(21년), 대선(22년 3월), 지선 강서구청장(22년 6월)") +
+    geom_text_repel(aes(label = scales::percent(지지율, accuracy=0.1)),
+                    show.legend = FALSE)
+    
+sido_gg <- vote_tbl |> 
+  mutate(선거일 = case_when(str_detect(선거, "국회의원") ~ "2020-04-15",
+                            str_detect(선거, "보궐선거") ~ "2021-04-07",
+                            str_detect(선거, "대선") ~ "2023-03-09",
+                            str_detect(선거, "지선") ~ "2023-06-01")) |> 
+  filter(선거 != "2022_지선_구청장") |> 
+  mutate(정당 = factor(정당, levels = c("민주당", "국민의힘", "그외/기타"))) |> 
+  mutate(선거일 = ymd(선거일)) |> 
+  ggplot(aes(x = 선거일, y = 지지율, group = 정당, color = 정당)) +
+    geom_line() +
+    geom_point(size = 3) +
+    scale_y_continuous(labels = scales::percent) +
+    scale_color_manual(values = c("국민의힘" = "red", "민주당" = "blue", "그외/기타" = "gray30")) +
+    theme(legend.position = "top") +
+    labs(x = "",
+         y = "득표율(%)",
+         title = "역대 선거 강서구 정당별 득표율 추세",
+         subtitle = "총서(20년), 보궐(21년), 대선(22년 3월), 지선 서울시장(22년 6월)") +
+    geom_text_repel(aes(label = scales::percent(지지율, accuracy=0.1)),
+                    show.legend = FALSE)
+
+sgg_gg + sido_gg
+
+ragg::agg_jpeg("images/강서구청_역대득표율.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+sgg_gg + sido_gg
+dev.off()
+
+```
+
+
+![](images/강서구청_역대득표율.jpeg)
 
