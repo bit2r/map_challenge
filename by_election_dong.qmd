@@ -146,3 +146,45 @@ dev.off()
 
 
 ![](images/강서구청장_지선_동별.jpeg)
+
+# 지도
+
+```{r}
+library(sf)
+library(tidyverse)
+library(fuzzyjoin)
+
+adm_sf <- st_read("data/HangJeongDong_ver20230401.geojson") |> 
+  filter(sggnm == "강서구",
+         sidonm ==  "서울특별시") |> 
+  select(구시군명 = sggnm, 읍면동명 = adm_nm) |> 
+  mutate(읍면동명 = str_remove(읍면동명, '서울특별시 강서구 '))
+
+votes_sf <- adm_sf |> inner_join(
+    votes_tbl |> 
+      filter(!str_detect(읍면동명, "^관외")) |> 
+      mutate(읍면동명 = str_remove(읍면동명, '제(?=\\d)')), by = "읍면동명") 
+
+votes_gg <- votes_sf |> 
+  ggplot() +
+    geom_sf(aes(fill = 차이)) +
+    theme_void(base_family = "MaruBuri") +
+    scale_fill_gradient2(low = "red", mid ="white", high = "blue", 
+                        labels = scales::comma) +
+    ggrepel::geom_text_repel(
+      aes(label = 읍면동명, geometry = geometry), stat = "sf_coordinates", 
+      min.segment.length = 1, size = 5, family = "MaruBuri"
+    ) +
+    labs(title = "제8회 지방선거 강서구청장 정당후보 득표 차이",
+         subtitle = "표차이 = 민주당 - 국민의힘",
+         fill  = "표차이") +
+    theme( plot.title=element_text(size=18, face="bold"))
+
+ragg::agg_jpeg("images/강서구청장_지선_동별_지도.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+votes_gg
+dev.off()
+```
+
+
+![](images/강서구청장_지선_동별_지도.jpeg)

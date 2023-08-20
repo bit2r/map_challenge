@@ -231,3 +231,30 @@ dev.off()
 
 ![](images/강서구_역대득표율_구청장.jpeg)
 
+# 지도
+
+```{r}
+library(sf)
+library(tidyverse)
+library(readxl)
+
+emd_sf <- st_read("data/EMD_202302/emd.shp") |> 
+  mutate(EMD_KOR_NM = iconv(EMD_KOR_NM, "euc-kr", "utf-8")) |> 
+  filter(str_sub(EMD_CD, 1, 5) == '115005')
+
+emd_cd <- read_excel("data/jsocde20230611/KIKmix.20230611.xlsx") |> 
+  filter(시군구명 == "강서구") |> 
+  filter(!is.na(읍면동명)) |> 
+  filter(str_detect(행정동코드, "^11")) |> 
+  count(시군구명, 행정동코드, 읍면동명, sort = TRUE)  |> 
+  mutate(EMD_CD = str_sub(행정동코드, 1, 8))
+
+emd_cd |> 
+  left_join(emd_sf, by = "EMD_CD") |> 
+  filter(시군구명 == "강서구")
+  select(읍면동명) |> plot()
+  count(읍면동명, sort = TRUE)
+
+```
+
+
