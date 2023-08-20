@@ -45,19 +45,20 @@ editor_options:
 ### 구시군의 장
 
 ```{r}
-#| eval: true
+#| eval: false
 
 library(tidyverse)
 library(ggalt)
 library(ggrepel)
+library(extrafont)
+loadfonts()
+library(ggtext)
 
-
-krvote::local_sgg_20220601 |> 
+votes_tbl <- krvote::local_sgg_20220601 |> 
   filter(시도명 == "서울특별시",
-         구시군명 == "강서구",
-         !str_detect(읍면동명, "잘못")) |> 
+         구시군명 == "강서구",) |> 
   mutate(득표 = parse_number(득표),
-         읍면동명 = case_when(str_detect(읍면동명, "관외|거소") ~ "관외사전거소",
+         읍면동명 = case_when(str_detect(읍면동명, "관외|거소|잘못") ~ "관외사전거소",
                               TRUE ~ 읍면동명)) |> 
   group_by(후보, 읍면동명) |> 
   summarise(득표 = sum(득표)) |> 
@@ -71,32 +72,77 @@ krvote::local_sgg_20220601 |>
   pivot_wider(names_from = 후보,
               values_from = 득표) |> 
   mutate(차이 = 민주당 - 국민의힘,
-         합계 = 민주당 + 국민의힘) |> 
+         합계 = 민주당 + 국민의힘)  |> 
+  mutate(label_color = ifelse(차이 > 0, "blue", "red"))
+
+
+## y 축 읍면동 색상을 지정 -------------
+emd_colors <- votes_tbl |> 
+  mutate(읍면동명 = fct_reorder(읍면동명, 합계)) |> 
+  arrange(읍면동명) |> 
+  pull(label_color)
+
+
+## 우측 상자 비율과 득표수 -------------
+rates_tbl <- votes_tbl |> 
   mutate(민주_득표율 = 민주당/합계,
          국힘_득표율 = 국민의힘/합계,
-         득표율차이 = 민주_득표율 - 국힘_득표율) |>   
-   pivot_longer(민주당:국민의힘, names_to = "정당", values_to = "득표") |> 
+         득표율차이 = 민주_득표율 - 국힘_득표율) |> 
+  pivot_longer(민주_득표율:국힘_득표율, names_to = "정당", values_to = "득표율")
 
-  ggplot(aes(x = fct_reorder(읍면동명, 득표), y = 득표, color = 정당)) +
+rect_tbl <- rates_tbl |> 
+  select(읍면동명, 차이, 득표율차이) |> 
+  distinct()
+
+total_tbl <- votes_tbl |> 
+  summarise(국민의힘 = sum(국민의힘),
+            민주당 = sum(민주당)) |> 
+  mutate(득표차이 = abs(국민의힘-민주당),
+         득표율차이 = abs(득표차이 / (국민의힘+민주당)))
+
+
+강서구청장_gg <- votes_tbl |> 
+  pivot_longer(민주당:국민의힘, names_to = "정당", values_to = "득표")  |> 
+  ggplot(aes(x = fct_reorder(읍면동명, 합계), y = 득표, color = 정당)) +
     geom_line(aes(group = paired), color = "gray50") +
     geom_point(size = 2) +
-    coord_flip() +
-    theme(legend.position = "top") +
+    coord_flip(clip="off") +
+    theme(legend.position = "top",
+          axis.text.y = element_text(colour = emd_colors)) +
     scale_color_manual(values = c("민주당" = "blue",
                                   "국민의힘" = "red")) +
     labs(x = "",
-         y = "득표수")  +
+         y = "득표수",
+         title = "강서구청장 제8회 지방선거 동별 득표현황") +
     scale_y_continuous(label = scales::comma) +
-     guides(colour = guide_legend(nrow = 1)) +
-     scale_y_continuous(labels = scales::comma, limits = c(0, 20000)) +
-     geom_rect(aes(ymin=18000, ymax=20000, xmin=-Inf, xmax=Inf), fill="gray90") +
-     geom_text(aes(label=glue::glue("{scales::comma(차이)} / {scales::percent(득표율차이, accuracy=0.1)}"),
+    guides(colour = guide_legend(nrow = 1)) +
+    scale_y_continuous(labels = scales::comma, limits = c(0, 20000)) +
+     # 득표율 ----------------------
+     geom_text_repel(data = rates_tbl |> filter(str_detect(정당, "민주")), 
+              aes(label=glue::glue("{scales::percent(득표율, accuracy=0.1)}"),
+                  y = 민주당, x = 읍면동명), hjust = "outward", direction = "x", vjust = 1.5,
+                  fontface="bold", size=2.7, color = "blue") +
+     geom_text_repel(data = rates_tbl |> filter(str_detect(정당, "국힘")), 
+              aes(label=glue::glue("{scales::percent(득표율, accuracy=0.1)}"),
+                  y = 국민의힘, x = 읍면동명), hjust = "outward", direction = "x", vjust = -0.5,
+                  fontface="bold", size=2.7, color = "red") +
+     # 차이 ----------------------
+     geom_rect(aes(ymin=18000, ymax=20000, xmin=-Inf, xmax=Inf), fill="gray90", color="gray90") +
+     geom_text(data = rect_tbl, aes(label=glue::glue("{scales::comma(abs(차이))} / {scales::percent(abs(득표율차이), accuracy=0.1)}"),
                    y = 19000, x = 읍면동명),
-                   fontface="bold", size=4, color = "black") +
-     geom_text_repel(aes(x = 읍면동명, label = glue::glue("{scales::percent(민주_득표율, accuracy = 0.1)}")),
-                     vjust = 0.5, color = "blue")
+                   fontface="bold", size = 3.5, color = "black", family ="MaruBuri") +
+     annotate("text", x=22.5, y=19000, size = 5, family ="MaruBuri",fontface="bold",
+              label=str_glue("득표차/득표율차\n",
+                             "{scales::comma(total_tbl$득표차이)} / {scales::percent(total_tbl$득표율차이,0.1)}") )
   
+강서구청장_gg
 
+ragg::agg_jpeg("images/강서구청장_지선_동별.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+강서구청장_gg
+dev.off()
 
 ```
 
+
+![](images/강서구청장_지선_동별.jpeg)
