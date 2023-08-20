@@ -1,0 +1,252 @@
+---
+title: "지도제작 대회"
+subtitle: "시도별 역대 국회의원"
+description: |
+  역대 시도별 국회의원
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: false
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 시도 정당
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+## 2020년 제21대 ----------------------------------
+election_21_url <- "https://ko.wikipedia.org/wiki/대한민국_제21대_국회의원_선거"
+
+sido_21_2020 <- read_html(election_21_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[15]]
+
+sido_21_2020_tbl <- sido_21_2020 |> 
+  filter(지역 != "전국") |> 
+  select(-합계) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "2020_21대")
+
+
+## 2016년 제20대 ----------------------------------
+election_20_url <- "https://ko.wikipedia.org/wiki/대한민국_제20대_국회의원_선거"
+
+sido_20_2016 <- read_html(election_20_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[15]]
+
+sido_20_2016_tbl <- sido_20_2016 |> 
+  filter(지역 != "전국") |> 
+  select(-합계) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "2016_20대")
+
+## 2012년 제19대 ----------------------------------
+election_19_url <- "https://ko.wikipedia.org/wiki/대한민국_제19대_국회의원_선거"
+
+sido_19_2012 <- read_html(election_19_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[13]]
+
+sido_19_2012_tbl <- sido_19_2012 |> 
+  set_names(c("지역", "새누리", "민주통합", "통합진보", "자유선진", 
+"무소속", "합　계")) |> 
+  select(-`합　계`) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "2012_19대")
+
+## 2008년 제18대 ----------------------------------
+election_18_url <- "https://ko.wikipedia.org/wiki/대한민국_제18대_국회의원_선거"
+
+sido_18_2008 <- read_html(election_18_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[12]]
+
+sido_18_2008_tbl <- sido_18_2008 |> 
+  set_names(c("지역", "민주", "한나라", "자유선진", "민노", "창조한국", 
+"친박연대", "무소속", "합　계")) |> 
+  select(-`합　계`) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "2008_18대")
+
+## 2004년 제17대 ----------------------------------
+election_17_url <- "https://ko.wikipedia.org/wiki/대한민국_제17대_국회의원_선거"
+
+sido_17_2004 <- read_html(election_17_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[9]]
+
+sido_17_2004_tbl <- sido_17_2004 |> 
+  select(-합계) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = parse_number(의석수)) |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "2004_17대")
+
+## 2000년 제16대 ----------------------------------
+election_16_url <- "https://ko.wikipedia.org/wiki/대한민국_제16대_국회의원_선거"
+
+sido_16_2000 <- read_html(election_16_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[8]]
+
+sido_16_2000_tbl <- sido_16_2000 |> 
+  select(-합계) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = parse_number(의석수)) |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "2000_16대")
+
+## 1996년 제15대 ----------------------------------
+election_15_url <- "https://ko.wikipedia.org/wiki/대한민국_제15대_국회의원_선거"
+
+sido_15_1996 <- read_html(election_15_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[12]]
+
+sido_15_1996_tbl <- sido_15_1996 |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  select(지역:무소속) |> 
+  filter(!str_detect(지역, "^\\d|^지역|^자료|^합계")) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = parse_number(의석수)) |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "1996_15대")
+
+## 1992년 제14대 ----------------------------------
+election_14_url <- "https://ko.wikipedia.org/wiki/대한민국_제14대_국회의원_선거"
+
+sido_14_1992 <- read_html(election_14_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[8]]
+
+sido_14_1992_tbl <- sido_14_1992 |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  select(-합계) |> 
+  filter(!str_detect(지역, "^합계")) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = parse_number(의석수)) |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "1992_14대")
+
+## 1988년 제13대 ----------------------------------
+election_13_url <- "https://ko.wikipedia.org/wiki/대한민국_제13대_국회의원_선거"
+
+sido_13_1988 <- read_html(election_13_url) |> 
+  html_elements("table") |> 
+  html_table() %>%
+  .[[7]]
+
+sido_13_1988_tbl <- sido_13_1988 |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  select(-합계) |> 
+  filter(!str_detect(지역, "^합계")) |> 
+  pivot_longer(-지역, names_to = "정당", values_to = "의석수") |> 
+  mutate(의석수 = parse_number(의석수)) |> 
+  mutate(의석수 = ifelse(is.na(의석수), 0, 의석수)) |> 
+  mutate(선거 = "1988_13대")
+
+## 역대선거 결합 ----------------------------------
+
+sido_raw <- map_df(mget(ls(pattern = "*_tbl")), rbind)
+
+sido_tbl <- sido_raw |> 
+  separate(선거, into = c("연도", "선수"), sep = "_") 
+
+sido_tbl |> 
+  write_csv("data/역대_시도_정당별_의석수.csv")
+```
+
+## 정당
+
+```{r}
+party_url <- "https://ko.wikipedia.org/wiki/대한민국의_역대_정당"
+
+party_list <- read_html(party_url) |> 
+  html_elements("table") |> 
+  html_table()
+
+party_list[[6]] |> 
+  janitor::clean_names() |> 
+  filter(str_detect(x1, "\\d{4}")) |> 
+  select(정부=x1, 여당=x4, 야당1=x6, 야당2=x8, 야당3=x10, 야당4=x12) |> 
+  mutate(야당 = str_glue("{야당1}, {야당2}, {야당3}, {야당4}")) |> 
+  select(정부, 여당, 야당)  |> 
+  mutate(야당 = str_remove_all(야당, "NA,|NA") |> str_trim() |> str_remove(pattern=",$")) |> 
+  gt::gt()
+```
+
+
+# 분석
+
+
+```{r}
+library(tidyverse)
+
+sido_tbl <- read_csv("data/역대_시도_정당별_의석수.csv")
+
+sido_tbl |> 
+  mutate(수도권 = case_when(str_detect(지역, "서울|경기|인천") ~ "수도권",
+                            TRUE ~ "비수도권")) |> 
+  mutate(현정당 = case_when(정당 %in% c("민주정의당", "민주자유당", "신한국당",
+                                        "한나라당", "새누리당", "자유한국당","새로운보수당",
+                                        "미래를향한전진4.0", "미래통합당", "국민의힘") ~ "국민의힘",
+                            정당 %in% c("평화민주당", "통일민주당", "민주당", "새정치국민회의",
+                                        "새천년민주당","열린우리당", "대통합민주신당", 
+                                        "민주통합당", "새정치민주연합", "더불어민주당") ~ "더불어민주당",
+                            TRUE ~ "그외정당")) |> 
+  group_by(연도, 선수, 수도권, 현정당) |> 
+  summarise(의석수 = sum(의석수)) |> 
+  pivot_wider(names_from = 수도권, values_from = 의석수) |> 
+  mutate(총의석수 = 비수도권 + 수도권) |> 
+  arrange(연도)
+
+
+```
+
+
+

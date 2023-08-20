@@ -239,8 +239,7 @@ library(tidyverse)
 library(readxl)
 
 emd_sf <- st_read("data/EMD_202302/emd.shp") |> 
-  mutate(EMD_KOR_NM = iconv(EMD_KOR_NM, "euc-kr", "utf-8")) |> 
-  filter(str_sub(EMD_CD, 1, 5) == '115005')
+  mutate(EMD_KOR_NM = iconv(EMD_KOR_NM, "euc-kr", "utf-8")) 
 
 emd_cd <- read_excel("data/jsocde20230611/KIKmix.20230611.xlsx") |> 
   filter(시군구명 == "강서구") |> 

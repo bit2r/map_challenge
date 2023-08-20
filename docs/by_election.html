@@ -248,6 +248,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./by_election_dong.html" rel="" target="">
  <span class="dropdown-text">재보궐: 강서구청장(동별)</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./sido_legislator.html" rel="" target="">
+ <span class="dropdown-text">시도별 역대 국회의원</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
     <a class="dropdown-item" href="./realmeter_metro.html" rel="" target="">
@@ -528,8 +532,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">emd_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="st">"data/EMD_202302/emd.shp"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>EMD_KOR_NM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/iconv.html">iconv</a></span><span class="op">(</span><span class="va">EMD_KOR_NM</span>, <span class="st">"euc-kr"</span>, <span class="st">"utf-8"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span><span class="op">(</span><span class="va">EMD_CD</span>, <span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span> <span class="op">==</span> <span class="st">'115005'</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>EMD_KOR_NM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/iconv.html">iconv</a></span><span class="op">(</span><span class="va">EMD_KOR_NM</span>, <span class="st">"euc-kr"</span>, <span class="st">"utf-8"</span><span class="op">)</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">emd_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/jsocde20230611/KIKmix.20230611.xlsx"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">시군구명</span> <span class="op">==</span> <span class="st">"강서구"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1302,24 +1305,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-255"><a href="#cb9-255" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a>emd_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/EMD_202302/emd.shp"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EMD_KOR_NM =</span> <span class="fu">iconv</span>(EMD_KOR_NM, <span class="st">"euc-kr"</span>, <span class="st">"utf-8"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_sub</span>(EMD_CD, <span class="dv">1</span>, <span class="dv">5</span>) <span class="sc">==</span> <span class="st">'115005'</span>)</span>
-<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a>emd_cd <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/jsocde20230611/KIKmix.20230611.xlsx"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(시군구명 <span class="sc">==</span> <span class="st">"강서구"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(읍면동명)) <span class="sc">|&gt;</span> </span>
-<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(행정동코드, <span class="st">"^11"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(시군구명, 행정동코드, 읍면동명, <span class="at">sort =</span> <span class="cn">TRUE</span>)  <span class="sc">|&gt;</span> </span>
-<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EMD_CD =</span> <span class="fu">str_sub</span>(행정동코드, <span class="dv">1</span>, <span class="dv">8</span>))</span>
-<span id="cb9-267"><a href="#cb9-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-268"><a href="#cb9-268" aria-hidden="true" tabindex="-1"></a>emd_cd <span class="sc">|&gt;</span> </span>
-<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(emd_sf, <span class="at">by =</span> <span class="st">"EMD_CD"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(시군구명 <span class="sc">==</span> <span class="st">"강서구"</span>)</span>
-<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(읍면동명) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
-<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(읍면동명, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-275"><a href="#cb9-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EMD_KOR_NM =</span> <span class="fu">iconv</span>(EMD_KOR_NM, <span class="st">"euc-kr"</span>, <span class="st">"utf-8"</span>)) </span>
+<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a>emd_cd <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/jsocde20230611/KIKmix.20230611.xlsx"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(시군구명 <span class="sc">==</span> <span class="st">"강서구"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(읍면동명)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(행정동코드, <span class="st">"^11"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(시군구명, 행정동코드, 읍면동명, <span class="at">sort =</span> <span class="cn">TRUE</span>)  <span class="sc">|&gt;</span> </span>
+<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EMD_CD =</span> <span class="fu">str_sub</span>(행정동코드, <span class="dv">1</span>, <span class="dv">8</span>))</span>
+<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-267"><a href="#cb9-267" aria-hidden="true" tabindex="-1"></a>emd_cd <span class="sc">|&gt;</span> </span>
+<span id="cb9-268"><a href="#cb9-268" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(emd_sf, <span class="at">by =</span> <span class="st">"EMD_CD"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(시군구명 <span class="sc">==</span> <span class="st">"강서구"</span>)</span>
+<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(읍면동명) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(읍면동명, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -1334,7 +1336,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","selector":".lightbox","loop":true});</script>
+</footer><script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","selector":".lightbox","loop":true,"closeEffect":"zoom"});</script>
 
 
 </body></html>
