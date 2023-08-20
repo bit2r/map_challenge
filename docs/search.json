@@ -327,5 +327,12 @@
     "title": "지도제작 대회",
     "section": "",
     "text": "코드vote_tbl &lt;- bind_rows(by_election_tbl, general_tbl, local_sgg_tbl, local_sido_tbl, president_tbl)"
+  },
+  {
+    "objectID": "by_election_dong.html",
+    "href": "by_election_dong.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "1 데이터셋\n\n1.0.1 구시군의 장\n\n코드library(tidyverse)\nlibrary(ggalt)\nlibrary(ggrepel)\n\n\nkrvote::local_sgg_20220601 |&gt; \n  filter(시도명 == \"서울특별시\",\n         구시군명 == \"강서구\",\n         !str_detect(읍면동명, \"잘못\")) |&gt; \n  mutate(득표 = parse_number(득표),\n         읍면동명 = case_when(str_detect(읍면동명, \"관외|거소\") ~ \"관외사전거소\",\n                              TRUE ~ 읍면동명)) |&gt; \n  group_by(후보, 읍면동명) |&gt; \n  summarise(득표 = sum(득표)) |&gt; \n  mutate(후보 = case_when(str_detect(후보, \"김승현\") ~ \"민주당\",\n                          str_detect(후보, \"김태우\") ~ \"국민의힘\",\n                          TRUE ~ \"그외/기타\")) |&gt; \n  ungroup() |&gt; \n  arrange(읍면동명, 후보) |&gt; \n  mutate(paired = rep(1:(n()/2),each=2)) |&gt; \n  ungroup() |&gt; \n  pivot_wider(names_from = 후보,\n              values_from = 득표) |&gt; \n  mutate(차이 = 민주당 - 국민의힘,\n         합계 = 민주당 + 국민의힘) |&gt; \n  mutate(민주_득표율 = 민주당/합계,\n         국힘_득표율 = 국민의힘/합계,\n         득표율차이 = 민주_득표율 - 국힘_득표율) |&gt;   \n   pivot_longer(민주당:국민의힘, names_to = \"정당\", values_to = \"득표\") |&gt; \n\n  ggplot(aes(x = fct_reorder(읍면동명, 득표), y = 득표, color = 정당)) +\n    geom_line(aes(group = paired), color = \"gray50\") +\n    geom_point(size = 2) +\n    coord_flip() +\n    theme(legend.position = \"top\") +\n    scale_color_manual(values = c(\"민주당\" = \"blue\",\n                                  \"국민의힘\" = \"red\")) +\n    labs(x = \"\",\n         y = \"득표수\")  +\n    scale_y_continuous(label = scales::comma) +\n     guides(colour = guide_legend(nrow = 1)) +\n     scale_y_continuous(labels = scales::comma, limits = c(0, 20000)) +\n     geom_rect(aes(ymin=18000, ymax=20000, xmin=-Inf, xmax=Inf), fill=\"gray90\") +\n     geom_text(aes(label=glue::glue(\"{scales::comma(차이)} / {scales::percent(득표율차이, accuracy=0.1)}\"),\n                   y = 19000, x = 읍면동명),\n                   fontface=\"bold\", size=4, color = \"black\") +\n     geom_text_repel(aes(x = 읍면동명, label = glue::glue(\"{scales::percent(민주_득표율, accuracy = 0.1)}\")),\n                     vjust = 0.5, color = \"blue\")"
   }
 ]

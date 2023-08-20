@@ -82,6 +82,8 @@ website:
             text: "민주당은 전국정당(?)"
           - href: by_election.qmd
             text: "재보궐: 강서구청장"
+          - href: by_election_dong.qmd
+            text: "재보궐: 강서구청장(동별)"            
           - text: "----------------"
           - href: realmeter_metro.qmd
             text: "리얼미터 PDF"

@@ -1,0 +1,106 @@
+---
+title: "지도제작 대회"
+subtitle: "재보궐: 강서구청장(동별)"
+description: |
+  강서구청장 재보궐 선거 동별 상세 분석
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: false
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# 데이터셋
+
+
+
+### 구시군의 장
+
+
+::: {.cell}
+
+```{.r .cell-code}
+library(tidyverse)
+library(ggalt)
+library(ggrepel)
+
+
+krvote::local_sgg_20220601 |> 
+  filter(시도명 == "서울특별시",
+         구시군명 == "강서구",
+         !str_detect(읍면동명, "잘못")) |> 
+  mutate(득표 = parse_number(득표),
+         읍면동명 = case_when(str_detect(읍면동명, "관외|거소") ~ "관외사전거소",
+                              TRUE ~ 읍면동명)) |> 
+  group_by(후보, 읍면동명) |> 
+  summarise(득표 = sum(득표)) |> 
+  mutate(후보 = case_when(str_detect(후보, "김승현") ~ "민주당",
+                          str_detect(후보, "김태우") ~ "국민의힘",
+                          TRUE ~ "그외/기타")) |> 
+  ungroup() |> 
+  arrange(읍면동명, 후보) |> 
+  mutate(paired = rep(1:(n()/2),each=2)) |> 
+  ungroup() |> 
+  pivot_wider(names_from = 후보,
+              values_from = 득표) |> 
+  mutate(차이 = 민주당 - 국민의힘,
+         합계 = 민주당 + 국민의힘) |> 
+  mutate(민주_득표율 = 민주당/합계,
+         국힘_득표율 = 국민의힘/합계,
+         득표율차이 = 민주_득표율 - 국힘_득표율) |>   
+   pivot_longer(민주당:국민의힘, names_to = "정당", values_to = "득표") |> 
+
+  ggplot(aes(x = fct_reorder(읍면동명, 득표), y = 득표, color = 정당)) +
+    geom_line(aes(group = paired), color = "gray50") +
+    geom_point(size = 2) +
+    coord_flip() +
+    theme(legend.position = "top") +
+    scale_color_manual(values = c("민주당" = "blue",
+                                  "국민의힘" = "red")) +
+    labs(x = "",
+         y = "득표수")  +
+    scale_y_continuous(label = scales::comma) +
+     guides(colour = guide_legend(nrow = 1)) +
+     scale_y_continuous(labels = scales::comma, limits = c(0, 20000)) +
+     geom_rect(aes(ymin=18000, ymax=20000, xmin=-Inf, xmax=Inf), fill="gray90") +
+     geom_text(aes(label=glue::glue("{scales::comma(차이)} / {scales::percent(득표율차이, accuracy=0.1)}"),
+                   y = 19000, x = 읍면동명),
+                   fontface="bold", size=4, color = "black") +
+     geom_text_repel(aes(x = 읍면동명, label = glue::glue("{scales::percent(민주_득표율, accuracy = 0.1)}")),
+                     vjust = 0.5, color = "blue")
+```
+
+::: {.cell-output-display}
+![](by_election_dong_files/figure-html/unnamed-chunk-1-1.png){width=672}
+:::
+:::
+
