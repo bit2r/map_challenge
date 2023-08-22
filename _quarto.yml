@@ -40,6 +40,8 @@ website:
             text: "지오코딩"
           - href: day_heatmap.qmd
             text: "열지도(heatmap)"
+          - href: spatial_basics.qmd
+            text: "지도 기본기"
             
       - text: "GIS 분석&챗GPT"
         menu: 

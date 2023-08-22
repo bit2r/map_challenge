@@ -355,5 +355,75 @@
     "title": "지도제작 대회",
     "section": "",
     "text": "코드party_url &lt;- \"https://ko.wikipedia.org/wiki/대한민국의_역대_정당\"\n\nparty_list &lt;- read_html(party_url) |&gt; \n  html_elements(\"table\") |&gt; \n  html_table()\n\nparty_list[[6]] |&gt; \n  janitor::clean_names() |&gt; \n  filter(str_detect(x1, \"\\\\d{4}\")) |&gt; \n  select(정부=x1, 여당=x4, 야당1=x6, 야당2=x8, 야당3=x10, 야당4=x12) |&gt; \n  mutate(야당 = str_glue(\"{야당1}, {야당2}, {야당3}, {야당4}\")) |&gt; \n  select(정부, 여당, 야당)  |&gt; \n  mutate(야당 = str_remove_all(야당, \"NA,|NA\") |&gt; str_trim() |&gt; str_remove(pattern=\",$\")) |&gt; \n  gt::gt()"
+  },
+  {
+    "objectID": "spatial_basics.html",
+    "href": "spatial_basics.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "공공데이터포털에서 한국전력공사 전기차 충전소 설치현황 엑셀 데이터를 다운로드 받는다. 이를 위해서 전력데이터 개방 포털시스템 전기차 충전소 설치 현황에서 전국을 선택하고 엑셀파일을 다운로드 한다.\n\n코드library(readxl)\nlibrary(tidyverse)\n\ncharger_raw &lt;- read_excel(\"data/전기차 충전소 설치현황_20230822.xlsx\", skip = 2)\n\ncharger_raw\n#&gt; # A tibble: 4,692 × 6\n#&gt;    시구  설치장소             주소    `급속충전기(대)` `완속충전기(대)` 지원차종\n#&gt;    &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;   \n#&gt;  1 전체  가평소방서           경기도… 1                0                SM3 Z.E…\n#&gt;  2 전체  가평종합운동장       경기도… 2                0                BMW i3,…\n#&gt;  3 전체  가평지사             경기도… 1                1                SM3 Z.E…\n#&gt;  4 전체  가평하수도사업소     경기도… 1                0                SM3 Z.E…\n#&gt;  5 전체  상면사무소           경기도… 1                0                SM3 Z.E…\n#&gt;  6 전체  설악면사무소         경기도… 1                0                SM3 Z.E…\n#&gt;  7 전체  조종면사무소         경기도… 1                0                SM3 Z.E…\n#&gt;  8 전체  조종소방서           경기도… 1                0                SM3 Z.E…\n#&gt;  9 전체  청평소방서           경기도… 1                0                SM3 Z.E…\n#&gt; 10 전체  청평호반문화체육센터 경기도… 1                0                SM3 Z.E…\n#&gt; # ℹ 4,682 more rows\n\n\n\nvuski/admdongkor 최신 행정동 데이터를 가져온다.\n\n코드library(sf)\nsf_use_s2(FALSE)\n\nkorea_map &lt;- read_sf(\"data/HangJeongDong_ver20230401.geojson\")\n\nsido_map &lt;- korea_map |&gt; \n  group_by(sido, sidonm) |&gt; \n  summarise(geometry = sf::st_union(geometry))\n\nst_geometry(sido_map) |&gt; plot()"
+  },
+  {
+    "objectID": "spatial_basics.html#충전소-데이터",
+    "href": "spatial_basics.html#충전소-데이터",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "공공데이터포털에서 한국전력공사 전기차 충전소 설치현황 엑셀 데이터를 다운로드 받는다. 이를 위해서 전력데이터 개방 포털시스템 전기차 충전소 설치 현황에서 전국을 선택하고 엑셀파일을 다운로드 한다.\n\n코드library(readxl)\nlibrary(tidyverse)\n\ncharger_raw &lt;- read_excel(\"data/전기차 충전소 설치현황_20230822.xlsx\", skip = 2)\n\ncharger_raw\n#&gt; # A tibble: 4,692 × 6\n#&gt;    시구  설치장소             주소    `급속충전기(대)` `완속충전기(대)` 지원차종\n#&gt;    &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;   \n#&gt;  1 전체  가평소방서           경기도… 1                0                SM3 Z.E…\n#&gt;  2 전체  가평종합운동장       경기도… 2                0                BMW i3,…\n#&gt;  3 전체  가평지사             경기도… 1                1                SM3 Z.E…\n#&gt;  4 전체  가평하수도사업소     경기도… 1                0                SM3 Z.E…\n#&gt;  5 전체  상면사무소           경기도… 1                0                SM3 Z.E…\n#&gt;  6 전체  설악면사무소         경기도… 1                0                SM3 Z.E…\n#&gt;  7 전체  조종면사무소         경기도… 1                0                SM3 Z.E…\n#&gt;  8 전체  조종소방서           경기도… 1                0                SM3 Z.E…\n#&gt;  9 전체  청평소방서           경기도… 1                0                SM3 Z.E…\n#&gt; 10 전체  청평호반문화체육센터 경기도… 1                0                SM3 Z.E…\n#&gt; # ℹ 4,682 more rows"
+  },
+  {
+    "objectID": "spatial_basics.html#지도데이터",
+    "href": "spatial_basics.html#지도데이터",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "vuski/admdongkor 최신 행정동 데이터를 가져온다.\n\n코드library(sf)\nsf_use_s2(FALSE)\n\nkorea_map &lt;- read_sf(\"data/HangJeongDong_ver20230401.geojson\")\n\nsido_map &lt;- korea_map |&gt; \n  group_by(sido, sidonm) |&gt; \n  summarise(geometry = sf::st_union(geometry))\n\nst_geometry(sido_map) |&gt; plot()"
+  },
+  {
+    "objectID": "spatial_basics.html#api-설정",
+    "href": "spatial_basics.html#api-설정",
+    "title": "지도제작 대회",
+    "section": "\n2.1 API 설정",
+    "text": "2.1 API 설정\n주소를 지도에 올릴 수 있도록 위경도 변환한다. 구글 공간정보서비스가 위세를 떨치는 기간에 다음 지도 API가 진화를 하여 kakaomap Maps API로 사용법과 사용량 등 개발자 관점에서 나름 쓸만한 형태로 개선되었다.\nC:\\Program Files\\R\\R-3.5.2\\etc 디렉토리 Rprofile.site 파일에 카카오 개발자센터 앱개발에 사용할 API 키를 KAKAO_MAP_API_KEY 변수에 저장시킨다. 재미있는 것은 Authorization에서 \"KakaoAK \"를 꼭 앞에 붙여야함으로 paste0() 함수로 결합시켜 전달한다. 혹은 usethis 팩키지를 사용해서 edit_r_environ() 명령어를 사용해서 .Renviron 파일에 KAKAO_MAP_API_KEY값을 설정하여 사용하는 것도 좋다.\n카카오 개발자센터 로컬 → REST API 문서에 지오코딩하는 자세한 사항이 나와있다. 한가지 사례로 삼정KPMG주소를 지도위에 표시하는 것을 목표로 먼저 삼정KPMG 주소를 던져서 위도경도를 받아내는 헬로월드 코드를 작성해본다.\n\n코드library(httr)\nlibrary(tidyverse)\nlibrary(jsonlite)\n\n# usethis::edit_r_environ()\n\n# 요청 URL 및 파라미터 설정\nbase_url &lt;- \"https://dapi.kakao.com/v2/local/search/address.json\"\nparams &lt;- list(query = '서울특별시 강남구 역삼동 737' ) # 삼정KPMG 주소\n\n# GET 요청 실행\nresponse &lt;- GET(base_url, \n                add_headers(Authorization = paste(\"KakaoAK\", Sys.getenv(\"KAKAO_MAP_API_KEY\"))),\n                query = params)\n\n# 응답 확인\nprint(content(response, \"text\"))\n#&gt; [1] \"{\\\"documents\\\":[{\\\"address\\\":{\\\"address_name\\\":\\\"서울 강남구 역삼동 737\\\",\\\"b_code\\\":\\\"1168010100\\\",\\\"h_code\\\":\\\"1168064000\\\",\\\"main_address_no\\\":\\\"737\\\",\\\"mountain_yn\\\":\\\"N\\\",\\\"region_1depth_name\\\":\\\"서울\\\",\\\"region_2depth_name\\\":\\\"강남구\\\",\\\"region_3depth_h_name\\\":\\\"역삼1동\\\",\\\"region_3depth_name\\\":\\\"역삼동\\\",\\\"sub_address_no\\\":\\\"\\\",\\\"x\\\":\\\"127.036628730251\\\",\\\"y\\\":\\\"37.4998101243238\\\"},\\\"address_name\\\":\\\"서울 강남구 역삼동 737\\\",\\\"address_type\\\":\\\"REGION_ADDR\\\",\\\"road_address\\\":{\\\"address_name\\\":\\\"서울 강남구 테헤란로 152\\\",\\\"building_name\\\":\\\"강남파이낸스센터\\\",\\\"main_building_no\\\":\\\"152\\\",\\\"region_1depth_name\\\":\\\"서울\\\",\\\"region_2depth_name\\\":\\\"강남구\\\",\\\"region_3depth_name\\\":\\\"역삼동\\\",\\\"road_name\\\":\\\"테헤란로\\\",\\\"sub_building_no\\\":\\\"\\\",\\\"underground_yn\\\":\\\"N\\\",\\\"x\\\":\\\"127.036508620542\\\",\\\"y\\\":\\\"37.5000242405515\\\",\\\"zone_no\\\":\\\"06236\\\"},\\\"x\\\":\\\"127.036628730251\\\",\\\"y\\\":\\\"37.4998101243238\\\"}],\\\"meta\\\":{\\\"is_end\\\":true,\\\"pageable_count\\\":1,\\\"total_count\\\":1}}\"\n\n# KPMG 지리정보 데이터프레임\nkpmg_list &lt;- response %&gt;% \n  content(as = 'text') %&gt;% \n  fromJSON()\n\n## 도로명주소\nkpmg_list$documents$road_address %&gt;% \n  select(address_name, building_name, x,y)\n#&gt;               address_name    building_name                x                y\n#&gt; 1 서울 강남구 테헤란로 152 강남파이낸스센터 127.036508620542 37.5000242405515\n\n## 지명주소\nkpmg_list$documents$address %&gt;% \n  select(address_name, x,y)\n#&gt;             address_name                x                y\n#&gt; 1 서울 강남구 역삼동 737 127.036628730251 37.4998101243238"
+  },
+  {
+    "objectID": "spatial_basics.html#함수-제작",
+    "href": "spatial_basics.html#함수-제작",
+    "title": "지도제작 대회",
+    "section": "\n2.2 함수 제작",
+    "text": "2.2 함수 제작\n\n코드\nget_lnglat &lt;- function(address = '서울특별시 강남구 역삼동 737') {\n  \n  base_url &lt;- \"https://dapi.kakao.com/v2/local/search/address.json\"\n  params &lt;- list(query = address ) # 삼정KPMG 주소\n  \n  # GET 요청 실행\n  response &lt;- GET(base_url, \n                  add_headers(Authorization = paste(\"KakaoAK\", Sys.getenv(\"KAKAO_MAP_API_KEY\"))),\n                  query = params)\n  \n\n  # KPMG 지리정보 데이터프레임\n  json_list &lt;- response %&gt;% \n    content(as = 'text') %&gt;% \n    fromJSON()\n  \n\n  ## 위경도 주소\n  return(json_list$documents$address %&gt;% select(x,y) %&gt;% unlist)\n}\n\nget_lnglat(\"경기도 가평군 가평읍 대곡리 213-5\")\n#&gt;                  x                  y \n#&gt; \"127.516690566855\" \"37.8236644879834\""
+  },
+  {
+    "objectID": "spatial_basics.html#충전소-지오코딩",
+    "href": "spatial_basics.html#충전소-지오코딩",
+    "title": "지도제작 대회",
+    "section": "\n2.3 충전소 지오코딩",
+    "text": "2.3 충전소 지오코딩\nget_lnglat() 함수는 모든 것이 예정된 방식으로 동작하는 것을 가정한다. 따라서, 가정 중 하나라도 충족하지 않는 경우 오류가 나서 반복 작업이 중단된다.\n\n코드charger_tbl &lt;- charger_raw |&gt; \n  janitor::clean_names(ascii = FALSE) |&gt; \n  mutate(data = map(주소, get_lnglat))\n\n\nError in `mutate()`:\nℹ In argument: `data = map(주소, get_lnglat)`.\nCaused by error in `map()`:\nℹ In index: 248.\nCaused by error in `UseMethod()`:\n! no applicable method for 'select' applied to an object of class \"NULL\"\n이를 보완하기 위해 safely(), possibly() 등 부사를 사용해서 가능한 많은 주소를 지오코딩한다.\n\n코드safely_get_lnglat &lt;- safely(get_lnglat, otherwise = \"error\")\n\ncharger_tbl &lt;- charger_raw |&gt; \n  janitor::clean_names(ascii = FALSE) |&gt; \n  mutate(data = map(주소, safely_get_lnglat))\n\n# 데이터프레임 출력\n# charger_tbl |&gt; \n#   write_rds(\"data/charger_tbl_raw.rds\")\n\n# 리스트 출력\n# charger_tbl |&gt;\n#   write_rds(\"data/charger_tbl_raw_list.rds\")\n\ncharger_tbl &lt;- \n  read_rds(\"data/charger_tbl_raw_list.rds\")\n\ncharger_lnglat &lt;- charger_tbl |&gt; \n  mutate(result = map(data, \"result\")) |&gt; \n  filter(result != \"error\") |&gt; \n  \n  ## 위경도 변환 --------------------\n  select(-시구, -data) |&gt; \n  mutate(lng = map_chr(result, 1),\n         lat  = map_chr(result, 2)) |&gt; \n  select(-result)\n\ncharger_lnglat |&gt; \n  write_rds(\"data/charger_lnglat.rds\")\n\n\n\n코드charger_lnglat &lt;- \n  read_rds(\"data/charger_lnglat.rds\")\n\ncharger_lnglat\n#&gt; # A tibble: 4,546 × 7\n#&gt;    설치장소             주소    급속충전기_대 완속충전기_대 지원차종 lng   lat  \n#&gt;    &lt;chr&gt;                &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;\n#&gt;  1 가평소방서           경기도… 1             0             SM3 Z.E… 127.… 37.8…\n#&gt;  2 가평종합운동장       경기도… 2             0             BMW i3,… 127.… 37.8…\n#&gt;  3 가평지사             경기도… 1             1             SM3 Z.E… 127.… 37.8…\n#&gt;  4 가평하수도사업소     경기도… 1             0             SM3 Z.E… 127.… 37.8…\n#&gt;  5 상면사무소           경기도… 1             0             SM3 Z.E… 127.… 37.8…\n#&gt;  6 설악면사무소         경기도… 1             0             SM3 Z.E… 127.… 37.6…\n#&gt;  7 조종면사무소         경기도… 1             0             SM3 Z.E… 127.… 37.8…\n#&gt;  8 조종소방서           경기도… 1             0             SM3 Z.E… 127.… 37.8…\n#&gt;  9 청평소방서           경기도… 1             0             SM3 Z.E… 127.… 37.7…\n#&gt; 10 청평호반문화체육센터 경기도… 1             0             SM3 Z.E… 127.… 37.7…\n#&gt; # ℹ 4,536 more rows"
+  },
+  {
+    "objectID": "spatial_basics.html#시도-지도",
+    "href": "spatial_basics.html#시도-지도",
+    "title": "지도제작 대회",
+    "section": "\n3.1 시도 지도",
+    "text": "3.1 시도 지도\n\n코드sido_map |&gt; \n  ggplot() +\n    geom_sf(aes(geometry = geometry)) +\n    geom_sf_text(aes(label = sidonm), size = 3, color = \"blue\") +\n    theme_void()"
+  },
+  {
+    "objectID": "spatial_basics.html#충전소-위치",
+    "href": "spatial_basics.html#충전소-위치",
+    "title": "지도제작 대회",
+    "section": "\n3.2 충전소 위치",
+    "text": "3.2 충전소 위치\n\n코드charger_sf &lt;- charger_lnglat |&gt; \n  mutate(across(lng:lat, as.numeric)) |&gt; \n  filter(lat &lt; 50) |&gt; ## 충전소 위경도 오류 ㅠㅠ\n  st_as_sf(coords = c(\"lng\", \"lat\"),\n           crs = st_crs(sido_map)) \n\ncharger_sf |&gt; \n  ggplot() +\n    geom_sf(aes(geometry = geometry)) +\n    theme_void()"
+  },
+  {
+    "objectID": "spatial_basics.html#위치-결합",
+    "href": "spatial_basics.html#위치-결합",
+    "title": "지도제작 대회",
+    "section": "\n3.3 위치 결합",
+    "text": "3.3 위치 결합\n\n코드ggplot() +\n  geom_sf(data = sido_map, aes(geometry = geometry), fill = \"transparent\", color = \"blue\") +\n  geom_sf(data = charger_sf, aes(geometry = geometry), color = \"black\", size = 0.1)"
+  },
+  {
+    "objectID": "spatial_basics.html#인터랙티브",
+    "href": "spatial_basics.html#인터랙티브",
+    "title": "지도제작 대회",
+    "section": "\n3.4 인터랙티브",
+    "text": "3.4 인터랙티브\n\n코드library(leaflet)\n\nleaflet(data = charger_lnglat |&gt; \n          mutate(across(lng:lat, as.numeric)) |&gt; \n          filter(lat &lt; 50)\n        ) %&gt;% \n  addProviderTiles(providers$OpenStreetMap) %&gt;% \n  ## 충전소 상세정보\n  addMarkers(lng=~lng, lat=~lat, \n             clusterOptions = markerClusterOptions(),\n             popup = ~ as.character(paste0(\"&lt;strong&gt;\", 설치장소, \"&lt;/strong&gt;&lt;br&gt;\",\n                                   \"----------------------------------&lt;br&gt;\",\n                                   \"&middot; 주소: \", `주소`, \"&lt;br&gt;\",\n                                   \"&middot; 급속: \", `급속충전기_대`, \"&lt;br&gt;\",\n                                   \"&middot; 완속: \", `완속충전기_대`, \"&lt;br&gt;\",\n                                   \"&middot; 지원차종: \", 지원차종, \"&lt;br&gt;\"))\n             ) |&gt; \n  ## 시도 경계 추가\n  addPolygons(data = sido_map,\n              opacity = 1.0, fillOpacity = 0.1,\n              weight = 1,\n              highlightOptions = highlightOptions(color = \"black\", weight = 3,  bringToFront = TRUE),\n              labelOptions = labelOptions(\n              style = list(\"font-weight\" = \"normal\", padding = \"3px 8px\"),\n              textsize = \"15px\",\n              direction = \"auto\"))"
   }
 ]

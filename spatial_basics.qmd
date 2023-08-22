@@ -1,0 +1,282 @@
+---
+title: "지도제작 대회"
+subtitle: "지도 기본기"
+description: |
+  지도 그리기 기본기
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 충전소 데이터
+
+공공데이터포털에서 [한국전력공사 전기차 충전소 설치현황](https://www.data.go.kr/data/15039290/fileData.do) 엑셀 데이터를 다운로드 받는다. 이를 위해서 전력데이터 개방 포털시스템 [전기차 충전소 설치 현황](https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000170#;)에서 전국을 선택하고 엑셀파일을 다운로드 한다.
+
+```{r}
+library(readxl)
+library(tidyverse)
+
+charger_raw <- read_excel("data/전기차 충전소 설치현황_20230822.xlsx", skip = 2)
+
+charger_raw
+```
+
+## 지도데이터
+
+[vuski/admdongkor](https://github.com/vuski/admdongkor) 최신 행정동 데이터를 가져온다.
+
+
+```{r}
+library(sf)
+sf_use_s2(FALSE)
+
+korea_map <- read_sf("data/HangJeongDong_ver20230401.geojson")
+
+sido_map <- korea_map |> 
+  group_by(sido, sidonm) |> 
+  summarise(geometry = sf::st_union(geometry))
+
+st_geometry(sido_map) |> plot()
+```
+
+# 지오코딩
+
+## API 설정
+
+주소를 지도에 올릴 수 있도록 위경도 변환한다.
+구글 공간정보서비스가 위세를 떨치는 기간에 [다음 지도 API](http://apis.map.daum.net/)가 
+진화를 하여 [kakaomap Maps API](https://apis.map.kakao.com/)로 사용법과 사용량 등 개발자 관점에서 나름 쓸만한 형태로 개선되었다.
+
+`C:\Program Files\R\R-3.5.2\etc` 디렉토리 `Rprofile.site` 파일에 [카카오 개발자센터](https://developers.kakao.com/) 앱개발에 사용할 API 키를 `KAKAO_MAP_API_KEY` 변수에 저장시킨다. 재미있는 것은 `Authorization`에서 `"KakaoAK "`를 꼭 앞에 붙여야함으로 `paste0()` 함수로 결합시켜 전달한다. 혹은 `usethis` 팩키지를 사용해서 `edit_r_environ()` 명령어를 사용해서 `.Renviron` 파일에 `KAKAO_MAP_API_KEY`값을 설정하여 사용하는 것도 좋다.
+
+카카오 개발자센터 [로컬 &rarr; REST API](https://developers.kakao.com/docs/latest/ko/local/dev-guide) 문서에 지오코딩하는 자세한 사항이 나와있다. 한가지 사례로 삼정KPMG주소를 지도위에 표시하는 것을 목표로 먼저 삼정KPMG 주소를 던져서 위도경도를 받아내는 헬로월드 코드를 작성해본다. 
+
+
+```{r}
+library(httr)
+library(tidyverse)
+library(jsonlite)
+
+# usethis::edit_r_environ()
+
+# 요청 URL 및 파라미터 설정
+base_url <- "https://dapi.kakao.com/v2/local/search/address.json"
+params <- list(query = '서울특별시 강남구 역삼동 737' ) # 삼정KPMG 주소
+
+# GET 요청 실행
+response <- GET(base_url, 
+                add_headers(Authorization = paste("KakaoAK", Sys.getenv("KAKAO_MAP_API_KEY"))),
+                query = params)
+
+# 응답 확인
+print(content(response, "text"))
+
+# KPMG 지리정보 데이터프레임
+kpmg_list <- response %>% 
+  content(as = 'text') %>% 
+  fromJSON()
+
+## 도로명주소
+kpmg_list$documents$road_address %>% 
+  select(address_name, building_name, x,y)
+
+## 지명주소
+kpmg_list$documents$address %>% 
+  select(address_name, x,y)
+```
+
+## 함수 제작
+
+```{r}
+
+get_lnglat <- function(address = '서울특별시 강남구 역삼동 737') {
+  
+  base_url <- "https://dapi.kakao.com/v2/local/search/address.json"
+  params <- list(query = address ) # 삼정KPMG 주소
+  
+  # GET 요청 실행
+  response <- GET(base_url, 
+                  add_headers(Authorization = paste("KakaoAK", Sys.getenv("KAKAO_MAP_API_KEY"))),
+                  query = params)
+  
+
+  # KPMG 지리정보 데이터프레임
+  json_list <- response %>% 
+    content(as = 'text') %>% 
+    fromJSON()
+  
+
+  ## 위경도 주소
+  return(json_list$documents$address %>% select(x,y) %>% unlist)
+}
+
+get_lnglat("경기도 가평군 가평읍 대곡리 213-5")
+```
+
+
+## 충전소 지오코딩
+
+`get_lnglat()` 함수는 모든 것이 예정된 방식으로 동작하는 것을 가정한다.
+따라서, 가정 중 하나라도 충족하지 않는 경우 오류가 나서 반복 작업이 중단된다.
+
+```{r}
+#| eval: false
+charger_tbl <- charger_raw |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  mutate(data = map(주소, get_lnglat))
+```
+
+```bash
+Error in `mutate()`:
+ℹ In argument: `data = map(주소, get_lnglat)`.
+Caused by error in `map()`:
+ℹ In index: 248.
+Caused by error in `UseMethod()`:
+! no applicable method for 'select' applied to an object of class "NULL"
+```
+
+이를 보완하기 위해 `safely()`, `possibly()` 등 부사를 사용해서 가능한 많은 주소를 지오코딩한다.
+
+```{r}
+#| eval: false
+
+safely_get_lnglat <- safely(get_lnglat, otherwise = "error")
+
+charger_tbl <- charger_raw |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  mutate(data = map(주소, safely_get_lnglat))
+
+# 데이터프레임 출력
+# charger_tbl |> 
+#   write_rds("data/charger_tbl_raw.rds")
+
+# 리스트 출력
+# charger_tbl |>
+#   write_rds("data/charger_tbl_raw_list.rds")
+
+charger_tbl <- 
+  read_rds("data/charger_tbl_raw_list.rds")
+
+charger_lnglat <- charger_tbl |> 
+  mutate(result = map(data, "result")) |> 
+  filter(result != "error") |> 
+  
+  ## 위경도 변환 --------------------
+  select(-시구, -data) |> 
+  mutate(lng = map_chr(result, 1),
+         lat  = map_chr(result, 2)) |> 
+  select(-result)
+
+charger_lnglat |> 
+  write_rds("data/charger_lnglat.rds")
+```
+
+```{r}
+charger_lnglat <- 
+  read_rds("data/charger_lnglat.rds")
+
+charger_lnglat
+```
+
+
+# 지도 제작
+
+## 시도 지도 
+
+```{r}
+sido_map |> 
+  ggplot() +
+    geom_sf(aes(geometry = geometry)) +
+    geom_sf_text(aes(label = sidonm), size = 3, color = "blue") +
+    theme_void()
+```
+
+## 충전소 위치
+
+```{r}
+charger_sf <- charger_lnglat |> 
+  mutate(across(lng:lat, as.numeric)) |> 
+  filter(lat < 50) |> ## 충전소 위경도 오류 ㅠㅠ
+  st_as_sf(coords = c("lng", "lat"),
+           crs = st_crs(sido_map)) 
+
+charger_sf |> 
+  ggplot() +
+    geom_sf(aes(geometry = geometry)) +
+    theme_void()
+```
+
+## 위치 결합
+
+```{r}
+ggplot() +
+  geom_sf(data = sido_map, aes(geometry = geometry), fill = "transparent", color = "blue") +
+  geom_sf(data = charger_sf, aes(geometry = geometry), color = "black", size = 0.1) 
+```
+
+
+## 인터랙티브
+
+```{r}
+library(leaflet)
+
+leaflet(data = charger_lnglat |> 
+          mutate(across(lng:lat, as.numeric)) |> 
+          filter(lat < 50)
+        ) %>% 
+  addProviderTiles(providers$OpenStreetMap) %>% 
+  ## 충전소 상세정보
+  addMarkers(lng=~lng, lat=~lat, 
+             clusterOptions = markerClusterOptions(),
+             popup = ~ as.character(paste0("<strong>", 설치장소, "</strong><br>",
+                                   "----------------------------------<br>",
+                                   "&middot; 주소: ", `주소`, "<br>",
+                                   "&middot; 급속: ", `급속충전기_대`, "<br>",
+                                   "&middot; 완속: ", `완속충전기_대`, "<br>",
+                                   "&middot; 지원차종: ", 지원차종, "<br>"))
+             ) |> 
+  ## 시도 경계 추가
+  addPolygons(data = sido_map,
+              opacity = 1.0, fillOpacity = 0.1,
+              weight = 1,
+              highlightOptions = highlightOptions(color = "black", weight = 3,  bringToFront = TRUE),
+              labelOptions = labelOptions(
+              style = list("font-weight" = "normal", padding = "3px 8px"),
+              textsize = "15px",
+              direction = "auto"))   
+
+```
+
+
