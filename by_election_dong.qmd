@@ -188,3 +188,55 @@ dev.off()
 
 
 ![](images/강서구청장_지선_동별_지도.jpeg)
+
+## 아파트가격
+
+```{r}
+library(tidyverse)
+library(readxl)
+
+apt_raw <- read_csv("data/apt_seoul_1708_2307.csv")
+
+jscode_raw <- read_excel("data/jsocde20230611/KIKmix.20230611.xlsx")
+
+apt_tbl <- apt_raw |> 
+  filter(구 == "강서구") |> 
+  mutate(계약년월 = lubridate::ym(계약년월)) |> 
+  mutate(연월 = floor_date(계약년월, "month")) |>
+  left_join(jscode_raw |> select(시군구명, 읍면동명, 동리명), by = c("동" = "동리명"))  |> 
+  group_by(연월, 읍면동명) |> 
+  summarise(평당가격 = mean(평당가격)) |> 
+  filter(연월 == ym("2022-06"))
+```
+
+
+```{r}
+#| eval: false
+
+votes_apt_gg <- votes_tbl |> 
+  mutate(차이 = -1 * 차이) |> 
+  left_join(apt_tbl |> select(-연월)) |> 
+  ggplot(aes(x = 평당가격, y = 차이, color = label_color )) +
+    geom_point() +
+    geom_text_repel(aes(label = 읍면동명)) +
+    theme_korean() +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c(party_palette[1], party_palette[2])) +
+    labs(title = "강서구 아파트값과 지선 강서구청장 민주당과 국민의힘 득표수 차이",
+         subtitle = "득표차이: 국민의힘 - 민주당, 2022년 6월 기준",
+         x = "아파트 평당 가격",
+         y = "득표차이") +
+     scale_y_continuous(labels = scales::comma, limits = c(-1500, 2000)) +
+     scale_x_continuous(labels = scales::comma)  +
+     geom_hline(yintercept = 0, linetype = 2, color = "gray30")
+
+votes_apt_gg
+
+ragg::agg_jpeg("images/강서구청장_지선_아파트가격.jpeg",
+              width = 10, height = 7, units = "in", res = 600)
+votes_apt_gg
+dev.off()
+```
+
+
+![](images/강서구청장_지선_아파트가격.jpeg)
