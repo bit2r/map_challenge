@@ -1,8 +1,8 @@
 ---
 title: "지도제작 대회"
-subtitle: "재보궐: 강서구청장(동별)"
+subtitle: "국회의원 당선인"
 description: |
-  강서구청장 재보궐 선거 동별 상세 분석
+  국회의원 당선인 명부
 author:
   - name: 이광춘
     url: https://www.linkedin.com/in/kwangchunlee/
@@ -40,203 +40,274 @@ editor_options:
 
 # 데이터셋
 
-
-
-### 구시군의 장
+### 국회의원 당선인
 
 ```{r}
-#| eval: false
-
 library(tidyverse)
-library(ggalt)
-library(ggrepel)
-library(extrafont)
-loadfonts()
-library(ggtext)
+library(rvest)
 
-votes_tbl <- krvote::local_sgg_20220601 |> 
-  filter(시도명 == "서울특별시",
-         구시군명 == "강서구",) |> 
-  mutate(득표 = parse_number(득표),
-         읍면동명 = case_when(str_detect(읍면동명, "관외|거소|잘못") ~ "관외사전거소",
-                              TRUE ~ 읍면동명)) |> 
-  group_by(후보, 읍면동명) |> 
-  summarise(득표 = sum(득표)) |> 
-  mutate(후보 = case_when(str_detect(후보, "김승현") ~ "민주당",
-                          str_detect(후보, "김태우") ~ "국민의힘",
-                          TRUE ~ "그외/기타")) |> 
-  ungroup() |> 
-  arrange(읍면동명, 후보) |> 
-  mutate(paired = rep(1:(n()/2),each=2)) |> 
-  ungroup() |> 
-  pivot_wider(names_from = 후보,
-              values_from = 득표) |> 
-  mutate(차이 = 민주당 - 국민의힘,
-         합계 = 민주당 + 국민의힘)  |> 
-  mutate(label_color = ifelse(차이 > 0, "blue", "red"))
+roll_url <- glue::glue("http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?",
+                       "electionId=0000000000",
+                       "&requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&topMenuId=EP", 
+                       "&secondMenuId=EPEI01",
+                       "&menuId=EPEI01",
+                       "&statementId=EPEI01_%231",
+                       "&oldElectionType=1",
+                       "&electionType=2",
+                       "&electionName=20200415", 
+                       "&electionCode=2",
+                       "&cityCode=1100",
+                       "&proportionalRepresentationCode=-1",
+                       "&townCode=-1",
+                       "&x=57",
+                       "&y=21")
 
+roll_raw <- read_html(roll_url) |> 
+  html_table(header = TRUE) %>%
+  .[[1]]
 
-## y 축 읍면동 색상을 지정 -------------
-emd_colors <- votes_tbl |> 
-  mutate(읍면동명 = fct_reorder(읍면동명, 합계)) |> 
-  arrange(읍면동명) |> 
-  pull(label_color)
+roll_tbl <- roll_raw |> 
+  janitor::clean_names(ascii = FALSE) |>
+  mutate(나이 = str_extract(생년월일_연령, "\\((\\d+)세\\)") |> parse_number()) |> 
+  separate(득표수_득표율, into = c("득표수", "득표율"), sep = "\\(") |>
+  separate(성명_한자, into = c("성명", "한자명"), sep = "\\(") |> 
+  mutate(across(득표수:득표율, parse_number)) |> 
+  select(선거구명, 정당명, 성명, 성별, 나이, 득표수, 득표율)
 
+roll_tbl
+```
 
-## 우측 상자 비율과 득표수 -------------
-rates_tbl <- votes_tbl |> 
-  mutate(민주_득표율 = 민주당/합계,
-         국힘_득표율 = 국민의힘/합계,
-         득표율차이 = 민주_득표율 - 국힘_득표율) |> 
-  pivot_longer(민주_득표율:국힘_득표율, names_to = "정당", values_to = "득표율")
+## 함수
 
-rect_tbl <- rates_tbl |> 
-  select(읍면동명, 차이, 득표율차이) |> 
-  distinct()
-
-total_tbl <- votes_tbl |> 
-  summarise(국민의힘 = sum(국민의힘),
-            민주당 = sum(민주당)) |> 
-  mutate(득표차이 = abs(국민의힘-민주당),
-         득표율차이 = abs(득표차이 / (국민의힘+민주당)))
-
-
-강서구청장_gg <- votes_tbl |> 
-  pivot_longer(민주당:국민의힘, names_to = "정당", values_to = "득표")  |> 
-  ggplot(aes(x = fct_reorder(읍면동명, 합계), y = 득표, color = 정당)) +
-    geom_line(aes(group = paired), color = "gray50") +
-    geom_point(size = 2) +
-    coord_flip(clip="off") +
-    theme(legend.position = "top",
-          axis.text.y = element_text(colour = emd_colors)) +
-    scale_color_manual(values = c("민주당" = "blue",
-                                  "국민의힘" = "red")) +
-    labs(x = "",
-         y = "득표수",
-         title = "강서구청장 제8회 지방선거 동별 득표현황") +
-    scale_y_continuous(label = scales::comma) +
-    guides(colour = guide_legend(nrow = 1)) +
-    scale_y_continuous(labels = scales::comma, limits = c(0, 20000)) +
-     # 득표율 ----------------------
-     geom_text_repel(data = rates_tbl |> filter(str_detect(정당, "민주")), 
-              aes(label=glue::glue("{scales::percent(득표율, accuracy=0.1)}"),
-                  y = 민주당, x = 읍면동명), hjust = "outward", direction = "x", vjust = 1.5,
-                  fontface="bold", size=2.7, color = "blue") +
-     geom_text_repel(data = rates_tbl |> filter(str_detect(정당, "국힘")), 
-              aes(label=glue::glue("{scales::percent(득표율, accuracy=0.1)}"),
-                  y = 국민의힘, x = 읍면동명), hjust = "outward", direction = "x", vjust = -0.5,
-                  fontface="bold", size=2.7, color = "red") +
-     # 차이 ----------------------
-     geom_rect(aes(ymin=18000, ymax=20000, xmin=-Inf, xmax=Inf), fill="gray90", color="gray90") +
-     geom_text(data = rect_tbl, aes(label=glue::glue("{scales::comma(abs(차이))} / {scales::percent(abs(득표율차이), accuracy=0.1)}"),
-                   y = 19000, x = 읍면동명),
-                   fontface="bold", size = 3.5, color = "black", family ="MaruBuri") +
-     annotate("text", x=22.5, y=19000, size = 5, family ="MaruBuri",fontface="bold",
-              label=str_glue("득표차/득표율차\n",
-                             "{scales::comma(total_tbl$득표차이)} / {scales::percent(total_tbl$득표율차이,0.1)}") )
+```{r}
+get_electors <- function(sido_cd = "1100") {
   
-강서구청장_gg
+  roll_url <- glue::glue("http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?",
+                       "electionId=0000000000",
+                       "&requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&topMenuId=EP", 
+                       "&secondMenuId=EPEI01",
+                       "&menuId=EPEI01",
+                       "&statementId=EPEI01_%231",
+                       "&oldElectionType=1",
+                       "&electionType=2",
+                       "&electionName=20200415", 
+                       "&electionCode=2",
+                       "&cityCode={sido_cd}",
+                       "&proportionalRepresentationCode=-1",
+                       "&townCode=-1",
+                       "&x=57",
+                       "&y=21")
+  
+  roll_raw <- read_html(roll_url) |> 
+    html_table(header = TRUE) %>%
+    .[[1]]
+  
+  roll_tbl <- roll_raw |> 
+    janitor::clean_names(ascii = FALSE) |>
+    mutate(나이 = str_extract(생년월일_연령, "\\((\\d+)세\\)") |> parse_number()) |> 
+    separate(득표수_득표율, into = c("득표수", "득표율"), sep = "\\(") |>
+    separate(성명_한자, into = c("성명", "한자명"), sep = "\\(") |> 
+    mutate(across(득표수:득표율, parse_number)) |> 
+    select(선거구명, 정당명, 성명, 성별, 나이, 득표수, 득표율)
+  
+  roll_tbl
+}
 
-ragg::agg_jpeg("images/강서구청장_지선_동별.jpeg",
-              width = 10, height = 7, units = "in", res = 600)
-강서구청장_gg
-dev.off()
+## 부산광역시
+get_electors("2600")
+```
+
+## 시도별 당선자
+
+```{r}
+
+sido_cd <- tribble(~"시도코드", ~"시도명",
+                    "1100", "서울특별시", 
+                    "2600", "부산광역시",
+                    "2700", "대구광역시", 
+                    "2800", "인천광역시",
+                    "2900", "광주광역시", 
+                    "3000", "대전광역시",
+                    "3100", "울산광역시", 
+                    "5100", "세종특별자치시",
+                    "4100", "경기도", 
+                    "4200", "강원도",
+                    "4300", "충청북도", 
+                    "4400", "충청남도",
+                    "4500", "전라북도", 
+                    "4600", "전라남도",
+                    "4700", "경상북도", 
+                    "4800", "경상남도",
+                    "4900", "제주특별자치도") 
+
+electors_raw <- sido_cd |> 
+  mutate(data = map(시도코드, get_electors))
 
 ```
 
-
-![](images/강서구청장_지선_동별.jpeg)
-
-# 지도
-
 ```{r}
-library(sf)
-library(tidyverse)
-library(fuzzyjoin)
-
-adm_sf <- st_read("data/HangJeongDong_ver20230401.geojson") |> 
-  filter(sggnm == "강서구",
-         sidonm ==  "서울특별시") |> 
-  select(구시군명 = sggnm, 읍면동명 = adm_nm) |> 
-  mutate(읍면동명 = str_remove(읍면동명, '서울특별시 강서구 '))
-
-votes_sf <- adm_sf |> inner_join(
-    votes_tbl |> 
-      filter(!str_detect(읍면동명, "^관외")) |> 
-      mutate(읍면동명 = str_remove(읍면동명, '제(?=\\d)')), by = "읍면동명") 
-
-votes_gg <- votes_sf |> 
-  ggplot() +
-    geom_sf(aes(fill = 차이)) +
-    theme_void(base_family = "MaruBuri") +
-    scale_fill_gradient2(low = "red", mid ="white", high = "blue", 
-                        labels = scales::comma) +
-    ggrepel::geom_text_repel(
-      aes(label = 읍면동명, geometry = geometry), stat = "sf_coordinates", 
-      min.segment.length = 1, size = 5, family = "MaruBuri"
-    ) +
-    labs(title = "제8회 지방선거 강서구청장 정당후보 득표 차이",
-         subtitle = "표차이 = 민주당 - 국민의힘",
-         fill  = "표차이") +
-    theme( plot.title=element_text(size=18, face="bold"))
-
-ragg::agg_jpeg("images/강서구청장_지선_동별_지도.jpeg",
-              width = 10, height = 7, units = "in", res = 600)
-votes_gg
-dev.off()
+electors_raw |> 
+  write_rds("data/제21대_국회의원_당선자.rds")
 ```
 
 
-![](images/강서구청장_지선_동별_지도.jpeg)
 
-## 아파트가격
-
-```{r}
-library(tidyverse)
-library(readxl)
-
-apt_raw <- read_csv("data/apt_seoul_1708_2307.csv")
-
-jscode_raw <- read_excel("data/jsocde20230611/KIKmix.20230611.xlsx")
-
-apt_tbl <- apt_raw |> 
-  filter(구 == "강서구") |> 
-  mutate(계약년월 = lubridate::ym(계약년월)) |> 
-  mutate(연월 = floor_date(계약년월, "month")) |>
-  left_join(jscode_raw |> select(시군구명, 읍면동명, 동리명), by = c("동" = "동리명"))  |> 
-  group_by(연월, 읍면동명) |> 
-  summarise(평당가격 = mean(평당가격)) |> 
-  filter(연월 == ym("2022-06"))
-```
+# 제21대 국회의원 당선자 분석
 
 
 ```{r}
-#| eval: false
+electors_raw <- 
+  read_rds("data/제21대_국회의원_당선자.rds")
 
-votes_apt_gg <- votes_tbl |> 
-  mutate(차이 = -1 * 차이) |> 
-  left_join(apt_tbl |> select(-연월)) |> 
-  ggplot(aes(x = 평당가격, y = 차이, color = label_color )) +
+electors_tbl <- electors_raw |>
+  unnest(data) |> 
+  mutate(정당명 = case_when(str_detect(정당명, "더불어민주당") ~ "민주당",
+                          str_detect(정당명, "미래통합당")   ~ "국민의힘",
+                          TRUE ~ 정당명))
+
+electors_tbl |> 
+  ggplot(aes(x = 나이, y = 득표율, color = 정당명)) +
     geom_point() +
-    geom_text_repel(aes(label = 읍면동명)) +
+    facet_wrap(~시도명) +
     theme_korean() +
-    theme(legend.position = "none") +
-    scale_color_manual(values = c(party_palette[1], party_palette[2])) +
-    labs(title = "강서구 아파트값과 지선 강서구청장 민주당과 국민의힘 득표수 차이",
-         subtitle = "득표차이: 국민의힘 - 민주당, 2022년 6월 기준",
-         x = "아파트 평당 가격",
-         y = "득표차이") +
-     scale_y_continuous(labels = scales::comma, limits = c(-1500, 2000)) +
-     scale_x_continuous(labels = scales::comma)  +
-     geom_hline(yintercept = 0, linetype = 2, color = "gray30")
-
-votes_apt_gg
-
-ragg::agg_jpeg("images/강서구청장_지선_아파트가격.jpeg",
-              width = 10, height = 7, units = "in", res = 600)
-votes_apt_gg
-dev.off()
+    scale_color_manual(values = party_name_palette)
 ```
 
 
-![](images/강서구청장_지선_아파트가격.jpeg)
+```{r}
+electors_age <- bind_rows(
+  electors_tbl |> 
+    slice_min( order_by = 나이, n = 10),
+  electors_tbl |> 
+    slice_max( order_by = 나이, n = 10)
+)
+
+electors_age |> 
+  ggplot(aes(x = 득표수, y = 득표율, color = 정당명)) +
+    geom_point()
+
+electors_tbl |> 
+  group_by(정당명) |> 
+  summarise(의원수 = n(),
+            최소_연령 = min(나이),
+            평균_연령 = mean(나이),
+            중위_연령 = median(나이),
+            최고_연령 = max(나이))
+
+electors_tbl |> 
+  filter(정당명 %in% c("민주당", "국민의힘")) |> 
+  ggplot(aes(x=정당명, y = 나이, color = 정당명)) +
+    geom_boxplot() +
+    geom_jitter() +
+    theme_korean() +
+    scale_fill_manual(values = party_name_palette) +
+    scale_color_manual(values = party_name_palette) +
+    facet_wrap(~시도명)
+
+```
+
+# 데이터
+
+## 제19대 국회의원
+
+```{r}
+get_electors_by_election <- function(election_id = "20120411", sido_cd = "1100") {
+  
+  roll_url <- glue::glue("http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?",
+                       "electionId=0000000000",
+                       "&requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&topMenuId=EP", 
+                       "&secondMenuId=EPEI01",
+                       "&menuId=EPEI01",
+                       "&statementId=EPEI01_%231",
+                       "&oldElectionType=1",
+                       "&electionType=2",
+                       "&electionName={election_id}", 
+                       "&electionCode=2",
+                       "&cityCode={sido_cd}",
+                       "&proportionalRepresentationCode=-1",
+                       "&townCode=-1",
+                       "&x=57",
+                       "&y=21")
+  
+  roll_raw <- read_html(roll_url) |> 
+    html_table(header = TRUE) %>%
+    .[[1]]
+  
+  roll_tbl <- roll_raw |> 
+    janitor::clean_names(ascii = FALSE) |>
+    mutate(나이 = str_extract(생년월일_연령, "\\((\\d+)세\\)") |> parse_number()) |> 
+    separate(득표수_득표율, into = c("득표수", "득표율"), sep = "\\(") |>
+    separate(성명_한자, into = c("성명", "한자명"), sep = "\\(") |> 
+    mutate(across(득표수:득표율, parse_number)) |> 
+    select(선거구명, 정당명, 성명, 성별, 나이, 득표수, 득표율)
+  
+  roll_tbl
+}
+
+## 제20대, 부산광역시
+get_electors_by_election("20160413", "2600")
+```
+
+
+## 전체 선거, 당선자
+
+```{r}
+election_cd <- tribble(~"선거코드", ~"선거",
+                       "20200415", "제21대",
+                       "20160413", "제20대",
+                       "20120411", "제19대",
+                       "20080409", "제18대",
+                       "20040415", "제17대",
+                       "20000413", "제16대",
+                       "19960411", "제15대",
+                       "19920324", "제14대",
+                       "19880426", "제13대",
+                       "19850212", "제12대",
+                       "19810325", "제11대",
+                       "19781212", "제10대",
+                       "19730227", "제9대",
+                       "19710525", "제8대",
+                       "19670608", "제7대",
+                       "19631126", "제6대",
+                       "19600729", "제5대",
+                       "19580502", "제4대",
+                       "19540520", "제3대",
+                       "19500530", "제2대",
+                       "19480510", "제1대")
+
+election_tbl <- election_cd |> 
+  mutate(시도 = list(sido_cd)) |> 
+  unnest(시도) |> 
+  filter(선거 %in% c("제19대", "제20대", "제21대")) |> 
+  mutate(data = map2(선거코드, 시도코드, get_electors_by_election))
+
+```
+
+```{r}
+election_tbl |> 
+  write_rds("data/국회의원_19_21_당선자.rds")
+```
+
+# 분석
+
+```{r}
+election_tbl <- 
+  read_rds("data/국회의원_19_21_당선자.rds")
+
+election_tbl |> 
+  unnest(data) |> 
+  ggplot(aes(x = 나이, y = 득표율, color = 선거)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    facet_wrap(~시도명)
+
+```
+
+
+```{r}
+election_tbl |> 
+  unnest(data)  |> 
+  slice_min(order_by = 나이, n = 50) |> 
+  count(정당명)
+```
+

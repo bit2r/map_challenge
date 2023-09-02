@@ -88,6 +88,8 @@ website:
             text: "재보궐: 강서구청장(동별)"
           - href: sido_legislator.qmd
             text: "시도별 역대 국회의원"
+          - href: electoral_roll.qmd
+            text: "국회의원 당선인"
           - text: "----------------"
           - href: realmeter_metro.qmd
             text: "리얼미터 PDF"

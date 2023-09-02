@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.4.288">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="이광춘">
-<meta name="description" content="강서구청장 재보궐 선거 동별 상세 분석">
+<meta name="description" content="국회의원 당선인 명부">
 <title>지도제작 대회</title>
 <style>
 code{white-space: pre-wrap;}
@@ -72,10 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -256,6 +253,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./sido_legislator.html" rel="" target="">
  <span class="dropdown-text">시도별 역대 국회의원</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./electoral_roll.qmd" rel="" target="">
+ <span class="dropdown-text">국회의원 당선인</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
     <a class="dropdown-item" href="./realmeter_metro.html" rel="" target="">
@@ -280,10 +281,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <div class="quarto-title-block"><div><h1 class="title">지도제작 대회</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> 코드</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">전체 코드 표시</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">전체 코드 숨기기</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">소스 코드 표시</a></li></ul></div></div>
-            <p class="subtitle lead">재보궐: 강서구청장(동별)</p>
+            <p class="subtitle lead">국회의원 당선인</p>
                   <div>
         <div class="description">
-          <p>강서구청장 재보궐 선거 동별 상세 분석</p>
+          <p>국회의원 당선인 명부</p>
         </div>
       </div>
                 </div>
@@ -323,221 +324,291 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>
 <a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B" id="toc-데이터셋" class="nav-link active" data-scroll-target="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B"><span class="header-section-number">1</span> 데이터셋</a>
   <ul class="collapse">
-<li><a href="#%EA%B5%AC%EC%8B%9C%EA%B5%B0%EC%9D%98-%EC%9E%A5" id="toc-구시군의-장" class="nav-link" data-scroll-target="#%EA%B5%AC%EC%8B%9C%EA%B5%B0%EC%9D%98-%EC%9E%A5"><span class="header-section-number">1.0.1</span> 구시군의 장</a></li>
+<li><a href="#%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90-%EB%8B%B9%EC%84%A0%EC%9D%B8" id="toc-국회의원-당선인" class="nav-link" data-scroll-target="#%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90-%EB%8B%B9%EC%84%A0%EC%9D%B8"><span class="header-section-number">1.0.1</span> 국회의원 당선인</a></li>
+  <li><a href="#%ED%95%A8%EC%88%98" id="toc-함수" class="nav-link" data-scroll-target="#%ED%95%A8%EC%88%98"><span class="header-section-number">1.1</span> 함수</a></li>
+  <li><a href="#%EC%8B%9C%EB%8F%84%EB%B3%84-%EB%8B%B9%EC%84%A0%EC%9E%90" id="toc-시도별-당선자" class="nav-link" data-scroll-target="#%EC%8B%9C%EB%8F%84%EB%B3%84-%EB%8B%B9%EC%84%A0%EC%9E%90"><span class="header-section-number">1.2</span> 시도별 당선자</a></li>
   </ul>
 </li>
+  <li><a href="#%EC%A0%9C21%EB%8C%80-%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90-%EB%8B%B9%EC%84%A0%EC%9E%90-%EB%B6%84%EC%84%9D" id="toc-제21대-국회의원-당선자-분석" class="nav-link" data-scroll-target="#%EC%A0%9C21%EB%8C%80-%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90-%EB%8B%B9%EC%84%A0%EC%9E%90-%EB%B6%84%EC%84%9D"><span class="header-section-number">2</span> 제21대 국회의원 당선자 분석</a></li>
   <li>
-<a href="#%EC%A7%80%EB%8F%84" id="toc-지도" class="nav-link" data-scroll-target="#%EC%A7%80%EB%8F%84"><span class="header-section-number">2</span> 지도</a>
+<a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0" id="toc-데이터" class="nav-link" data-scroll-target="#%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="header-section-number">3</span> 데이터</a>
   <ul class="collapse">
-<li><a href="#%EC%95%84%ED%8C%8C%ED%8A%B8%EA%B0%80%EA%B2%A9" id="toc-아파트가격" class="nav-link" data-scroll-target="#%EC%95%84%ED%8C%8C%ED%8A%B8%EA%B0%80%EA%B2%A9"><span class="header-section-number">2.1</span> 아파트가격</a></li>
+<li><a href="#%EC%A0%9C19%EB%8C%80-%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90" id="toc-제19대-국회의원" class="nav-link" data-scroll-target="#%EC%A0%9C19%EB%8C%80-%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90"><span class="header-section-number">3.1</span> 제19대 국회의원</a></li>
+  <li><a href="#%EC%A0%84%EC%B2%B4-%EC%84%A0%EA%B1%B0-%EB%8B%B9%EC%84%A0%EC%9E%90" id="toc-전체-선거-당선자" class="nav-link" data-scroll-target="#%EC%A0%84%EC%B2%B4-%EC%84%A0%EA%B1%B0-%EB%8B%B9%EC%84%A0%EC%9E%90"><span class="header-section-number">3.2</span> 전체 선거, 당선자</a></li>
   </ul>
 </li>
+  <li><a href="#%EB%B6%84%EC%84%9D" id="toc-분석" class="nav-link" data-scroll-target="#%EB%B6%84%EC%84%9D"><span class="header-section-number">4</span> 분석</a></li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content"><section id="데이터셋" class="level1" data-number="1"><h1 data-number="1">
 <span class="header-section-number">1</span> 데이터셋</h1>
-<section id="구시군의-장" class="level3" data-number="1.0.1"><h3 data-number="1.0.1" class="anchored" data-anchor-id="구시군의-장">
-<span class="header-section-number">1.0.1</span> 구시군의 장</h3>
+<section id="국회의원-당선인" class="level3" data-number="1.0.1"><h3 data-number="1.0.1" class="anchored" data-anchor-id="국회의원-당선인">
+<span class="header-section-number">1.0.1</span> 국회의원 당선인</h3>
 <div class="cell">
 <details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hrbrmstr/ggalt">ggalt</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wch/extrafont">extrafont</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/extrafont/man/loadfonts.html">loadfonts</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggtext/">ggtext</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">votes_tbl</span> <span class="op">&lt;-</span> <span class="fu">krvote</span><span class="fu">::</span><span class="va">local_sgg_20220601</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">시도명</span> <span class="op">==</span> <span class="st">"서울특별시"</span>,</span>
-<span>         <span class="va">구시군명</span> <span class="op">==</span> <span class="st">"강서구"</span>,<span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>득표 <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html">parse_number</a></span><span class="op">(</span><span class="va">득표</span><span class="op">)</span>,</span>
-<span>         읍면동명 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">읍면동명</span>, <span class="st">"관외|거소|잘못"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"관외사전거소"</span>,</span>
-<span>                              <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">읍면동명</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">후보</span>, <span class="va">읍면동명</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>득표 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">득표</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>후보 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">후보</span>, <span class="st">"김승현"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"민주당"</span>,</span>
-<span>                          <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">후보</span>, <span class="st">"김태우"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"국민의힘"</span>,</span>
-<span>                          <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"그외/기타"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">읍면동명</span>, <span class="va">후보</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>paired <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>,each<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">후보</span>,</span>
-<span>              values_from <span class="op">=</span> <span class="va">득표</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>차이 <span class="op">=</span> <span class="va">민주당</span> <span class="op">-</span> <span class="va">국민의힘</span>,</span>
-<span>         합계 <span class="op">=</span> <span class="va">민주당</span> <span class="op">+</span> <span class="va">국민의힘</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>label_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">차이</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="st">"blue"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">roll_url</span> <span class="op">&lt;-</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?"</span>,</span>
+<span>                       <span class="st">"electionId=0000000000"</span>,</span>
+<span>                       <span class="st">"&amp;requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&amp;topMenuId=EP"</span>, </span>
+<span>                       <span class="st">"&amp;secondMenuId=EPEI01"</span>,</span>
+<span>                       <span class="st">"&amp;menuId=EPEI01"</span>,</span>
+<span>                       <span class="st">"&amp;statementId=EPEI01_%231"</span>,</span>
+<span>                       <span class="st">"&amp;oldElectionType=1"</span>,</span>
+<span>                       <span class="st">"&amp;electionType=2"</span>,</span>
+<span>                       <span class="st">"&amp;electionName=20200415"</span>, </span>
+<span>                       <span class="st">"&amp;electionCode=2"</span>,</span>
+<span>                       <span class="st">"&amp;cityCode=1100"</span>,</span>
+<span>                       <span class="st">"&amp;proportionalRepresentationCode=-1"</span>,</span>
+<span>                       <span class="st">"&amp;townCode=-1"</span>,</span>
+<span>                       <span class="st">"&amp;x=57"</span>,</span>
+<span>                       <span class="st">"&amp;y=21"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="va">roll_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">roll_url</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span>header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span></span>
-<span><span class="co">## y 축 읍면동 색상을 지정 -------------</span></span>
-<span><span class="va">emd_colors</span> <span class="op">&lt;-</span> <span class="va">votes_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>읍면동명 <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html">fct_reorder</a></span><span class="op">(</span><span class="va">읍면동명</span>, <span class="va">합계</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">읍면동명</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">label_color</span><span class="op">)</span></span>
+<span><span class="va">roll_tbl</span> <span class="op">&lt;-</span> <span class="va">roll_raw</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span>ascii <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>나이 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">생년월일_연령</span>, <span class="st">"\\((\\d+)세\\)"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html">parse_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">득표수_득표율</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"득표수"</span>, <span class="st">"득표율"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\\("</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">성명_한자</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"성명"</span>, <span class="st">"한자명"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\\("</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="va">득표수</span><span class="op">:</span><span class="va">득표율</span>, <span class="va">parse_number</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">선거구명</span>, <span class="va">정당명</span>, <span class="va">성명</span>, <span class="va">성별</span>, <span class="va">나이</span>, <span class="va">득표수</span>, <span class="va">득표율</span><span class="op">)</span></span>
 <span></span>
-<span></span>
-<span><span class="co">## 우측 상자 비율과 득표수 -------------</span></span>
-<span><span class="va">rates_tbl</span> <span class="op">&lt;-</span> <span class="va">votes_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>민주_득표율 <span class="op">=</span> <span class="va">민주당</span><span class="op">/</span><span class="va">합계</span>,</span>
-<span>         국힘_득표율 <span class="op">=</span> <span class="va">국민의힘</span><span class="op">/</span><span class="va">합계</span>,</span>
-<span>         득표율차이 <span class="op">=</span> <span class="va">민주_득표율</span> <span class="op">-</span> <span class="va">국힘_득표율</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">민주_득표율</span><span class="op">:</span><span class="va">국힘_득표율</span>, names_to <span class="op">=</span> <span class="st">"정당"</span>, values_to <span class="op">=</span> <span class="st">"득표율"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">rect_tbl</span> <span class="op">&lt;-</span> <span class="va">rates_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">읍면동명</span>, <span class="va">차이</span>, <span class="va">득표율차이</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">total_tbl</span> <span class="op">&lt;-</span> <span class="va">votes_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>국민의힘 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">국민의힘</span><span class="op">)</span>,</span>
-<span>            민주당 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">민주당</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>득표차이 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">국민의힘</span><span class="op">-</span><span class="va">민주당</span><span class="op">)</span>,</span>
-<span>         득표율차이 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">득표차이</span> <span class="op">/</span> <span class="op">(</span><span class="va">국민의힘</span><span class="op">+</span><span class="va">민주당</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="va">강서구청장_gg</span> <span class="op">&lt;-</span> <span class="va">votes_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">민주당</span><span class="op">:</span><span class="va">국민의힘</span>, names_to <span class="op">=</span> <span class="st">"정당"</span>, values_to <span class="op">=</span> <span class="st">"득표"</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html">fct_reorder</a></span><span class="op">(</span><span class="va">읍면동명</span>, <span class="va">합계</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">득표</span>, color <span class="op">=</span> <span class="va">정당</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">paired</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"gray50"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span>clip<span class="op">=</span><span class="st">"off"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span>,</span>
-<span>          axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">emd_colors</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"민주당"</span> <span class="op">=</span> <span class="st">"blue"</span>,</span>
-<span>                                  <span class="st">"국민의힘"</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
-<span>         y <span class="op">=</span> <span class="st">"득표수"</span>,</span>
-<span>         title <span class="op">=</span> <span class="st">"강서구청장 제8회 지방선거 동별 득표현황"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20000</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>     <span class="co"># 득표율 ----------------------</span></span>
-<span>     <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">rates_tbl</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">정당</span>, <span class="st">"민주"</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"{scales::percent(득표율, accuracy=0.1)}"</span><span class="op">)</span>,</span>
-<span>                  y <span class="op">=</span> <span class="va">민주당</span>, x <span class="op">=</span> <span class="va">읍면동명</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="st">"outward"</span>, direction <span class="op">=</span> <span class="st">"x"</span>, vjust <span class="op">=</span> <span class="fl">1.5</span>,</span>
-<span>                  fontface<span class="op">=</span><span class="st">"bold"</span>, size<span class="op">=</span><span class="fl">2.7</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>     <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">rates_tbl</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">정당</span>, <span class="st">"국힘"</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"{scales::percent(득표율, accuracy=0.1)}"</span><span class="op">)</span>,</span>
-<span>                  y <span class="op">=</span> <span class="va">국민의힘</span>, x <span class="op">=</span> <span class="va">읍면동명</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="st">"outward"</span>, direction <span class="op">=</span> <span class="st">"x"</span>, vjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span>,</span>
-<span>                  fontface<span class="op">=</span><span class="st">"bold"</span>, size<span class="op">=</span><span class="fl">2.7</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>     <span class="co"># 차이 ----------------------</span></span>
-<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_rect</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin<span class="op">=</span><span class="fl">18000</span>, ymax<span class="op">=</span><span class="fl">20000</span>, xmin<span class="op">=</span><span class="op">-</span><span class="cn">Inf</span>, xmax<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span>, fill<span class="op">=</span><span class="st">"gray90"</span>, color<span class="op">=</span><span class="st">"gray90"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">rect_tbl</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"{scales::comma(abs(차이))} / {scales::percent(abs(득표율차이), accuracy=0.1)}"</span><span class="op">)</span>,</span>
-<span>                   y <span class="op">=</span> <span class="fl">19000</span>, x <span class="op">=</span> <span class="va">읍면동명</span><span class="op">)</span>,</span>
-<span>                   fontface<span class="op">=</span><span class="st">"bold"</span>, size <span class="op">=</span> <span class="fl">3.5</span>, color <span class="op">=</span> <span class="st">"black"</span>, family <span class="op">=</span><span class="st">"MaruBuri"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, x<span class="op">=</span><span class="fl">22.5</span>, y<span class="op">=</span><span class="fl">19000</span>, size <span class="op">=</span> <span class="fl">5</span>, family <span class="op">=</span><span class="st">"MaruBuri"</span>,fontface<span class="op">=</span><span class="st">"bold"</span>,</span>
-<span>              label<span class="op">=</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_glue.html">str_glue</a></span><span class="op">(</span><span class="st">"득표차/득표율차\n"</span>,</span>
-<span>                             <span class="st">"{scales::comma(total_tbl$득표차이)} / {scales::percent(total_tbl$득표율차이,0.1)}"</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="va">roll_tbl</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="함수" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="함수">
+<span class="header-section-number">1.1</span> 함수</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">get_electors</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sido_cd</span> <span class="op">=</span> <span class="st">"1100"</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  </span>
-<span><span class="va">강서구청장_gg</span></span>
+<span>  <span class="va">roll_url</span> <span class="op">&lt;-</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?"</span>,</span>
+<span>                       <span class="st">"electionId=0000000000"</span>,</span>
+<span>                       <span class="st">"&amp;requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&amp;topMenuId=EP"</span>, </span>
+<span>                       <span class="st">"&amp;secondMenuId=EPEI01"</span>,</span>
+<span>                       <span class="st">"&amp;menuId=EPEI01"</span>,</span>
+<span>                       <span class="st">"&amp;statementId=EPEI01_%231"</span>,</span>
+<span>                       <span class="st">"&amp;oldElectionType=1"</span>,</span>
+<span>                       <span class="st">"&amp;electionType=2"</span>,</span>
+<span>                       <span class="st">"&amp;electionName=20200415"</span>, </span>
+<span>                       <span class="st">"&amp;electionCode=2"</span>,</span>
+<span>                       <span class="st">"&amp;cityCode={sido_cd}"</span>,</span>
+<span>                       <span class="st">"&amp;proportionalRepresentationCode=-1"</span>,</span>
+<span>                       <span class="st">"&amp;townCode=-1"</span>,</span>
+<span>                       <span class="st">"&amp;x=57"</span>,</span>
+<span>                       <span class="st">"&amp;y=21"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">roll_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">roll_url</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span>header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span>  </span>
+<span>  <span class="va">roll_tbl</span> <span class="op">&lt;-</span> <span class="va">roll_raw</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span>ascii <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>나이 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">생년월일_연령</span>, <span class="st">"\\((\\d+)세\\)"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html">parse_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">득표수_득표율</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"득표수"</span>, <span class="st">"득표율"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\\("</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">성명_한자</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"성명"</span>, <span class="st">"한자명"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\\("</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="va">득표수</span><span class="op">:</span><span class="va">득표율</span>, <span class="va">parse_number</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">선거구명</span>, <span class="va">정당명</span>, <span class="va">성명</span>, <span class="va">성별</span>, <span class="va">나이</span>, <span class="va">득표수</span>, <span class="va">득표율</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">roll_tbl</span></span>
+<span><span class="op">}</span></span>
 <span></span>
-<span><span class="fu">ragg</span><span class="fu">::</span><span class="fu"><a href="https://ragg.r-lib.org/reference/agg_jpeg.html">agg_jpeg</a></span><span class="op">(</span><span class="st">"images/강서구청장_지선_동별.jpeg"</span>,</span>
-<span>              width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">7</span>, units <span class="op">=</span> <span class="st">"in"</span>, res <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
-<span><span class="va">강서구청장_gg</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## 부산광역시</span></span>
+<span><span class="fu">get_electors</span><span class="op">(</span><span class="st">"2600"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/강서구청장_지선_동별.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/강서구청장_지선_동별.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</section></section><section id="지도" class="level1" data-number="2"><h1 data-number="2">
-<span class="header-section-number">2</span> 지도</h1>
+</section><section id="시도별-당선자" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="시도별-당선자">
+<span class="header-section-number">1.2</span> 시도별 당선자</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dgrtwo/fuzzyjoin">fuzzyjoin</a></span><span class="op">)</span></span>
+<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="va">sido_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="st">"시도코드"</span>, <span class="op">~</span><span class="st">"시도명"</span>,</span>
+<span>                    <span class="st">"1100"</span>, <span class="st">"서울특별시"</span>, </span>
+<span>                    <span class="st">"2600"</span>, <span class="st">"부산광역시"</span>,</span>
+<span>                    <span class="st">"2700"</span>, <span class="st">"대구광역시"</span>, </span>
+<span>                    <span class="st">"2800"</span>, <span class="st">"인천광역시"</span>,</span>
+<span>                    <span class="st">"2900"</span>, <span class="st">"광주광역시"</span>, </span>
+<span>                    <span class="st">"3000"</span>, <span class="st">"대전광역시"</span>,</span>
+<span>                    <span class="st">"3100"</span>, <span class="st">"울산광역시"</span>, </span>
+<span>                    <span class="st">"5100"</span>, <span class="st">"세종특별자치시"</span>,</span>
+<span>                    <span class="st">"4100"</span>, <span class="st">"경기도"</span>, </span>
+<span>                    <span class="st">"4200"</span>, <span class="st">"강원도"</span>,</span>
+<span>                    <span class="st">"4300"</span>, <span class="st">"충청북도"</span>, </span>
+<span>                    <span class="st">"4400"</span>, <span class="st">"충청남도"</span>,</span>
+<span>                    <span class="st">"4500"</span>, <span class="st">"전라북도"</span>, </span>
+<span>                    <span class="st">"4600"</span>, <span class="st">"전라남도"</span>,</span>
+<span>                    <span class="st">"4700"</span>, <span class="st">"경상북도"</span>, </span>
+<span>                    <span class="st">"4800"</span>, <span class="st">"경상남도"</span>,</span>
+<span>                    <span class="st">"4900"</span>, <span class="st">"제주특별자치도"</span><span class="op">)</span> </span>
 <span></span>
-<span><span class="va">adm_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="st">"data/HangJeongDong_ver20230401.geojson"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sggnm</span> <span class="op">==</span> <span class="st">"강서구"</span>,</span>
-<span>         <span class="va">sidonm</span> <span class="op">==</span>  <span class="st">"서울특별시"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span>구시군명 <span class="op">=</span> <span class="va">sggnm</span>, 읍면동명 <span class="op">=</span> <span class="va">adm_nm</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>읍면동명 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">읍면동명</span>, <span class="st">'서울특별시 강서구 '</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">votes_sf</span> <span class="op">&lt;-</span> <span class="va">adm_sf</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span></span>
-<span>    <span class="va">votes_tbl</span> <span class="op">|&gt;</span> </span>
-<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">읍면동명</span>, <span class="st">"^관외"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>읍면동명 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">읍면동명</span>, <span class="st">'제(?=\\d)'</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"읍면동명"</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="va">votes_gg</span> <span class="op">&lt;-</span> <span class="va">votes_sf</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">차이</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span>base_family <span class="op">=</span> <span class="st">"MaruBuri"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_fill_gradient2</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"red"</span>, mid <span class="op">=</span><span class="st">"white"</span>, high <span class="op">=</span> <span class="st">"blue"</span>, </span>
-<span>                        labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">ggrepel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">읍면동명</span>, geometry <span class="op">=</span> <span class="va">geometry</span><span class="op">)</span>, stat <span class="op">=</span> <span class="st">"sf_coordinates"</span>, </span>
-<span>      min.segment.length <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">5</span>, family <span class="op">=</span> <span class="st">"MaruBuri"</span></span>
-<span>    <span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"제8회 지방선거 강서구청장 정당후보 득표 차이"</span>,</span>
-<span>         subtitle <span class="op">=</span> <span class="st">"표차이 = 민주당 - 국민의힘"</span>,</span>
-<span>         fill  <span class="op">=</span> <span class="st">"표차이"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span> plot.title<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">18</span>, face<span class="op">=</span><span class="st">"bold"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">ragg</span><span class="fu">::</span><span class="fu"><a href="https://ragg.r-lib.org/reference/agg_jpeg.html">agg_jpeg</a></span><span class="op">(</span><span class="st">"images/강서구청장_지선_동별_지도.jpeg"</span>,</span>
-<span>              width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">7</span>, units <span class="op">=</span> <span class="st">"in"</span>, res <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
-<span><span class="va">votes_gg</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/강서구청장_지선_동별_지도.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/강서구청장_지선_동별_지도.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-<section id="아파트가격" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="아파트가격">
-<span class="header-section-number">2.1</span> 아파트가격</h2>
-<div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">apt_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/apt_seoul_1708_2307.csv"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">jscode_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/jsocde20230611/KIKmix.20230611.xlsx"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">apt_tbl</span> <span class="op">&lt;-</span> <span class="va">apt_raw</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구</span> <span class="op">==</span> <span class="st">"강서구"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>계약년월 <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ym</a></span><span class="op">(</span><span class="va">계약년월</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연월 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/round_date.html">floor_date</a></span><span class="op">(</span><span class="va">계약년월</span>, <span class="st">"month"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">jscode_raw</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">시군구명</span>, <span class="va">읍면동명</span>, <span class="va">동리명</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"동"</span> <span class="op">=</span> <span class="st">"동리명"</span><span class="op">)</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">연월</span>, <span class="va">읍면동명</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>평당가격 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">평당가격</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">연월</span> <span class="op">==</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ym</a></span><span class="op">(</span><span class="st">"2022-06"</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">electors_raw</span> <span class="op">&lt;-</span> <span class="va">sido_cd</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">시도코드</span>, <span class="va">get_electors</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">votes_apt_gg</span> <span class="op">&lt;-</span> <span class="va">votes_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>차이 <span class="op">=</span> <span class="op">-</span><span class="fl">1</span> <span class="op">*</span> <span class="va">차이</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">apt_tbl</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">연월</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">평당가격</span>, y <span class="op">=</span> <span class="va">차이</span>, color <span class="op">=</span> <span class="va">label_color</span> <span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">electors_raw</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">write_rds</a></span><span class="op">(</span><span class="st">"data/제21대_국회의원_당선자.rds"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section></section><section id="제21대-국회의원-당선자-분석" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> 제21대 국회의원 당선자 분석</h1>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">electors_raw</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/제21대_국회의원_당선자.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">electors_tbl</span> <span class="op">&lt;-</span> <span class="va">electors_raw</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>정당명 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">정당명</span>, <span class="st">"더불어민주당"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"민주당"</span>,</span>
+<span>                          <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">정당명</span>, <span class="st">"미래통합당"</span><span class="op">)</span>   <span class="op">~</span> <span class="st">"국민의힘"</span>,</span>
+<span>                          <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">정당명</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">electors_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">나이</span>, y <span class="op">=</span> <span class="va">득표율</span>, color <span class="op">=</span> <span class="va">정당명</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">읍면동명</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">시도명</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">theme_korean</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">party_palette</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">party_palette</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"강서구 아파트값과 지선 강서구청장 민주당과 국민의힘 득표수 차이"</span>,</span>
-<span>         subtitle <span class="op">=</span> <span class="st">"득표차이: 국민의힘 - 민주당, 2022년 6월 기준"</span>,</span>
-<span>         x <span class="op">=</span> <span class="st">"아파트 평당 가격"</span>,</span>
-<span>         y <span class="op">=</span> <span class="st">"득표차이"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1500</span>, <span class="fl">2000</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span>  <span class="op">+</span></span>
-<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"gray30"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">votes_apt_gg</span></span>
-<span></span>
-<span><span class="fu">ragg</span><span class="fu">::</span><span class="fu"><a href="https://ragg.r-lib.org/reference/agg_jpeg.html">agg_jpeg</a></span><span class="op">(</span><span class="st">"images/강서구청장_지선_아파트가격.jpeg"</span>,</span>
-<span>              width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">7</span>, units <span class="op">=</span> <span class="st">"in"</span>, res <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
-<span><span class="va">votes_apt_gg</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">party_name_palette</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/강서구청장_지선_아파트가격.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/강서구청장_지선_아파트가격.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">electors_age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span></span>
+<span>  <span class="va">electors_tbl</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_min</a></span><span class="op">(</span> order_by <span class="op">=</span> <span class="va">나이</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  <span class="va">electors_tbl</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_max</a></span><span class="op">(</span> order_by <span class="op">=</span> <span class="va">나이</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">electors_age</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">득표수</span>, y <span class="op">=</span> <span class="va">득표율</span>, color <span class="op">=</span> <span class="va">정당명</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">electors_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">정당명</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>의원수 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>            최소_연령 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">나이</span><span class="op">)</span>,</span>
+<span>            평균_연령 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">나이</span><span class="op">)</span>,</span>
+<span>            중위_연령 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">나이</span><span class="op">)</span>,</span>
+<span>            최고_연령 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">나이</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">electors_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">정당명</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"민주당"</span>, <span class="st">"국민의힘"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">정당명</span>, y <span class="op">=</span> <span class="va">나이</span>, color <span class="op">=</span> <span class="va">정당명</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">theme_korean</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">party_name_palette</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">party_name_palette</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">시도명</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="데이터" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> 데이터</h1>
+<section id="제19대-국회의원" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="제19대-국회의원">
+<span class="header-section-number">3.1</span> 제19대 국회의원</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">get_electors_by_election</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">election_id</span> <span class="op">=</span> <span class="st">"20120411"</span>, <span class="va">sido_cd</span> <span class="op">=</span> <span class="st">"1100"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">roll_url</span> <span class="op">&lt;-</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?"</span>,</span>
+<span>                       <span class="st">"electionId=0000000000"</span>,</span>
+<span>                       <span class="st">"&amp;requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&amp;topMenuId=EP"</span>, </span>
+<span>                       <span class="st">"&amp;secondMenuId=EPEI01"</span>,</span>
+<span>                       <span class="st">"&amp;menuId=EPEI01"</span>,</span>
+<span>                       <span class="st">"&amp;statementId=EPEI01_%231"</span>,</span>
+<span>                       <span class="st">"&amp;oldElectionType=1"</span>,</span>
+<span>                       <span class="st">"&amp;electionType=2"</span>,</span>
+<span>                       <span class="st">"&amp;electionName={election_id}"</span>, </span>
+<span>                       <span class="st">"&amp;electionCode=2"</span>,</span>
+<span>                       <span class="st">"&amp;cityCode={sido_cd}"</span>,</span>
+<span>                       <span class="st">"&amp;proportionalRepresentationCode=-1"</span>,</span>
+<span>                       <span class="st">"&amp;townCode=-1"</span>,</span>
+<span>                       <span class="st">"&amp;x=57"</span>,</span>
+<span>                       <span class="st">"&amp;y=21"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">roll_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">roll_url</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span>header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span>  </span>
+<span>  <span class="va">roll_tbl</span> <span class="op">&lt;-</span> <span class="va">roll_raw</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span>ascii <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>나이 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">생년월일_연령</span>, <span class="st">"\\((\\d+)세\\)"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html">parse_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">득표수_득표율</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"득표수"</span>, <span class="st">"득표율"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\\("</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">성명_한자</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"성명"</span>, <span class="st">"한자명"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\\("</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="va">득표수</span><span class="op">:</span><span class="va">득표율</span>, <span class="va">parse_number</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">선거구명</span>, <span class="va">정당명</span>, <span class="va">성명</span>, <span class="va">성별</span>, <span class="va">나이</span>, <span class="va">득표수</span>, <span class="va">득표율</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">roll_tbl</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## 제20대, 부산광역시</span></span>
+<span><span class="fu">get_electors_by_election</span><span class="op">(</span><span class="st">"20160413"</span>, <span class="st">"2600"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="전체-선거-당선자" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="전체-선거-당선자">
+<span class="header-section-number">3.2</span> 전체 선거, 당선자</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">election_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="st">"선거코드"</span>, <span class="op">~</span><span class="st">"선거"</span>,</span>
+<span>                       <span class="st">"20200415"</span>, <span class="st">"제21대"</span>,</span>
+<span>                       <span class="st">"20160413"</span>, <span class="st">"제20대"</span>,</span>
+<span>                       <span class="st">"20120411"</span>, <span class="st">"제19대"</span>,</span>
+<span>                       <span class="st">"20080409"</span>, <span class="st">"제18대"</span>,</span>
+<span>                       <span class="st">"20040415"</span>, <span class="st">"제17대"</span>,</span>
+<span>                       <span class="st">"20000413"</span>, <span class="st">"제16대"</span>,</span>
+<span>                       <span class="st">"19960411"</span>, <span class="st">"제15대"</span>,</span>
+<span>                       <span class="st">"19920324"</span>, <span class="st">"제14대"</span>,</span>
+<span>                       <span class="st">"19880426"</span>, <span class="st">"제13대"</span>,</span>
+<span>                       <span class="st">"19850212"</span>, <span class="st">"제12대"</span>,</span>
+<span>                       <span class="st">"19810325"</span>, <span class="st">"제11대"</span>,</span>
+<span>                       <span class="st">"19781212"</span>, <span class="st">"제10대"</span>,</span>
+<span>                       <span class="st">"19730227"</span>, <span class="st">"제9대"</span>,</span>
+<span>                       <span class="st">"19710525"</span>, <span class="st">"제8대"</span>,</span>
+<span>                       <span class="st">"19670608"</span>, <span class="st">"제7대"</span>,</span>
+<span>                       <span class="st">"19631126"</span>, <span class="st">"제6대"</span>,</span>
+<span>                       <span class="st">"19600729"</span>, <span class="st">"제5대"</span>,</span>
+<span>                       <span class="st">"19580502"</span>, <span class="st">"제4대"</span>,</span>
+<span>                       <span class="st">"19540520"</span>, <span class="st">"제3대"</span>,</span>
+<span>                       <span class="st">"19500530"</span>, <span class="st">"제2대"</span>,</span>
+<span>                       <span class="st">"19480510"</span>, <span class="st">"제1대"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">election_tbl</span> <span class="op">&lt;-</span> <span class="va">election_cd</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시도 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">sido_cd</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">시도</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">선거</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"제19대"</span>, <span class="st">"제20대"</span>, <span class="st">"제21대"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">map2</a></span><span class="op">(</span><span class="va">선거코드</span>, <span class="va">시도코드</span>, <span class="va">get_electors_by_election</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">election_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">write_rds</a></span><span class="op">(</span><span class="st">"data/국회의원_19_21_당선자.rds"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section></section><section id="분석" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> 분석</h1>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">election_tbl</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/국회의원_19_21_당선자.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">election_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">나이</span>, y <span class="op">=</span> <span class="va">득표율</span>, color <span class="op">=</span> <span class="va">선거</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">시도명</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">election_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_min</a></span><span class="op">(</span>order_by <span class="op">=</span> <span class="va">나이</span>, n <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">정당명</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 
 
 <!-- -->
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1049,248 +1120,317 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">소스 코드</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "재보궐: 강서구청장(동별)"</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">  강서구청장 재보궐 선거 동별 상세 분석</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">    eval: false</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터셋</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="fu">### 구시군의 장</span></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggalt)</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(extrafont)</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="fu">loadfonts</span>()</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>votes_tbl <span class="ot">&lt;-</span> krvote<span class="sc">::</span>local_sgg_20220601 <span class="sc">|&gt;</span> </span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(시도명 <span class="sc">==</span> <span class="st">"서울특별시"</span>,</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>         구시군명 <span class="sc">==</span> <span class="st">"강서구"</span>,) <span class="sc">|&gt;</span> </span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(득표 <span class="ot">=</span> <span class="fu">parse_number</span>(득표),</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>         읍면동명 <span class="ot">=</span> <span class="fu">case_when</span>(<span class="fu">str_detect</span>(읍면동명, <span class="st">"관외|거소|잘못"</span>) <span class="sc">~</span> <span class="st">"관외사전거소"</span>,</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>                              <span class="cn">TRUE</span> <span class="sc">~</span> 읍면동명)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(후보, 읍면동명) <span class="sc">|&gt;</span> </span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(득표 <span class="ot">=</span> <span class="fu">sum</span>(득표)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(후보 <span class="ot">=</span> <span class="fu">case_when</span>(<span class="fu">str_detect</span>(후보, <span class="st">"김승현"</span>) <span class="sc">~</span> <span class="st">"민주당"</span>,</span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">str_detect</span>(후보, <span class="st">"김태우"</span>) <span class="sc">~</span> <span class="st">"국민의힘"</span>,</span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>                          <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"그외/기타"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(읍면동명, 후보) <span class="sc">|&gt;</span> </span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">paired =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="fu">n</span>()<span class="sc">/</span><span class="dv">2</span>),<span class="at">each=</span><span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> 후보,</span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> 득표) <span class="sc">|&gt;</span> </span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(차이 <span class="ot">=</span> 민주당 <span class="sc">-</span> 국민의힘,</span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>         합계 <span class="ot">=</span> 민주당 <span class="sc">+</span> 국민의힘)  <span class="sc">|&gt;</span> </span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label_color =</span> <span class="fu">ifelse</span>(차이 <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"blue"</span>, <span class="st">"red"</span>))</span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="do">## y 축 읍면동 색상을 지정 -------------</span></span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>emd_colors <span class="ot">&lt;-</span> votes_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(읍면동명 <span class="ot">=</span> <span class="fu">fct_reorder</span>(읍면동명, 합계)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(읍면동명) <span class="sc">|&gt;</span> </span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(label_color)</span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="do">## 우측 상자 비율과 득표수 -------------</span></span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>rates_tbl <span class="ot">&lt;-</span> votes_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(민주_득표율 <span class="ot">=</span> 민주당<span class="sc">/</span>합계,</span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>         국힘_득표율 <span class="ot">=</span> 국민의힘<span class="sc">/</span>합계,</span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>         득표율차이 <span class="ot">=</span> 민주_득표율 <span class="sc">-</span> 국힘_득표율) <span class="sc">|&gt;</span> </span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(민주_득표율<span class="sc">:</span>국힘_득표율, <span class="at">names_to =</span> <span class="st">"정당"</span>, <span class="at">values_to =</span> <span class="st">"득표율"</span>)</span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>rect_tbl <span class="ot">&lt;-</span> rates_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(읍면동명, 차이, 득표율차이) <span class="sc">|&gt;</span> </span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>total_tbl <span class="ot">&lt;-</span> votes_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(국민의힘 <span class="ot">=</span> <span class="fu">sum</span>(국민의힘),</span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>            민주당 <span class="ot">=</span> <span class="fu">sum</span>(민주당)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(득표차이 <span class="ot">=</span> <span class="fu">abs</span>(국민의힘<span class="sc">-</span>민주당),</span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>         득표율차이 <span class="ot">=</span> <span class="fu">abs</span>(득표차이 <span class="sc">/</span> (국민의힘<span class="sc">+</span>민주당)))</span>
-<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>강서구청장_gg <span class="ot">&lt;-</span> votes_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(민주당<span class="sc">:</span>국민의힘, <span class="at">names_to =</span> <span class="st">"정당"</span>, <span class="at">values_to =</span> <span class="st">"득표"</span>)  <span class="sc">|&gt;</span> </span>
-<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(읍면동명, 합계), <span class="at">y =</span> 득표, <span class="at">color =</span> 정당)) <span class="sc">+</span></span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> paired), <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
-<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>(<span class="at">clip=</span><span class="st">"off"</span>) <span class="sc">+</span></span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
-<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> emd_colors)) <span class="sc">+</span></span>
-<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"민주당"</span> <span class="ot">=</span> <span class="st">"blue"</span>,</span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"국민의힘"</span> <span class="ot">=</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
-<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>,</span>
-<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"득표수"</span>,</span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"강서구청장 제8회 지방선거 동별 득표현황"</span>) <span class="sc">+</span></span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">label =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20000</span>)) <span class="sc">+</span></span>
-<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>     <span class="co"># 득표율 ----------------------</span></span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_text_repel</span>(<span class="at">data =</span> rates_tbl <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">str_detect</span>(정당, <span class="st">"민주"</span>)), </span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">label=</span>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{scales::percent(득표율, accuracy=0.1)}"</span>),</span>
-<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> 민주당, <span class="at">x =</span> 읍면동명), <span class="at">hjust =</span> <span class="st">"outward"</span>, <span class="at">direction =</span> <span class="st">"x"</span>, <span class="at">vjust =</span> <span class="fl">1.5</span>,</span>
-<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fontface=</span><span class="st">"bold"</span>, <span class="at">size=</span><span class="fl">2.7</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_text_repel</span>(<span class="at">data =</span> rates_tbl <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">str_detect</span>(정당, <span class="st">"국힘"</span>)), </span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">label=</span>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{scales::percent(득표율, accuracy=0.1)}"</span>),</span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> 국민의힘, <span class="at">x =</span> 읍면동명), <span class="at">hjust =</span> <span class="st">"outward"</span>, <span class="at">direction =</span> <span class="st">"x"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>,</span>
-<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fontface=</span><span class="st">"bold"</span>, <span class="at">size=</span><span class="fl">2.7</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>     <span class="co"># 차이 ----------------------</span></span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">18000</span>, <span class="at">ymax=</span><span class="dv">20000</span>, <span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax=</span><span class="cn">Inf</span>), <span class="at">fill=</span><span class="st">"gray90"</span>, <span class="at">color=</span><span class="st">"gray90"</span>) <span class="sc">+</span></span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_text</span>(<span class="at">data =</span> rect_tbl, <span class="fu">aes</span>(<span class="at">label=</span>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{scales::comma(abs(차이))} / {scales::percent(abs(득표율차이), accuracy=0.1)}"</span>),</span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> <span class="dv">19000</span>, <span class="at">x =</span> 읍면동명),</span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontface=</span><span class="st">"bold"</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">family =</span><span class="st">"MaruBuri"</span>) <span class="sc">+</span></span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>     <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="fl">22.5</span>, <span class="at">y=</span><span class="dv">19000</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">family =</span><span class="st">"MaruBuri"</span>,<span class="at">fontface=</span><span class="st">"bold"</span>,</span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>              <span class="at">label=</span><span class="fu">str_glue</span>(<span class="st">"득표차/득표율차</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"{scales::comma(total_tbl$득표차이)} / {scales::percent(total_tbl$득표율차이,0.1)}"</span>) )</span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>강서구청장_gg</span>
-<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>ragg<span class="sc">::</span><span class="fu">agg_jpeg</span>(<span class="st">"images/강서구청장_지선_동별.jpeg"</span>,</span>
-<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">units =</span> <span class="st">"in"</span>, <span class="at">res =</span> <span class="dv">600</span>)</span>
-<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>강서구청장_gg</span>
-<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/강서구청장_지선_동별.jpeg)</span></span>
-<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a><span class="fu"># 지도</span></span>
-<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fuzzyjoin)</span>
-<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>adm_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/HangJeongDong_ver20230401.geojson"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sggnm <span class="sc">==</span> <span class="st">"강서구"</span>,</span>
-<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>         sidonm <span class="sc">==</span>  <span class="st">"서울특별시"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(구시군명 <span class="ot">=</span> sggnm, 읍면동명 <span class="ot">=</span> adm_nm) <span class="sc">|&gt;</span> </span>
-<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(읍면동명 <span class="ot">=</span> <span class="fu">str_remove</span>(읍면동명, <span class="st">'서울특별시 강서구 '</span>))</span>
-<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a>votes_sf <span class="ot">&lt;-</span> adm_sf <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(</span>
-<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>    votes_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(읍면동명, <span class="st">"^관외"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(읍면동명 <span class="ot">=</span> <span class="fu">str_remove</span>(읍면동명, <span class="st">'제(?=</span><span class="sc">\\</span><span class="st">d)'</span>)), <span class="at">by =</span> <span class="st">"읍면동명"</span>) </span>
-<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>votes_gg <span class="ot">&lt;-</span> votes_sf <span class="sc">|&gt;</span> </span>
-<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> 차이)) <span class="sc">+</span></span>
-<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>(<span class="at">base_family =</span> <span class="st">"MaruBuri"</span>) <span class="sc">+</span></span>
-<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"red"</span>, <span class="at">mid =</span><span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"blue"</span>, </span>
-<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>    ggrepel<span class="sc">::</span><span class="fu">geom_text_repel</span>(</span>
-<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> 읍면동명, <span class="at">geometry =</span> geometry), <span class="at">stat =</span> <span class="st">"sf_coordinates"</span>, </span>
-<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a>      <span class="at">min.segment.length =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">family =</span> <span class="st">"MaruBuri"</span></span>
-<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"제8회 지방선거 강서구청장 정당후보 득표 차이"</span>,</span>
-<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">"표차이 = 민주당 - 국민의힘"</span>,</span>
-<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill  =</span> <span class="st">"표차이"</span>) <span class="sc">+</span></span>
-<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>( <span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>, <span class="at">face=</span><span class="st">"bold"</span>))</span>
-<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a>ragg<span class="sc">::</span><span class="fu">agg_jpeg</span>(<span class="st">"images/강서구청장_지선_동별_지도.jpeg"</span>,</span>
-<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">units =</span> <span class="st">"in"</span>, <span class="at">res =</span> <span class="dv">600</span>)</span>
-<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a>votes_gg</span>
-<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/강서구청장_지선_동별_지도.jpeg)</span></span>
-<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="fu">## 아파트가격</span></span>
-<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a>apt_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/apt_seoul_1708_2307.csv"</span>)</span>
-<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a>jscode_raw <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/jsocde20230611/KIKmix.20230611.xlsx"</span>)</span>
-<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>apt_tbl <span class="ot">&lt;-</span> apt_raw <span class="sc">|&gt;</span> </span>
-<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(구 <span class="sc">==</span> <span class="st">"강서구"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(계약년월 <span class="ot">=</span> lubridate<span class="sc">::</span><span class="fu">ym</span>(계약년월)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(연월 <span class="ot">=</span> <span class="fu">floor_date</span>(계약년월, <span class="st">"month"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(jscode_raw <span class="sc">|&gt;</span> <span class="fu">select</span>(시군구명, 읍면동명, 동리명), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"동"</span> <span class="ot">=</span> <span class="st">"동리명"</span>))  <span class="sc">|&gt;</span> </span>
-<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(연월, 읍면동명) <span class="sc">|&gt;</span> </span>
-<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(평당가격 <span class="ot">=</span> <span class="fu">mean</span>(평당가격)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(연월 <span class="sc">==</span> <span class="fu">ym</span>(<span class="st">"2022-06"</span>))</span>
-<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a>votes_apt_gg <span class="ot">&lt;-</span> votes_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(차이 <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">*</span> 차이) <span class="sc">|&gt;</span> </span>
-<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(apt_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>연월)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> 평당가격, <span class="at">y =</span> 차이, <span class="at">color =</span> label_color )) <span class="sc">+</span></span>
-<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> 읍면동명)) <span class="sc">+</span></span>
-<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_korean</span>() <span class="sc">+</span></span>
-<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(party_palette[<span class="dv">1</span>], party_palette[<span class="dv">2</span>])) <span class="sc">+</span></span>
-<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"강서구 아파트값과 지선 강서구청장 민주당과 국민의힘 득표수 차이"</span>,</span>
-<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">"득표차이: 국민의힘 - 민주당, 2022년 6월 기준"</span>,</span>
-<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">"아파트 평당 가격"</span>,</span>
-<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"득표차이"</span>) <span class="sc">+</span></span>
-<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1500</span>, <span class="dv">2000</span>)) <span class="sc">+</span></span>
-<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)  <span class="sc">+</span></span>
-<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"gray30"</span>)</span>
-<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a>votes_apt_gg</span>
-<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a>ragg<span class="sc">::</span><span class="fu">agg_jpeg</span>(<span class="st">"images/강서구청장_지선_아파트가격.jpeg"</span>,</span>
-<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">units =</span> <span class="st">"in"</span>, <span class="at">res =</span> <span class="dv">600</span>)</span>
-<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a>votes_apt_gg</span>
-<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/강서구청장_지선_아파트가격.jpeg)</span></span>
+<div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "국회의원 당선인"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">  국회의원 당선인 명부</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co">    eval: false</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터셋</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### 국회의원 당선인</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>roll_url <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?"</span>,</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"electionId=0000000000"</span>,</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&amp;topMenuId=EP"</span>, </span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;secondMenuId=EPEI01"</span>,</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;menuId=EPEI01"</span>,</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;statementId=EPEI01_%231"</span>,</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;oldElectionType=1"</span>,</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionType=2"</span>,</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionName=20200415"</span>, </span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionCode=2"</span>,</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;cityCode=1100"</span>,</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;proportionalRepresentationCode=-1"</span>,</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;townCode=-1"</span>,</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;x=57"</span>,</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;y=21"</span>)</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>roll_raw <span class="ot">&lt;-</span> <span class="fu">read_html</span>(roll_url) <span class="sc">|&gt;</span> </span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>(<span class="at">header =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>  .[[<span class="dv">1</span>]]</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>roll_tbl <span class="ot">&lt;-</span> roll_raw <span class="sc">|&gt;</span> </span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="at">ascii =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(나이 <span class="ot">=</span> <span class="fu">str_extract</span>(생년월일_연령, <span class="st">"</span><span class="sc">\\</span><span class="st">((</span><span class="sc">\\</span><span class="st">d+)세</span><span class="sc">\\</span><span class="st">)"</span>) <span class="sc">|&gt;</span> <span class="fu">parse_number</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(득표수_득표율, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"득표수"</span>, <span class="st">"득표율"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">("</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(성명_한자, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"성명"</span>, <span class="st">"한자명"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">("</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(득표수<span class="sc">:</span>득표율, parse_number)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(선거구명, 정당명, 성명, 성별, 나이, 득표수, 득표율)</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>roll_tbl</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a><span class="fu">## 함수</span></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>get_electors <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">sido_cd =</span> <span class="st">"1100"</span>) {</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>  roll_url <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?"</span>,</span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"electionId=0000000000"</span>,</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&amp;topMenuId=EP"</span>, </span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;secondMenuId=EPEI01"</span>,</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;menuId=EPEI01"</span>,</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;statementId=EPEI01_%231"</span>,</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;oldElectionType=1"</span>,</span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionType=2"</span>,</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionName=20200415"</span>, </span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionCode=2"</span>,</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;cityCode={sido_cd}"</span>,</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;proportionalRepresentationCode=-1"</span>,</span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;townCode=-1"</span>,</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;x=57"</span>,</span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;y=21"</span>)</span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>  roll_raw <span class="ot">&lt;-</span> <span class="fu">read_html</span>(roll_url) <span class="sc">|&gt;</span> </span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_table</span>(<span class="at">header =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>    .[[<span class="dv">1</span>]]</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>  roll_tbl <span class="ot">&lt;-</span> roll_raw <span class="sc">|&gt;</span> </span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>    janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="at">ascii =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(나이 <span class="ot">=</span> <span class="fu">str_extract</span>(생년월일_연령, <span class="st">"</span><span class="sc">\\</span><span class="st">((</span><span class="sc">\\</span><span class="st">d+)세</span><span class="sc">\\</span><span class="st">)"</span>) <span class="sc">|&gt;</span> <span class="fu">parse_number</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(득표수_득표율, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"득표수"</span>, <span class="st">"득표율"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">("</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(성명_한자, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"성명"</span>, <span class="st">"한자명"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">("</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(득표수<span class="sc">:</span>득표율, parse_number)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(선거구명, 정당명, 성명, 성별, 나이, 득표수, 득표율)</span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>  roll_tbl</span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a><span class="do">## 부산광역시</span></span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a><span class="fu">get_electors</span>(<span class="st">"2600"</span>)</span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a><span class="fu">## 시도별 당선자</span></span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>sido_cd <span class="ot">&lt;-</span> <span class="fu">tribble</span>(<span class="sc">~</span><span class="st">"시도코드"</span>, <span class="sc">~</span><span class="st">"시도명"</span>,</span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"1100"</span>, <span class="st">"서울특별시"</span>, </span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"2600"</span>, <span class="st">"부산광역시"</span>,</span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"2700"</span>, <span class="st">"대구광역시"</span>, </span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"2800"</span>, <span class="st">"인천광역시"</span>,</span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"2900"</span>, <span class="st">"광주광역시"</span>, </span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"3000"</span>, <span class="st">"대전광역시"</span>,</span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"3100"</span>, <span class="st">"울산광역시"</span>, </span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"5100"</span>, <span class="st">"세종특별자치시"</span>,</span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4100"</span>, <span class="st">"경기도"</span>, </span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4200"</span>, <span class="st">"강원도"</span>,</span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4300"</span>, <span class="st">"충청북도"</span>, </span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4400"</span>, <span class="st">"충청남도"</span>,</span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4500"</span>, <span class="st">"전라북도"</span>, </span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4600"</span>, <span class="st">"전라남도"</span>,</span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4700"</span>, <span class="st">"경상북도"</span>, </span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4800"</span>, <span class="st">"경상남도"</span>,</span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"4900"</span>, <span class="st">"제주특별자치도"</span>) </span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a>electors_raw <span class="ot">&lt;-</span> sido_cd <span class="sc">|&gt;</span> </span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data =</span> <span class="fu">map</span>(시도코드, get_electors))</span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a>electors_raw <span class="sc">|&gt;</span> </span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="st">"data/제21대_국회의원_당선자.rds"</span>)</span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a><span class="fu"># 제21대 국회의원 당선자 분석</span></span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a>electors_raw <span class="ot">&lt;-</span> </span>
+<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">"data/제21대_국회의원_당선자.rds"</span>)</span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a>electors_tbl <span class="ot">&lt;-</span> electors_raw <span class="sc">|&gt;</span></span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(정당명 <span class="ot">=</span> <span class="fu">case_when</span>(<span class="fu">str_detect</span>(정당명, <span class="st">"더불어민주당"</span>) <span class="sc">~</span> <span class="st">"민주당"</span>,</span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">str_detect</span>(정당명, <span class="st">"미래통합당"</span>)   <span class="sc">~</span> <span class="st">"국민의힘"</span>,</span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a>                          <span class="cn">TRUE</span> <span class="sc">~</span> 정당명))</span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a>electors_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> 나이, <span class="at">y =</span> 득표율, <span class="at">color =</span> 정당명)) <span class="sc">+</span></span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>시도명) <span class="sc">+</span></span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_korean</span>() <span class="sc">+</span></span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> party_name_palette)</span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a>electors_age <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb12-190"><a href="#cb12-190" aria-hidden="true" tabindex="-1"></a>  electors_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb12-191"><a href="#cb12-191" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_min</span>( <span class="at">order_by =</span> 나이, <span class="at">n =</span> <span class="dv">10</span>),</span>
+<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a>  electors_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>( <span class="at">order_by =</span> 나이, <span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a>electors_age <span class="sc">|&gt;</span> </span>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> 득표수, <span class="at">y =</span> 득표율, <span class="at">color =</span> 정당명)) <span class="sc">+</span></span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a>electors_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(정당명) <span class="sc">|&gt;</span> </span>
+<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(의원수 <span class="ot">=</span> <span class="fu">n</span>(),</span>
+<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a>            최소_연령 <span class="ot">=</span> <span class="fu">min</span>(나이),</span>
+<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a>            평균_연령 <span class="ot">=</span> <span class="fu">mean</span>(나이),</span>
+<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a>            중위_연령 <span class="ot">=</span> <span class="fu">median</span>(나이),</span>
+<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a>            최고_연령 <span class="ot">=</span> <span class="fu">max</span>(나이))</span>
+<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a>electors_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(정당명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"민주당"</span>, <span class="st">"국민의힘"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>정당명, <span class="at">y =</span> 나이, <span class="at">color =</span> 정당명)) <span class="sc">+</span></span>
+<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_korean</span>() <span class="sc">+</span></span>
+<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> party_name_palette) <span class="sc">+</span></span>
+<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> party_name_palette) <span class="sc">+</span></span>
+<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>시도명)</span>
+<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터</span></span>
+<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-222"><a href="#cb12-222" aria-hidden="true" tabindex="-1"></a><span class="fu">## 제19대 국회의원</span></span>
+<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-226"><a href="#cb12-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-227"><a href="#cb12-227" aria-hidden="true" tabindex="-1"></a>get_electors_by_election <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">election_id =</span> <span class="st">"20120411"</span>, <span class="at">sido_cd =</span> <span class="st">"1100"</span>) {</span>
+<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a>  roll_url <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"http://info.nec.go.kr/electioninfo/electionInfo_report.xhtml?"</span>,</span>
+<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"electionId=0000000000"</span>,</span>
+<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;requestURI=%2Felectioninfo%2F0000000000%2Fep%2Fepei01.jsp&amp;topMenuId=EP"</span>, </span>
+<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;secondMenuId=EPEI01"</span>,</span>
+<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;menuId=EPEI01"</span>,</span>
+<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;statementId=EPEI01_%231"</span>,</span>
+<span id="cb12-235"><a href="#cb12-235" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;oldElectionType=1"</span>,</span>
+<span id="cb12-236"><a href="#cb12-236" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionType=2"</span>,</span>
+<span id="cb12-237"><a href="#cb12-237" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionName={election_id}"</span>, </span>
+<span id="cb12-238"><a href="#cb12-238" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;electionCode=2"</span>,</span>
+<span id="cb12-239"><a href="#cb12-239" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;cityCode={sido_cd}"</span>,</span>
+<span id="cb12-240"><a href="#cb12-240" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;proportionalRepresentationCode=-1"</span>,</span>
+<span id="cb12-241"><a href="#cb12-241" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;townCode=-1"</span>,</span>
+<span id="cb12-242"><a href="#cb12-242" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;x=57"</span>,</span>
+<span id="cb12-243"><a href="#cb12-243" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"&amp;y=21"</span>)</span>
+<span id="cb12-244"><a href="#cb12-244" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-245"><a href="#cb12-245" aria-hidden="true" tabindex="-1"></a>  roll_raw <span class="ot">&lt;-</span> <span class="fu">read_html</span>(roll_url) <span class="sc">|&gt;</span> </span>
+<span id="cb12-246"><a href="#cb12-246" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_table</span>(<span class="at">header =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-247"><a href="#cb12-247" aria-hidden="true" tabindex="-1"></a>    .[[<span class="dv">1</span>]]</span>
+<span id="cb12-248"><a href="#cb12-248" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-249"><a href="#cb12-249" aria-hidden="true" tabindex="-1"></a>  roll_tbl <span class="ot">&lt;-</span> roll_raw <span class="sc">|&gt;</span> </span>
+<span id="cb12-250"><a href="#cb12-250" aria-hidden="true" tabindex="-1"></a>    janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="at">ascii =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-251"><a href="#cb12-251" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(나이 <span class="ot">=</span> <span class="fu">str_extract</span>(생년월일_연령, <span class="st">"</span><span class="sc">\\</span><span class="st">((</span><span class="sc">\\</span><span class="st">d+)세</span><span class="sc">\\</span><span class="st">)"</span>) <span class="sc">|&gt;</span> <span class="fu">parse_number</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(득표수_득표율, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"득표수"</span>, <span class="st">"득표율"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">("</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-253"><a href="#cb12-253" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(성명_한자, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"성명"</span>, <span class="st">"한자명"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">("</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-254"><a href="#cb12-254" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(득표수<span class="sc">:</span>득표율, parse_number)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-255"><a href="#cb12-255" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(선거구명, 정당명, 성명, 성별, 나이, 득표수, 득표율)</span>
+<span id="cb12-256"><a href="#cb12-256" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-257"><a href="#cb12-257" aria-hidden="true" tabindex="-1"></a>  roll_tbl</span>
+<span id="cb12-258"><a href="#cb12-258" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-259"><a href="#cb12-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-260"><a href="#cb12-260" aria-hidden="true" tabindex="-1"></a><span class="do">## 제20대, 부산광역시</span></span>
+<span id="cb12-261"><a href="#cb12-261" aria-hidden="true" tabindex="-1"></a><span class="fu">get_electors_by_election</span>(<span class="st">"20160413"</span>, <span class="st">"2600"</span>)</span>
+<span id="cb12-262"><a href="#cb12-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-263"><a href="#cb12-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-264"><a href="#cb12-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-265"><a href="#cb12-265" aria-hidden="true" tabindex="-1"></a><span class="fu">## 전체 선거, 당선자</span></span>
+<span id="cb12-266"><a href="#cb12-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-269"><a href="#cb12-269" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-270"><a href="#cb12-270" aria-hidden="true" tabindex="-1"></a>election_cd <span class="ot">&lt;-</span> <span class="fu">tribble</span>(<span class="sc">~</span><span class="st">"선거코드"</span>, <span class="sc">~</span><span class="st">"선거"</span>,</span>
+<span id="cb12-271"><a href="#cb12-271" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"20200415"</span>, <span class="st">"제21대"</span>,</span>
+<span id="cb12-272"><a href="#cb12-272" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"20160413"</span>, <span class="st">"제20대"</span>,</span>
+<span id="cb12-273"><a href="#cb12-273" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"20120411"</span>, <span class="st">"제19대"</span>,</span>
+<span id="cb12-274"><a href="#cb12-274" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"20080409"</span>, <span class="st">"제18대"</span>,</span>
+<span id="cb12-275"><a href="#cb12-275" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"20040415"</span>, <span class="st">"제17대"</span>,</span>
+<span id="cb12-276"><a href="#cb12-276" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"20000413"</span>, <span class="st">"제16대"</span>,</span>
+<span id="cb12-277"><a href="#cb12-277" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19960411"</span>, <span class="st">"제15대"</span>,</span>
+<span id="cb12-278"><a href="#cb12-278" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19920324"</span>, <span class="st">"제14대"</span>,</span>
+<span id="cb12-279"><a href="#cb12-279" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19880426"</span>, <span class="st">"제13대"</span>,</span>
+<span id="cb12-280"><a href="#cb12-280" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19850212"</span>, <span class="st">"제12대"</span>,</span>
+<span id="cb12-281"><a href="#cb12-281" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19810325"</span>, <span class="st">"제11대"</span>,</span>
+<span id="cb12-282"><a href="#cb12-282" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19781212"</span>, <span class="st">"제10대"</span>,</span>
+<span id="cb12-283"><a href="#cb12-283" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19730227"</span>, <span class="st">"제9대"</span>,</span>
+<span id="cb12-284"><a href="#cb12-284" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19710525"</span>, <span class="st">"제8대"</span>,</span>
+<span id="cb12-285"><a href="#cb12-285" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19670608"</span>, <span class="st">"제7대"</span>,</span>
+<span id="cb12-286"><a href="#cb12-286" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19631126"</span>, <span class="st">"제6대"</span>,</span>
+<span id="cb12-287"><a href="#cb12-287" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19600729"</span>, <span class="st">"제5대"</span>,</span>
+<span id="cb12-288"><a href="#cb12-288" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19580502"</span>, <span class="st">"제4대"</span>,</span>
+<span id="cb12-289"><a href="#cb12-289" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19540520"</span>, <span class="st">"제3대"</span>,</span>
+<span id="cb12-290"><a href="#cb12-290" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19500530"</span>, <span class="st">"제2대"</span>,</span>
+<span id="cb12-291"><a href="#cb12-291" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"19480510"</span>, <span class="st">"제1대"</span>)</span>
+<span id="cb12-292"><a href="#cb12-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-293"><a href="#cb12-293" aria-hidden="true" tabindex="-1"></a>election_tbl <span class="ot">&lt;-</span> election_cd <span class="sc">|&gt;</span> </span>
+<span id="cb12-294"><a href="#cb12-294" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(시도 <span class="ot">=</span> <span class="fu">list</span>(sido_cd)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-295"><a href="#cb12-295" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(시도) <span class="sc">|&gt;</span> </span>
+<span id="cb12-296"><a href="#cb12-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(선거 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"제19대"</span>, <span class="st">"제20대"</span>, <span class="st">"제21대"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-297"><a href="#cb12-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data =</span> <span class="fu">map2</span>(선거코드, 시도코드, get_electors_by_election))</span>
+<span id="cb12-298"><a href="#cb12-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-299"><a href="#cb12-299" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-300"><a href="#cb12-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-303"><a href="#cb12-303" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-304"><a href="#cb12-304" aria-hidden="true" tabindex="-1"></a>election_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb12-305"><a href="#cb12-305" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rds</span>(<span class="st">"data/국회의원_19_21_당선자.rds"</span>)</span>
+<span id="cb12-306"><a href="#cb12-306" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-307"><a href="#cb12-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-308"><a href="#cb12-308" aria-hidden="true" tabindex="-1"></a><span class="fu"># 분석</span></span>
+<span id="cb12-309"><a href="#cb12-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a>election_tbl <span class="ot">&lt;-</span> </span>
+<span id="cb12-314"><a href="#cb12-314" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">"data/국회의원_19_21_당선자.rds"</span>)</span>
+<span id="cb12-315"><a href="#cb12-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-316"><a href="#cb12-316" aria-hidden="true" tabindex="-1"></a>election_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb12-317"><a href="#cb12-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb12-318"><a href="#cb12-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> 나이, <span class="at">y =</span> 득표율, <span class="at">color =</span> 선거)) <span class="sc">+</span></span>
+<span id="cb12-319"><a href="#cb12-319" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb12-320"><a href="#cb12-320" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb12-321"><a href="#cb12-321" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>시도명)</span>
+<span id="cb12-322"><a href="#cb12-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-323"><a href="#cb12-323" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-324"><a href="#cb12-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-325"><a href="#cb12-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-328"><a href="#cb12-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-329"><a href="#cb12-329" aria-hidden="true" tabindex="-1"></a>election_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb12-330"><a href="#cb12-330" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(data)  <span class="sc">|&gt;</span> </span>
+<span id="cb12-331"><a href="#cb12-331" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(<span class="at">order_by =</span> 나이, <span class="at">n =</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-332"><a href="#cb12-332" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(정당명)</span>
+<span id="cb12-333"><a href="#cb12-333" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -1305,7 +1445,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","loop":true});</script>
+</footer>
 
 
 </body></html>
