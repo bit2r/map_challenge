@@ -1,0 +1,118 @@
+---
+title: "지도제작 대회"
+subtitle: "한국영화"
+description: |
+  한국영화 제작비와 매출을 시각화해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: false
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 크롤링
+
+가장 많은 영화제작비가 투입된 영화 10개를 웹 스크레핑으로 가져와서 정제작업을 한다.
+[와차 대한민국 영화 순제작비 순위](https://pedia.watcha.com/ko-KR/decks/gcd9dQ6vlk)를 참조하여 정리한 펨코 [역대 한국 영화 순제작비 순위](https://www.fmkorea.com/best/5832255555)에서 데이터를 가져온다.
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(rvest)
+
+movie_url <- "https://www.fmkorea.com/best/5832255555"
+
+movie_html <- read_html(movie_url)
+
+movie_list <- movie_html |> 
+  html_nodes("table") |> 
+  html_table() 
+
+movie_list |> 
+  enframe() |>
+  mutate(text = map(value, unlist)) |> 
+  mutate(text = map_chr(text, paste, collapse = "\n"))  |> 
+  pull(text) |> 
+  tail(100)
+  write.table("clipboard", row.names = FALSE,   sep = ",")
+
+```
+
+
+```{r}
+# tibble 패키지를 불러온다
+library(tidyverse)
+
+# 데이터프레임을 생성한다
+movie_raw <- tribble(
+  ~순위, ~영화명, ~개봉년도, ~순제작비, ~총제작비, ~배급사,
+  "1위", "설국열차", 2013, "437억원", "530억원(해외 포함)", "CJ 엔터테인먼트",
+  "2위", "외계+인 1부", 2022, "330억원", NA, "CJ 엔터테인먼트",
+  "3위", "디 워", 2007, "315억원", "700억원(해외 포함)", "쇼박스",
+  "4위", "더 문", 2023, "286억원", NA, "CJ 엔터테인먼트",
+  "5위", "마이웨이", 2011, "280억원", "350억원", "CJ 엔터테인먼트",
+  "6위", "한산: 용의 출현", 2022, "272억원", "312억원", "롯데 엔터테인먼트",
+  "7위", "백두산", 2019, "260억원", "300억원", "CJ 엔터테인먼트",
+  "8위", "비상선언", 2022, "260억원", "300억원", "쇼박스",
+  "9위", "미스터 고", 2013, "225억원", "300억원", "쇼박스",
+  "10위", "군함도", 2017, "225억원", "267억원", "CJ 엔터테인먼트"
+)
+
+movie_raw
+```
+
+## 매출정보
+
+```{r}
+library(rvest)
+library(httr)
+
+
+kofic_req <- glue::glue("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchMovieList.json",
+           "?key={Sys.getenv('KOFIC_API_KEY')}",
+           "&movieNm=%EA%B8%B0%EC%83%9D%EC%B6%A9")
+
+kofic_resp <- httr::GET(kofic_req)
+
+# convert list to dataframe
+kofic_list <- content(kofic_resp)
+  
+kofic_list$boxOfficeResult$dailyBoxOfficeList |> 
+  enframe() |> 
+  mutate(data = map(value, bind_rows)) |> 
+  unnest(data) |> 
+  View()
+
+```
+
+

@@ -61,6 +61,10 @@ website:
           - href: km_BitGPT.qmd
             text: "Code Interpreter"
             
+      - text: "시각화"
+        menu: 
+          - href: movie.qmd
+            text: "한국영화"
 
       - text: "제21대 국회의원 선거"
         menu: 
@@ -97,6 +101,7 @@ website:
             text: "한국갤럽 PDF"
           - href: nbs_metro.qmd
             text: "전국지표조사 PDF"
+
 format:
   html:
     theme:
