@@ -27,7 +27,7 @@ lightbox: auto
 link-citations: true
 knitr:
   opts_chunk: 
-    eval: false
+    eval: true
     message: false
     warning: false
     collapse: true
@@ -74,7 +74,7 @@ movie_list |>
 library(tidyverse)
 
 # 데이터프레임을 생성한다
-movie_raw <- tribble(
+top_movie_raw <- tribble(
   ~순위, ~영화명, ~개봉년도, ~순제작비, ~총제작비, ~배급사,
   "1위", "설국열차", 2013, "437억원", "530억원(해외 포함)", "CJ 엔터테인먼트",
   "2위", "외계+인 1부", 2022, "330억원", NA, "CJ 엔터테인먼트",
@@ -88,31 +88,85 @@ movie_raw <- tribble(
   "10위", "군함도", 2017, "225억원", "267억원", "CJ 엔터테인먼트"
 )
 
-movie_raw
+top_movie_raw
 ```
 
-## 매출정보
+## 영화정보
+
+### 스크립트
 
 ```{r}
+library(tidyverse)
 library(rvest)
 library(httr)
 
 
-kofic_req <- glue::glue("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchMovieList.json",
+kofic_req <- glue::glue("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json",
            "?key={Sys.getenv('KOFIC_API_KEY')}",
-           "&movieNm=%EA%B8%B0%EC%83%9D%EC%B6%A9")
+           "&movieNm={URLencode('군함도')}")
 
-kofic_resp <- httr::GET(kofic_req)
+movie_resp <- httr::GET(kofic_req)
 
 # convert list to dataframe
-kofic_list <- content(kofic_resp)
-  
-kofic_list$boxOfficeResult$dailyBoxOfficeList |> 
-  enframe() |> 
-  mutate(data = map(value, bind_rows)) |> 
-  unnest(data) |> 
-  View()
+movie_json <- content(movie_resp, "text", encoding = "UTF-8")
 
+movie_raw <- jsonlite::fromJSON(movie_json) |> 
+  as.data.frame()
+
+movie_columns <- str_extract(names(movie_raw), "[^.]*$")
+
+movie_tbl <- movie_raw |> 
+  set_names(movie_columns)
+
+movie_tbl
 ```
 
+
+### 함수
+
+```{r}
+
+get_movie_info <- function(movie_name = "군함도") {
+  
+  cat("영화정보를 가져옵니다.", movie_name, "\n")
+  
+  kofic_req <- glue::glue("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json",
+           "?key={Sys.getenv('KOFIC_API_KEY')}",
+           "&movieNm={URLencode(movie_name)}")
+
+  movie_resp <- httr::GET(kofic_req)
+  
+  # convert list to dataframe
+  movie_json <- content(movie_resp, "text", encoding = "UTF-8")
+  
+  movie_raw <- jsonlite::fromJSON(movie_json) |> 
+    as.data.frame()
+  
+  movie_columns <- str_extract(names(movie_raw), "[^.]*$")
+  
+  movie_tbl <- movie_raw |> 
+    set_names(movie_columns)
+  
+  return(movie_tbl)
+}
+
+get_movie_info("디 워")
+```
+
+### 전체 영화정보
+
+
+```{r}
+top_movie_raw <- top_movie_raw |> 
+  mutate(data = map(영화명, get_movie_info)) 
+
+top_movie_tbl <- top_movie_raw |> 
+  unnest(data)  |> 
+  mutate(movieNm = if_else(movieNm == "디워", "디 워", movieNm)) |>
+  filter(영화명 == movieNm) 
+
+top_movie_tbl |> 
+  select(movieCd, 순위, 영화명, 개봉년도, 순제작비, 배급사, prdtYear, openDt)
+
+```
 

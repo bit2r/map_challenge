@@ -336,7 +336,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B" id="toc-데이터셋" class="nav-link active" data-scroll-target="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B"><span class="header-section-number">1</span> 데이터셋</a>
   <ul class="collapse">
 <li><a href="#%ED%81%AC%EB%A1%A4%EB%A7%81" id="toc-크롤링" class="nav-link" data-scroll-target="#%ED%81%AC%EB%A1%A4%EB%A7%81"><span class="header-section-number">1.1</span> 크롤링</a></li>
-  <li><a href="#%EB%A7%A4%EC%B6%9C%EC%A0%95%EB%B3%B4" id="toc-매출정보" class="nav-link" data-scroll-target="#%EB%A7%A4%EC%B6%9C%EC%A0%95%EB%B3%B4"><span class="header-section-number">1.2</span> 매출정보</a></li>
+  <li>
+<a href="#%EC%98%81%ED%99%94%EC%A0%95%EB%B3%B4" id="toc-영화정보" class="nav-link" data-scroll-target="#%EC%98%81%ED%99%94%EC%A0%95%EB%B3%B4"><span class="header-section-number">1.2</span> 영화정보</a>
+  <ul class="collapse">
+<li><a href="#%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8" id="toc-스크립트" class="nav-link" data-scroll-target="#%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8"><span class="header-section-number">1.2.1</span> 스크립트</a></li>
+  <li><a href="#%ED%95%A8%EC%88%98" id="toc-함수" class="nav-link" data-scroll-target="#%ED%95%A8%EC%88%98"><span class="header-section-number">1.2.2</span> 함수</a></li>
+  <li><a href="#%EC%A0%84%EC%B2%B4-%EC%98%81%ED%99%94%EC%A0%95%EB%B3%B4" id="toc-전체-영화정보" class="nav-link" data-scroll-target="#%EC%A0%84%EC%B2%B4-%EC%98%81%ED%99%94%EC%A0%95%EB%B3%B4"><span class="header-section-number">1.2.3</span> 전체 영화정보</a></li>
+  </ul>
+</li>
   </ul>
 </li>
   </ul></nav>
@@ -373,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 데이터프레임을 생성한다</span></span>
-<span><span class="va">movie_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span><span class="va">top_movie_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">순위</span>, <span class="op">~</span><span class="va">영화명</span>, <span class="op">~</span><span class="va">개봉년도</span>, <span class="op">~</span><span class="va">순제작비</span>, <span class="op">~</span><span class="va">총제작비</span>, <span class="op">~</span><span class="va">배급사</span>,</span>
 <span>  <span class="st">"1위"</span>, <span class="st">"설국열차"</span>, <span class="fl">2013</span>, <span class="st">"437억원"</span>, <span class="st">"530억원(해외 포함)"</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
 <span>  <span class="st">"2위"</span>, <span class="st">"외계+인 1부"</span>, <span class="fl">2022</span>, <span class="st">"330억원"</span>, <span class="cn">NA</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
@@ -387,37 +394,195 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="st">"10위"</span>, <span class="st">"군함도"</span>, <span class="fl">2017</span>, <span class="st">"225억원"</span>, <span class="st">"267억원"</span>, <span class="st">"CJ 엔터테인먼트"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">movie_raw</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">top_movie_raw</span></span>
+<span><span class="co">#&gt; # A tibble: 10 × 6</span></span>
+<span><span class="co">#&gt;    순위  영화명          개봉년도 순제작비 총제작비           배급사           </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;              &lt;chr&gt;            </span></span>
+<span><span class="co">#&gt;  1 1위   설국열차            2013 437억원  530억원(해외 포함) CJ 엔터테인먼트  </span></span>
+<span><span class="co">#&gt;  2 2위   외계+인 1부         2022 330억원  &lt;NA&gt;               CJ 엔터테인먼트  </span></span>
+<span><span class="co">#&gt;  3 3위   디 워               2007 315억원  700억원(해외 포함) 쇼박스           </span></span>
+<span><span class="co">#&gt;  4 4위   더 문               2023 286억원  &lt;NA&gt;               CJ 엔터테인먼트  </span></span>
+<span><span class="co">#&gt;  5 5위   마이웨이            2011 280억원  350억원            CJ 엔터테인먼트  </span></span>
+<span><span class="co">#&gt;  6 6위   한산: 용의 출현     2022 272억원  312억원            롯데 엔터테인먼트</span></span>
+<span><span class="co">#&gt;  7 7위   백두산              2019 260억원  300억원            CJ 엔터테인먼트  </span></span>
+<span><span class="co">#&gt;  8 8위   비상선언            2022 260억원  300억원            쇼박스           </span></span>
+<span><span class="co">#&gt;  9 9위   미스터 고           2013 225억원  300억원            쇼박스           </span></span>
+<span><span class="co">#&gt; 10 10위  군함도              2017 225억원  267억원            CJ 엔터테인먼트</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section><section id="매출정보" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="매출정보">
-<span class="header-section-number">1.2</span> 매출정보</h2>
+</section><section id="영화정보" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="영화정보">
+<span class="header-section-number">1.2</span> 영화정보</h2>
+<section id="스크립트" class="level3" data-number="1.2.1"><h3 data-number="1.2.1" class="anchored" data-anchor-id="스크립트">
+<span class="header-section-number">1.2.1</span> 스크립트</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
+<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr.r-lib.org/">httr</a></span><span class="op">)</span></span>
 <span></span>
 <span></span>
-<span><span class="va">kofic_req</span> <span class="op">&lt;-</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchMovieList.json"</span>,</span>
+<span><span class="va">kofic_req</span> <span class="op">&lt;-</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json"</span>,</span>
 <span>           <span class="st">"?key={Sys.getenv('KOFIC_API_KEY')}"</span>,</span>
-<span>           <span class="st">"&amp;movieNm=%EA%B8%B0%EC%83%9D%EC%B6%A9"</span><span class="op">)</span></span>
+<span>           <span class="st">"&amp;movieNm={URLencode('군함도')}"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">kofic_resp</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op">(</span><span class="va">kofic_req</span><span class="op">)</span></span>
+<span><span class="va">movie_resp</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op">(</span><span class="va">kofic_req</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># convert list to dataframe</span></span>
-<span><span class="va">kofic_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">kofic_resp</span><span class="op">)</span></span>
+<span><span class="va">movie_json</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">movie_resp</span>, <span class="st">"text"</span>, encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">movie_raw</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">movie_json</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">movie_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">movie_raw</span><span class="op">)</span>, <span class="st">"[^.]*$"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">movie_tbl</span> <span class="op">&lt;-</span> <span class="va">movie_raw</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="va">movie_columns</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">movie_tbl</span></span>
+<span><span class="co">#&gt;   totCnt         source  movieCd       movieNm</span></span>
+<span><span class="co">#&gt; 1      2 영화진흥위원회 20177063 군함도 감독판</span></span>
+<span><span class="co">#&gt; 2      2 영화진흥위원회 20161481        군함도</span></span>
+<span><span class="co">#&gt;                               movieNmEn prdtYear   openDt typeNm prdtStatNm</span></span>
+<span><span class="co">#&gt; 1 The Battleship Island: Director's Cut     2017            장편       기타</span></span>
+<span><span class="co">#&gt; 2                 The Battleship Island     2017 20170726   장편       개봉</span></span>
+<span><span class="co">#&gt;   nationAlt    genreAlt repNationNm repGenreNm directors</span></span>
+<span><span class="co">#&gt; 1      한국 액션,드라마        한국       액션    류승완</span></span>
+<span><span class="co">#&gt; 2      한국 액션,드라마        한국       액션    류승완</span></span>
+<span><span class="co">#&gt;                                         companys</span></span>
+<span><span class="co">#&gt; 1                         20100374, (주)외유내강</span></span>
+<span><span class="co">#&gt; 2 20100374, 20186561, (주)외유내강, (주)필름케이</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="함수" class="level3" data-number="1.2.2"><h3 data-number="1.2.2" class="anchored" data-anchor-id="함수">
+<span class="header-section-number">1.2.2</span> 함수</h3>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="va">get_movie_info</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">movie_name</span> <span class="op">=</span> <span class="st">"군함도"</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  </span>
-<span><span class="va">kofic_list</span><span class="op">$</span><span class="va">boxOfficeResult</span><span class="op">$</span><span class="va">dailyBoxOfficeList</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">value</span>, <span class="va">bind_rows</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"영화정보를 가져옵니다."</span>, <span class="va">movie_name</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">kofic_req</span> <span class="op">&lt;-</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json"</span>,</span>
+<span>           <span class="st">"?key={Sys.getenv('KOFIC_API_KEY')}"</span>,</span>
+<span>           <span class="st">"&amp;movieNm={URLencode(movie_name)}"</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">movie_resp</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op">(</span><span class="va">kofic_req</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># convert list to dataframe</span></span>
+<span>  <span class="va">movie_json</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">movie_resp</span>, <span class="st">"text"</span>, encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">movie_raw</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">movie_json</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">movie_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">movie_raw</span><span class="op">)</span>, <span class="st">"[^.]*$"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">movie_tbl</span> <span class="op">&lt;-</span> <span class="va">movie_raw</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="va">movie_columns</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">movie_tbl</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">get_movie_info</span><span class="op">(</span><span class="st">"디 워"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 디 워</span></span>
+<span><span class="co">#&gt;    totCnt         source  movieCd</span></span>
+<span><span class="co">#&gt; 1      13 영화진흥위원회 20227226</span></span>
+<span><span class="co">#&gt; 2      13 영화진흥위원회 20227292</span></span>
+<span><span class="co">#&gt; 3      13 영화진흥위원회 20224237</span></span>
+<span><span class="co">#&gt; 4      13 영화진흥위원회 20070316</span></span>
+<span><span class="co">#&gt; 5      13 영화진흥위원회 19998877</span></span>
+<span><span class="co">#&gt; 6      13 영화진흥위원회 20080782</span></span>
+<span><span class="co">#&gt; 7      13 영화진흥위원회 20136396</span></span>
+<span><span class="co">#&gt; 8      13 영화진흥위원회 20136395</span></span>
+<span><span class="co">#&gt; 9      13 영화진흥위원회 19968423</span></span>
+<span><span class="co">#&gt; 10     13 영화진흥위원회 20070403</span></span>
+<span><span class="co">#&gt;                                                 movieNm</span></span>
+<span><span class="co">#&gt; 1                     9월 프레임 워크: 마리 멘켄 단편선</span></span>
+<span><span class="co">#&gt; 2                                             앤디 워홀</span></span>
+<span><span class="co">#&gt; 3                                   부카니마: 앤디 워홀</span></span>
+<span><span class="co">#&gt; 4                                                  디워</span></span>
+<span><span class="co">#&gt; 5                                      도망자: 바디워크</span></span>
+<span><span class="co">#&gt; 6                                             앤디 워홀</span></span>
+<span><span class="co">#&gt; 7                                           디워-드래곤</span></span>
+<span><span class="co">#&gt; 8                                    디워 : 익룡의 공습</span></span>
+<span><span class="co">#&gt; 9                                나는 앤디워홀을 쏘았다</span></span>
+<span><span class="co">#&gt; 10 시네마정동-판타스틱4:실버서퍼의 위협,라따뚜이, 디워 </span></span>
+<span><span class="co">#&gt;                          movieNmEn prdtYear   openDt   typeNm prdtStatNm</span></span>
+<span><span class="co">#&gt; 1                                      2022          옴니버스       기타</span></span>
+<span><span class="co">#&gt; 2                      Andy Warhol     1965              단편       기타</span></span>
+<span><span class="co">#&gt; 3           Bookanima: Andy Warhol     2020              단편       기타</span></span>
+<span><span class="co">#&gt; 4                            D-War     2007 20070801     장편       개봉</span></span>
+<span><span class="co">#&gt; 5                         Bodywork     1999              장편       기타</span></span>
+<span><span class="co">#&gt; 6  Andy Warhol: A Documentary Film     2006              장편       기타</span></span>
+<span><span class="co">#&gt; 7                  Dragon Dynasty      2006              장편       기타</span></span>
+<span><span class="co">#&gt; 8                         Warbirds     2008              장편       기타</span></span>
+<span><span class="co">#&gt; 9               I Shot Andy Warhol     1996                         기타</span></span>
+<span><span class="co">#&gt; 10               Package Screening          20070808     장편           </span></span>
+<span><span class="co">#&gt;    nationAlt        genreAlt repNationNm repGenreNm          directors</span></span>
+<span><span class="co">#&gt; 1       미국            기타        미국       기타               NULL</span></span>
+<span><span class="co">#&gt; 2       미국            기타        미국       기타               NULL</span></span>
+<span><span class="co">#&gt; 3  한국,미국      애니메이션        한국 애니메이션               NULL</span></span>
+<span><span class="co">#&gt; 4       한국     액션,판타지        한국       액션             심형래</span></span>
+<span><span class="co">#&gt; 5       영국            범죄        영국       범죄 가레스 라이스 존스</span></span>
+<span><span class="co">#&gt; 6       미국      다큐멘터리        미국 다큐멘터리            릭 번스</span></span>
+<span><span class="co">#&gt; 7       미국 어드벤처,판타지        미국   어드벤처          매트 코드</span></span>
+<span><span class="co">#&gt; 8       미국  SF,스릴러,전쟁        미국         SF        케빈 겐드류</span></span>
+<span><span class="co">#&gt; 9                                                                 NULL</span></span>
+<span><span class="co">#&gt; 10      기타            기타        기타       기타               NULL</span></span>
+<span><span class="co">#&gt;                companys</span></span>
+<span><span class="co">#&gt; 1                  NULL</span></span>
+<span><span class="co">#&gt; 2                  NULL</span></span>
+<span><span class="co">#&gt; 3                  NULL</span></span>
+<span><span class="co">#&gt; 4  20100170, ㈜영구아트</span></span>
+<span><span class="co">#&gt; 5                  NULL</span></span>
+<span><span class="co">#&gt; 6                  NULL</span></span>
+<span><span class="co">#&gt; 7                  NULL</span></span>
+<span><span class="co">#&gt; 8                  NULL</span></span>
+<span><span class="co">#&gt; 9                  NULL</span></span>
+<span><span class="co">#&gt; 10                 NULL</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="전체-영화정보" class="level3" data-number="1.2.3"><h3 data-number="1.2.3" class="anchored" data-anchor-id="전체-영화정보">
+<span class="header-section-number">1.2.3</span> 전체 영화정보</h3>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">top_movie_raw</span> <span class="op">&lt;-</span> <span class="va">top_movie_raw</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">영화명</span>, <span class="va">get_movie_info</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 설국열차 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 외계+인 1부 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 디 워 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 더 문 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 마이웨이 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 한산: 용의 출현 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 백두산 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 비상선언 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 미스터 고 </span></span>
+<span><span class="co">#&gt; 영화정보를 가져옵니다. 군함도</span></span>
+<span></span>
+<span><span class="va">top_movie_tbl</span> <span class="op">&lt;-</span> <span class="va">top_movie_raw</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>movieNm <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">movieNm</span> <span class="op">==</span> <span class="st">"디워"</span>, <span class="st">"디 워"</span>, <span class="va">movieNm</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">영화명</span> <span class="op">==</span> <span class="va">movieNm</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">top_movie_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">movieCd</span>, <span class="va">순위</span>, <span class="va">영화명</span>, <span class="va">개봉년도</span>, <span class="va">순제작비</span>, <span class="va">배급사</span>, <span class="va">prdtYear</span>, <span class="va">openDt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 8</span></span>
+<span><span class="co">#&gt;    movieCd  순위  영화명          개봉년도 순제작비 배급사       prdtYear openDt</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt; </span></span>
+<span><span class="co">#&gt;  1 20126674 1위   설국열차            2013 437억원  CJ 엔터테인… 2013     20130…</span></span>
+<span><span class="co">#&gt;  2 20208446 2위   외계+인 1부         2022 330억원  CJ 엔터테인… 2022     20220…</span></span>
+<span><span class="co">#&gt;  3 20070316 3위   디 워               2007 315억원  쇼박스       2007     20070…</span></span>
+<span><span class="co">#&gt;  4 20218935 4위   더 문               2023 286억원  CJ 엔터테인… 2023     20230…</span></span>
+<span><span class="co">#&gt;  5 20090810 4위   더 문               2023 286억원  CJ 엔터테인… 2009     20091…</span></span>
+<span><span class="co">#&gt;  6 19790083 5위   마이웨이            2011 280억원  CJ 엔터테인… 1975     19750…</span></span>
+<span><span class="co">#&gt;  7 20209343 6위   한산: 용의 출현     2022 272억원  롯데 엔터테… 2021     20220…</span></span>
+<span><span class="co">#&gt;  8 20192206 7위   백두산              2019 260억원  CJ 엔터테인… 2019     20191…</span></span>
+<span><span class="co">#&gt;  9 20196410 8위   비상선언            2022 260억원  쇼박스       2022     20220…</span></span>
+<span><span class="co">#&gt; 10 20124082 9위   미스터 고           2013 225억원  쇼박스       2013     20130…</span></span>
+<span><span class="co">#&gt; 11 20161481 10위  군함도              2017 225억원  CJ 엔터테인… 2017     20170…</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 
 <!-- -->
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -929,123 +1094,176 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">소스 코드</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "한국영화"</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">  한국영화 제작비와 매출을 시각화해보자.</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">    eval: false</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터셋</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## 크롤링</span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>가장 많은 영화제작비가 투입된 영화 10개를 웹 스크레핑으로 가져와서 정제작업을 한다.</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">와차 대한민국 영화 순제작비 순위</span><span class="co">](https://pedia.watcha.com/ko-KR/decks/gcd9dQ6vlk)</span>를 참조하여 정리한 펨코 <span class="co">[</span><span class="ot">역대 한국 영화 순제작비 순위</span><span class="co">](https://www.fmkorea.com/best/5832255555)</span>에서 데이터를 가져온다.</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>movie_url <span class="ot">&lt;-</span> <span class="st">"https://www.fmkorea.com/best/5832255555"</span></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>movie_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(movie_url)</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>movie_list <span class="ot">&lt;-</span> movie_html <span class="sc">|&gt;</span> </span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">"table"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>() </span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>movie_list <span class="sc">|&gt;</span> </span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>() <span class="sc">|&gt;</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">map</span>(value, unlist)) <span class="sc">|&gt;</span> </span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">map_chr</span>(text, paste, <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))  <span class="sc">|&gt;</span> </span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(text) <span class="sc">|&gt;</span> </span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="dv">100</span>)</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(<span class="st">"clipboard"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,   <span class="at">sep =</span> <span class="st">","</span>)</span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="co"># tibble 패키지를 불러온다</span></span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터프레임을 생성한다</span></span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>movie_raw <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>순위, <span class="sc">~</span>영화명, <span class="sc">~</span>개봉년도, <span class="sc">~</span>순제작비, <span class="sc">~</span>총제작비, <span class="sc">~</span>배급사,</span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>  <span class="st">"1위"</span>, <span class="st">"설국열차"</span>, <span class="dv">2013</span>, <span class="st">"437억원"</span>, <span class="st">"530억원(해외 포함)"</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>  <span class="st">"2위"</span>, <span class="st">"외계+인 1부"</span>, <span class="dv">2022</span>, <span class="st">"330억원"</span>, <span class="cn">NA</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>  <span class="st">"3위"</span>, <span class="st">"디 워"</span>, <span class="dv">2007</span>, <span class="st">"315억원"</span>, <span class="st">"700억원(해외 포함)"</span>, <span class="st">"쇼박스"</span>,</span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>  <span class="st">"4위"</span>, <span class="st">"더 문"</span>, <span class="dv">2023</span>, <span class="st">"286억원"</span>, <span class="cn">NA</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>  <span class="st">"5위"</span>, <span class="st">"마이웨이"</span>, <span class="dv">2011</span>, <span class="st">"280억원"</span>, <span class="st">"350억원"</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
-<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>  <span class="st">"6위"</span>, <span class="st">"한산: 용의 출현"</span>, <span class="dv">2022</span>, <span class="st">"272억원"</span>, <span class="st">"312억원"</span>, <span class="st">"롯데 엔터테인먼트"</span>,</span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>  <span class="st">"7위"</span>, <span class="st">"백두산"</span>, <span class="dv">2019</span>, <span class="st">"260억원"</span>, <span class="st">"300억원"</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
-<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>  <span class="st">"8위"</span>, <span class="st">"비상선언"</span>, <span class="dv">2022</span>, <span class="st">"260억원"</span>, <span class="st">"300억원"</span>, <span class="st">"쇼박스"</span>,</span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>  <span class="st">"9위"</span>, <span class="st">"미스터 고"</span>, <span class="dv">2013</span>, <span class="st">"225억원"</span>, <span class="st">"300억원"</span>, <span class="st">"쇼박스"</span>,</span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>  <span class="st">"10위"</span>, <span class="st">"군함도"</span>, <span class="dv">2017</span>, <span class="st">"225억원"</span>, <span class="st">"267억원"</span>, <span class="st">"CJ 엔터테인먼트"</span></span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>movie_raw</span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## 매출정보</span></span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>kofic_req <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchMovieList.json"</span>,</span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>           <span class="st">"?key={Sys.getenv('KOFIC_API_KEY')}"</span>,</span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>           <span class="st">"&amp;movieNm=%EA%B8%B0%EC%83%9D%EC%B6%A9"</span>)</span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>kofic_resp <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(kofic_req)</span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="co"># convert list to dataframe</span></span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>kofic_list <span class="ot">&lt;-</span> <span class="fu">content</span>(kofic_resp)</span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>kofic_list<span class="sc">$</span>boxOfficeResult<span class="sc">$</span>dailyBoxOfficeList <span class="sc">|&gt;</span> </span>
-<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data =</span> <span class="fu">map</span>(value, bind_rows)) <span class="sc">|&gt;</span> </span>
-<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span> </span>
-<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">View</span>()</span>
-<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "한국영화"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">  한국영화 제작비와 매출을 시각화해보자.</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co">    eval: true</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터셋</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## 크롤링</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>가장 많은 영화제작비가 투입된 영화 10개를 웹 스크레핑으로 가져와서 정제작업을 한다.</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">와차 대한민국 영화 순제작비 순위</span><span class="co">](https://pedia.watcha.com/ko-KR/decks/gcd9dQ6vlk)</span>를 참조하여 정리한 펨코 <span class="co">[</span><span class="ot">역대 한국 영화 순제작비 순위</span><span class="co">](https://www.fmkorea.com/best/5832255555)</span>에서 데이터를 가져온다.</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>movie_url <span class="ot">&lt;-</span> <span class="st">"https://www.fmkorea.com/best/5832255555"</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>movie_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(movie_url)</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>movie_list <span class="ot">&lt;-</span> movie_html <span class="sc">|&gt;</span> </span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">"table"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>() </span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>movie_list <span class="sc">|&gt;</span> </span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">map</span>(value, unlist)) <span class="sc">|&gt;</span> </span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">map_chr</span>(text, paste, <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))  <span class="sc">|&gt;</span> </span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(text) <span class="sc">|&gt;</span> </span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="dv">100</span>)</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(<span class="st">"clipboard"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,   <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="co"># tibble 패키지를 불러온다</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터프레임을 생성한다</span></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>top_movie_raw <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>순위, <span class="sc">~</span>영화명, <span class="sc">~</span>개봉년도, <span class="sc">~</span>순제작비, <span class="sc">~</span>총제작비, <span class="sc">~</span>배급사,</span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>  <span class="st">"1위"</span>, <span class="st">"설국열차"</span>, <span class="dv">2013</span>, <span class="st">"437억원"</span>, <span class="st">"530억원(해외 포함)"</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>  <span class="st">"2위"</span>, <span class="st">"외계+인 1부"</span>, <span class="dv">2022</span>, <span class="st">"330억원"</span>, <span class="cn">NA</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>  <span class="st">"3위"</span>, <span class="st">"디 워"</span>, <span class="dv">2007</span>, <span class="st">"315억원"</span>, <span class="st">"700억원(해외 포함)"</span>, <span class="st">"쇼박스"</span>,</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>  <span class="st">"4위"</span>, <span class="st">"더 문"</span>, <span class="dv">2023</span>, <span class="st">"286억원"</span>, <span class="cn">NA</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>  <span class="st">"5위"</span>, <span class="st">"마이웨이"</span>, <span class="dv">2011</span>, <span class="st">"280억원"</span>, <span class="st">"350억원"</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>  <span class="st">"6위"</span>, <span class="st">"한산: 용의 출현"</span>, <span class="dv">2022</span>, <span class="st">"272억원"</span>, <span class="st">"312억원"</span>, <span class="st">"롯데 엔터테인먼트"</span>,</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>  <span class="st">"7위"</span>, <span class="st">"백두산"</span>, <span class="dv">2019</span>, <span class="st">"260억원"</span>, <span class="st">"300억원"</span>, <span class="st">"CJ 엔터테인먼트"</span>,</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>  <span class="st">"8위"</span>, <span class="st">"비상선언"</span>, <span class="dv">2022</span>, <span class="st">"260억원"</span>, <span class="st">"300억원"</span>, <span class="st">"쇼박스"</span>,</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>  <span class="st">"9위"</span>, <span class="st">"미스터 고"</span>, <span class="dv">2013</span>, <span class="st">"225억원"</span>, <span class="st">"300억원"</span>, <span class="st">"쇼박스"</span>,</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>  <span class="st">"10위"</span>, <span class="st">"군함도"</span>, <span class="dv">2017</span>, <span class="st">"225억원"</span>, <span class="st">"267억원"</span>, <span class="st">"CJ 엔터테인먼트"</span></span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>top_movie_raw</span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## 영화정보</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="fu">### 스크립트</span></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>kofic_req <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json"</span>,</span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>           <span class="st">"?key={Sys.getenv('KOFIC_API_KEY')}"</span>,</span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>           <span class="st">"&amp;movieNm={URLencode('군함도')}"</span>)</span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>movie_resp <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(kofic_req)</span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="co"># convert list to dataframe</span></span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>movie_json <span class="ot">&lt;-</span> <span class="fu">content</span>(movie_resp, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>movie_raw <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(movie_json) <span class="sc">|&gt;</span> </span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>movie_columns <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(<span class="fu">names</span>(movie_raw), <span class="st">"[^.]*$"</span>)</span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>movie_tbl <span class="ot">&lt;-</span> movie_raw <span class="sc">|&gt;</span> </span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(movie_columns)</span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>movie_tbl</span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a><span class="fu">### 함수</span></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a>get_movie_info <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">movie_name =</span> <span class="st">"군함도"</span>) {</span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"영화정보를 가져옵니다."</span>, movie_name, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a>  kofic_req <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json"</span>,</span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a>           <span class="st">"?key={Sys.getenv('KOFIC_API_KEY')}"</span>,</span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a>           <span class="st">"&amp;movieNm={URLencode(movie_name)}"</span>)</span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a>  movie_resp <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(kofic_req)</span>
+<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert list to dataframe</span></span>
+<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a>  movie_json <span class="ot">&lt;-</span> <span class="fu">content</span>(movie_resp, <span class="st">"text"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>  movie_raw <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(movie_json) <span class="sc">|&gt;</span> </span>
+<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()</span>
+<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a>  movie_columns <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(<span class="fu">names</span>(movie_raw), <span class="st">"[^.]*$"</span>)</span>
+<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>  movie_tbl <span class="ot">&lt;-</span> movie_raw <span class="sc">|&gt;</span> </span>
+<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_names</span>(movie_columns)</span>
+<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(movie_tbl)</span>
+<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a><span class="fu">get_movie_info</span>(<span class="st">"디 워"</span>)</span>
+<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a><span class="fu">### 전체 영화정보</span></span>
+<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>top_movie_raw <span class="ot">&lt;-</span> top_movie_raw <span class="sc">|&gt;</span> </span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data =</span> <span class="fu">map</span>(영화명, get_movie_info)) </span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>top_movie_tbl <span class="ot">&lt;-</span> top_movie_raw <span class="sc">|&gt;</span> </span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(data)  <span class="sc">|&gt;</span> </span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">movieNm =</span> <span class="fu">if_else</span>(movieNm <span class="sc">==</span> <span class="st">"디워"</span>, <span class="st">"디 워"</span>, movieNm)) <span class="sc">|&gt;</span></span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(영화명 <span class="sc">==</span> movieNm) </span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>top_movie_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(movieCd, 순위, 영화명, 개봉년도, 순제작비, 배급사, prdtYear, openDt)</span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
