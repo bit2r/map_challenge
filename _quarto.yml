@@ -94,6 +94,8 @@ website:
             text: "시도별 역대 국회의원"
           - href: electoral_roll.qmd
             text: "국회의원 당선인"
+          - href: after_by_election.qmd
+            text: "서울 재보궐 이후"
           - text: "----------------"
           - href: realmeter_metro.qmd
             text: "리얼미터 PDF"

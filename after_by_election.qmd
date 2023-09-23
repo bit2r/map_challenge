@@ -1,0 +1,345 @@
+---
+title: "지도제작 대회"
+subtitle: "서울 재보궐 이후"
+description: |
+  강서구청장 이후 서울특별시 판세를 가늠해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 인구수
+
+행정안전부 [주민등록 인구 및 세대현황](https://jumin.mois.go.kr/)에서 
+서울특별시 구별 인구수를 강서구 중심으로 살펴본자.
+
+```{r}
+#| eval: true
+library(tidyverse)
+library(rvest)
+library(gt)
+library(gtExtras)
+
+pop_raw <- read_csv("data/202308_202308_주민등록인구및세대현황_월간.csv",
+                   locale = locale('ko',encoding='euc-kr'))
+seoul_pop <- pop_raw |> 
+  select(구명 = 행정구역, 인구수 = `2023년08월_총인구수`) |> 
+  mutate(구명 = str_extract(구명, "\\w+구")) |> 
+  drop_na() |> 
+  mutate(강북강남 = ifelse(구명 %in% c("은평구", "서대문구", "마포구", "종로구", "중구", "용산구", "동대문구", "성동구", "성북구", "중랑구", "광진구", "강북구", "도봉구", "노원구"), "강북", "강남"))
+
+ 
+seoul_pop_gt <- seoul_pop |>
+  arrange(desc(인구수)) |> 
+  gt() |> 
+    gt_theme_538() |> 
+    cols_align("center") |> 
+    fmt_integer(columns = 인구수) |> 
+    grand_summary_rows(
+      columns = 인구수,
+      fns = list(
+        합계 ~ sum(.)
+      ),
+      fmt = ~ fmt_integer(., use_seps = TRUE)
+    ) |>
+    tab_header(
+      title = md("**서울특별시 구별 인구수**"),
+      subtitle = md("2023년 8월 기준")
+    ) |>
+    data_color(
+      column = 강북강남,
+      method = "factor",
+      palette = c("red", "blue"),
+      alpha = 0.8
+    )
+
+gtsave(seoul_pop_gt, "images/seoul_pop_gt.png")
+```
+
+## 시각화
+
+```{r}
+#| eval: false
+# draw dot plot with ggplot2 
+library(ggrepel)
+extrafont::loadfonts(device = "win")
+
+comma_man <- function(x) {
+  ifelse(x >= 10000, 
+         paste0(format(x / 10000, big.mark = ","), "만"),
+         as.character(x))
+}
+
+seoul_pop_gg <- seoul_pop |> 
+  mutate(기준 = 1) |> 
+  mutate(강서구여부 = ifelse(구명 == "강서구", "강서구", "강서구아님")) |>
+  ggplot(aes(y=인구수)) +
+    geom_vline(xintercept = 1, color = "gray90") +
+    geom_point(aes(x=기준, color=강서구여부), size=2) +
+    geom_text_repel(aes(x = 기준, y = 인구수, label = 구명), 
+                        size = 3, family = "MaruBuri",
+                        nudge_y = 0.001 ) +
+    scale_color_manual(values = c("black", "gray70")) +
+    scale_y_continuous(labels = comma_man) +
+    labs(title = "서울특별시 구별 인구수",
+         subtitle = "2023년 8월 기준",
+         x = NULL,
+         y = NULL,
+         caption = "자료출처: 행정안전부 주민등록 인구 및 세대현황") +
+    coord_flip() +
+    # coord_fixed(ratio = 0.1) +  # Set the aspect ratio
+    theme_korean() +
+    theme(legend.position = "none",
+          panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          plot.margin = unit(c(1.5, 1, 11, 1), "cm"),
+          axis.ticks.y = element_blank(),  # Hide y-axis ticks
+          axis.text.y = element_blank())   # Hide y-axis tick labels 
+
+seoul_pop_gg
+
+ragg::agg_jpeg("images/seoul_pop_gg.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+seoul_pop_gg
+dev.off()
+```
+
+![](images/서울특별시_구별_인구수.jpg)
+
+# 선거결과
+
+## 데이터셋
+
+```{r}
+library(krvote)
+
+대선_2022 <- krvote::election_20220309$득표율 |> 
+  filter(시도명 == "서울특별시") |> 
+  group_by(구시군명) |> 
+  summarise(민주당 = sum(이재명),
+            국민의힘 = sum(윤석열)) |> 
+  ungroup() |> 
+  mutate(대선2022 = ifelse(민주당 > 국민의힘, "민주당", "국민의힘"))  |> 
+  select(구시군명, 대선2022)
+
+지선_2022 <- krvote::local_sido_20220601 |> 
+  filter(str_detect(선거구명, "서울")) |> 
+  unnest(data) |> 
+  group_by(구시군명) |> 
+  summarise(민주당 = sum(더불어민주당_송영길),
+            국민의힘 = sum(국민의힘_오세훈)) |> 
+  ungroup() |> 
+  mutate(지선2022 = ifelse(민주당 > 국민의힘, "민주당", "국민의힘")) |> 
+  select(구시군명, 지선2022)
+
+구청장_2022 <- krvote::local_sgg_20220601 |> 
+  filter(str_detect(시도명, "서울")) |> 
+  mutate(득표 = parse_number(득표)) |> 
+  group_by(구시군명 = 선거구_구시군, 정당) |> 
+  summarise(득표 = sum(득표)) |> 
+  ungroup() |>
+  pivot_wider(names_from = 정당, values_from = 득표, values_fill = 0) |> 
+  mutate(구청장2022 = ifelse(더불어민주당 > 국민의힘, "민주당", "국민의힘")) |>
+  select(구시군명, 구청장2022)
+
+
+총선_2020 <- krvote::general_2020 |> 
+  filter(str_detect(시도, "서울")) |> 
+  unnest(data) |> 
+  mutate(구시군명 = str_remove(선거구, "[갑|을|병]$")) |> 
+  mutate(정당 = case_when(str_detect(구분, "더불어민주당") ~ "민주당",
+                          str_detect(구분, "미래통합당") ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  group_by(구시군명, 정당) |>
+  summarise(사람수 = sum(사람수)) |> 
+  ungroup() |> 
+  pivot_wider(names_from = 정당, values_from = 사람수, values_fill = 0) |>
+  mutate(총선2020 = ifelse(민주당 > 국민의힘, "민주당", "국민의힘")) |> 
+  select(구시군명, 총선2020)  |> 
+  mutate(구시군명 = str_remove(구시군명, "중구성동구갑_|중구성동구을_"))
+
+재보궐2021 <- krvote::by_election_2021 |> 
+  filter(시도명 == "서울특별시") |> 
+  group_by(구시군, 후보) |> 
+  summarise(득표수 = sum(득표수)) |> 
+  ungroup() |> 
+  mutate(정당 = case_when(str_detect(후보, "더불어민주당") ~ "민주당",
+                          str_detect(후보, "국민의힘") ~ "국민의힘",
+                          TRUE ~ "기타")) |> 
+  group_by(구시군명=구시군, 정당) |>
+  summarise(득표수 = sum(득표수)) |> 
+  ungroup() |> 
+  pivot_wider(names_from = 정당, values_from = 득표수, values_fill = 0) |>
+  mutate(재보궐2021 = ifelse(민주당 > 국민의힘, "민주당", "국민의힘")) |> 
+  select(구시군명, 재보궐2021)
+
+history_raw <- left_join(총선_2020, 재보궐2021)  |> 
+  left_join(대선_2022) |> 
+  left_join(지선_2022) |> 
+  left_join(구청장_2022)
+```
+
+## 시각화
+
+"강서구"와 가장 비슷한 선거 결과를 보인 구를 챗GPT로 찾아보자.
+
+```{r}
+history_cor <- history_raw |> 
+  pivot_longer(cols = -구시군명, names_to = "선거", values_to = "정당") |>  
+  mutate(선거 = factor(선거, levels = c("총선2020", "재보궐2021", "대선2022", "지선2022", "구청장2022"))) |>
+  mutate(구시군명 = factor(구시군명, levels = c("송파구", "강서구", "강남구", "노원구", "관악구", 
+                                      "은평구", "강동구", "양천구", "성북구", "서초구", 
+                                      "구로구", "중랑구", "동작구", "영등포구", "마포구", 
+                                      "동대문구", "광진구", "도봉구", "서대문구", "강북구", 
+                                      "성동구", "금천구", "용산구", "종로구", "중구")) |> fct_rev()) |> 
+  pivot_wider(names_from = 구시군명, values_from = 정당) 
+  # mutate(across(-선거, \(x) factor(x, levels = c("민주당", "국민의힘"))))
+  # clipr::write_clip(breaks = ",")    
+```
+
+### 구청장 확대
+
+```{r}
+# jaccard <- function(a, b) {
+#     intersection = length(intersect(a, b))
+#     union = length(a) + length(b) - intersection
+#     return (intersection/union)
+# }
+
+# jaccard(hisotry_cor$강서구, hisotry_cor$도봉구)
+history_cor_tbl <- history_cor |> select(-선거) |> 
+  mutate(across(everything(), \(x) factor(x, levels = c("민주당", "국민의힘"))))
+  # mutate(across(everything(), \(x) factor(x, levels = c("민주당", "국민의힘"))))
+
+## Goodman and Kruskal's lambda
+library(DescTools)
+
+history_res <- sapply(history_cor_tbl, \(X) sapply(history_cor_tbl, \(Y) Lambda(table(X, Y))))
+
+강서구동일구 <- history_res |> 
+  as_tibble() |>
+  mutate(구시군명 = rownames(history_res)) |>
+  pivot_longer(-구시군명, names_to = "구시군", values_to = "상관계수") |> 
+  filter(구시군명 == "강서구") |> 
+  filter(상관계수 == 1) |> 
+  pull(구시군) 
+
+강서구동일구
+```
+
+
+
+```{r}
+history_raw |> 
+  pivot_longer(cols = -구시군명, names_to = "선거", values_to = "정당") |>  
+  mutate(선거 = factor(선거, levels = c("총선2020", "재보궐2021", "대선2022", "지선2022",
+                                    "구청장2022"))) |>
+  mutate(구시군명 = factor(구시군명, levels = c("송파구", "강서구", "강남구", "노원구", "관악구", 
+                                      "은평구", "강동구", "양천구", "성북구", "서초구", 
+                                      "구로구", "중랑구", "동작구", "영등포구", "마포구", 
+                                      "동대문구", "광진구", "도봉구", "서대문구", "강북구", 
+                                      "성동구", "금천구", "용산구", "종로구", "중구")) |> fct_rev()) |>
+  mutate(강서구 = ifelse(구시군명 %in% c('강서구', '강북구', '관악구', '구로구', '금천구', '노원구', '도봉구'), "강서구", "비강서구")) |> 
+  arrange(강서구) |> 
+  # filter(강서구 == "강서구") |> 
+  filter(구시군명 %in% dput(강서구동일구)) |> 
+  ggplot(aes(x = 선거, y = 구시군명, color = 정당, group = 구시군명)) +
+    geom_line(color = "gray50") +
+    geom_point(size = 3) +
+    scale_color_manual(values = c("민주당" = "blue", "국민의힘" = "red")) +
+    labs(x = "",
+         y = "",
+         title = "강서구와 동일한 선거 결과를 보인 구",
+         caption = "자료출처: 중앙선거관리위원회 선거통계시스템") +
+    theme(legend.position = "top")
+```
+
+### 3대 선거로 한정
+
+
+```{r}
+history_big_tbl <- history_cor |> 
+  filter(선거 != "구청장2022") |>
+  select(-선거) |> 
+  mutate(across(everything(), \(x) factor(x, levels = c("민주당", "국민의힘"))))
+  # mutate(across(everything(), \(x) factor(x, levels = c("민주당", "국민의힘"))))
+
+## Goodman and Kruskal's lambda
+
+history_big <- sapply(history_big_tbl, \(X) sapply(history_big_tbl, \(Y) Lambda(table(X, Y))))
+
+강서구빅3 <- history_big |> 
+  as_tibble() |>
+  mutate(구시군명 = rownames(history_res)) |>
+  pivot_longer(-구시군명, names_to = "구시군", values_to = "상관계수") |> 
+  filter(구시군명 == "강서구") |> 
+  filter(상관계수 == 1) |> 
+  pull(구시군) 
+
+강서구빅3
+```
+
+
+
+```{r}
+history_gg <- history_raw |> 
+  pivot_longer(cols = -구시군명, names_to = "선거", values_to = "정당") |>  
+  mutate(선거 = factor(선거, levels = c("총선2020", "재보궐2021", "대선2022", "지선2022",
+                                    "구청장2022"))) |>
+  mutate(구시군명 = factor(구시군명, levels = c("강서구", "구로구", "도봉구", "서대문구", 
+                                        "강북구", "관악구", "금천구", "노원구", "성북구", 
+                                        "은평구", "중랑구" )) |> fct_rev()) |>
+  mutate(강서구 = ifelse(구시군명 %in% dput(강서구동일구), "강서구", "비강서구")) |> 
+  filter(구시군명 %in% dput(강서구빅3)) |> 
+  arrange(강서구) |> 
+  ggplot(aes(x = 선거, y = 구시군명, color = 정당, group = 구시군명)) +
+    geom_line(color = "gray50") +
+    geom_point(size = 3) +
+    scale_color_manual(values = c("민주당" = "blue", "국민의힘" = "red")) +
+    labs(x = "",
+         y = "",
+         title = "강서구와 동일한 선거 결과를 보인 구",
+         caption = "자료출처: 중앙선거관리위원회 선거통계시스템") +
+    theme(legend.position = "top")
+
+history_gg
+
+ragg::agg_jpeg("images/history_gg.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+history_gg
+dev.off()
+
+
+
+```
+
