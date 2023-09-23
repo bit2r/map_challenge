@@ -83,8 +83,12 @@ seoul_pop_gt <- seoul_pop |>
       alpha = 0.8
     )
 
-gtsave(seoul_pop_gt, "images/seoul_pop_gt.png")
+seoul_pop_gt
+
+# gtsave(seoul_pop_gt, "images/seoul_pop_gt.png")
 ```
+
+
 
 ## 시각화
 
