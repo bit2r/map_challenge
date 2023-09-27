@@ -1,0 +1,147 @@
+---
+title: "지도제작 대회"
+subtitle: "국회의원 통계"
+description: |
+  국회의원 당선자 통계를 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터
+
+공공데이터포털 [중앙선거관리위원회 당선인정보 API](https://www.data.go.kr/data/15000864/openapi.do)
+를 통해 당선인 정보를 조회한다. (선거종류, 선거구명, 시도명, 구시군명, 기호, 정당, 성명, 성별, 연령, 경력, 득표수, 득표율 등을 조회)
+
+## 국회의원 선거 코드
+
+```{r}
+#| eval: true
+library(tidyverse)
+library(rvest)
+library(gt)
+library(gtExtras)
+library(rvest)
+
+# iconv(names(krvote::code_election), from = "EUC-KR", to = "UTF-8")
+
+code_election <- krvote::code_election
+
+names(code_election) <- c("선거코드", "선거명", "선거구분")
+
+legislator_code <- code_election |> 
+  filter(str_detect(선거명, "국회의원")) |> 
+  pull(선거코드) |> 
+  unique()
+
+legislator_code
+```
+
+## 당선인 
+
+```{r}
+library(httr)
+library(jsonlite)
+
+# httr의 GET 함수로 데이터를 추출한다
+response <- GET("http://apis.data.go.kr/9760000/WinnerInfoInqireService2/getWinnerInfoInqire",
+                query = list(sgId = "20220309",
+                              sgTypecode = "1",
+                              sdName = "전국",
+                              sggName = "대한민국",
+                              pageNo = 1,
+                              numOfRows = 10,
+                              resultType = "json",
+                              serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
+
+# 응답 상태와 내용을 확인한다
+print(status_code(response))
+
+response_list <- content(response, "text") |> 
+  fromJSON()
+
+response_tbl <- response_list$getWinnerInfoInqire$item
+
+response_tbl
+```
+
+## 국회의원
+
+```{r}
+
+# httr의 GET 함수로 데이터를 추출한다
+response <- GET("http://apis.data.go.kr/9760000/WinnerInfoInqireService2/getWinnerInfoInqire",
+                query = list(sgId = legislator_code[8],
+                              sgTypecode = "2",
+                              sdName = "서울특별시",
+                              sggName = "종로구",
+                              pageNo = 1,
+                              numOfRows = 10,
+                              resultType = "json",
+                              serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
+
+# 응답 상태와 내용을 확인한다
+print(status_code(response))
+
+response_list <- content(response, "text") |> 
+  fromJSON()
+
+response_tbl <- response_list$getWinnerInfoInqire$item
+
+response_tbl
+```
+
+## 선거구
+
+선거종류코드(`sgTypecode`): (0) 대표선거명, (1)대통령,(2)국회의원,(3)시도지사,(4)구시군장,(5)시도의원,(6)구시군의회의원,(7)국회의원비례대표,(8)광역의원비례대표,(9)기초의원비례대표,(10)교육의원,(11)교육감
+
+```{r}
+
+# httr의 GET 함수로 데이터를 추출한다
+response <- GET("http://apis.data.go.kr/9760000/CommonCodeService/getCommonSggCodeList",
+                query = list(sgId = legislator_code[7],
+                              sgTypecode = "2",
+                              resultType = "json",
+                              serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
+
+# 응답 상태와 내용을 확인한다
+print(status_code(response))
+
+response_list <- content(response, "text") |> 
+  fromJSON()
+
+response_tbl <- response_list$getCommonSggCodeList$item
+
+response_tbl
+```
+

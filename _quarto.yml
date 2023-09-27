@@ -66,7 +66,7 @@ website:
           - href: movie.qmd
             text: "한국영화"
 
-      - text: "제21대 국회의원 선거"
+      - text: "제21대 국회의원 선거(I)"
         menu: 
           - href: precinct.qmd
             text: "국회의원 선거구"
@@ -92,8 +92,6 @@ website:
             text: "재보궐: 강서구청장(동별)"
           - href: sido_legislator.qmd
             text: "시도별 역대 국회의원"
-          - href: electoral_roll.qmd
-            text: "국회의원 당선인"
           - href: after_by_election.qmd
             text: "서울 재보궐 이후"
           - text: "----------------"
@@ -103,6 +101,11 @@ website:
             text: "한국갤럽 PDF"
           - href: nbs_metro.qmd
             text: "전국지표조사 PDF"
+
+      - text: "제21대 국회의원 선거(II)"
+        menu: 
+          - href: legislators.qmd
+            text: "국회의원 선거구"
 
 format:
   html:
