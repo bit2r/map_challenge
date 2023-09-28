@@ -125,12 +125,15 @@ response_tbl
 
 선거종류코드(`sgTypecode`): (0) 대표선거명, (1)대통령,(2)국회의원,(3)시도지사,(4)구시군장,(5)시도의원,(6)구시군의회의원,(7)국회의원비례대표,(8)광역의원비례대표,(9)기초의원비례대표,(10)교육의원,(11)교육감
 
+### 스크립트
+
 ```{r}
 
 # httr의 GET 함수로 데이터를 추출한다
 response <- GET("http://apis.data.go.kr/9760000/CommonCodeService/getCommonSggCodeList",
                 query = list(sgId = legislator_code[7],
                               sgTypecode = "2",
+                              numOfRows =  "1000",
                               resultType = "json",
                               serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
 
@@ -143,5 +146,220 @@ response_list <- content(response, "text") |>
 response_tbl <- response_list$getCommonSggCodeList$item
 
 response_tbl
+```
+
+### 함수
+
+```{r}
+
+legislator_raw <- code_election |> 
+  filter(str_detect(선거명, "국회의원"),
+         선거구분 != "0") 
+
+get_precinct <- function(legislator_cd = "20200415", 
+                         sgTypecode = "2") {
+  # httr의 GET 함수로 데이터를 추출한다
+  response <- GET("http://apis.data.go.kr/9760000/CommonCodeService/getCommonSggCodeList",
+                  query = list(sgId = legislator_cd,
+                                sgTypecode = sgTypecode,
+                                numOfRows =  "1000",
+                                resultType = "json",
+                                serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
+  
+  # 응답 상태와 내용을 확인한다
+  print(status_code(response))
+  
+  response_list <- content(response, "text") |> 
+    fromJSON()
+  
+  response_tbl <- response_list$getCommonSggCodeList$item
+  
+  return(response_tbl |> as_tibble())
+}
+
+get_precinct("20220309")
+```
+
+### 전체 선거구
+
+```{r}
+
+# 재보궐 제외
+# legislator_tbl <- legislator_raw |> 
+#   filter(선거코드 %in% c("20040415", "20080409", "20120411", 
+#                       "20160413", "20200415")) 
+
+legislator_tbl <- legislator_raw |> 
+  mutate(data = map2(선거코드, 선거구분, get_precinct))
+
+precinct_tbl <- legislator_tbl |> 
+  unnest(data)
+
+precinct_tbl
+```
+
+## 국회의원 당선인
+
+### 함수
+
+```{r}
+
+get_elected <- function(sgId = "20200415", sgTypecode = "2",
+                        sdName = "서울특별시",sggName = "종로구") {
+  response <- GET("http://apis.data.go.kr/9760000/WinnerInfoInqireService2/getWinnerInfoInqire",
+              query = list(sgId = sgId,
+                           sgTypecode = sgTypecode,
+                           sdName = sdName,
+                           sggName = sggName,
+                           numOfRows = 100,
+                           resultType = "json",
+                           serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
+
+  # 응답 상태와 내용을 확인한다
+  cat(status_code(response), ": ", sgId, sgTypecode, sdName, sggName, "\n")
+  
+  response_list <- content(response, "text") |> 
+    fromJSON()
+  
+  response_tbl <- response_list$getWinnerInfoInqire$item
+  
+  Sys.sleep(runif(1, 0,0.5))
+  
+  return(response_tbl |> as_tibble())
+}
+
+get_elected()
+```
+
+
+### 전체 당선인
+
+```{r}
+#| eval: false
+
+# sido_code <- tribble(
+# ~"시도코드", ~"시도명",
+# "1100", "서울특별시",
+# "2600", "부산광역시",
+# "2700", "대구광역시",
+# "2800", "인천광역시",
+# "2900", "광주광역시",
+# "3000", "대전광역시",
+# "3100", "울산광역시",
+# "5100", "세종특별자치시",
+# "4100", "경기도",
+# "4200", "강원도",
+# "4300", "충청북도",
+# "4400", "충청남도",
+# "4500", "전라북도",
+# "4600", "전라남도",
+# "4700", "경상북도",
+# "4800", "경상남도",
+# "4900", "제주특별자치도")
+
+elected_raw <- legislator_tbl |> 
+  filter(선거코드 == "20200415",
+         선거구분 == "2") |> 
+  unnest(data)  |> 
+  select(sgId, sgTypecode, sdName, sggName, wiwName) |> 
+  mutate(data = pmap(list(sgId, sgTypecode, sdName, sggName), get_elected))
+
+elected_tbl <- elected_raw |> 
+  select(data) |> 
+  unnest(data)
+```
+
+### 전체선거 당선인
+
+```{r}
+#| eval: false
+
+get_elected_safely <- safely(get_elected, otherwise = "error")
+
+total_elected_raw <- legislator_tbl |> 
+  unnest(data)  |> 
+  select(sgId, sgTypecode, sdName, sggName, wiwName) |> 
+  mutate(data = pmap(list(sgId, sgTypecode, sdName, sggName), get_elected_safely))
+
+total_elected_tbl <- total_elected_raw |> 
+  mutate(result = map(data, pluck, "result")) |>
+  select(sgId, sgTypecode, sdName, sggName, wiwName, result)
+
+total_elected_tbl |> 
+  write_rds("data/total_elected_tbl.rds")
+
+```
+
+### 후처리(오류)
+
+```{r}
+#| eval: false
+total_elected_tbl <- 
+  read_rds("data/total_elected_tbl.rds")
+
+total_elected_true <- total_elected_tbl |> 
+  mutate(tibble = map_lgl(result, is_tibble)) |> 
+  filter(tibble) |> 
+  select(-tibble)
+
+total_elected_false <- total_elected_raw |> 
+  filter(sgId == "20120411",
+         sdName == "인천광역시",
+         sggName %in% c("남동구을", "부평구갑", "서구강화군갑")) |> 
+  mutate(data = pmap(list(sgId, sgTypecode, sdName, sggName), get_elected_safely)) |> 
+  mutate(result = map(data, pluck, "result")) |>
+  select(sgId, sgTypecode, sdName, sggName, wiwName, result)
+
+
+total_elected_all <- bind_rows(total_elected_true, total_elected_false)
+
+total_elected_all |> 
+  write_rds("data/total_elected_all.rds")
+```
+
+
+# 분석
+
+## 국회의원 정수
+
+```{r}
+library(tidyverse)
+library(gt)
+
+code_election |> 
+  filter(str_detect(선거명, "국회의원"),
+         선거구분 == "0") |> 
+  add_column(의원수 = c(299, 299, 300, 300, 300)) |> 
+  gt() |> 
+  gtExtras::gt_theme_538() |> 
+  cols_align("center")
+```
+
+
+## 제21대 총선
+
+```{r}
+total_elected_all <- 
+  read_rds("data/total_elected_all.rds")
+
+elected_tbl <- total_elected_all |> 
+  select(result) |> 
+  unnest(result)
+
+elected_tbl |> 
+  count(name, birthday, sort=TRUE) |> 
+  count(n) |> 
+  mutate(비율 = nn/sum(nn))
+
+```
+
+
+
+```{r}
+elected_tbl |> 
+  filter(sgId %in% c("20040415", "20080409", "20120411", "20160413", "20200415")) |> 
+  count(sdName, sgId, sort = TRUE) |> 
+  pivot_wider(names_from = sgId, values_from = n) 
+
 ```
 
