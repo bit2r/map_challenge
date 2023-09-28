@@ -336,7 +336,7 @@ code_election |>
 ```
 
 
-## 제21대 총선
+## 역대 정당별 의석수
 
 ```{r}
 total_elected_all <- 
@@ -360,6 +360,143 @@ elected_tbl |>
   filter(sgId %in% c("20040415", "20080409", "20120411", "20160413", "20200415")) |> 
   count(sdName, sgId, sort = TRUE) |> 
   pivot_wider(names_from = sgId, values_from = n) 
+
+```
+
+```{r}
+# 재선 이상 -------------
+elected_key <- elected_tbl |> 
+  filter(sgId %in% c("20040415", "20080409", "20120411", "20160413", "20200415")) |> 
+  count(name, birthday, sort=TRUE) |>
+  filter(n > 2) |> 
+  mutate(name_birth = glue::glue("{name}_{birthday}")) 
+
+
+elected_tbl |> 
+    filter(sgId %in% c("20040415", "20080409", "20120411", "20160413", "20200415")) |> 
+  mutate(name_birth = glue::glue("{name}_{birthday}")) |> 
+  inner_join(elected_key) |> 
+  ggplot(aes(x = sgId, y = name_birth, group = name_birth)) +
+    geom_point() +
+    geom_line()
+```
+
+
+```{r}
+#| eval: false
+
+elected_basetable <- elected_tbl |> 
+  left_join(code_election |> filter(선거구분 == 0), by = c("sgId" = "선거코드")) |> 
+  mutate(현정당 = case_when(jdName %in% c("민주정의당", "민주자유당", "신한국당",
+                                        "한나라당", "새누리당", "자유한국당","새로운보수당",
+                                        "미래를향한전진4.0", "미래통합당", "국민의힘") ~ "국민의힘",
+                            jdName %in% c("평화민주당", "통일민주당", "민주당", "새정치국민회의",
+                                        "열린우리당", "대통합민주신당", "통합민주당",
+                                        "민주통합당", "새정치민주연합", "더불어민주당") ~ "더불어민주당",
+                            TRUE ~ "그외정당")) |> 
+  filter(sgId %in% c("20040415", "20080409", "20120411", "20160413", "20200415")) |>
+  mutate(선거명 = str_remove(선거명, "\\s+국회의원선거")) |> 
+  mutate(sgId_name = str_glue("{선거명}  \n{sgId}"))
+
+
+election_total_gg <- elected_basetable |> 
+  count(sgId_name, 선거명, 현정당, sort=TRUE) |> 
+  ggplot(aes(x = sgId_name, y = n, fill = 현정당)) +
+    geom_col(width = 0.5) +
+    scale_fill_manual(values = c("더불어민주당" = "#0054A6", "국민의힘" = "#E2231A", 
+                                 "그외정당" = "#A6A6A6")) +
+    labs(fill = NULL,
+         x ="",
+         y = "",
+         title = "역대 총선 민주당과 국민의힘 선거결과") +
+    theme_korean() +
+    theme(legend.position = "top",
+          legend.key.size = unit(0.3, "cm"),
+          axis.text.x = element_text(angle = 0)) +
+    coord_flip() +
+    geom_hline(yintercept = 150, linetype = 2, color = "gray30") +
+    geom_text(aes(label = n), size = 3, position = position_stack(vjust = 0.5)) 
+
+election_total_gg
+
+ragg::agg_jpeg("images/election_total_gg.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+election_total_gg
+dev.off()
+```
+
+![](images/election_total_gg.jpeg)
+
+## 연령
+
+```{r}
+elected_basetable |> 
+  mutate(age = parse_number(age)) |> 
+  group_by(sgId, 선거명, 현정당) |>
+  summarise(평균나이 = mean(age, na.rm = TRUE),
+            최고연령 = max(age, na.rm = TRUE),
+            최저연령 = min(age, na.rm = TRUE)) |> 
+  select(-최고연령, -최저연령) |> 
+  pivot_wider(names_from = 현정당, values_from = 평균나이)
+
+elected_basetable |> 
+  mutate(age = parse_number(age)) |> 
+  filter(현정당 != "그외정당") |>
+  ggplot(aes(x = sgId, y = age, fill = gender)) +
+    geom_boxplot(width=0.3) +
+    coord_flip() +
+    facet_wrap(~현정당) +
+    theme(legend.position = "top")
+
+```
+
+
+## 국회의원 추적
+
+```{r}
+library(ggrepel)
+
+elected_basetable |> 
+  mutate(득표수 = parse_number(dugsu),
+         득표율 = parse_number(dugyul)) |>
+  filter(득표수 != 0) |>
+  filter(현정당 == "더불어민주당",
+         sdName %in% c("서울특별시", "경기도", "인천광역시")) |>
+  ggplot(aes(x = 득표수, y = 득표율, color = sgId)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    geom_text_repel(aes(label = name), size = 2, position = position_jitter(width = 0.1, height = 0.1)) +
+    theme(legend.position = "top") +
+    facet_wrap(vars(현정당, sgId), nrow = 1, scales = "free") 
+
+```
+
+
+## 의석당 득표수
+
+
+```{r}
+elected_basetable |> 
+  mutate(권역 = case_when(
+    sdName %in% c("경기도", "서울특별시", "인천광역시") ~ "수도권",
+    sdName %in% c("전라남도", "전라북도", "광주광역시") ~ "전라권",
+    sdName %in% c("경상남도", "경상북도", "대구광역시", "부산광역시", "울산광역시") ~ "경상권",
+    sdName %in% "전국" ~ "전국",
+    sdName %in% c("강원도", "세종특별자치시", "제주도", "제주특별자치도", "대전광역시", "충청남도", "충청북도") ~ "충청제주강원")) |> 
+  mutate(득표수 = parse_number(dugsu),
+         득표율 = parse_number(dugyul)) |> 
+  group_by(sgId, 권역, 현정당) |>
+  summarise(득표수 = sum(득표수),
+            득표율 = sum(득표율),
+            의석수 = n(), .groups = 'drop') |> 
+  pivot_wider(names_from = 현정당, values_from = c("득표수", "득표율", "의석수"), values_fill = 0) |> 
+  mutate(의석수차 = 의석수_더불어민주당 - 의석수_국민의힘) |> 
+  select(sgId, 권역, 의석수차) |> 
+  ggplot(aes(x = sgId, y = 의석수차, color = 권역, group = 권역)) +
+    geom_point() +
+    geom_line() +
+    coord_flip()   
+  
 
 ```
 
