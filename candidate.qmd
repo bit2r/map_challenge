@@ -1,0 +1,58 @@
+---
+title: "지도제작 대회"
+subtitle: "예비 후보자"
+description: |
+  국회의원 후보자 정보 조회 서비스 API를 통해 후보자를 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터
+
+공공데이터포털 [중앙선거관리위원회 후보자 정보 API](https://www.data.go.kr/data/15000908/openapi.do)
+를 통해 당선인 정보를 조회한다. (후보자 정보를 조회 할 수 있는 서비스 이다.(예비후보자 및 후보자 의 성명, 생년월일, 성별 , 선거구, 시도, 학력, 경력, 등록상태 등을 확인 할 수 있는 서비스)
+
+## 국회의원 선거 코드
+
+```{r}
+#| eval: true
+library(tidyverse)
+library(rvest)
+library(gt)
+library(gtExtras)
+library(rvest)
+```
+
+## 후보자 정보 API
+

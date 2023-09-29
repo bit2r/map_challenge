@@ -295,6 +295,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./legislators.html" rel="" target="">
  <span class="dropdown-text">권역별 의석수 변화</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./candidate.html" rel="" target="">
+ <span class="dropdown-text">예비 후보자</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./district_chair.html" rel="" target="">
+ <span class="dropdown-text">지역/당협 위원장</span></a>
+  </li>  
     </ul>
 </li>
 </ul>
@@ -408,7 +416,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">code_election</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"선거코드"</span>, <span class="st">"선거명"</span>, <span class="st">"선거구분"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">legislator_code</span> <span class="op">&lt;-</span> <span class="va">code_election</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">선거명</span>, <span class="st">"국회의원"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">선거명</span>, <span class="st">"국회의원"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">선거코드</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -1031,7 +1039,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">legislator_raw</span> <span class="op">&lt;-</span> <span class="va">code_election</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">선거명</span>, <span class="st">"국회의원"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">선거명</span>, <span class="st">"국회의원"</span><span class="op">)</span>,</span>
 <span>         <span class="va">선거구분</span> <span class="op">!=</span> <span class="st">"0"</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">get_precinct</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">legislator_cd</span> <span class="op">=</span> <span class="st">"20200415"</span>, </span>
@@ -1073,7 +1081,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <details><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="co"># 재보궐 제외</span></span>
 <span><span class="co"># legislator_tbl &lt;- legislator_raw |&gt; </span></span>
-<span><span class="co">#   filter(선거코드 %in% c("20040415", "20080409", "20120411", </span></span>
+<span><span class="co">#   dplyr::filter(선거코드 %in% c("20040415", "20080409", "20120411", </span></span>
 <span><span class="co">#                       "20160413", "20200415")) </span></span>
 <span></span>
 <span><span class="va">legislator_tbl</span> <span class="op">&lt;-</span> <span class="va">legislator_raw</span> <span class="op">|&gt;</span> </span>
@@ -1178,7 +1186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co"># "4900", "제주특별자치도")</span></span>
 <span></span>
 <span><span class="va">elected_raw</span> <span class="op">&lt;-</span> <span class="va">legislator_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">선거코드</span> <span class="op">==</span> <span class="st">"20200415"</span>,</span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">선거코드</span> <span class="op">==</span> <span class="st">"20200415"</span>,</span>
 <span>         <span class="va">선거구분</span> <span class="op">==</span> <span class="st">"2"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">sgId</span>, <span class="va">sgTypecode</span>, <span class="va">sdName</span>, <span class="va">sggName</span>, <span class="va">wiwName</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1215,11 +1223,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="va">total_elected_true</span> <span class="op">&lt;-</span> <span class="va">total_elected_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>tibble <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_lgl</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">is_tibble</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">tibble</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">tibble</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">tibble</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">total_elected_false</span> <span class="op">&lt;-</span> <span class="va">total_elected_raw</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op">==</span> <span class="st">"20120411"</span>,</span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op">==</span> <span class="st">"20120411"</span>,</span>
 <span>         <span class="va">sdName</span> <span class="op">==</span> <span class="st">"인천광역시"</span>,</span>
 <span>         <span class="va">sggName</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"남동구을"</span>, <span class="st">"부평구갑"</span>, <span class="st">"서구강화군갑"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html">pmap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">sgId</span>, <span class="va">sgTypecode</span>, <span class="va">sdName</span>, <span class="va">sggName</span><span class="op">)</span>, <span class="va">get_elected_safely</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1242,31 +1250,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/">gt</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">code_election</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">선거명</span>, <span class="st">"국회의원"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">선거명</span>, <span class="st">"국회의원"</span><span class="op">)</span>,</span>
 <span>         <span class="va">선거구분</span> <span class="op">==</span> <span class="st">"0"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/add_column.html">add_column</a></span><span class="op">(</span>의원수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">299</span>, <span class="fl">299</span>, <span class="fl">300</span>, <span class="fl">300</span>, <span class="fl">300</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">gtExtras</span><span class="fu">::</span><span class="fu"><a href="https://jthomasmock.github.io/gtExtras/reference/gt_theme_538.html">gt_theme_538</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_align.html">cols_align</a></span><span class="op">(</span><span class="st">"center"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="csdleijkph" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="pvoczzvqwf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#csdleijkph table {
+#pvoczzvqwf table {
   font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#csdleijkph thead, #csdleijkph tbody, #csdleijkph tfoot, #csdleijkph tr, #csdleijkph td, #csdleijkph th {
+#pvoczzvqwf thead, #pvoczzvqwf tbody, #pvoczzvqwf tfoot, #pvoczzvqwf tr, #pvoczzvqwf td, #pvoczzvqwf th {
   border-style: none;
 }
 
-#csdleijkph p {
+#pvoczzvqwf p {
   margin: 0;
   padding: 0;
 }
 
-#csdleijkph .gt_table {
+#pvoczzvqwf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1292,12 +1300,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#csdleijkph .gt_caption {
+#pvoczzvqwf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#csdleijkph .gt_title {
+#pvoczzvqwf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1309,7 +1317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#csdleijkph .gt_subtitle {
+#pvoczzvqwf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1321,7 +1329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#csdleijkph .gt_heading {
+#pvoczzvqwf .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -1333,13 +1341,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#csdleijkph .gt_bottom_border {
+#pvoczzvqwf .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#csdleijkph .gt_col_headings {
+#pvoczzvqwf .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1354,7 +1362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#csdleijkph .gt_col_heading {
+#pvoczzvqwf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1374,7 +1382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#csdleijkph .gt_column_spanner_outer {
+#pvoczzvqwf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1386,15 +1394,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#csdleijkph .gt_column_spanner_outer:first-child {
+#pvoczzvqwf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#csdleijkph .gt_column_spanner_outer:last-child {
+#pvoczzvqwf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#csdleijkph .gt_column_spanner {
+#pvoczzvqwf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -1406,11 +1414,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#csdleijkph .gt_spanner_row {
+#pvoczzvqwf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#csdleijkph .gt_group_heading {
+#pvoczzvqwf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1436,7 +1444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#csdleijkph .gt_empty_group_heading {
+#pvoczzvqwf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1451,15 +1459,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#csdleijkph .gt_from_md > :first-child {
+#pvoczzvqwf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#csdleijkph .gt_from_md > :last-child {
+#pvoczzvqwf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#csdleijkph .gt_row {
+#pvoczzvqwf .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -1478,7 +1486,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#csdleijkph .gt_stub {
+#pvoczzvqwf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1491,7 +1499,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csdleijkph .gt_stub_row_group {
+#pvoczzvqwf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1505,15 +1513,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#csdleijkph .gt_row_group_first td {
+#pvoczzvqwf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#csdleijkph .gt_row_group_first th {
+#pvoczzvqwf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#csdleijkph .gt_summary_row {
+#pvoczzvqwf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1523,16 +1531,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csdleijkph .gt_first_summary_row {
+#pvoczzvqwf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#csdleijkph .gt_first_summary_row.thick {
+#pvoczzvqwf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#csdleijkph .gt_last_summary_row {
+#pvoczzvqwf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1542,7 +1550,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#csdleijkph .gt_grand_summary_row {
+#pvoczzvqwf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1552,7 +1560,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csdleijkph .gt_first_grand_summary_row {
+#pvoczzvqwf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1562,7 +1570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#csdleijkph .gt_last_grand_summary_row_top {
+#pvoczzvqwf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1572,11 +1580,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#csdleijkph .gt_striped {
+#pvoczzvqwf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#csdleijkph .gt_table_body {
+#pvoczzvqwf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1585,7 +1593,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#csdleijkph .gt_footnotes {
+#pvoczzvqwf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1599,7 +1607,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#csdleijkph .gt_footnote {
+#pvoczzvqwf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1608,7 +1616,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csdleijkph .gt_sourcenotes {
+#pvoczzvqwf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1622,7 +1630,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#csdleijkph .gt_sourcenote {
+#pvoczzvqwf .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1630,63 +1638,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csdleijkph .gt_left {
+#pvoczzvqwf .gt_left {
   text-align: left;
 }
 
-#csdleijkph .gt_center {
+#pvoczzvqwf .gt_center {
   text-align: center;
 }
 
-#csdleijkph .gt_right {
+#pvoczzvqwf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#csdleijkph .gt_font_normal {
+#pvoczzvqwf .gt_font_normal {
   font-weight: normal;
 }
 
-#csdleijkph .gt_font_bold {
+#pvoczzvqwf .gt_font_bold {
   font-weight: bold;
 }
 
-#csdleijkph .gt_font_italic {
+#pvoczzvqwf .gt_font_italic {
   font-style: italic;
 }
 
-#csdleijkph .gt_super {
+#pvoczzvqwf .gt_super {
   font-size: 65%;
 }
 
-#csdleijkph .gt_footnote_marks {
+#pvoczzvqwf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#csdleijkph .gt_asterisk {
+#pvoczzvqwf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#csdleijkph .gt_indent_1 {
+#pvoczzvqwf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#csdleijkph .gt_indent_2 {
+#pvoczzvqwf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#csdleijkph .gt_indent_3 {
+#pvoczzvqwf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#csdleijkph .gt_indent_4 {
+#pvoczzvqwf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#csdleijkph .gt_indent_5 {
+#pvoczzvqwf .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -1763,7 +1771,7 @@ tbody tr:last-child {
 </div>
 <div class="cell">
 <details><summary>코드</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elected_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">sdName</span>, <span class="va">sgId</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">sgId</span>, values_from <span class="op">=</span> <span class="va">n</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; # A tibble: 19 × 6</span></span>
@@ -1793,14 +1801,14 @@ tbody tr:last-child {
 <div class="cell">
 <details><summary>코드</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 재선 이상 -------------</span></span>
 <span><span class="va">elected_key</span> <span class="op">&lt;-</span> <span class="va">elected_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">birthday</span>, sort<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>name_birth <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"{name}_{birthday}"</span><span class="op">)</span><span class="op">)</span> </span>
 <span></span>
 <span></span>
 <span><span class="va">elected_tbl</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>name_birth <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"{name}_{birthday}"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">elected_key</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sgId</span>, y <span class="op">=</span> <span class="va">name_birth</span>, group <span class="op">=</span> <span class="va">name_birth</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1815,7 +1823,7 @@ tbody tr:last-child {
 </div>
 <div class="cell">
 <details><summary>코드</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">elected_basetable</span> <span class="op">&lt;-</span> <span class="va">elected_tbl</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">code_election</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">선거구분</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sgId"</span> <span class="op">=</span> <span class="st">"선거코드"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">code_election</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">선거구분</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sgId"</span> <span class="op">=</span> <span class="st">"선거코드"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>현정당 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">jdName</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"민주정의당"</span>, <span class="st">"민주자유당"</span>, <span class="st">"신한국당"</span>,</span>
 <span>                                        <span class="st">"한나라당"</span>, <span class="st">"새누리당"</span>, <span class="st">"자유한국당"</span>,<span class="st">"새로운보수당"</span>,</span>
 <span>                                        <span class="st">"미래를향한전진4.0"</span>, <span class="st">"미래통합당"</span>, <span class="st">"국민의힘"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"국민의힘"</span>,</span>
@@ -1823,7 +1831,7 @@ tbody tr:last-child {
 <span>                                        <span class="st">"열린우리당"</span>, <span class="st">"대통합민주신당"</span>, <span class="st">"통합민주당"</span>,</span>
 <span>                                        <span class="st">"민주통합당"</span>, <span class="st">"새정치민주연합"</span>, <span class="st">"더불어민주당"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"더불어민주당"</span>,</span>
 <span>                            <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"그외정당"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sgId</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>선거명 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">선거명</span>, <span class="st">"\\s+국회의원선거"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sgId_name <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_glue.html">str_glue</a></span><span class="op">(</span><span class="st">"{선거명}  \n{sgId}"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1876,7 +1884,7 @@ tbody tr:last-child {
 <span>            의석수 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">'drop'</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">현정당</span>, values_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"득표수"</span>, <span class="st">"득표율"</span>, <span class="st">"의석수"</span><span class="op">)</span>, values_fill <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>의석수차 <span class="op">=</span> <span class="va">의석수_더불어민주당</span> <span class="op">-</span> <span class="va">의석수_국민의힘</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">code_election</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">선거구분</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sgId"</span> <span class="op">=</span> <span class="st">"선거코드"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span>   </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">code_election</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">선거구분</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sgId"</span> <span class="op">=</span> <span class="st">"선거코드"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span>   </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>선거명 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">선거명</span>, <span class="st">"\\s+국회의원선거"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span>   </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sgId_name <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_glue.html">str_glue</a></span><span class="op">(</span><span class="st">"{선거명}  \n{sgId}"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">sgId_name</span>, <span class="va">sgId</span>, <span class="va">권역</span>, <span class="va">의석수차</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1936,7 +1944,7 @@ tbody tr:last-child {
 <span></span>
 <span><span class="va">elected_basetable</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html">parse_number</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">현정당</span> <span class="op">!=</span> <span class="st">"그외정당"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">현정당</span> <span class="op">!=</span> <span class="st">"그외정당"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sgId</span>, y <span class="op">=</span> <span class="va">age</span>, fill <span class="op">=</span> <span class="va">gender</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1957,8 +1965,8 @@ tbody tr:last-child {
 <span><span class="va">elected_basetable</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>득표수 <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html">parse_number</a></span><span class="op">(</span><span class="va">dugsu</span><span class="op">)</span>,</span>
 <span>         득표율 <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html">parse_number</a></span><span class="op">(</span><span class="va">dugyul</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">득표수</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">현정당</span> <span class="op">==</span> <span class="st">"더불어민주당"</span>,</span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">득표수</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">현정당</span> <span class="op">==</span> <span class="st">"더불어민주당"</span>,</span>
 <span>         <span class="va">sdName</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"서울특별시"</span>, <span class="st">"경기도"</span>, <span class="st">"인천광역시"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">득표수</span>, y <span class="op">=</span> <span class="va">득표율</span>, color <span class="op">=</span> <span class="va">sgId</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -2551,7 +2559,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(code_election) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"선거코드"</span>, <span class="st">"선거명"</span>, <span class="st">"선거구분"</span>)</span>
 <span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>legislator_code <span class="ot">&lt;-</span> code_election <span class="sc">|&gt;</span> </span>
-<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(선거명, <span class="st">"국회의원"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">str_detect</span>(선거명, <span class="st">"국회의원"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(선거코드) <span class="sc">|&gt;</span> </span>
 <span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
 <span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a></span>
@@ -2643,7 +2651,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-160"><a href="#cb19-160" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-163"><a href="#cb19-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb19-164"><a href="#cb19-164" aria-hidden="true" tabindex="-1"></a>legislator_raw <span class="ot">&lt;-</span> code_election <span class="sc">|&gt;</span> </span>
-<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(선거명, <span class="st">"국회의원"</span>),</span>
+<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">str_detect</span>(선거명, <span class="st">"국회의원"</span>),</span>
 <span id="cb19-166"><a href="#cb19-166" aria-hidden="true" tabindex="-1"></a>         선거구분 <span class="sc">!=</span> <span class="st">"0"</span>) </span>
 <span id="cb19-167"><a href="#cb19-167" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-168"><a href="#cb19-168" aria-hidden="true" tabindex="-1"></a>get_precinct <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">legislator_cd =</span> <span class="st">"20200415"</span>, </span>
@@ -2675,7 +2683,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-196"><a href="#cb19-196" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb19-197"><a href="#cb19-197" aria-hidden="true" tabindex="-1"></a><span class="co"># 재보궐 제외</span></span>
 <span id="cb19-198"><a href="#cb19-198" aria-hidden="true" tabindex="-1"></a><span class="co"># legislator_tbl &lt;- legislator_raw |&gt; </span></span>
-<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(선거코드 %in% c("20040415", "20080409", "20120411", </span></span>
+<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a><span class="co">#   dplyr::filter(선거코드 %in% c("20040415", "20080409", "20120411", </span></span>
 <span id="cb19-200"><a href="#cb19-200" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "20160413", "20200415")) </span></span>
 <span id="cb19-201"><a href="#cb19-201" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-202"><a href="#cb19-202" aria-hidden="true" tabindex="-1"></a>legislator_tbl <span class="ot">&lt;-</span> legislator_raw <span class="sc">|&gt;</span> </span>
@@ -2746,7 +2754,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-271"><a href="#cb19-271" aria-hidden="true" tabindex="-1"></a><span class="co"># "4900", "제주특별자치도")</span></span>
 <span id="cb19-272"><a href="#cb19-272" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-273"><a href="#cb19-273" aria-hidden="true" tabindex="-1"></a>elected_raw <span class="ot">&lt;-</span> legislator_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb19-274"><a href="#cb19-274" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(선거코드 <span class="sc">==</span> <span class="st">"20200415"</span>,</span>
+<span id="cb19-274"><a href="#cb19-274" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(선거코드 <span class="sc">==</span> <span class="st">"20200415"</span>,</span>
 <span id="cb19-275"><a href="#cb19-275" aria-hidden="true" tabindex="-1"></a>         선거구분 <span class="sc">==</span> <span class="st">"2"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb19-276"><a href="#cb19-276" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(data)  <span class="sc">|&gt;</span> </span>
 <span id="cb19-277"><a href="#cb19-277" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sgId, sgTypecode, sdName, sggName, wiwName) <span class="sc">|&gt;</span> </span>
@@ -2787,11 +2795,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-316"><a href="#cb19-316" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-317"><a href="#cb19-317" aria-hidden="true" tabindex="-1"></a>total_elected_true <span class="ot">&lt;-</span> total_elected_tbl <span class="sc">|&gt;</span> </span>
 <span id="cb19-318"><a href="#cb19-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tibble =</span> <span class="fu">map_lgl</span>(result, is_tibble)) <span class="sc">|&gt;</span> </span>
-<span id="cb19-319"><a href="#cb19-319" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tibble) <span class="sc">|&gt;</span> </span>
+<span id="cb19-319"><a href="#cb19-319" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(tibble) <span class="sc">|&gt;</span> </span>
 <span id="cb19-320"><a href="#cb19-320" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>tibble)</span>
 <span id="cb19-321"><a href="#cb19-321" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-322"><a href="#cb19-322" aria-hidden="true" tabindex="-1"></a>total_elected_false <span class="ot">&lt;-</span> total_elected_raw <span class="sc">|&gt;</span> </span>
-<span id="cb19-323"><a href="#cb19-323" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sgId <span class="sc">==</span> <span class="st">"20120411"</span>,</span>
+<span id="cb19-323"><a href="#cb19-323" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sgId <span class="sc">==</span> <span class="st">"20120411"</span>,</span>
 <span id="cb19-324"><a href="#cb19-324" aria-hidden="true" tabindex="-1"></a>         sdName <span class="sc">==</span> <span class="st">"인천광역시"</span>,</span>
 <span id="cb19-325"><a href="#cb19-325" aria-hidden="true" tabindex="-1"></a>         sggName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"남동구을"</span>, <span class="st">"부평구갑"</span>, <span class="st">"서구강화군갑"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-326"><a href="#cb19-326" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data =</span> <span class="fu">pmap</span>(<span class="fu">list</span>(sgId, sgTypecode, sdName, sggName), get_elected_safely)) <span class="sc">|&gt;</span> </span>
@@ -2815,7 +2823,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-346"><a href="#cb19-346" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
 <span id="cb19-347"><a href="#cb19-347" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-348"><a href="#cb19-348" aria-hidden="true" tabindex="-1"></a>code_election <span class="sc">|&gt;</span> </span>
-<span id="cb19-349"><a href="#cb19-349" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(선거명, <span class="st">"국회의원"</span>),</span>
+<span id="cb19-349"><a href="#cb19-349" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">str_detect</span>(선거명, <span class="st">"국회의원"</span>),</span>
 <span id="cb19-350"><a href="#cb19-350" aria-hidden="true" tabindex="-1"></a>         선거구분 <span class="sc">==</span> <span class="st">"0"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb19-351"><a href="#cb19-351" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(의원수 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">299</span>, <span class="dv">299</span>, <span class="dv">300</span>, <span class="dv">300</span>, <span class="dv">300</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-352"><a href="#cb19-352" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
@@ -2844,7 +2852,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-377"><a href="#cb19-377" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-380"><a href="#cb19-380" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb19-381"><a href="#cb19-381" aria-hidden="true" tabindex="-1"></a>elected_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb19-382"><a href="#cb19-382" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sgId <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-382"><a href="#cb19-382" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sgId <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-383"><a href="#cb19-383" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sdName, sgId, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb19-384"><a href="#cb19-384" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> sgId, <span class="at">values_from =</span> n) </span>
 <span id="cb19-385"><a href="#cb19-385" aria-hidden="true" tabindex="-1"></a></span>
@@ -2853,14 +2861,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-390"><a href="#cb19-390" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb19-391"><a href="#cb19-391" aria-hidden="true" tabindex="-1"></a><span class="co"># 재선 이상 -------------</span></span>
 <span id="cb19-392"><a href="#cb19-392" aria-hidden="true" tabindex="-1"></a>elected_key <span class="ot">&lt;-</span> elected_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb19-393"><a href="#cb19-393" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sgId <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-393"><a href="#cb19-393" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sgId <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-394"><a href="#cb19-394" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(name, birthday, <span class="at">sort=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-395"><a href="#cb19-395" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-395"><a href="#cb19-395" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb19-396"><a href="#cb19-396" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name_birth =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{name}_{birthday}"</span>)) </span>
 <span id="cb19-397"><a href="#cb19-397" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-398"><a href="#cb19-398" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-399"><a href="#cb19-399" aria-hidden="true" tabindex="-1"></a>elected_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb19-400"><a href="#cb19-400" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(sgId <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-400"><a href="#cb19-400" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(sgId <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-401"><a href="#cb19-401" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name_birth =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{name}_{birthday}"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-402"><a href="#cb19-402" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(elected_key) <span class="sc">|&gt;</span> </span>
 <span id="cb19-403"><a href="#cb19-403" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sgId, <span class="at">y =</span> name_birth, <span class="at">group =</span> name_birth)) <span class="sc">+</span></span>
@@ -2873,7 +2881,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-412"><a href="#cb19-412" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
 <span id="cb19-413"><a href="#cb19-413" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-414"><a href="#cb19-414" aria-hidden="true" tabindex="-1"></a>elected_basetable <span class="ot">&lt;-</span> elected_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb19-415"><a href="#cb19-415" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(code_election <span class="sc">|&gt;</span> <span class="fu">filter</span>(선거구분 <span class="sc">==</span> <span class="dv">0</span>), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"sgId"</span> <span class="ot">=</span> <span class="st">"선거코드"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-415"><a href="#cb19-415" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(code_election <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(선거구분 <span class="sc">==</span> <span class="dv">0</span>), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"sgId"</span> <span class="ot">=</span> <span class="st">"선거코드"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-416"><a href="#cb19-416" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(현정당 <span class="ot">=</span> <span class="fu">case_when</span>(jdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"민주정의당"</span>, <span class="st">"민주자유당"</span>, <span class="st">"신한국당"</span>,</span>
 <span id="cb19-417"><a href="#cb19-417" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"한나라당"</span>, <span class="st">"새누리당"</span>, <span class="st">"자유한국당"</span>,<span class="st">"새로운보수당"</span>,</span>
 <span id="cb19-418"><a href="#cb19-418" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"미래를향한전진4.0"</span>, <span class="st">"미래통합당"</span>, <span class="st">"국민의힘"</span>) <span class="sc">~</span> <span class="st">"국민의힘"</span>,</span>
@@ -2881,7 +2889,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-420"><a href="#cb19-420" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"열린우리당"</span>, <span class="st">"대통합민주신당"</span>, <span class="st">"통합민주당"</span>,</span>
 <span id="cb19-421"><a href="#cb19-421" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"민주통합당"</span>, <span class="st">"새정치민주연합"</span>, <span class="st">"더불어민주당"</span>) <span class="sc">~</span> <span class="st">"더불어민주당"</span>,</span>
 <span id="cb19-422"><a href="#cb19-422" aria-hidden="true" tabindex="-1"></a>                            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"그외정당"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb19-423"><a href="#cb19-423" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sgId <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb19-423"><a href="#cb19-423" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sgId <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"20040415"</span>, <span class="st">"20080409"</span>, <span class="st">"20120411"</span>, <span class="st">"20160413"</span>, <span class="st">"20200415"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb19-424"><a href="#cb19-424" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거명 <span class="ot">=</span> <span class="fu">str_remove</span>(선거명, <span class="st">"</span><span class="sc">\\</span><span class="st">s+국회의원선거"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-425"><a href="#cb19-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sgId_name =</span> <span class="fu">str_glue</span>(<span class="st">"{선거명}  </span><span class="sc">\n</span><span class="st">{sgId}"</span>))</span>
 <span id="cb19-426"><a href="#cb19-426" aria-hidden="true" tabindex="-1"></a></span>
@@ -2936,7 +2944,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-477"><a href="#cb19-477" aria-hidden="true" tabindex="-1"></a>            의석수 <span class="ot">=</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb19-478"><a href="#cb19-478" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> 현정당, <span class="at">values_from =</span> <span class="fu">c</span>(<span class="st">"득표수"</span>, <span class="st">"득표율"</span>, <span class="st">"의석수"</span>), <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb19-479"><a href="#cb19-479" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(의석수차 <span class="ot">=</span> 의석수_더불어민주당 <span class="sc">-</span> 의석수_국민의힘) <span class="sc">|&gt;</span> </span>
-<span id="cb19-480"><a href="#cb19-480" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(code_election <span class="sc">|&gt;</span> <span class="fu">filter</span>(선거구분 <span class="sc">==</span> <span class="dv">0</span>), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"sgId"</span> <span class="ot">=</span> <span class="st">"선거코드"</span>)) <span class="sc">|&gt;</span>   </span>
+<span id="cb19-480"><a href="#cb19-480" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(code_election <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(선거구분 <span class="sc">==</span> <span class="dv">0</span>), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"sgId"</span> <span class="ot">=</span> <span class="st">"선거코드"</span>)) <span class="sc">|&gt;</span>   </span>
 <span id="cb19-481"><a href="#cb19-481" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거명 <span class="ot">=</span> <span class="fu">str_remove</span>(선거명, <span class="st">"</span><span class="sc">\\</span><span class="st">s+국회의원선거"</span>)) <span class="sc">|&gt;</span>   </span>
 <span id="cb19-482"><a href="#cb19-482" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sgId_name =</span> <span class="fu">str_glue</span>(<span class="st">"{선거명}  </span><span class="sc">\n</span><span class="st">{sgId}"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-483"><a href="#cb19-483" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sgId_name, sgId, 권역, 의석수차) <span class="sc">|&gt;</span> </span>
@@ -2986,7 +2994,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-529"><a href="#cb19-529" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-530"><a href="#cb19-530" aria-hidden="true" tabindex="-1"></a>elected_basetable <span class="sc">|&gt;</span> </span>
 <span id="cb19-531"><a href="#cb19-531" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">parse_number</span>(age)) <span class="sc">|&gt;</span> </span>
-<span id="cb19-532"><a href="#cb19-532" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(현정당 <span class="sc">!=</span> <span class="st">"그외정당"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-532"><a href="#cb19-532" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(현정당 <span class="sc">!=</span> <span class="st">"그외정당"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb19-533"><a href="#cb19-533" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sgId, <span class="at">y =</span> age, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
 <span id="cb19-534"><a href="#cb19-534" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">width=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
 <span id="cb19-535"><a href="#cb19-535" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
@@ -3004,8 +3012,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-549"><a href="#cb19-549" aria-hidden="true" tabindex="-1"></a>elected_basetable <span class="sc">|&gt;</span> </span>
 <span id="cb19-550"><a href="#cb19-550" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(득표수 <span class="ot">=</span> <span class="fu">parse_number</span>(dugsu),</span>
 <span id="cb19-551"><a href="#cb19-551" aria-hidden="true" tabindex="-1"></a>         득표율 <span class="ot">=</span> <span class="fu">parse_number</span>(dugyul)) <span class="sc">|&gt;</span></span>
-<span id="cb19-552"><a href="#cb19-552" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(득표수 <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-553"><a href="#cb19-553" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(현정당 <span class="sc">==</span> <span class="st">"더불어민주당"</span>,</span>
+<span id="cb19-552"><a href="#cb19-552" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(득표수 <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-553"><a href="#cb19-553" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(현정당 <span class="sc">==</span> <span class="st">"더불어민주당"</span>,</span>
 <span id="cb19-554"><a href="#cb19-554" aria-hidden="true" tabindex="-1"></a>         sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"서울특별시"</span>, <span class="st">"경기도"</span>, <span class="st">"인천광역시"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb19-555"><a href="#cb19-555" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> 득표수, <span class="at">y =</span> 득표율, <span class="at">color =</span> sgId)) <span class="sc">+</span></span>
 <span id="cb19-556"><a href="#cb19-556" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -3013,8 +3021,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-558"><a href="#cb19-558" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">height =</span> <span class="fl">0.1</span>)) <span class="sc">+</span></span>
 <span id="cb19-559"><a href="#cb19-559" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
 <span id="cb19-560"><a href="#cb19-560" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(현정당, sgId), <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"free"</span>) </span>
-<span id="cb19-561"><a href="#cb19-561" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-562"><a href="#cb19-562" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-561"><a href="#cb19-561" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -3029,7 +3036,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","loop":true,"descPosition":"bottom","selector":".lightbox"});</script>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","loop":true,"selector":".lightbox"});</script>
 
 
 </body></html>

@@ -1,0 +1,97 @@
+---
+title: "지도제작 대회"
+subtitle: "지역/당협 위원장"
+description: |
+  민주당 지역위원장과 국민의힘 당협위원장 현황을 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터
+
+나무위키 [지역/당협위원장](https://namu.wiki/w/당협위원장/목록)을 통해 금일 기준(2023-09-29) 각 당별 현황을 파악해보자.
+
+## 지역/당협위원장
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(rvest)
+library(gt)
+library(gtExtras)
+library(rvest)
+
+wiki_html <- read_html('https://namu.wiki/w/당협위원장/목록')
+
+## 시도명 ------
+sido_h3 <- wiki_html |> 
+  html_elements("h3") |> 
+  html_text()
+
+sido_names <- sido_h3[str_detect(sido_h3, "^2")] |> 
+  str_extract("[가-힣]+")
+
+## 표 ------
+######## 5: 서울특별시, 21: 제주도
+
+get_result <- function(index){
+  
+    if(index == 18) { # 경상북도
+      result <- wiki_html |>
+        html_node(xpath = str_glue("/html/body/div/div/div[2]/div/div[1]/div[5]/div/div/div/div[3]/div/div/div/div/div/div/div/div/div/div[10]/div/div/div/div/div[1]/div/div[{index}]/div[4]/table")) |>
+    html_table()
+    } else {
+      result  <- wiki_html |>
+        html_node(xpath = str_glue("/html/body/div/div/div[2]/div/div[1]/div[5]/div/div/div/div[3]/div/div/div/div/div/div/div/div/div/div[10]/div/div/div/div/div[1]/div/div[{index}]/div[3]/table")) |>
+        html_table()
+    }
+    return(result)
+}
+
+get_result(19)
+
+district_raw <- tibble(시도코드 = 5:21) |> 
+  mutate(data = map(시도코드, safely(get_result, otherwise="error")))
+
+district_tbl <- district_raw |> 
+  mutate(result = map(data, pluck, "result")) |> 
+  mutate(tibble = map_lgl(result, is_tibble)) |> 
+  dplyr::filter(tibble) |> 
+  mutate(시도명 = sido_names) |> 
+  select(시도명, result)
+
+district_tbl |> 
+  write_rds("data/시도별_당협위원장.rds")
+
+```
