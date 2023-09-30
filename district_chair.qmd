@@ -91,7 +91,7 @@ district_tbl <- district_raw |>
   mutate(시도명 = sido_names) |> 
   select(시도명, result)
 
-# district_tbl |> 
+# district_tbl |>
 #   write_rds("data/시도별_당협위원장.rds")
 
 ```
@@ -121,7 +121,8 @@ district_tbl <- district_raw |>
   mutate(민주당 = str_extract(더불어민주당, "[가-힣]+"),
          국민의힘 = str_extract(국민의힘, "[가-힣]+")) |> 
   select(-더불어민주당) |> 
-  pivot_longer(cols = c(민주당, 국민의힘), names_to = "당명", values_to = "위원장") 
+  pivot_longer(cols = c(민주당, 국민의힘), names_to = "당명", values_to = "위원장")  |> 
+  mutate(위원장 = ifelse(위원장 %in% c("공모", "공석", NA), NA_character_, 위원장))  
 ```
 
 
@@ -132,11 +133,11 @@ district_tbl <- district_raw |>
 ```{r}
 district_empty_gt <- district_tbl |> 
   group_by(당명) |> 
-  summarise(위원장수 = n_distinct(위원장)) |>
+  summarise(공석 = sum(is.na(위원장))) |> 
   mutate(선거구수 = 253) |> 
-  mutate(공석비율 = 1 - 위원장수 / 선거구수) |> 
+  mutate(공석비율 = 공석 / 선거구수) |> 
   relocate(선거구수, .after = 당명) |>
-  mutate(공석 = 선거구수 - 위원장수) |> 
+  mutate(위원장수 = 선거구수 - 공석) |> 
   relocate(공석, .after = 위원장수) |>
   mutate(logo = c("images/party_power.jpg", "images/party_minju.png") ) |> 
   relocate(logo, .before = 당명) |>  
@@ -176,7 +177,7 @@ district_empty_gt <- district_tbl |>
 
 district_empty_gt
 
-# district_empty_gt |> 
+# district_empty_gt |>
 #   gtsave("images/지역_당협위원장_공석현황.png")
 
 ```
@@ -204,23 +205,26 @@ region_district_tbl <- district_tbl |>
     시도명 %in% c("경상남도", "경상북도", "대구광역시", "부산광역시", "울산광역시") ~ "경상권",
     시도명 %in% c("강원특별자치도", "세종특별자치시", "제주도", "제주특별자치도", "대전광역시", "충청남도", "충청북도") ~ "충청제주강원")) |> 
   group_by(당명, 권역) |> 
-  summarise(위원장수 = n_distinct(위원장)) |> 
+  summarise(공석 = sum(is.na(위원장))) |> 
   ungroup() |> 
   left_join(region_legislator) |> 
-  pivot_wider(names_from = 당명, values_from = 위원장수) |> 
-  mutate(국힘_공석수 = 정수 - 국민의힘,
-         민주_공석수 = 정수 - 민주당) |>
-  mutate(국힘_공석율 = 1 - 국민의힘 / 정수,
-         민주_공석율 = 1 - 민주당 / 정수) |>
-  select(권역, 정수, 민주당, 민주_공석수, 민주_공석율,
-                     국민의힘, 국힘_공석수, 국힘_공석율) |> 
+  pivot_wider(names_from = 당명, values_from = 공석)  |>
+  mutate(국힘_위원장수 = 정수 - 국민의힘,
+         민주_위원장수 = 정수 - 민주당) |>
+  mutate(국힘_공석율 = 국민의힘 / 정수,
+         민주_공석율 = 민주당 / 정수) |> 
+  dplyr::select(권역, 정수, 민주_위원장수, 민주당, 민주_공석율,
+                     국힘_위원장수, 국민의힘, 국힘_공석율)  |> 
   arrange(desc(정수))
+
+region_district_tbl |> 
+  janitor::adorn_totals()
 
 ## 공석 비율 표시하는 함수
 grand_pcnt_func <- function(data) {
   empty_list <- data |> 
-    summarise(민주_공석수 = sum(민주_공석수),
-              국힘_공석수 = sum(국힘_공석수)) |> 
+    summarise(민주_공석수 = sum(민주당),
+              국힘_공석수 = sum(국민의힘)) |> 
     mutate(민주_공석율 = 민주_공석수 / 253,
            국힘_공석율 = 국힘_공석수 / 253) |> 
     select(민주_공석율, 국힘_공석율) |> 
@@ -236,58 +240,58 @@ region_district_gt <- region_district_tbl |>
   cols_align(columns = 권역, "center") |> 
   cols_label(권역 = "권역",
              정수 = "선거구수",
-             국민의힘 = "당협위원장수",
-             민주당 = "지역위원장수",
-             국힘_공석수 = "공석수",
-             민주_공석수 = "공석수",
+             국힘_위원장수 = "당협위원장수",
+             민주_위원장수 = "지역위원장수",
+             국민의힘 = "공석수",
+             민주당 = "공석수",
              국힘_공석율 = "공석비율",
-             민주_공석율 = "공석비율") |>  
+             민주_공석율 = "공석비율") |> 
   fmt_percent(columns = c(국힘_공석율, 민주_공석율), decimals = 1)  |> 
   tab_footnote(
     footnote = "나무위키: 당협위원장/목록",
     locations = cells_title(groups = "title")
   ) |> 
   tab_footnote(
-    footnote = "인천 남동을(윤관석)/부평갑(이성만)",
-    locations = cells_body(columns = 민주_공석수, rows = 1)
+    footnote = "인천 남동을(윤관석)/부평갑(이성만)/분당갑(김병관)",
+    locations = cells_body(columns = 민주당, rows = 1)
   ) |> 
   tab_spanner(
     label = "국민의힘 ",
     columns = c(
-      국민의힘, 국힘_공석수, 국힘_공석율
+      국힘_위원장수, 국민의힘, 국힘_공석율
     )
   ) |> 
   tab_spanner(
     label = "더불어민주당",
     columns = c(
-      민주당, 민주_공석수, 민주_공석율
+      민주_위원장수, 민주당, 민주_공석율
     )
   ) |> 
   tab_style(
     style = cell_text(color = "#fc0303", weight = "bold", size = "large"),
     locations = cells_body(
-      columns = c(국힘_공석수, 국힘_공석율), 
+      columns = c(국민의힘, 국힘_공석율), 
       rows = 권역 == "수도권"
     )) |> 
   tab_style(
     style = cell_text(color = "#fc6203", weight = "bold", size = "large"),
     locations = cells_body(
-      columns = c(국힘_공석수, 국힘_공석율), 
+      columns = c(국민의힘, 국힘_공석율), 
       rows = 권역 == "경상권"
     )) |> 
   tab_style(
     style = cell_text(color = "blue", weight = "bold", size = "large"),
     locations = cells_body(
-      columns = c(민주_공석수, 민주_공석율), 
+      columns = c(민주당, 민주_공석율), 
       rows = 권역 == "수도권"
     ))  |> 
   ## 표 전체 합계 -------------------------------------
     grand_summary_rows(
-      columns = c(정수, 국민의힘, 민주당, 민주_공석수, 국힘_공석수),
+      columns = c(정수, 민주_위원장수, 국힘_위원장수, 민주당, 국민의힘),
       fns =  list(label = "합계", fn = "sum"),
       fmt = ~ fmt_integer(.),
       side = "bottom"
-    ) |> 
+    )  |> 
     grand_summary_rows (
       columns = 국힘_공석율,
       fns =  list("합계" = ~grand_pcnt_func(region_district_tbl)[2]),
@@ -301,12 +305,8 @@ region_district_gt <- region_district_tbl |>
 
 region_district_gt
 
-
 # region_district_gt |>
 #   gtsave("images/지역_당협위원장_권역별_공석현황.png")
 
-
 ```
-
-
 

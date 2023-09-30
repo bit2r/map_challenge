@@ -419,7 +419,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시도명 <span class="op">=</span> <span class="va">sido_names</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">시도명</span>, <span class="va">result</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># district_tbl |&gt; </span></span>
+<span><span class="co"># district_tbl |&gt;</span></span>
 <span><span class="co">#   write_rds("data/시도별_당협위원장.rds")</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -447,7 +447,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>민주당 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">더불어민주당</span>, <span class="st">"[가-힣]+"</span><span class="op">)</span>,</span>
 <span>         국민의힘 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">국민의힘</span>, <span class="st">"[가-힣]+"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">더불어민주당</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">민주당</span>, <span class="va">국민의힘</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"당명"</span>, values_to <span class="op">=</span> <span class="st">"위원장"</span><span class="op">)</span> </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">민주당</span>, <span class="va">국민의힘</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"당명"</span>, values_to <span class="op">=</span> <span class="st">"위원장"</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>위원장 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">위원장</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"공모"</span>, <span class="st">"공석"</span>, <span class="cn">NA</span><span class="op">)</span>, <span class="cn">NA_character_</span>, <span class="va">위원장</span><span class="op">)</span><span class="op">)</span>  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section><section id="분석" class="level1" data-number="3"><h1 data-number="3">
@@ -457,11 +458,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">district_empty_gt</span> <span class="op">&lt;-</span> <span class="va">district_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">당명</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>위원장수 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html">n_distinct</a></span><span class="op">(</span><span class="va">위원장</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>공석 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">위원장</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>선거구수 <span class="op">=</span> <span class="fl">253</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>공석비율 <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">위원장수</span> <span class="op">/</span> <span class="va">선거구수</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>공석비율 <span class="op">=</span> <span class="va">공석</span> <span class="op">/</span> <span class="va">선거구수</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">선거구수</span>, .after <span class="op">=</span> <span class="va">당명</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>공석 <span class="op">=</span> <span class="va">선거구수</span> <span class="op">-</span> <span class="va">위원장수</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>위원장수 <span class="op">=</span> <span class="va">선거구수</span> <span class="op">-</span> <span class="va">공석</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">공석</span>, .after <span class="op">=</span> <span class="va">위원장수</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>logo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"images/party_power.jpg"</span>, <span class="st">"images/party_minju.png"</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">logo</span>, .before <span class="op">=</span> <span class="va">당명</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
@@ -501,24 +502,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="va">district_empty_gt</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="wyiqyrrhzo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="shphrmitay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#wyiqyrrhzo table {
+#shphrmitay table {
   font-family: NanumSquare;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wyiqyrrhzo thead, #wyiqyrrhzo tbody, #wyiqyrrhzo tfoot, #wyiqyrrhzo tr, #wyiqyrrhzo td, #wyiqyrrhzo th {
+#shphrmitay thead, #shphrmitay tbody, #shphrmitay tfoot, #shphrmitay tr, #shphrmitay td, #shphrmitay th {
   border-style: none;
 }
 
-#wyiqyrrhzo p {
+#shphrmitay p {
   margin: 0;
   padding: 0;
 }
 
-#wyiqyrrhzo .gt_table {
+#shphrmitay .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -544,12 +545,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_caption {
+#shphrmitay .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wyiqyrrhzo .gt_title {
+#shphrmitay .gt_title {
   color: #333333;
   font-size: 26px;
   font-weight: initial;
@@ -561,7 +562,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#wyiqyrrhzo .gt_subtitle {
+#shphrmitay .gt_subtitle {
   color: #333333;
   font-size: 16px;
   font-weight: initial;
@@ -573,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#wyiqyrrhzo .gt_heading {
+#shphrmitay .gt_heading {
   background-color: rgba(255, 255, 255, 0);
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -585,13 +586,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_bottom_border {
+#shphrmitay .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_col_headings {
+#shphrmitay .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -606,7 +607,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_col_heading {
+#shphrmitay .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -626,7 +627,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#wyiqyrrhzo .gt_column_spanner_outer {
+#shphrmitay .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -638,15 +639,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#wyiqyrrhzo .gt_column_spanner_outer:first-child {
+#shphrmitay .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wyiqyrrhzo .gt_column_spanner_outer:last-child {
+#shphrmitay .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wyiqyrrhzo .gt_column_spanner {
+#shphrmitay .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -658,11 +659,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#wyiqyrrhzo .gt_spanner_row {
+#shphrmitay .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wyiqyrrhzo .gt_group_heading {
+#shphrmitay .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -688,7 +689,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#wyiqyrrhzo .gt_empty_group_heading {
+#shphrmitay .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -703,15 +704,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#wyiqyrrhzo .gt_from_md > :first-child {
+#shphrmitay .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wyiqyrrhzo .gt_from_md > :last-child {
+#shphrmitay .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wyiqyrrhzo .gt_row {
+#shphrmitay .gt_row {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 5px;
@@ -730,7 +731,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#wyiqyrrhzo .gt_stub {
+#shphrmitay .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -743,7 +744,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wyiqyrrhzo .gt_stub_row_group {
+#shphrmitay .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -757,15 +758,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#wyiqyrrhzo .gt_row_group_first td {
+#shphrmitay .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wyiqyrrhzo .gt_row_group_first th {
+#shphrmitay .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wyiqyrrhzo .gt_summary_row {
+#shphrmitay .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -775,16 +776,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wyiqyrrhzo .gt_first_summary_row {
+#shphrmitay .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_first_summary_row.thick {
+#shphrmitay .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wyiqyrrhzo .gt_last_summary_row {
+#shphrmitay .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -794,7 +795,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_grand_summary_row {
+#shphrmitay .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -804,7 +805,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wyiqyrrhzo .gt_first_grand_summary_row {
+#shphrmitay .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -814,7 +815,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_last_grand_summary_row_top {
+#shphrmitay .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -824,11 +825,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_striped {
+#shphrmitay .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wyiqyrrhzo .gt_table_body {
+#shphrmitay .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -837,7 +838,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_footnotes {
+#shphrmitay .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -851,7 +852,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_footnote {
+#shphrmitay .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -860,7 +861,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wyiqyrrhzo .gt_sourcenotes {
+#shphrmitay .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -874,7 +875,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wyiqyrrhzo .gt_sourcenote {
+#shphrmitay .gt_sourcenote {
   font-size: 10px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -882,63 +883,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wyiqyrrhzo .gt_left {
+#shphrmitay .gt_left {
   text-align: left;
 }
 
-#wyiqyrrhzo .gt_center {
+#shphrmitay .gt_center {
   text-align: center;
 }
 
-#wyiqyrrhzo .gt_right {
+#shphrmitay .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wyiqyrrhzo .gt_font_normal {
+#shphrmitay .gt_font_normal {
   font-weight: normal;
 }
 
-#wyiqyrrhzo .gt_font_bold {
+#shphrmitay .gt_font_bold {
   font-weight: bold;
 }
 
-#wyiqyrrhzo .gt_font_italic {
+#shphrmitay .gt_font_italic {
   font-style: italic;
 }
 
-#wyiqyrrhzo .gt_super {
+#shphrmitay .gt_super {
   font-size: 65%;
 }
 
-#wyiqyrrhzo .gt_footnote_marks {
+#shphrmitay .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wyiqyrrhzo .gt_asterisk {
+#shphrmitay .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wyiqyrrhzo .gt_indent_1 {
+#shphrmitay .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wyiqyrrhzo .gt_indent_2 {
+#shphrmitay .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wyiqyrrhzo .gt_indent_3 {
+#shphrmitay .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wyiqyrrhzo .gt_indent_4 {
+#shphrmitay .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wyiqyrrhzo .gt_indent_5 {
+#shphrmitay .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -971,17 +972,17 @@ tbody tr:last-child {
 <td headers="logo" class="gt_row gt_left" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;"><img src="data:image/png;base64,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" style="height:30px;"></td>
 <td headers="당명" class="gt_row gt_left" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">민주당</td>
 <td headers="선거구수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">253</td>
-<td headers="위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">251</td>
-<td headers="공석" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">2</td>
-<td headers="공석비율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #0000FF; font-size: large; background-color: #E5E5E5;">0.8%</td>
+<td headers="위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">250</td>
+<td headers="공석" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">3</td>
+<td headers="공석비율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #0000FF; font-size: large; background-color: #E5E5E5;">1.2%</td>
 </tr>
 <tr>
 <td headers="logo" class="gt_row gt_left" style="font-family: MaruBuri; font-weight: bold;"><img src="data:image/jpeg;base64,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COooorvPigooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAr5/wD20v8AklQ/67f0r6Ar5/8A20v+SVD/AK7f0rlxX8CfofT8M/8AI5wv+JH5lSf66T/epKWT/XSf71JXwB/cIUUUUwCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigBaSiloAO9JIRGpZug9KGdUXLHAr339m39mvUvidrUGpanA9vpcLBhuHyyLWlOnOtNQgtTzMxzHDZXhpYrFStFfj5IT9mv9mvUPihrEGp6lC0OkxMJI3xwwz3r9IvDPhew8I6TDYafAkMUYx8oxmk8LeFtP8H6TDp+nW6QQxrj5RjNbGK+1wuEjhoWW5/IHFHE+J4ixPNLSnH4Y/5+YnWgH1pfwxSY613nxI6iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAr5//AG0v+SVD/rt/SvoCvn/9tL/klQ/67f0rlxX8CfofT8M/8jnC/wCJH5lSf66T/epKWT/XSf71JXwB/cIUUUUwCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKWgAoz7UlL3oAMY5/SgsFALH2obA9z0Ar3n9mv9mzUPilrEOpalA0Wjo3zRyDGcd60pUpVpKEVdnm5jmOGyvDyxWLlaMfx8kO/Zq/Zt1H4m61DqWpwNBpUbfNHIvDj1r9IPC3hew8H6PBp2nwLDDEoX5R1p3hfwvY+EdHg0/T4VihiULwOuK1a+0wmEhhYWW/c/kDififE8R4lyl7tNfDH+uo7pjilpvIJ9KWvQPiBaKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAr5/wD20v8AklQ/67f0r6Ar5/8A20v+SVD/AK7f0rlxX8CfofT8M/8AI5wv+JH5lSf66T/epKWT/XSf71JXwB/cIUUUUwCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoopaAEpaAaN2T70gEoZto6Z9qRsRgsenfFfQP7Nf7M1/8UNWg1TVIWh0eNhJE/Td7GtqVOdaahBanmZjmWGynDyxWLlaK/HyRF+zZ+zXf/FPVoNS1KFo9GQhxuGDkV+kfhnwzY+E9Kg0+whWKKNQvyjGcUeGfDFh4R0mGw0+BIoYxj5VAzWt1r7PCYWOFjZb9T+QOJ+J8TxFieaXu0l8Mf8APzDaKX+VC0tegfEjRS9KWigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACvn/8AbS/5JUP+u39K+gK+f/20v+SVD/rt/SuXFfwJ+h9Pwz/yOcL/AIkfmVJ/rpP96kpZP9dJ/vUlfAH9whRRRTAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAFpKWkoELikkkWMZbgCkZwnJOO1fQn7M37M+ofEzWIdV1aBrfSoWBMUq8Sj1rWnSlWkoQ3PNzLMsNlOGlisVK0V+PkhP2Z/2Z9Q+Jmsw6tqsL2+lwsHTcPllWv0d8OeG7DwnpMNhp1ulvBGMAIMUvhrwzYeE9Jg07ToFgt4VChVGK1Atfa4XCww0bLV9z+P8AibibE8RYlzm7U18Mf66idKBmnUd+ldx8UAOaWkpaACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAE714B+2l/ySkZ/57f0r3814B+2l/wAkpH/Xb+lcuK/gT9D6bhn/AJHOF/xI/MqQfvZP940lLIwM0hJ/iNJuHrXwB/cQUUbh60bh60wCijcPWjcPWgAoo3D1o3D1oAKKNw9aNw9aACijcPWjcPWgAoo3D1o3D1oAKKNw9aNw9aACijcPWjcPWgAoo3D1o3D1oAKKNw9aNw9aACijcPWjcPWgA3YHSl4XB7noPWk3Bc45PYDqa+gf2aP2ab74o6rBq2qQMmiKQyhhhsitKVKVaahBanmZlmWHynDSxWKlaK/HyXmH7NH7NN98UNWh1XVLdotGjb5oZVwWx3r9HvDfhuy8K6TBp9hCsUEKhQFHpS+HfDdl4V0mGwsYViijUL8oxnFamcCvtcJhI4WFlv3P4/4m4mxPEWJ556U18Mf66i9qKaOTzT67z4oKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigBvfmvOPjv8ADeT4n+D/AOyY8537uK9Io71E4qpFxezOvCYqpgq8MRRdpRd0fBB/YJvfMY/Pyc9aX/hgm9/2/wA6+9u9LXm/2bh+x+gf8RCz3/n4vuPgj/hgm8/2/wA6P+GCbz/b/Ovveij+zcP2D/iIWe/8/F9x8Ef8ME3n+3+dH/DBN5/t/nX3vRR/ZuH7B/xELPf+fi+4+CP+GCbz/b/Oj/hgm8/2/wA6+96KP7Nw/YP+IhZ7/wA/F9x8Ef8ADBN5/t/nR/wwTef7f51970Uf2bh+wf8AEQs9/wCfi+4+CP8Ahgm8/wBv86P+GCbz/b/Ovveij+zcP2D/AIiFnv8Az8X3HwR/wwTef7f50f8ADBN5/t/nX3vRR/ZuH7B/xELPf+fi+4+CP+GCbz/b/Oj/AIYJvP8Ab/Ovveij+zcP2D/iIWe/8/F9x8Ef8ME3n+3+dH/DBN5/t/nX3vRR/ZuH7B/xELPf+fi+4+CP+GCbz/b/ADo/4YJvP9v86+96KP7Nw/YP+IhZ7/z8X3HwR/wwTef7f50f8ME3n+3+dfe9FH9m4fsH/EQs9/5+L7j4I/4YJvP9v86T/hgm9/2/zr74oo/s3D9g/wCIhZ7/AM/F9x8QeEv2DUh1u2uNSaRYYZA+M8H2NfZXhzw3Y+FtLisbCBIYowB8igZrUzQc110cNSw/wI+YzfiHMc8cfrtS6jsugd6DQM0tdR82JzxS0UUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAhzS0UUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAN5paWigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii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E/8A0LOp/wDfhv8ACj/hDfE//Qs6n/34b/Cv6Mf+EB8O/wDQGsv+/K0f8ID4d/6A1l/35WjkF7TyP5zv+EN8T/8AQs6n/wB+G/wo/wCEN8T/APQs6n/34b/Cv6Mf+EB8O/8AQGsv+/K0f8ID4d/6A1l/35WjkD2nkfznf8Ib4n/6FnU/+/Df4Un/AAhvif8A6FnU/wDvw3+Ff0Zf8ID4d/6A1l/35Wk/4QHw9/0B7L/vytHIHtPI/nO/4Q7xOf8AmWdT/wC/Df4VTvNK1LS2/wCJlptxp3/XwhT+df0ff8IH4d3f8gayz/1xX/CvKfjP+xr8OvjjIr67pxhKrt/0QBP5Ucoe0PwN+0Rf89E/76FH2iL/AJ6J/wB9Cv2YX/glB8E1UD7NqH/f6j/h1D8FP+fa/wD+/wBU8rK9pE/Gf7RF/wA9E/76FMluovLfEi9D/EK/Zv8A4dQ/BT/n2v8A/v8AU0/8En/gmwI+z3/p/rqOVj9pExP+CQTq/wCzpqBUg/8AExPQ+xr7sry/4Afs9eFv2b/CM3hzwmkyafLN5zec25t1end61Wxzyd3cdRRRTJCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAEopaKACiiigBKWikoAWk70tFADevWlHFFFAC0UUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQA00vpR+FFAC0UUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFJS0lABS0UUAFFFFABSYpaKAE6/SlpP0paACiiigApOfSlooAQ0n8qdSUAJ0pRQaKAFooooAKKKKACk+lLSUAJz170DpxTqKACiiigApozTqSgBOelKKKWgAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//2Q==" style="height:30px;"></td>
 <td headers="당명" class="gt_row gt_left" style="font-family: MaruBuri; font-weight: bold;">국민의힘</td>
 <td headers="선거구수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">253</td>
-<td headers="위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">228</td>
-<td headers="공석" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">25</td>
-<td headers="공석비율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FF0000; font-size: large;">9.9%</td>
+<td headers="위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">225</td>
+<td headers="공석" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">28</td>
+<td headers="공석비율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FF0000; font-size: large;">11.1%</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes"><tr>
@@ -992,7 +993,7 @@ tbody tr:last-child {
 </div>
 </div>
 <details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="co"># district_empty_gt |&gt; </span></span>
+<span><span class="co"># district_empty_gt |&gt;</span></span>
 <span><span class="co">#   gtsave("images/지역_당협위원장_공석현황.png")</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -1018,23 +1019,38 @@ tbody tr:last-child {
 <span>    <span class="va">시도명</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"경상남도"</span>, <span class="st">"경상북도"</span>, <span class="st">"대구광역시"</span>, <span class="st">"부산광역시"</span>, <span class="st">"울산광역시"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"경상권"</span>,</span>
 <span>    <span class="va">시도명</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"강원특별자치도"</span>, <span class="st">"세종특별자치시"</span>, <span class="st">"제주도"</span>, <span class="st">"제주특별자치도"</span>, <span class="st">"대전광역시"</span>, <span class="st">"충청남도"</span>, <span class="st">"충청북도"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"충청제주강원"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">당명</span>, <span class="va">권역</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>위원장수 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html">n_distinct</a></span><span class="op">(</span><span class="va">위원장</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>공석 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">위원장</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">region_legislator</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">당명</span>, values_from <span class="op">=</span> <span class="va">위원장수</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>국힘_공석수 <span class="op">=</span> <span class="va">정수</span> <span class="op">-</span> <span class="va">국민의힘</span>,</span>
-<span>         민주_공석수 <span class="op">=</span> <span class="va">정수</span> <span class="op">-</span> <span class="va">민주당</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>국힘_공석율 <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">국민의힘</span> <span class="op">/</span> <span class="va">정수</span>,</span>
-<span>         민주_공석율 <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">민주당</span> <span class="op">/</span> <span class="va">정수</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">권역</span>, <span class="va">정수</span>, <span class="va">민주당</span>, <span class="va">민주_공석수</span>, <span class="va">민주_공석율</span>,</span>
-<span>                     <span class="va">국민의힘</span>, <span class="va">국힘_공석수</span>, <span class="va">국힘_공석율</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">당명</span>, values_from <span class="op">=</span> <span class="va">공석</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>국힘_위원장수 <span class="op">=</span> <span class="va">정수</span> <span class="op">-</span> <span class="va">국민의힘</span>,</span>
+<span>         민주_위원장수 <span class="op">=</span> <span class="va">정수</span> <span class="op">-</span> <span class="va">민주당</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>국힘_공석율 <span class="op">=</span> <span class="va">국민의힘</span> <span class="op">/</span> <span class="va">정수</span>,</span>
+<span>         민주_공석율 <span class="op">=</span> <span class="va">민주당</span> <span class="op">/</span> <span class="va">정수</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">권역</span>, <span class="va">정수</span>, <span class="va">민주_위원장수</span>, <span class="va">민주당</span>, <span class="va">민주_공석율</span>,</span>
+<span>                     <span class="va">국힘_위원장수</span>, <span class="va">국민의힘</span>, <span class="va">국힘_공석율</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">정수</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">region_district_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          권역 정수 민주_위원장수 민주당 민주_공석율 국힘_위원장수 국민의힘</span></span>
+<span><span class="co">#&gt;        수도권  121           118      3  0.02479339           102       19</span></span>
+<span><span class="co">#&gt;        경상권   65            65      0  0.00000000            60        5</span></span>
+<span><span class="co">#&gt;  충청제주강원   39            39      0  0.00000000            36        3</span></span>
+<span><span class="co">#&gt;        전라권   28            28      0  0.00000000            27        1</span></span>
+<span><span class="co">#&gt;         Total  253           250      3  0.02479339           225       28</span></span>
+<span><span class="co">#&gt;  국힘_공석율</span></span>
+<span><span class="co">#&gt;   0.15702479</span></span>
+<span><span class="co">#&gt;   0.07692308</span></span>
+<span><span class="co">#&gt;   0.07692308</span></span>
+<span><span class="co">#&gt;   0.03571429</span></span>
+<span><span class="co">#&gt;   0.34658523</span></span>
 <span></span>
 <span><span class="co">## 공석 비율 표시하는 함수</span></span>
 <span><span class="va">grand_pcnt_func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">empty_list</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>민주_공석수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">민주_공석수</span><span class="op">)</span>,</span>
-<span>              국힘_공석수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">국힘_공석수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>민주_공석수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">민주당</span><span class="op">)</span>,</span>
+<span>              국힘_공석수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">국민의힘</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>민주_공석율 <span class="op">=</span> <span class="va">민주_공석수</span> <span class="op">/</span> <span class="fl">253</span>,</span>
 <span>           국힘_공석율 <span class="op">=</span> <span class="va">국힘_공석수</span> <span class="op">/</span> <span class="fl">253</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">민주_공석율</span>, <span class="va">국힘_공석율</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1050,58 +1066,58 @@ tbody tr:last-child {
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_align.html">cols_align</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="va">권역</span>, <span class="st">"center"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_label.html">cols_label</a></span><span class="op">(</span>권역 <span class="op">=</span> <span class="st">"권역"</span>,</span>
 <span>             정수 <span class="op">=</span> <span class="st">"선거구수"</span>,</span>
-<span>             국민의힘 <span class="op">=</span> <span class="st">"당협위원장수"</span>,</span>
-<span>             민주당 <span class="op">=</span> <span class="st">"지역위원장수"</span>,</span>
-<span>             국힘_공석수 <span class="op">=</span> <span class="st">"공석수"</span>,</span>
-<span>             민주_공석수 <span class="op">=</span> <span class="st">"공석수"</span>,</span>
+<span>             국힘_위원장수 <span class="op">=</span> <span class="st">"당협위원장수"</span>,</span>
+<span>             민주_위원장수 <span class="op">=</span> <span class="st">"지역위원장수"</span>,</span>
+<span>             국민의힘 <span class="op">=</span> <span class="st">"공석수"</span>,</span>
+<span>             민주당 <span class="op">=</span> <span class="st">"공석수"</span>,</span>
 <span>             국힘_공석율 <span class="op">=</span> <span class="st">"공석비율"</span>,</span>
-<span>             민주_공석율 <span class="op">=</span> <span class="st">"공석비율"</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>             민주_공석율 <span class="op">=</span> <span class="st">"공석비율"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_percent.html">fmt_percent</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">국힘_공석율</span>, <span class="va">민주_공석율</span><span class="op">)</span>, decimals <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html">tab_footnote</a></span><span class="op">(</span></span>
 <span>    footnote <span class="op">=</span> <span class="st">"나무위키: 당협위원장/목록"</span>,</span>
 <span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_title.html">cells_title</a></span><span class="op">(</span>groups <span class="op">=</span> <span class="st">"title"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html">tab_footnote</a></span><span class="op">(</span></span>
-<span>    footnote <span class="op">=</span> <span class="st">"인천 남동을(윤관석)/부평갑(이성만)"</span>,</span>
-<span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_body.html">cells_body</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="va">민주_공석수</span>, rows <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>    footnote <span class="op">=</span> <span class="st">"인천 남동을(윤관석)/부평갑(이성만)/분당갑(김병관)"</span>,</span>
+<span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_body.html">cells_body</a></span><span class="op">(</span>columns <span class="op">=</span> <span class="va">민주당</span>, rows <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_spanner.html">tab_spanner</a></span><span class="op">(</span></span>
 <span>    label <span class="op">=</span> <span class="st">"국민의힘 "</span>,</span>
 <span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>      <span class="va">국민의힘</span>, <span class="va">국힘_공석수</span>, <span class="va">국힘_공석율</span></span>
+<span>      <span class="va">국힘_위원장수</span>, <span class="va">국민의힘</span>, <span class="va">국힘_공석율</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_spanner.html">tab_spanner</a></span><span class="op">(</span></span>
 <span>    label <span class="op">=</span> <span class="st">"더불어민주당"</span>,</span>
 <span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>      <span class="va">민주당</span>, <span class="va">민주_공석수</span>, <span class="va">민주_공석율</span></span>
+<span>      <span class="va">민주_위원장수</span>, <span class="va">민주당</span>, <span class="va">민주_공석율</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_style.html">tab_style</a></span><span class="op">(</span></span>
 <span>    style <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cell_text.html">cell_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#fc0303"</span>, weight <span class="op">=</span> <span class="st">"bold"</span>, size <span class="op">=</span> <span class="st">"large"</span><span class="op">)</span>,</span>
 <span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_body.html">cells_body</a></span><span class="op">(</span></span>
-<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">국힘_공석수</span>, <span class="va">국힘_공석율</span><span class="op">)</span>, </span>
+<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">국민의힘</span>, <span class="va">국힘_공석율</span><span class="op">)</span>, </span>
 <span>      rows <span class="op">=</span> <span class="va">권역</span> <span class="op">==</span> <span class="st">"수도권"</span></span>
 <span>    <span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_style.html">tab_style</a></span><span class="op">(</span></span>
 <span>    style <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cell_text.html">cell_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#fc6203"</span>, weight <span class="op">=</span> <span class="st">"bold"</span>, size <span class="op">=</span> <span class="st">"large"</span><span class="op">)</span>,</span>
 <span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_body.html">cells_body</a></span><span class="op">(</span></span>
-<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">국힘_공석수</span>, <span class="va">국힘_공석율</span><span class="op">)</span>, </span>
+<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">국민의힘</span>, <span class="va">국힘_공석율</span><span class="op">)</span>, </span>
 <span>      rows <span class="op">=</span> <span class="va">권역</span> <span class="op">==</span> <span class="st">"경상권"</span></span>
 <span>    <span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_style.html">tab_style</a></span><span class="op">(</span></span>
 <span>    style <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cell_text.html">cell_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span>, weight <span class="op">=</span> <span class="st">"bold"</span>, size <span class="op">=</span> <span class="st">"large"</span><span class="op">)</span>,</span>
 <span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_body.html">cells_body</a></span><span class="op">(</span></span>
-<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">민주_공석수</span>, <span class="va">민주_공석율</span><span class="op">)</span>, </span>
+<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">민주당</span>, <span class="va">민주_공석율</span><span class="op">)</span>, </span>
 <span>      rows <span class="op">=</span> <span class="va">권역</span> <span class="op">==</span> <span class="st">"수도권"</span></span>
 <span>    <span class="op">)</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
 <span>  <span class="co">## 표 전체 합계 -------------------------------------</span></span>
 <span>    <span class="fu"><a href="https://gt.rstudio.com/reference/grand_summary_rows.html">grand_summary_rows</a></span><span class="op">(</span></span>
-<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">정수</span>, <span class="va">국민의힘</span>, <span class="va">민주당</span>, <span class="va">민주_공석수</span>, <span class="va">국힘_공석수</span><span class="op">)</span>,</span>
+<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">정수</span>, <span class="va">민주_위원장수</span>, <span class="va">국힘_위원장수</span>, <span class="va">민주당</span>, <span class="va">국민의힘</span><span class="op">)</span>,</span>
 <span>      fns <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"합계"</span>, fn <span class="op">=</span> <span class="st">"sum"</span><span class="op">)</span>,</span>
 <span>      fmt <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_integer.html">fmt_integer</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>,</span>
 <span>      side <span class="op">=</span> <span class="st">"bottom"</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="op">)</span>  <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://gt.rstudio.com/reference/grand_summary_rows.html">grand_summary_rows</a></span> <span class="op">(</span></span>
 <span>      columns <span class="op">=</span> <span class="va">국힘_공석율</span>,</span>
 <span>      fns <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"합계"</span> <span class="op">=</span> <span class="op">~</span><span class="fu">grand_pcnt_func</span><span class="op">(</span><span class="va">region_district_tbl</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
@@ -1115,24 +1131,24 @@ tbody tr:last-child {
 <span></span>
 <span><span class="va">region_district_gt</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="neozzcsmxv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="pycktzkdpw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#neozzcsmxv table {
+#pycktzkdpw table {
   font-family: NanumSquare;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#neozzcsmxv thead, #neozzcsmxv tbody, #neozzcsmxv tfoot, #neozzcsmxv tr, #neozzcsmxv td, #neozzcsmxv th {
+#pycktzkdpw thead, #pycktzkdpw tbody, #pycktzkdpw tfoot, #pycktzkdpw tr, #pycktzkdpw td, #pycktzkdpw th {
   border-style: none;
 }
 
-#neozzcsmxv p {
+#pycktzkdpw p {
   margin: 0;
   padding: 0;
 }
 
-#neozzcsmxv .gt_table {
+#pycktzkdpw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1158,12 +1174,12 @@ tbody tr:last-child {
   border-left-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_caption {
+#pycktzkdpw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#neozzcsmxv .gt_title {
+#pycktzkdpw .gt_title {
   color: #333333;
   font-size: 26px;
   font-weight: initial;
@@ -1175,7 +1191,7 @@ tbody tr:last-child {
   border-bottom-width: 0;
 }
 
-#neozzcsmxv .gt_subtitle {
+#pycktzkdpw .gt_subtitle {
   color: #333333;
   font-size: 16px;
   font-weight: initial;
@@ -1187,7 +1203,7 @@ tbody tr:last-child {
   border-top-width: 0;
 }
 
-#neozzcsmxv .gt_heading {
+#pycktzkdpw .gt_heading {
   background-color: rgba(255, 255, 255, 0);
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1199,13 +1215,13 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_bottom_border {
+#pycktzkdpw .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_col_headings {
+#pycktzkdpw .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1220,7 +1236,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_col_heading {
+#pycktzkdpw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1240,7 +1256,7 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#neozzcsmxv .gt_column_spanner_outer {
+#pycktzkdpw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1252,15 +1268,15 @@ tbody tr:last-child {
   padding-right: 4px;
 }
 
-#neozzcsmxv .gt_column_spanner_outer:first-child {
+#pycktzkdpw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#neozzcsmxv .gt_column_spanner_outer:last-child {
+#pycktzkdpw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#neozzcsmxv .gt_column_spanner {
+#pycktzkdpw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -1272,11 +1288,11 @@ tbody tr:last-child {
   width: 100%;
 }
 
-#neozzcsmxv .gt_spanner_row {
+#pycktzkdpw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#neozzcsmxv .gt_group_heading {
+#pycktzkdpw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1302,7 +1318,7 @@ tbody tr:last-child {
   text-align: left;
 }
 
-#neozzcsmxv .gt_empty_group_heading {
+#pycktzkdpw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1317,15 +1333,15 @@ tbody tr:last-child {
   vertical-align: middle;
 }
 
-#neozzcsmxv .gt_from_md > :first-child {
+#pycktzkdpw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#neozzcsmxv .gt_from_md > :last-child {
+#pycktzkdpw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#neozzcsmxv .gt_row {
+#pycktzkdpw .gt_row {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 5px;
@@ -1344,7 +1360,7 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#neozzcsmxv .gt_stub {
+#pycktzkdpw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1357,7 +1373,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#neozzcsmxv .gt_stub_row_group {
+#pycktzkdpw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1371,15 +1387,15 @@ tbody tr:last-child {
   vertical-align: top;
 }
 
-#neozzcsmxv .gt_row_group_first td {
+#pycktzkdpw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#neozzcsmxv .gt_row_group_first th {
+#pycktzkdpw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#neozzcsmxv .gt_summary_row {
+#pycktzkdpw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1389,16 +1405,16 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#neozzcsmxv .gt_first_summary_row {
+#pycktzkdpw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_first_summary_row.thick {
+#pycktzkdpw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#neozzcsmxv .gt_last_summary_row {
+#pycktzkdpw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1408,7 +1424,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_grand_summary_row {
+#pycktzkdpw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1418,7 +1434,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#neozzcsmxv .gt_first_grand_summary_row {
+#pycktzkdpw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1428,7 +1444,7 @@ tbody tr:last-child {
   border-top-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_last_grand_summary_row_top {
+#pycktzkdpw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1438,11 +1454,11 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_striped {
+#pycktzkdpw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#neozzcsmxv .gt_table_body {
+#pycktzkdpw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1451,7 +1467,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_footnotes {
+#pycktzkdpw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1465,7 +1481,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_footnote {
+#pycktzkdpw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1474,7 +1490,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#neozzcsmxv .gt_sourcenotes {
+#pycktzkdpw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1488,7 +1504,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#neozzcsmxv .gt_sourcenote {
+#pycktzkdpw .gt_sourcenote {
   font-size: 10px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1496,63 +1512,63 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#neozzcsmxv .gt_left {
+#pycktzkdpw .gt_left {
   text-align: left;
 }
 
-#neozzcsmxv .gt_center {
+#pycktzkdpw .gt_center {
   text-align: center;
 }
 
-#neozzcsmxv .gt_right {
+#pycktzkdpw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#neozzcsmxv .gt_font_normal {
+#pycktzkdpw .gt_font_normal {
   font-weight: normal;
 }
 
-#neozzcsmxv .gt_font_bold {
+#pycktzkdpw .gt_font_bold {
   font-weight: bold;
 }
 
-#neozzcsmxv .gt_font_italic {
+#pycktzkdpw .gt_font_italic {
   font-style: italic;
 }
 
-#neozzcsmxv .gt_super {
+#pycktzkdpw .gt_super {
   font-size: 65%;
 }
 
-#neozzcsmxv .gt_footnote_marks {
+#pycktzkdpw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#neozzcsmxv .gt_asterisk {
+#pycktzkdpw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#neozzcsmxv .gt_indent_1 {
+#pycktzkdpw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#neozzcsmxv .gt_indent_2 {
+#pycktzkdpw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#neozzcsmxv .gt_indent_3 {
+#pycktzkdpw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#neozzcsmxv .gt_indent_4 {
+#pycktzkdpw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#neozzcsmxv .gt_indent_5 {
+#pycktzkdpw .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -1591,57 +1607,57 @@ tbody tr:last-child {
 <th id="stub_1_1" scope="row" class="gt_row gt_left gt_stub"></th>
 <td headers="stub_1_1 권역" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">수도권</td>
 <td headers="stub_1_1 정수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">121</td>
-<td headers="stub_1_1 민주당" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">119</td>
-<td headers="stub_1_1 민주_공석수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #0000FF; font-size: large; background-color: #E5E5E5;">2<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span>
+<td headers="stub_1_1 민주_위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">118</td>
+<td headers="stub_1_1 민주당" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #0000FF; font-size: large; background-color: #E5E5E5;">3<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span>
 </td>
-<td headers="stub_1_1 민주_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #0000FF; font-size: large; background-color: #E5E5E5;">1.7%</td>
-<td headers="stub_1_1 국민의힘" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">105</td>
-<td headers="stub_1_1 국힘_공석수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FC0303; font-size: large; background-color: #E5E5E5;">16</td>
-<td headers="stub_1_1 국힘_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FC0303; font-size: large; background-color: #E5E5E5;">13.2%</td>
+<td headers="stub_1_1 민주_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #0000FF; font-size: large; background-color: #E5E5E5;">2.5%</td>
+<td headers="stub_1_1 국힘_위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">102</td>
+<td headers="stub_1_1 국민의힘" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FC0303; font-size: large; background-color: #E5E5E5;">19</td>
+<td headers="stub_1_1 국힘_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FC0303; font-size: large; background-color: #E5E5E5;">15.7%</td>
 </tr>
 <tr>
 <th id="stub_1_2" scope="row" class="gt_row gt_left gt_stub"></th>
 <td headers="stub_1_2 권역" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">경상권</td>
 <td headers="stub_1_2 정수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">65</td>
-<td headers="stub_1_2 민주당" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">65</td>
-<td headers="stub_1_2 민주_공석수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">0</td>
+<td headers="stub_1_2 민주_위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">65</td>
+<td headers="stub_1_2 민주당" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">0</td>
 <td headers="stub_1_2 민주_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">0.0%</td>
-<td headers="stub_1_2 국민의힘" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">62</td>
-<td headers="stub_1_2 국힘_공석수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FC6203; font-size: large;">3</td>
-<td headers="stub_1_2 국힘_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FC6203; font-size: large;">4.6%</td>
+<td headers="stub_1_2 국힘_위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">60</td>
+<td headers="stub_1_2 국민의힘" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FC6203; font-size: large;">5</td>
+<td headers="stub_1_2 국힘_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; color: #FC6203; font-size: large;">7.7%</td>
 </tr>
 <tr>
 <th id="stub_1_3" scope="row" class="gt_row gt_left gt_stub"></th>
 <td headers="stub_1_3 권역" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">충청제주강원</td>
 <td headers="stub_1_3 정수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">39</td>
-<td headers="stub_1_3 민주당" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">39</td>
-<td headers="stub_1_3 민주_공석수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">0</td>
+<td headers="stub_1_3 민주_위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">39</td>
+<td headers="stub_1_3 민주당" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">0</td>
 <td headers="stub_1_3 민주_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">0.0%</td>
-<td headers="stub_1_3 국민의힘" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">37</td>
-<td headers="stub_1_3 국힘_공석수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">2</td>
-<td headers="stub_1_3 국힘_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">5.1%</td>
+<td headers="stub_1_3 국힘_위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">36</td>
+<td headers="stub_1_3 국민의힘" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">3</td>
+<td headers="stub_1_3 국힘_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold; background-color: #E5E5E5;">7.7%</td>
 </tr>
 <tr>
 <th id="stub_1_4" scope="row" class="gt_row gt_left gt_stub"></th>
 <td headers="stub_1_4 권역" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">전라권</td>
 <td headers="stub_1_4 정수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">28</td>
-<td headers="stub_1_4 민주당" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">28</td>
-<td headers="stub_1_4 민주_공석수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">0</td>
+<td headers="stub_1_4 민주_위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">28</td>
+<td headers="stub_1_4 민주당" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">0</td>
 <td headers="stub_1_4 민주_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">0.0%</td>
-<td headers="stub_1_4 국민의힘" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">28</td>
-<td headers="stub_1_4 국힘_공석수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">0</td>
-<td headers="stub_1_4 국힘_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">0.0%</td>
+<td headers="stub_1_4 국힘_위원장수" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">27</td>
+<td headers="stub_1_4 국민의힘" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">1</td>
+<td headers="stub_1_4 국힘_공석율" class="gt_row gt_center" style="font-family: MaruBuri; font-weight: bold;">3.6%</td>
 </tr>
 <tr>
 <th id="grand_summary_stub_1" scope="row" class="gt_row gt_left gt_stub gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">합계</th>
 <td headers="grand_summary_stub_1 권역" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">—</td>
 <td headers="grand_summary_stub_1 정수" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">253</td>
-<td headers="grand_summary_stub_1 민주당" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">251</td>
-<td headers="grand_summary_stub_1 민주_공석수" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">2</td>
-<td headers="grand_summary_stub_1 민주_공석율" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">0.8%</td>
-<td headers="grand_summary_stub_1 국민의힘" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">232</td>
-<td headers="grand_summary_stub_1 국힘_공석수" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">21</td>
-<td headers="grand_summary_stub_1 국힘_공석율" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">8.3%</td>
+<td headers="grand_summary_stub_1 민주_위원장수" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">250</td>
+<td headers="grand_summary_stub_1 민주당" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">3</td>
+<td headers="grand_summary_stub_1 민주_공석율" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">1.2%</td>
+<td headers="grand_summary_stub_1 국힘_위원장수" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">225</td>
+<td headers="grand_summary_stub_1 국민의힘" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">28</td>
+<td headers="grand_summary_stub_1 국힘_공석율" class="gt_row gt_center gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">11.1%</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
@@ -1651,14 +1667,13 @@ tbody tr:last-child {
     </tr>
 <tr>
 <td class="gt_footnote" colspan="9">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> 인천 남동을(윤관석)/부평갑(이성만)</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> 인천 남동을(윤관석)/부평갑(이성만)/분당갑(김병관)</td>
     </tr>
 </tfoot>
 </table>
 </div>
 </div>
 <details><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span></span>
 <span><span class="co"># region_district_gt |&gt;</span></span>
 <span><span class="co">#   gtsave("images/지역_당협위원장_권역별_공석현황.png")</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -2272,7 +2287,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(시도명 <span class="ot">=</span> sido_names) <span class="sc">|&gt;</span> </span>
 <span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(시도명, result)</span>
 <span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="co"># district_tbl |&gt; </span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="co"># district_tbl |&gt;</span></span>
 <span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="co">#   write_rds("data/시도별_당협위원장.rds")</span></span>
 <span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -2302,194 +2317,194 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(민주당 <span class="ot">=</span> <span class="fu">str_extract</span>(더불어민주당, <span class="st">"[가-힣]+"</span>),</span>
 <span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>         국민의힘 <span class="ot">=</span> <span class="fu">str_extract</span>(국민의힘, <span class="st">"[가-힣]+"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>더불어민주당) <span class="sc">|&gt;</span> </span>
-<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(민주당, 국민의힘), <span class="at">names_to =</span> <span class="st">"당명"</span>, <span class="at">values_to =</span> <span class="st">"위원장"</span>) </span>
-<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(민주당, 국민의힘), <span class="at">names_to =</span> <span class="st">"당명"</span>, <span class="at">values_to =</span> <span class="st">"위원장"</span>)  <span class="sc">|&gt;</span> </span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(위원장 <span class="ot">=</span> <span class="fu">ifelse</span>(위원장 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"공모"</span>, <span class="st">"공석"</span>, <span class="cn">NA</span>), <span class="cn">NA_character_</span>, 위원장))  </span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="fu"># 분석</span></span>
-<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## 공석 현황</span></span>
-<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a>district_empty_gt <span class="ot">&lt;-</span> district_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(당명) <span class="sc">|&gt;</span> </span>
-<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(위원장수 <span class="ot">=</span> <span class="fu">n_distinct</span>(위원장)) <span class="sc">|&gt;</span></span>
-<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거구수 <span class="ot">=</span> <span class="dv">253</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(공석비율 <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> 위원장수 <span class="sc">/</span> 선거구수) <span class="sc">|&gt;</span> </span>
-<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(선거구수, <span class="at">.after =</span> 당명) <span class="sc">|&gt;</span></span>
-<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(공석 <span class="ot">=</span> 선거구수 <span class="sc">-</span> 위원장수) <span class="sc">|&gt;</span> </span>
-<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(공석, <span class="at">.after =</span> 위원장수) <span class="sc">|&gt;</span></span>
-<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">logo =</span> <span class="fu">c</span>(<span class="st">"images/party_power.jpg"</span>, <span class="st">"images/party_minju.png"</span>) ) <span class="sc">|&gt;</span> </span>
-<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(logo, <span class="at">.before =</span> 당명) <span class="sc">|&gt;</span>  </span>
-<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(공석비율) <span class="sc">|&gt;</span> </span>
-<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_hangul</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"지역/당협위원장 현황"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(당명 <span class="ot">=</span> <span class="st">"정당명"</span>,</span>
-<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>             선거구수 <span class="ot">=</span> <span class="st">"선거구수"</span>,</span>
-<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>             위원장수 <span class="ot">=</span> <span class="st">"위원장수"</span>,</span>
-<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>             공석비율 <span class="ot">=</span> <span class="st">"공석비율"</span>,</span>
-<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>             <span class="at">logo =</span> <span class="st">" "</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="st">"공석비율"</span>, <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">"나무위키: 당협위원장/목록"</span>,</span>
-<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="at">groups =</span> <span class="st">"title"</span>)</span>
-<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
-<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"인원"</span>,</span>
-<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
-<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>      선거구수, 위원장수, 공석</span>
-<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
-<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(공석비율), </span>
-<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 당명 <span class="sc">==</span> <span class="st">"국민의힘"</span></span>
-<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
-<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
-<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(공석비율), </span>
-<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 당명 <span class="sc">==</span> <span class="st">"민주당"</span></span>
-<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
-<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt_img_rows</span>(<span class="at">columns =</span> logo, <span class="at">img_source =</span> <span class="st">"local"</span>, <span class="at">height =</span> <span class="dv">30</span>) </span>
-<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a>district_empty_gt</span>
-<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a><span class="co"># district_empty_gt |&gt; </span></span>
-<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="co">#   gtsave("images/지역_당협위원장_공석현황.png")</span></span>
-<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a><span class="fu"># 분석</span></span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a><span class="fu">## 공석 현황</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>district_empty_gt <span class="ot">&lt;-</span> district_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(당명) <span class="sc">|&gt;</span> </span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(공석 <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(위원장))) <span class="sc">|&gt;</span> </span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(선거구수 <span class="ot">=</span> <span class="dv">253</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(공석비율 <span class="ot">=</span> 공석 <span class="sc">/</span> 선거구수) <span class="sc">|&gt;</span> </span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(선거구수, <span class="at">.after =</span> 당명) <span class="sc">|&gt;</span></span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(위원장수 <span class="ot">=</span> 선거구수 <span class="sc">-</span> 공석) <span class="sc">|&gt;</span> </span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(공석, <span class="at">.after =</span> 위원장수) <span class="sc">|&gt;</span></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">logo =</span> <span class="fu">c</span>(<span class="st">"images/party_power.jpg"</span>, <span class="st">"images/party_minju.png"</span>) ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(logo, <span class="at">.before =</span> 당명) <span class="sc">|&gt;</span>  </span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(공석비율) <span class="sc">|&gt;</span> </span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_hangul</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"지역/당협위원장 현황"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(당명 <span class="ot">=</span> <span class="st">"정당명"</span>,</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>             선거구수 <span class="ot">=</span> <span class="st">"선거구수"</span>,</span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>             위원장수 <span class="ot">=</span> <span class="st">"위원장수"</span>,</span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>             공석비율 <span class="ot">=</span> <span class="st">"공석비율"</span>,</span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>             <span class="at">logo =</span> <span class="st">" "</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="st">"공석비율"</span>, <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">"나무위키: 당협위원장/목록"</span>,</span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="at">groups =</span> <span class="st">"title"</span>)</span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"인원"</span>,</span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>      선거구수, 위원장수, 공석</span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(공석비율), </span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 당명 <span class="sc">==</span> <span class="st">"국민의힘"</span></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(공석비율), </span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 당명 <span class="sc">==</span> <span class="st">"민주당"</span></span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt_img_rows</span>(<span class="at">columns =</span> logo, <span class="at">img_source =</span> <span class="st">"local"</span>, <span class="at">height =</span> <span class="dv">30</span>) </span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a>district_empty_gt</span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="co"># district_empty_gt |&gt;</span></span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="co">#   gtsave("images/지역_당협위원장_공석현황.png")</span></span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a><span class="fu">## 권역별 공석현황</span></span>
-<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a><span class="do">## 선거구 권역별 정수</span></span>
-<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>region_legislator <span class="ot">&lt;-</span> nec_precinct_total <span class="sc">|&gt;</span> </span>
-<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sggName <span class="sc">!=</span> <span class="st">"비례대표"</span>,</span>
-<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>                sgId <span class="sc">==</span> <span class="st">"20200415"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(권역 <span class="ot">=</span> <span class="fu">case_when</span>(</span>
-<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>    sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"경기도"</span>, <span class="st">"서울특별시"</span>, <span class="st">"인천광역시"</span>) <span class="sc">~</span> <span class="st">"수도권"</span>,</span>
-<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>    sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"전라남도"</span>, <span class="st">"전라북도"</span>, <span class="st">"광주광역시"</span>) <span class="sc">~</span> <span class="st">"전라권"</span>,</span>
-<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>    sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"경상남도"</span>, <span class="st">"경상북도"</span>, <span class="st">"대구광역시"</span>, <span class="st">"부산광역시"</span>, <span class="st">"울산광역시"</span>) <span class="sc">~</span> <span class="st">"경상권"</span>,</span>
-<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>    sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"강원도"</span>, <span class="st">"세종특별자치시"</span>, <span class="st">"제주도"</span>, <span class="st">"제주특별자치도"</span>, <span class="st">"대전광역시"</span>, <span class="st">"충청남도"</span>, <span class="st">"충청북도"</span>) <span class="sc">~</span> <span class="st">"충청제주강원"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(권역, <span class="at">name =</span> <span class="st">"정수"</span>)</span>
-<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="do">## 지역/당협의원장 권역별 정수</span></span>
-<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a>region_district_tbl <span class="ot">&lt;-</span> district_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(권역 <span class="ot">=</span> <span class="fu">case_when</span>(</span>
-<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>    시도명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"경기도"</span>, <span class="st">"서울특별시"</span>, <span class="st">"인천광역시"</span>) <span class="sc">~</span> <span class="st">"수도권"</span>,</span>
-<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>    시도명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"전라남도"</span>, <span class="st">"전라북도"</span>, <span class="st">"광주광역시"</span>) <span class="sc">~</span> <span class="st">"전라권"</span>,</span>
-<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a>    시도명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"경상남도"</span>, <span class="st">"경상북도"</span>, <span class="st">"대구광역시"</span>, <span class="st">"부산광역시"</span>, <span class="st">"울산광역시"</span>) <span class="sc">~</span> <span class="st">"경상권"</span>,</span>
-<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a>    시도명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"강원특별자치도"</span>, <span class="st">"세종특별자치시"</span>, <span class="st">"제주도"</span>, <span class="st">"제주특별자치도"</span>, <span class="st">"대전광역시"</span>, <span class="st">"충청남도"</span>, <span class="st">"충청북도"</span>) <span class="sc">~</span> <span class="st">"충청제주강원"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(당명, 권역) <span class="sc">|&gt;</span> </span>
-<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(위원장수 <span class="ot">=</span> <span class="fu">n_distinct</span>(위원장)) <span class="sc">|&gt;</span> </span>
-<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(region_legislator) <span class="sc">|&gt;</span> </span>
-<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> 당명, <span class="at">values_from =</span> 위원장수) <span class="sc">|&gt;</span> </span>
-<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(국힘_공석수 <span class="ot">=</span> 정수 <span class="sc">-</span> 국민의힘,</span>
-<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>         민주_공석수 <span class="ot">=</span> 정수 <span class="sc">-</span> 민주당) <span class="sc">|&gt;</span></span>
-<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(국힘_공석율 <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> 국민의힘 <span class="sc">/</span> 정수,</span>
-<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>         민주_공석율 <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> 민주당 <span class="sc">/</span> 정수) <span class="sc">|&gt;</span></span>
-<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(권역, 정수, 민주당, 민주_공석수, 민주_공석율,</span>
-<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>                     국민의힘, 국힘_공석수, 국힘_공석율) <span class="sc">|&gt;</span> </span>
-<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(정수))</span>
-<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a><span class="do">## 공석 비율 표시하는 함수</span></span>
-<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>grand_pcnt_func <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
-<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>  empty_list <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
-<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(민주_공석수 <span class="ot">=</span> <span class="fu">sum</span>(민주_공석수),</span>
-<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>              국힘_공석수 <span class="ot">=</span> <span class="fu">sum</span>(국힘_공석수)) <span class="sc">|&gt;</span> </span>
-<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(민주_공석율 <span class="ot">=</span> 민주_공석수 <span class="sc">/</span> <span class="dv">253</span>,</span>
-<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>           국힘_공석율 <span class="ot">=</span> 국힘_공석수 <span class="sc">/</span> <span class="dv">253</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(민주_공석율, 국힘_공석율) <span class="sc">|&gt;</span> </span>
-<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unlist</span>()</span>
-<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> (empty_list)</span>
-<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a>}  </span>
-<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>region_district_gt <span class="ot">&lt;-</span> region_district_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_hangul</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"권역별 지역/당협위원장 현황"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">columns =</span> 권역, <span class="st">"center"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(권역 <span class="ot">=</span> <span class="st">"권역"</span>,</span>
-<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a>             정수 <span class="ot">=</span> <span class="st">"선거구수"</span>,</span>
-<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a>             국민의힘 <span class="ot">=</span> <span class="st">"당협위원장수"</span>,</span>
-<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a>             민주당 <span class="ot">=</span> <span class="st">"지역위원장수"</span>,</span>
-<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a>             국힘_공석수 <span class="ot">=</span> <span class="st">"공석수"</span>,</span>
-<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a>             민주_공석수 <span class="ot">=</span> <span class="st">"공석수"</span>,</span>
-<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a>             국힘_공석율 <span class="ot">=</span> <span class="st">"공석비율"</span>,</span>
-<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a>             민주_공석율 <span class="ot">=</span> <span class="st">"공석비율"</span>) <span class="sc">|&gt;</span>  </span>
-<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="fu">c</span>(국힘_공석율, 민주_공석율), <span class="at">decimals =</span> <span class="dv">1</span>)  <span class="sc">|&gt;</span> </span>
-<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">"나무위키: 당협위원장/목록"</span>,</span>
-<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="at">groups =</span> <span class="st">"title"</span>)</span>
-<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="fu">## 권역별 공석현황</span></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a><span class="do">## 선거구 권역별 정수</span></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>region_legislator <span class="ot">&lt;-</span> nec_precinct_total <span class="sc">|&gt;</span> </span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sggName <span class="sc">!=</span> <span class="st">"비례대표"</span>,</span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>                sgId <span class="sc">==</span> <span class="st">"20200415"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(권역 <span class="ot">=</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>    sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"경기도"</span>, <span class="st">"서울특별시"</span>, <span class="st">"인천광역시"</span>) <span class="sc">~</span> <span class="st">"수도권"</span>,</span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>    sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"전라남도"</span>, <span class="st">"전라북도"</span>, <span class="st">"광주광역시"</span>) <span class="sc">~</span> <span class="st">"전라권"</span>,</span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>    sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"경상남도"</span>, <span class="st">"경상북도"</span>, <span class="st">"대구광역시"</span>, <span class="st">"부산광역시"</span>, <span class="st">"울산광역시"</span>) <span class="sc">~</span> <span class="st">"경상권"</span>,</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a>    sdName <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"강원도"</span>, <span class="st">"세종특별자치시"</span>, <span class="st">"제주도"</span>, <span class="st">"제주특별자치도"</span>, <span class="st">"대전광역시"</span>, <span class="st">"충청남도"</span>, <span class="st">"충청북도"</span>) <span class="sc">~</span> <span class="st">"충청제주강원"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(권역, <span class="at">name =</span> <span class="st">"정수"</span>)</span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="do">## 지역/당협의원장 권역별 정수</span></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>region_district_tbl <span class="ot">&lt;-</span> district_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(권역 <span class="ot">=</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>    시도명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"경기도"</span>, <span class="st">"서울특별시"</span>, <span class="st">"인천광역시"</span>) <span class="sc">~</span> <span class="st">"수도권"</span>,</span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a>    시도명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"전라남도"</span>, <span class="st">"전라북도"</span>, <span class="st">"광주광역시"</span>) <span class="sc">~</span> <span class="st">"전라권"</span>,</span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a>    시도명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"경상남도"</span>, <span class="st">"경상북도"</span>, <span class="st">"대구광역시"</span>, <span class="st">"부산광역시"</span>, <span class="st">"울산광역시"</span>) <span class="sc">~</span> <span class="st">"경상권"</span>,</span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>    시도명 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"강원특별자치도"</span>, <span class="st">"세종특별자치시"</span>, <span class="st">"제주도"</span>, <span class="st">"제주특별자치도"</span>, <span class="st">"대전광역시"</span>, <span class="st">"충청남도"</span>, <span class="st">"충청북도"</span>) <span class="sc">~</span> <span class="st">"충청제주강원"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(당명, 권역) <span class="sc">|&gt;</span> </span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(공석 <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(위원장))) <span class="sc">|&gt;</span> </span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(region_legislator) <span class="sc">|&gt;</span> </span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> 당명, <span class="at">values_from =</span> 공석)  <span class="sc">|&gt;</span></span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(국힘_위원장수 <span class="ot">=</span> 정수 <span class="sc">-</span> 국민의힘,</span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>         민주_위원장수 <span class="ot">=</span> 정수 <span class="sc">-</span> 민주당) <span class="sc">|&gt;</span></span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(국힘_공석율 <span class="ot">=</span> 국민의힘 <span class="sc">/</span> 정수,</span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>         민주_공석율 <span class="ot">=</span> 민주당 <span class="sc">/</span> 정수) <span class="sc">|&gt;</span> </span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(권역, 정수, 민주_위원장수, 민주당, 민주_공석율,</span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>                     국힘_위원장수, 국민의힘, 국힘_공석율)  <span class="sc">|&gt;</span> </span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(정수))</span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>region_district_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">adorn_totals</span>()</span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a><span class="do">## 공석 비율 표시하는 함수</span></span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>grand_pcnt_func <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>  empty_list <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(민주_공석수 <span class="ot">=</span> <span class="fu">sum</span>(민주당),</span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>              국힘_공석수 <span class="ot">=</span> <span class="fu">sum</span>(국민의힘)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(민주_공석율 <span class="ot">=</span> 민주_공석수 <span class="sc">/</span> <span class="dv">253</span>,</span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a>           국힘_공석율 <span class="ot">=</span> 국힘_공석수 <span class="sc">/</span> <span class="dv">253</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(민주_공석율, 국힘_공석율) <span class="sc">|&gt;</span> </span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unlist</span>()</span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> (empty_list)</span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>}  </span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a>region_district_gt <span class="ot">&lt;-</span> region_district_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_hangul</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"권역별 지역/당협위원장 현황"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">columns =</span> 권역, <span class="st">"center"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(권역 <span class="ot">=</span> <span class="st">"권역"</span>,</span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a>             정수 <span class="ot">=</span> <span class="st">"선거구수"</span>,</span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a>             국힘_위원장수 <span class="ot">=</span> <span class="st">"당협위원장수"</span>,</span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a>             민주_위원장수 <span class="ot">=</span> <span class="st">"지역위원장수"</span>,</span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a>             국민의힘 <span class="ot">=</span> <span class="st">"공석수"</span>,</span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a>             민주당 <span class="ot">=</span> <span class="st">"공석수"</span>,</span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a>             국힘_공석율 <span class="ot">=</span> <span class="st">"공석비율"</span>,</span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a>             민주_공석율 <span class="ot">=</span> <span class="st">"공석비율"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="fu">c</span>(국힘_공석율, 민주_공석율), <span class="at">decimals =</span> <span class="dv">1</span>)  <span class="sc">|&gt;</span> </span>
 <span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">"인천 남동을(윤관석)/부평갑(이성만)"</span>,</span>
-<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> 민주_공석수, <span class="at">rows =</span> <span class="dv">1</span>)</span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">"나무위키: 당협위원장/목록"</span>,</span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="at">groups =</span> <span class="st">"title"</span>)</span>
 <span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
-<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"국민의힘 "</span>,</span>
-<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
-<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a>      국민의힘, 국힘_공석수, 국힘_공석율</span>
-<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
-<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"더불어민주당"</span>,</span>
-<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
-<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a>      민주당, 민주_공석수, 민주_공석율</span>
-<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"#fc0303"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
-<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(국힘_공석수, 국힘_공석율), </span>
-<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 권역 <span class="sc">==</span> <span class="st">"수도권"</span></span>
-<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
-<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"#fc6203"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
-<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(국힘_공석수, 국힘_공석율), </span>
-<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 권역 <span class="sc">==</span> <span class="st">"경상권"</span></span>
-<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
-<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
-<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(민주_공석수, 민주_공석율), </span>
-<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 권역 <span class="sc">==</span> <span class="st">"수도권"</span></span>
-<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a>    ))  <span class="sc">|&gt;</span> </span>
-<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 표 전체 합계 -------------------------------------</span></span>
-<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grand_summary_rows</span>(</span>
-<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(정수, 국민의힘, 민주당, 민주_공석수, 국힘_공석수),</span>
-<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a>      <span class="at">fns =</span>  <span class="fu">list</span>(<span class="at">label =</span> <span class="st">"합계"</span>, <span class="at">fn =</span> <span class="st">"sum"</span>),</span>
-<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a>      <span class="at">fmt =</span> <span class="sc">~</span> <span class="fu">fmt_integer</span>(.),</span>
-<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a>      <span class="at">side =</span> <span class="st">"bottom"</span></span>
-<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grand_summary_rows</span> (</span>
-<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> 국힘_공석율,</span>
-<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a>      <span class="at">fns =</span>  <span class="fu">list</span>(<span class="st">"합계"</span> <span class="ot">=</span> <span class="er">~</span><span class="fu">grand_pcnt_func</span>(region_district_tbl)[<span class="dv">2</span>]),</span>
-<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a>      <span class="at">fmt =</span> <span class="sc">~</span> <span class="fu">fmt_percent</span>(., <span class="at">decimals =</span> <span class="dv">1</span>)</span>
-<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grand_summary_rows</span> (</span>
-<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> 민주_공석율,</span>
-<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a>      <span class="at">fns =</span>  <span class="fu">list</span>(<span class="st">"합계"</span> <span class="ot">=</span> <span class="er">~</span><span class="fu">grand_pcnt_func</span>(region_district_tbl)[<span class="dv">1</span>]),</span>
-<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a>      <span class="at">fmt =</span> <span class="sc">~</span> <span class="fu">fmt_percent</span>(., <span class="at">decimals =</span> <span class="dv">1</span>)</span>
-<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a>    )  </span>
-<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a>region_district_gt</span>
-<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a><span class="co"># region_district_gt |&gt;</span></span>
-<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a><span class="co">#   gtsave("images/지역_당협위원장_권역별_공석현황.png")</span></span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">"인천 남동을(윤관석)/부평갑(이성만)/분당갑(김병관)"</span>,</span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> 민주당, <span class="at">rows =</span> <span class="dv">1</span>)</span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"국민의힘 "</span>,</span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a>      국힘_위원장수, 국민의힘, 국힘_공석율</span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"더불어민주당"</span>,</span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a>      민주_위원장수, 민주당, 민주_공석율</span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"#fc0303"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(국민의힘, 국힘_공석율), </span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 권역 <span class="sc">==</span> <span class="st">"수도권"</span></span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"#fc6203"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(국민의힘, 국힘_공석율), </span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 권역 <span class="sc">==</span> <span class="st">"경상권"</span></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="st">"large"</span>),</span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(민주당, 민주_공석율), </span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> 권역 <span class="sc">==</span> <span class="st">"수도권"</span></span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a>    ))  <span class="sc">|&gt;</span> </span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 표 전체 합계 -------------------------------------</span></span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grand_summary_rows</span>(</span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(정수, 민주_위원장수, 국힘_위원장수, 민주당, 국민의힘),</span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a>      <span class="at">fns =</span>  <span class="fu">list</span>(<span class="at">label =</span> <span class="st">"합계"</span>, <span class="at">fn =</span> <span class="st">"sum"</span>),</span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a>      <span class="at">fmt =</span> <span class="sc">~</span> <span class="fu">fmt_integer</span>(.),</span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a>      <span class="at">side =</span> <span class="st">"bottom"</span></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a>    )  <span class="sc">|&gt;</span> </span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grand_summary_rows</span> (</span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> 국힘_공석율,</span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a>      <span class="at">fns =</span>  <span class="fu">list</span>(<span class="st">"합계"</span> <span class="ot">=</span> <span class="er">~</span><span class="fu">grand_pcnt_func</span>(region_district_tbl)[<span class="dv">2</span>]),</span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a>      <span class="at">fmt =</span> <span class="sc">~</span> <span class="fu">fmt_percent</span>(., <span class="at">decimals =</span> <span class="dv">1</span>)</span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grand_summary_rows</span> (</span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> 민주_공석율,</span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a>      <span class="at">fns =</span>  <span class="fu">list</span>(<span class="st">"합계"</span> <span class="ot">=</span> <span class="er">~</span><span class="fu">grand_pcnt_func</span>(region_district_tbl)[<span class="dv">1</span>]),</span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a>      <span class="at">fmt =</span> <span class="sc">~</span> <span class="fu">fmt_percent</span>(., <span class="at">decimals =</span> <span class="dv">1</span>)</span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a>    )  </span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a>region_district_gt</span>
 <span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="co"># region_district_gt |&gt;</span></span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="co">#   gtsave("images/지역_당협위원장_권역별_공석현황.png")</span></span>
 <span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
