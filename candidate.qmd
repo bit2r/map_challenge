@@ -43,7 +43,7 @@ editor_options:
 공공데이터포털 [중앙선거관리위원회 후보자 정보 API](https://www.data.go.kr/data/15000908/openapi.do)
 를 통해 당선인 정보를 조회한다. (후보자 정보를 조회 할 수 있는 서비스 이다.(예비후보자 및 후보자 의 성명, 생년월일, 성별 , 선거구, 시도, 학력, 경력, 등록상태 등을 확인 할 수 있는 서비스)
 
-## 국회의원 선거 코드
+## 위키 국회의원 당선인
 
 ```{r}
 #| eval: true
@@ -52,7 +52,163 @@ library(rvest)
 library(gt)
 library(gtExtras)
 library(rvest)
+
+total_elected_all <- 
+  read_rds("data/total_elected_all.rds")
+
+precinct_tbl <- total_elected_all |> 
+  filter(sgId == "20200415") |> 
+  select(result) |> 
+  unnest(result) |> 
+  select(시도명 = sdName, 선거구명 = sggName)
 ```
 
-## 후보자 정보 API
+## 당선인 url 추출
+
+
+```{r}
+election_html <- read_html("https://ko.wikipedia.org/wiki/대한민국_제21대_국회의원_선거")
+
+urls <- election_html %>% 
+  html_nodes("#mw-content-text > div.mw-parser-output > table:nth-child(112)") %>% 
+  html_nodes("a") %>% 
+  html_attr('href')
+
+url_names <- election_html %>% 
+  html_nodes("#mw-content-text > div.mw-parser-output > table:nth-child(112)") %>% 
+  html_nodes("a") %>% 
+  html_text()
+
+url_raw <- tibble(names = url_names,
+       url  = urls)
+
+# url_names |> 
+#   clipr::write_clip()
+
+url_tbl <- url_raw |> 
+  mutate(시도명 = if_else(names %in% 
+                         c("서울특별시", "부산광역시", "대구광역시", "인천광역시",
+                           "광주광역시", "대전광역시", "울산광역시", "세종특별자치시",
+                           "경기도", "강원도", "충청북도", "충청남도", "전라북도", 
+                           "전라남도", "경상북도", "경상남도", "제주특별자치도"), names, NA_character_)) |> 
+  fill(시도명, .direction = "down") |> 
+  select(시도명, 선거구명 = names, url) |> 
+  filter(시도명 != 선거구명) |> 
+  mutate(url = URLdecode(url))
+
+
+url_tbl
+```
+
+## 당선인 + 선거구
+
+```{r}
+mp_url_tbl <- url_tbl |> 
+  mutate(선거구명 = str_remove_all(선거구명, "[\\s+|·]")) |> 
+  anti_join(precinct_tbl, by = c("시도명", "선거구명")) |> 
+  mutate(url = str_glue("https://ko.wikipedia.org{url}")) |> 
+  rename(당선인 = 선거구명)
+    
+
+mp_url_tbl |> 
+  mutate(
+      link = glue::glue("[website]({url})"),
+      link = map(link, gt::md)) |> 
+  select(시도명, 당선인, link) |>
+  gt(groupname_col = "시도명") |> 
+  gt_theme_hangul()
+```
+
+## 저장하기
+
+```{r}
+#| eval: false
+## 제21대 국회의원 당선인 url
+mp_url_tbl |> 
+  write_rds("data/mp21_url_tbl.rds")
+```
+
+# 후보자 경력
+
+```{r}
+#| eval: false
+mp_url_tbl <- 
+  read_rds("data/mp21_url_tbl.rds")
+
+get_career_from_html <- function(url = "https://ko.wikipedia.org/wiki/고민정") {
+  
+  cat("\n", URLdecode(url), "\n")
+  
+  webpage <- read_html(url)
+
+  career_vec <- webpage %>% 
+    html_nodes(xpath = "//h2[span[@id='주요_경력'] or span[@id='경력']]/following-sibling::ul[1] | //h3[span[@id='경력']]/following-sibling::ul[1]") %>% 
+    html_text() 
+
+  if (length(career_vec) > 0) {
+    return(career_vec)
+  } else {
+    # "infobox" 클래스를 가진 table을 찾아 데이터 프레임으로 변환한다
+    infobox_table <- webpage %>% 
+      html_nodes(".infobox") %>% 
+      html_table() %>% 
+      .[[1]] |> 
+      set_names(c("key", "value"))
+    
+    # 데이터 프레임에서 "경력" 행을 찾는다
+    career_vec <- infobox_table |> 
+      filter(key == "경력") |> 
+      pull(value)
+    
+    return(career_vec)
+  }  
+}
+
+mp_url_career <- mp_url_tbl |> 
+  mutate(career = map(url, get_career_from_html)) 
+
+mp_url_career |> 
+  mutate(경력 = map_chr(career, str_c, collapse = "\n")) |> 
+  mutate(길이 = str_length(경력)) |> 
+  arrange(길이) |> 
+  filter(길이 == 0) |> 
+  mutate(
+      link = glue::glue("[website]({url})"),
+      link = map(link, gt::md)) |> 
+  select(시도명, 당선인, link) |>
+  gt(groupname_col = "시도명") |> 
+  gt_theme_hangul()
+
+
+mp_url_career |> 
+  write_rds("data/mp21_url_career.rds")
+
+```
+
+
+# 분석
+
+```{r}
+mp_url_career <- 
+  read_rds("data/mp21_url_career.rds")
+
+mp_url_career |> 
+  mutate(경력 = map_chr(career, str_c, collapse = ";")) |> 
+  mutate(검사 = str_extract_all(경력, "사법시험|사법연수원|검사|지청장|검사장|판사")) |> 
+  unnest(검사) |>
+  filter(!is.na(검사)) |> 
+  count(당선인, 검사) |> 
+  pivot_wider(names_from = 검사, values_from = n, values_fill = 0) |> 
+  select(당선인, 사법시험, 사법연수원, 검사, 지청장, everything()) |> 
+  mutate(판검사 = case_when(검사 > 0 ~ "검사",
+                            판사 > 0 ~ "판사",
+                            TRUE ~ "변호사")) |> 
+  relocate(판검사, .after = 당선인) |>
+  arrange(판검사) |>
+  gt() |> 
+  gt_theme_hangul() |> 
+  cols_align("center") |>
+  tab_spanner(label = "검찰청", columns = c("사법시험", "사법연수원", "검사", "지청장"))
+
+```
 
