@@ -188,11 +188,13 @@ mp_url_career |>
 
 # 분석
 
+## 검사, 판사 현황
+
 ```{r}
 mp_url_career <- 
   read_rds("data/mp21_url_career.rds")
 
-mp_url_career |> 
+mp21_career_tbl <- mp_url_career |> 
   mutate(경력 = map_chr(career, str_c, collapse = ";")) |> 
   mutate(검사 = str_extract_all(경력, "사법시험|사법연수원|검사|지청장|검사장|판사")) |> 
   unnest(검사) |>
@@ -204,11 +206,112 @@ mp_url_career |>
                             판사 > 0 ~ "판사",
                             TRUE ~ "변호사")) |> 
   relocate(판검사, .after = 당선인) |>
-  arrange(판검사) |>
+  arrange(판검사)
+
+mp21_career_tbl |> 
   gt() |> 
   gt_theme_hangul() |> 
   cols_align("center") |>
   tab_spanner(label = "검찰청", columns = c("사법시험", "사법연수원", "검사", "지청장"))
 
+```
+
+
+## 제21대 당선인 + 법조인
+
+
+```{r}
+precinct_tbl <- total_elected_all |> 
+  filter(sgId == "20200415") |> 
+  select(result) |> 
+  unnest(result) |> 
+  select(시도명 = sdName, 선거구명 = sggName, 정당명=jdName, 당선인 = name)
+
+
+mp21_precinct_career <- precinct_tbl |> 
+  filter(선거구명 != "비례대표") |> 
+  left_join(mp21_career_tbl, by = "당선인") |> 
+  mutate(법조인 = ifelse(is.na(판검사), "비법조인", 판검사)) 
+
+  
+grand_pcnt_func <- function(dataframe) {
+  prosecutor_rate <- dataframe  |> 
+    count(판검사) |> 
+    mutate(검사비율 = n / sum(n)) |> 
+    filter(판검사 == "검사") |> 
+    pull(검사비율)
+
+  return (prosecutor_rate)
+}  
+
+mp21_precinct_career_gt <- mp21_precinct_career |> 
+  group_by(정당명, 법조인) |> 
+  summarise(법조인수 = n()) |> 
+  pivot_wider(names_from = 법조인, values_from = 법조인수, values_fill = 0) |> 
+  ungroup() |> 
+  arrange(desc(비법조인)) |> 
+  select(정당명, 비법조인, 변호사, 판사, 검사) |>
+  janitor::adorn_totals(c("col"), name = "합계")  |> 
+  mutate(검사비율 = 검사 / 합계) |>
+  gt(rowname_col = "정당명") |> 
+  gt_theme_hangul() |> 
+  cols_align("center") |>
+  tab_spanner(label = "법조인", columns = c("검사", "판사", "변호사")) |> 
+  grand_summary_rows(
+    fns =  list(label = "합계", id = "totals", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "bottom"
+  ) |> 
+  fmt_percent(columns = 검사비율, decimals = 1)  |> 
+  grand_summary_rows (
+    columns = 검사비율,
+    fns =   list("합계" = ~grand_pcnt_func(mp21_precinct_career)),
+    fmt = ~ fmt_percent(., decimals = 1)
+  ) |>
+  tab_header(title = "제21대 총선 법조인 당선인 통계") |>
+  tab_footnote(
+    footnote = "위키백과: 대한민국_제21대_국회의원_선거",
+    locations = cells_title(groups = "title")
+  ) |> 
+  tab_style(
+    style = cell_text(color = "red", weight = "bold", size = "large"),
+    locations = cells_body(
+      columns = c(검사비율, 검사), 
+      rows = 정당명 == "미래통합당"
+    )) |> 
+  tab_style(
+    style = cell_text(color = "black", weight = "bold", size = "large"),
+    locations = cells_body(
+      columns = c(검사), 
+      rows = 정당명 == "무소속"
+    )) |>   
+  tab_style(
+    style = cell_text(color = "black", weight = "bold", size = "large"),
+        locations = cells_grand_summary(
+      columns = c("검사비율")
+    )) |>   
+  tab_footnote(
+    footnote = "대구 수성구을(홍준표), 강원 강릉시(권성동)",
+    locations = cells_body(columns = 검사, rows = 정당명 == "무소속")
+  )
+
+mp21_precinct_career_gt
+
+# mp21_precinct_career_gt |> 
+#   gtsave("images/mp21_precinct_career_gt.png")
+
+```
+
+
+```{r}
+mp21_precinct_career |> 
+  filter(판검사 == "검사") |> 
+  count(정당명, 당선인, 시도명, 선거구명) |> 
+  arrange(정당명, 시도명) |>
+  select(-n) |> 
+  group_by(정당명) |>
+  gt() |> 
+  gt_theme_hangul() |> 
+  cols_align("center")
 ```
 
