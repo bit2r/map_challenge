@@ -110,6 +110,8 @@ website:
             text: "예비 후보자"
           - href: district_chair.qmd
             text: "지역/당협 위원장"
+          - href: watermellon.qmd
+            text: "수박 당도 선별기"
 
 
 format:

@@ -1,0 +1,190 @@
+---
+title: "지도제작 대회"
+subtitle: "수박 당도 선별기"
+description: |
+  민주당 수박 당도 선별기에 포함된 데이터를 분석해보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터
+
+[민주당 수박 감별기: 수박감별](https://docs.google.com/spreadsheets/d/e/2PACX-1vTDEYwVAwrKp7HaW0U_HEfuTVd5yHNuM5mT1T28X-b6ChKlJdgvCweDY1nKJ7bT_14XQABRmL4_LdGS/pubhtml?gid=487059203) 구글 스프레드시트에 공개되어 있다.
+
+
+```{r}
+#| eval: true
+library(tidyverse)
+library(rvest)
+library(gt)
+library(gtExtras)
+
+wm_url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vTDEYwVAwrKp7HaW0U_HEfuTVd5yHNuM5mT1T28X-b6ChKlJdgvCweDY1nKJ7bT_14XQABRmL4_LdGS/pubhtml?gid=487059203"
+
+wm_raw <- read_html(wm_url) |> 
+  html_element("table") |>
+  html_table(header = TRUE)
+
+wm_tbl <- wm_raw |> 
+  janitor::row_to_names(row_number = 1)  |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  rename("성명" = x) |> 
+  slice(2:n()) |> 
+  select(-na, -x1)
+
+wm_tbl |> 
+  reactable::reactable()
+```
+
+# 기술 통계
+
+## 검사탄핵
+
+```{r}
+wm_tbl |> 
+  mutate(검사탄핵 = ifelse(검사_탄핵 == "검사탄핵", "탄핵", "탄핵반대")) |>    
+  count(검사탄핵, name = "의원수") |> 
+  mutate(비율 = 의원수 / sum(의원수)) |> 
+  gt::gt(rowname_col = "검사탄핵") |>
+  cols_align(align = "center", columns = everything()) |>
+  fmt_percent(columns = 비율, decimals = 1) |>
+  gt::grand_summary_rows(
+    columns = c(의원수),
+    fns = list("합계" = ~sum(., na.rm = TRUE)),
+    formatter = fmt_number, 
+    decimals = 0
+  ) |> 
+  gt::grand_summary_rows(
+    columns = c(비율),
+    fns = list("합계" = ~sum(., na.rm = TRUE)),
+    formatter = fmt_percent, 
+    decimals = 0
+  ) |> 
+  gt_theme_hangul() |> 
+  tab_header(
+    title = "민주당 의원 검사탄핵 의원수 및 비율",
+    subtitle = "자료출처: 민주당 수박 감별기"
+  ) |> 
+  gt::tab_footnote(
+    footnote = "https://bit.ly/48Ftfjb",
+    locations = cells_title("subtitle")
+  ) |> 
+  opt_align_table_header(align = "left") |> 
+  tab_style(
+    style = cell_text(align = "center"),
+    locations = cells_stub_grand_summary()
+  )
+```
+
+
+## 불체포 포기
+
+```{r}
+wm_tbl |> 
+  mutate(의원체포 = ifelse(불체포_포기 == "불체포포기", "체포", "불체포")) |>
+  count(의원체포, name = "의원수") |> 
+  mutate(비율 = 의원수 / sum(의원수)) |> 
+  # janitor::adorn_totals("row", name = "합계")
+  gt::gt(rowname_col = "의원체포") |>
+  cols_align(align = "center", columns = everything()) |>
+  fmt_percent(columns = 비율, decimals = 1) |>
+  gt::grand_summary_rows(
+    columns = c(의원수),
+    fns = list("합계" = ~sum(., na.rm = TRUE)),
+    formatter = fmt_number, 
+    decimals = 0
+  ) |> 
+  gt::grand_summary_rows(
+    columns = c(비율),
+    fns = list("합계" = ~sum(., na.rm = TRUE)),
+    formatter = fmt_percent, 
+    decimals = 0
+  ) |> 
+  gt_theme_hangul() |> 
+  tab_header(
+    title = "민주당 의원 의원불체포 의원수 및 비율",
+    subtitle = "자료출처: 민주당 수박 감별기"
+  ) |> 
+  gt::tab_footnote(
+    footnote = "https://bit.ly/48Ftfjb",
+    locations = cells_title("subtitle")
+  ) |> 
+  opt_align_table_header(align = "left") |> 
+  tab_style(
+    style = cell_text(align = "center"),
+    locations = cells_stub_grand_summary()
+  )
+```
+
+
+## 대의원1인1표제
+
+```{r}
+wm_tbl |> 
+  mutate(대의원1인1표제 = ifelse(대의원1인1표제_반대 == "대의원1인1표제 반대", "반대", "찬성")) |>
+  count(대의원1인1표제, name = "의원수") |> 
+  mutate(비율 = 의원수 / sum(의원수)) |> 
+  # janitor::adorn_totals("row", name = "합계")
+  arrange(desc(의원수)) |> 
+  gt::gt(rowname_col = "대의원1인1표제") |>
+  cols_align(align = "center", columns = everything()) |>
+  fmt_percent(columns = 비율, decimals = 1) |>
+  gt::grand_summary_rows(
+    columns = c(의원수),
+    fns = list("합계" = ~sum(., na.rm = TRUE)),
+    formatter = fmt_number, 
+    decimals = 0
+  ) |> 
+  gt::grand_summary_rows(
+    columns = c(비율),
+    fns = list("합계" = ~sum(., na.rm = TRUE)),
+    formatter = fmt_percent, 
+    decimals = 0
+  ) |> 
+  gt_theme_hangul() |> 
+  tab_header(
+    title = "민주당 의원 의원불체포 의원수 및 비율",
+    subtitle = "자료출처: 민주당 수박 감별기"
+  ) |> 
+  gt::tab_footnote(
+    footnote = "https://bit.ly/48Ftfjb",
+    locations = cells_title("subtitle")
+  ) |> 
+  opt_align_table_header(align = "left") |> 
+  tab_style(
+    style = cell_text(align = "center"),
+    locations = cells_stub_grand_summary()
+  )  
+```
+
