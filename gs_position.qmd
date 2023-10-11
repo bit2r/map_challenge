@@ -42,6 +42,8 @@ editor_options:
 
 ## GRDP
 
+[서울시 자치구별 지역내총생산(2015년 기준) 통계](https://data.seoul.go.kr/dataList/11057/S/2/datasetView.do)
+
 ```{r}
 library(tidyverse)
 library(readxl)
