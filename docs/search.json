@@ -747,5 +747,54 @@
     "title": "지도제작 대회",
     "section": "\n2.3 대의원1인1표제",
     "text": "2.3 대의원1인1표제\n\n코드wm_tbl |&gt; \n  mutate(대의원1인1표제 = ifelse(대의원1인1표제_반대 == \"대의원1인1표제 반대\", \"반대\", \"찬성\")) |&gt;\n  count(대의원1인1표제, name = \"의원수\") |&gt; \n  mutate(비율 = 의원수 / sum(의원수)) |&gt; \n  # janitor::adorn_totals(\"row\", name = \"합계\")\n  arrange(desc(의원수)) |&gt; \n  gt::gt(rowname_col = \"대의원1인1표제\") |&gt;\n  cols_align(align = \"center\", columns = everything()) |&gt;\n  fmt_percent(columns = 비율, decimals = 1) |&gt;\n  gt::grand_summary_rows(\n    columns = c(의원수),\n    fns = list(\"합계\" = ~sum(., na.rm = TRUE)),\n    formatter = fmt_number, \n    decimals = 0\n  ) |&gt; \n  gt::grand_summary_rows(\n    columns = c(비율),\n    fns = list(\"합계\" = ~sum(., na.rm = TRUE)),\n    formatter = fmt_percent, \n    decimals = 0\n  ) |&gt; \n  gt_theme_hangul() |&gt; \n  tab_header(\n    title = \"민주당 의원 의원불체포 의원수 및 비율\",\n    subtitle = \"자료출처: 민주당 수박 감별기\"\n  ) |&gt; \n  gt::tab_footnote(\n    footnote = \"https://bit.ly/48Ftfjb\",\n    locations = cells_title(\"subtitle\")\n  ) |&gt; \n  opt_align_table_header(align = \"left\") |&gt; \n  tab_style(\n    style = cell_text(align = \"center\"),\n    locations = cells_stub_grand_summary()\n  )  \n\n\n\n\n\n\n민주당 의원 의원불체포 의원수 및 비율\n    \n\n자료출처: 민주당 수박 감별기1\n\n    \n\n\n      의원수\n      비율\n    \n\n\n\n찬성\n154\n91.7%\n\n\n반대\n14\n8.3%\n\n\n합계\n168\n100%\n\n\n\n\n1 https://bit.ly/48Ftfjb"
+  },
+  {
+    "objectID": "gs_position.html",
+    "href": "gs_position.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\nlibrary(readxl)\n\ngrdp_raw &lt;- read_excel(\"data/자치구별+지역내총생산(2015년+기준)_20231011134915.xlsx\", skip = 0)\n\ngrdp_tbl &lt;- grdp_raw |&gt;\n  janitor::clean_names(ascii = FALSE) |&gt; \n  select(자치구 = 자치구별_2, contains(\"x2020\")) |&gt; \n  janitor::row_to_names(row_number = 1) |&gt; \n  set_names(c(\"자치구\", \"GRDP\", \"GRDP_pcnt\", \"GRDP_2\", \"GRDP_pcnt2\")) |&gt; \n  select(자치구, GRDP) |&gt; \n  mutate( GRDP = parse_number(GRDP)) |&gt; \n  filter(자치구 != \"소계\") |&gt; mutate(GRDP = GRDP / 1000000 )\n\ngrdp_tbl\n#&gt; # A tibble: 25 × 2\n#&gt;    자치구    GRDP\n#&gt;    &lt;chr&gt;    &lt;dbl&gt;\n#&gt;  1 종로구   33.9 \n#&gt;  2 중구     56.1 \n#&gt;  3 용산구   12.8 \n#&gt;  4 성동구   12.4 \n#&gt;  5 광진구    6.45\n#&gt;  6 동대문구  7.40\n#&gt;  7 중랑구    4.75\n#&gt;  8 성북구    6.19\n#&gt;  9 강북구    3.36\n#&gt; 10 도봉구    3.50\n#&gt; # ℹ 15 more rows\n\n\n\n\n코드pop_raw &lt;- read_csv(\"data/202308_202308_주민등록인구및세대현황_월간.csv\",\n                   locale = locale('ko',encoding='euc-kr'))\n\nseoul_pop &lt;- pop_raw |&gt; \n  select(구명 = 행정구역, 인구수 = `2023년08월_총인구수`) |&gt; \n  mutate(구명 = str_extract(구명, \"\\\\w+구\")) |&gt; \n  drop_na() |&gt; \n  mutate(강북강남 = ifelse(구명 %in% c(\"은평구\", \"서대문구\", \"마포구\", \"종로구\", \"중구\", \"용산구\", \"동대문구\", \"성동구\", \"성북구\", \"중랑구\", \"광진구\", \"강북구\", \"도봉구\", \"노원구\"), \"강북\", \"강남\")) |&gt; \n  mutate(인구수 = 인구수 / 10000)\n\nseoul_pop\n#&gt; # A tibble: 25 × 3\n#&gt;    구명     인구수 강북강남\n#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   \n#&gt;  1 종로구     14.0 강북    \n#&gt;  2 중구       12.1 강북    \n#&gt;  3 용산구     21.7 강북    \n#&gt;  4 성동구     27.9 강북    \n#&gt;  5 광진구     33.6 강북    \n#&gt;  6 동대문구   34.0 강북    \n#&gt;  7 중랑구     38.3 강북    \n#&gt;  8 성북구     42.8 강북    \n#&gt;  9 강북구     29.1 강북    \n#&gt; 10 도봉구     30.8 강북    \n#&gt; # ℹ 15 more rows\n\n\n\n\n코드pop_grdp &lt;- seoul_pop |&gt; \n  left_join(grdp_tbl, by = c(\"구명\" = \"자치구\"))\n\npop_grdp\n#&gt; # A tibble: 25 × 4\n#&gt;    구명     인구수 강북강남  GRDP\n#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;\n#&gt;  1 종로구     14.0 강북     33.9 \n#&gt;  2 중구       12.1 강북     56.1 \n#&gt;  3 용산구     21.7 강북     12.8 \n#&gt;  4 성동구     27.9 강북     12.4 \n#&gt;  5 광진구     33.6 강북      6.45\n#&gt;  6 동대문구   34.0 강북      7.40\n#&gt;  7 중랑구     38.3 강북      4.75\n#&gt;  8 성북구     42.8 강북      6.19\n#&gt;  9 강북구     29.1 강북      3.36\n#&gt; 10 도봉구     30.8 강북      3.50\n#&gt; # ℹ 15 more rows"
+  },
+  {
+    "objectID": "gs_position.html#대통령-선거",
+    "href": "gs_position.html#대통령-선거",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드\nlibrary(tidyverse)"
+  },
+  {
+    "objectID": "gs_position.html#grdp",
+    "href": "gs_position.html#grdp",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\nlibrary(readxl)\n\ngrdp_raw &lt;- read_excel(\"data/자치구별+지역내총생산(2015년+기준)_20231011134915.xlsx\", skip = 0)\n\ngrdp_tbl &lt;- grdp_raw |&gt;\n  janitor::clean_names(ascii = FALSE) |&gt; \n  select(자치구 = 자치구별_2, contains(\"x2020\")) |&gt; \n  janitor::row_to_names(row_number = 1) |&gt; \n  set_names(c(\"자치구\", \"GRDP\", \"GRDP_pcnt\", \"GRDP_2\", \"GRDP_pcnt2\")) |&gt; \n  select(자치구, GRDP) |&gt; \n  mutate( GRDP = parse_number(GRDP)) |&gt; \n  filter(자치구 != \"소계\") |&gt; mutate(GRDP = GRDP / 1000000 )\n\ngrdp_tbl\n#&gt; # A tibble: 25 × 2\n#&gt;    자치구    GRDP\n#&gt;    &lt;chr&gt;    &lt;dbl&gt;\n#&gt;  1 종로구   33.9 \n#&gt;  2 중구     56.1 \n#&gt;  3 용산구   12.8 \n#&gt;  4 성동구   12.4 \n#&gt;  5 광진구    6.45\n#&gt;  6 동대문구  7.40\n#&gt;  7 중랑구    4.75\n#&gt;  8 성북구    6.19\n#&gt;  9 강북구    3.36\n#&gt; 10 도봉구    3.50\n#&gt; # ℹ 15 more rows"
+  },
+  {
+    "objectID": "gs_position.html#인구수",
+    "href": "gs_position.html#인구수",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드pop_raw &lt;- read_csv(\"data/202308_202308_주민등록인구및세대현황_월간.csv\",\n                   locale = locale('ko',encoding='euc-kr'))\n\nseoul_pop &lt;- pop_raw |&gt; \n  select(구명 = 행정구역, 인구수 = `2023년08월_총인구수`) |&gt; \n  mutate(구명 = str_extract(구명, \"\\\\w+구\")) |&gt; \n  drop_na() |&gt; \n  mutate(강북강남 = ifelse(구명 %in% c(\"은평구\", \"서대문구\", \"마포구\", \"종로구\", \"중구\", \"용산구\", \"동대문구\", \"성동구\", \"성북구\", \"중랑구\", \"광진구\", \"강북구\", \"도봉구\", \"노원구\"), \"강북\", \"강남\")) |&gt; \n  mutate(인구수 = 인구수 / 10000)\n\nseoul_pop\n#&gt; # A tibble: 25 × 3\n#&gt;    구명     인구수 강북강남\n#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   \n#&gt;  1 종로구     14.0 강북    \n#&gt;  2 중구       12.1 강북    \n#&gt;  3 용산구     21.7 강북    \n#&gt;  4 성동구     27.9 강북    \n#&gt;  5 광진구     33.6 강북    \n#&gt;  6 동대문구   34.0 강북    \n#&gt;  7 중랑구     38.3 강북    \n#&gt;  8 성북구     42.8 강북    \n#&gt;  9 강북구     29.1 강북    \n#&gt; 10 도봉구     30.8 강북    \n#&gt; # ℹ 15 more rows"
+  },
+  {
+    "objectID": "gs_position.html#인구-grdp",
+    "href": "gs_position.html#인구-grdp",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드pop_grdp &lt;- seoul_pop |&gt; \n  left_join(grdp_tbl, by = c(\"구명\" = \"자치구\"))\n\npop_grdp\n#&gt; # A tibble: 25 × 4\n#&gt;    구명     인구수 강북강남  GRDP\n#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;\n#&gt;  1 종로구     14.0 강북     33.9 \n#&gt;  2 중구       12.1 강북     56.1 \n#&gt;  3 용산구     21.7 강북     12.8 \n#&gt;  4 성동구     27.9 강북     12.4 \n#&gt;  5 광진구     33.6 강북      6.45\n#&gt;  6 동대문구   34.0 강북      7.40\n#&gt;  7 중랑구     38.3 강북      4.75\n#&gt;  8 성북구     42.8 강북      6.19\n#&gt;  9 강북구     29.1 강북      3.36\n#&gt; 10 도봉구     30.8 강북      3.50\n#&gt; # ℹ 15 more rows"
+  },
+  {
+    "objectID": "gs_position.html#인구수와-grdp",
+    "href": "gs_position.html#인구수와-grdp",
+    "title": "지도제작 대회",
+    "section": "\n2.1 인구수와 GRDP",
+    "text": "2.1 인구수와 GRDP\n\n코드library(ggrepel)\n\npop_grdp |&gt; \n  ggplot(aes(x = 인구수, y = GRDP)) +\n    geom_point() +\n    theme_minimal(base_family=\"MaruBrui\") +\n    theme(legend.position = \"none\") +\n    labs(title = \"서울시 자치구 인구수와 지역내총생산\",\n         x = \"인구수(만명)\",\n         y = \"지역내총생산(조원)\") +\n    scale_x_continuous(labels = scales::unit_format(unit = \" 만명\", sep = \"\")) +\n    scale_y_continuous(labels = scales::unit_format(unit = \" 조원\", sep = \"\")) +\n    geom_text_repel(aes(label = 구명),\n                    size = 4.5, min.segment.length = 0, force = 0.5, max.overlaps=Inf,\n                    color = \"black\")"
+  },
+  {
+    "objectID": "gs_position.html#인구수와-1인당-grdp",
+    "href": "gs_position.html#인구수와-1인당-grdp",
+    "title": "지도제작 대회",
+    "section": "\n2.2 인구수와 1인당 GRDP",
+    "text": "2.2 인구수와 1인당 GRDP\n\n코드pop_grdp |&gt; \n  mutate(인당GRDP = GRDP / 인구수) |&gt; \n  ggplot(aes(x = 인구수, y = 인당GRDP)) +\n    geom_point() +\n    theme_minimal(base_family=\"MaruBrui\") +\n    theme(legend.position = \"none\") +\n    labs(title = \"서울시 자치구 인구수와 1인당 지역내총생산\",\n         x = \"인구수(만명)\",\n         y = \"인당 지역내총생산(조원)\") +\n    scale_x_continuous(labels = scales::unit_format(unit = \" 만명\", sep = \"\")) +\n    scale_y_continuous(labels = scales::unit_format(unit = \" 조원\", sep = \"\")) +\n    geom_text_repel(aes(label = 구명),\n                    size = 4.5, min.segment.length = 0, \n                    force = 0.5, max.overlaps=Inf, color = \"black\")"
   }
 ]
