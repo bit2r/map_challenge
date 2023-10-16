@@ -268,4 +268,84 @@ gg_precinct_party |>
   
 ```
 
+# 득표차
+
+```{r}
+#| eval: false
+seoul_krvote <- krvote::general_2020 |> 
+  filter(시도 == "서울") |> 
+  unnest(data) |> 
+  mutate(구분 = ifelse(stringi::stri_enc_isutf8(구분), 구분,
+                     iconv(구분, from = "euc-kr", to = "utf-8"))) 
+
+seoul_krvote_tbl <- seoul_krvote |> 
+  group_by(선거구, 구분) |> 
+  summarise(사람수 = sum(사람수)) |> 
+  ungroup() |> 
+  mutate(정당 = case_when(
+    str_detect(구분, "김성식") ~ "국민의힘",
+    str_detect(구분, "더불어민주당") ~ "민주당",
+    str_detect(구분, "미래통합당") ~ "국민의힘",
+    str_detect(구분, "선거인수") ~ "선거인수",
+    str_detect(구분, "투표수") ~ "투표수",
+    구분 == "계" ~ "계",
+    TRUE ~ "기타")) |>  
+  filter(정당 %in% c("민주당", "국민의힘", "계")) |> 
+  select(선거구, 정당, 사람수) |> 
+  pivot_wider(names_from = 정당, values_from = 사람수) |> 
+  mutate(민주_득표율 = 민주당 / 계,
+         국민_득표율 = 국민의힘 / 계) |> 
+  mutate(득표차 = 민주_득표율 - 국민_득표율) |> 
+  mutate(선거구 = ifelse(str_detect(선거구, "_"), 
+                      str_extract(선거구, "(.*?)_") |> str_remove("_"), 선거구))
+  
+seoul_krvote_tbl |> 
+  write_rds("data/seoul_krvote_tbl.rds")
+```
+
+
+```{r}
+seoul_krvote_tbl <- 
+  read_rds("data/seoul_krvote_tbl.rds")
+
+seoul_diff_sf <- seoul_precinct_party |> 
+  left_join(seoul_krvote_tbl, by = c("sggName" = "선거구")) 
+
+seoul_diff_sf |> 
+  ggplot() +
+    geom_sf(aes(geometry = geometry, fill = 득표차, color = 정당명), lwd  = 1) +
+    scale_fill_gradient2(high = "blue", mid = "gray100", low = "red") +
+    theme_void() +
+    theme(legend.position = "top") +
+    labs(fill = "득표차") +
+    ggrepel::geom_text_repel(
+        aes(label = str_glue("{sggName}\n{scales::percent(득표차, accuracy=0.1)}"), geometry = geometry), 
+        stat = "sf_coordinates", 
+        min.segment.length = 0, size = 4, max.overlaps = Inf,
+        show.legend = FALSE, fontface="bold", color = "black"
+    ) +
+    scale_color_manual(values = c("민주당" = "blue",
+                                  "국민의힘" = "red"))  
+```
+
+# 강서구
+
+```{r}
+seoul_diff_sf |> 
+  filter( str_detect(sggName, "^강서")) |> 
+  ggplot() +
+    geom_sf(aes(geometry = geometry, fill = 득표차, color = 정당명), lwd  = 1) +
+    scale_fill_gradient2(high = "blue", mid = "gray100", low = "red") +
+    theme_void() +
+    theme(legend.position = "top") +
+    labs(fill = "득표차") +
+    geom_text(
+        aes(label = str_glue("{sggName}\n{scales::percent(득표차, accuracy=0.1)}"), geometry = geometry), 
+        stat = "sf_coordinates", 
+        show.legend = FALSE, fontface="bold", color = "black"
+    ) +
+    scale_color_manual(values = c("민주당" = "blue",
+                                  "국민의힘" = "red"))  
+```
+
 
