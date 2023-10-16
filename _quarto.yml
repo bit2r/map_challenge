@@ -114,7 +114,8 @@ website:
             text: "수박 당도 선별기"
           - href: sido_legislator.qmd
             text: "시도별 역대 국회의원"
-
+          - href: metro_people_power.qmd
+            text: "수도권 국힘의원"
 
 format:
   html:
