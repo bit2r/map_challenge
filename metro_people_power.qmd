@@ -632,3 +632,91 @@ gs_total |>
     geom_smooth(method = lm, se = FALSE) +
     geom_text_repel(aes(label = 읍면동명))
 ```
+
+## 정당지지율
+
+### 민주당
+
+```{r}
+gs_total |> 
+  select(선거구명, 읍면동명, 선거, 민주_득표율) |> 
+  pivot_wider(names_from = 선거, values_from = 민주_득표율) |> 
+  ggplot(aes(x=`21대총선`, y = 보궐선거)) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE) +
+    geom_text_repel(aes(label = 읍면동명)) +
+    facet_wrap(~선거구명, scales = "free")
+```
+
+
+### 국민의힘
+
+```{r}
+gs_total |> 
+  select(선거구명, 읍면동명, 선거, 국힘_득표율) |> 
+  pivot_wider(names_from = 선거, values_from = 국힘_득표율) |> 
+  ggplot(aes(x=`21대총선`, y = 보궐선거)) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE) +
+    geom_text_repel(aes(label = 읍면동명)) +
+    facet_wrap(~선거구명, scales = "free")
+```
+
+### 모두
+
+```{r}
+gs_total |> 
+  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |>
+  pivot_longer(민주_득표율:국힘_득표율, names_to = "정당", values_to = "득표율") |> 
+  pivot_wider(names_from = 선거, values_from = 득표율) |> 
+  ggplot(aes(x=`21대총선`, y = 보궐선거, color = 정당)) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE) +
+    geom_text_repel(aes(label = 읍면동명)) +
+    facet_wrap(~선거구명, scales = "free")
+```
+
+
+# 시각화
+
+## 강서구갑
+
+```{r}
+gs_total |> 
+  filter(선거구명 == "강서구갑") |> 
+  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |>
+  pivot_longer(민주_득표율:국힘_득표율, names_to = "정당", values_to = "득표율") |> 
+  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +
+    geom_point() +
+    geom_line() +
+    facet_wrap(vars(읍면동명), scales = "fixed")
+```
+
+
+## 강서구을
+
+```{r}
+gs_total |> 
+  filter(선거구명 == "강서구을") |> 
+  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |>
+  pivot_longer(민주_득표율:국힘_득표율, names_to = "정당", values_to = "득표율") |> 
+  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +
+    geom_point() +
+    geom_line() +
+    facet_wrap(vars(읍면동명), scales = "fixed")
+```
+
+
+## 강서구병
+
+```{r}
+gs_total |> 
+  filter(선거구명 == "강서구병") |> 
+  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |>
+  pivot_longer(민주_득표율:국힘_득표율, names_to = "정당", values_to = "득표율") |> 
+  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +
+    geom_point() +
+    geom_line() +
+    facet_wrap(vars(읍면동명), scales = "fixed")
+```
+

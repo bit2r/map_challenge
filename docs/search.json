@@ -964,5 +964,33 @@
     "title": "지도제작 대회",
     "section": "\n7.2 득표차",
     "text": "7.2 득표차\n\n코드gs_total |&gt; \n  select(읍면동명, 선거, 득표차) |&gt; \n  pivot_wider(names_from = 선거, values_from = 득표차) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명))"
+  },
+  {
+    "objectID": "metro_people_power.html#정당지지율",
+    "href": "metro_people_power.html#정당지지율",
+    "title": "지도제작 대회",
+    "section": "\n7.3 정당지지율",
+    "text": "7.3 정당지지율\n\n7.3.1 민주당\n\n코드gs_total |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율) |&gt; \n  pivot_wider(names_from = 선거, values_from = 민주_득표율) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명)) +\n    facet_wrap(~선거구명, scales = \"free\")\n\n\n\n\n\n\n\n\n7.3.2 국민의힘\n\n코드gs_total |&gt; \n  select(선거구명, 읍면동명, 선거, 국힘_득표율) |&gt; \n  pivot_wider(names_from = 선거, values_from = 국힘_득표율) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명)) +\n    facet_wrap(~선거구명, scales = \"free\")\n\n\n\n\n\n\n\n\n7.3.3 모두\n\n코드gs_total |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  pivot_wider(names_from = 선거, values_from = 득표율) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거, color = 정당)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명)) +\n    facet_wrap(~선거구명, scales = \"free\")"
+  },
+  {
+    "objectID": "metro_people_power.html#강서구갑",
+    "href": "metro_people_power.html#강서구갑",
+    "title": "지도제작 대회",
+    "section": "\n8.1 강서구갑",
+    "text": "8.1 강서구갑\n\n코드gs_total |&gt; \n  filter(선거구명 == \"강서구갑\") |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +\n    geom_point() +\n    geom_line() +\n    facet_wrap(vars(읍면동명), scales = \"fixed\")"
+  },
+  {
+    "objectID": "metro_people_power.html#강서구을",
+    "href": "metro_people_power.html#강서구을",
+    "title": "지도제작 대회",
+    "section": "\n8.2 강서구을",
+    "text": "8.2 강서구을\n\n코드gs_total |&gt; \n  filter(선거구명 == \"강서구을\") |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +\n    geom_point() +\n    geom_line() +\n    facet_wrap(vars(읍면동명), scales = \"fixed\")"
+  },
+  {
+    "objectID": "metro_people_power.html#강서구병",
+    "href": "metro_people_power.html#강서구병",
+    "title": "지도제작 대회",
+    "section": "\n8.3 강서구병",
+    "text": "8.3 강서구병\n\n코드gs_total |&gt; \n  filter(선거구명 == \"강서구병\") |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +\n    geom_point() +\n    geom_line() +\n    facet_wrap(vars(읍면동명), scales = \"fixed\")"
   }
 ]
