@@ -330,6 +330,30 @@ seoul_diff_sf |>
 
 # 강서구
 
+## 선거구
+
+```{r}
+library(rvest)
+
+gs_precinct_raw <- read_html("https://ko.wikipedia.org/wiki/서울특별시의_선거구") |> 
+  html_elements("table") |> 
+  html_table() %>% 
+  .[[1]] |> 
+  janitor::clean_names(ascii = FALSE) |> 
+  filter(str_detect(선거구명, "강서구"))
+
+gs_precinct <- gs_precinct_raw |> 
+  mutate(동명 = str_split(관할_구역, ",")) |> 
+  select(-관할_구역) |> 
+  unnest(동명) |> 
+  mutate(동명 = str_remove(동명, "강서구") |> str_squish()) |> 
+  mutate(선거구명 = str_remove(선거구명, "\\s+")) |> 
+  select(-번호)
+
+gs_precinct
+```
+
+
 ```{r}
 seoul_diff_sf |> 
   filter( str_detect(sggName, "^강서")) |> 
@@ -349,3 +373,262 @@ seoul_diff_sf |>
 ```
 
 
+
+
+## 행정동 지도
+
+```{r}
+library(sf)
+
+korea_sf <- st_read("data/HangJeongDong_ver20230701.geojson")
+
+gs_sf <- korea_sf |> 
+  filter(sidonm == "서울특별시",
+         sggnm  == "강서구") |> 
+  mutate(dongnm = str_remove(adm_nm, "서울특별시 강서구 ")) |> 
+  select(sidonm, sggnm, dongnm, geometry) |> 
+  left_join(gs_precinct, by = c("dongnm" = "동명"))
+
+gs_precinct_sf <- gs_sf |> 
+  group_by(선거구명) |> 
+  summarise(geometry = st_union(geometry))
+
+gs_precinct_centroid <- st_centroid(gs_precinct_sf)
+
+ggplot() +
+  geom_sf(data = gs_sf, aes(fill = dongnm), alpha = 0.3, show.legend = FALSE) +
+  geom_sf(data = gs_precinct_sf, color = "gray30",
+          alpha = 0.0, lwd = 1, show.legend = FALSE) +
+  theme_void() +
+  geom_sf(data = gs_precinct_centroid, color = "black") +
+  ggrepel::geom_text_repel(data = gs_precinct_centroid, 
+                           aes(label = 선거구명, geometry = geometry), stat = "sf_coordinates", 
+        min.segment.length = 1, size = 4, max.overlaps = Inf)
+
+```
+
+## 재보궐 선거
+
+
+```{r}
+library(ggrepel)
+
+gs_raw <- readxl::read_excel("data/[2023년_하반기_재·보궐선거]_개표단위별_개표결과.xlsx",
+                   sheet = "Sheet1", skip =4)
+
+gs_tbl <- gs_raw |> 
+  set_names(c("읍면동명", "투표구명", "선거인수", "투표수", "민주당", 
+"국민의힘", "정의당", "x11", "진보당", 
+"녹색당", "자유통일당", "계", 
+"무표투표수", "기권수")) |>
+  select(-x11) |> 
+  mutate(읍면동명 = str_replace(읍면동명, "제(\\d+)", "\\1")) |> 
+  filter(투표구명 == "소계") |> 
+  mutate(across(선거인수:기권수, parse_number)) |> 
+  mutate(투표율 = 투표수 / 선거인수)  |> 
+  left_join(gs_precinct, by = c("읍면동명"="동명"))
+
+gs_tbl |>
+  group_by(선거구명, 읍면동명) |> 
+  summarise(선거인수 = sum(선거인수),
+            투표수 = sum(투표수)) |> 
+  mutate(투표율 = 투표수 / 선거인수) |> 
+  ggplot(aes(x = fct_reorder(읍면동명, 투표율), y = 투표율, fill = 선거구명)) +
+    geom_col( width = 0.5 ) +
+    facet_wrap(vars(선거구명), scales = "free") +
+    labs(x = "") +
+    theme_minimal() +
+    scale_y_continuous(labels = scales::percent) +
+    theme(legend.position = "none")
+    
+gs_tbl |>   
+  mutate(민주_득표율 = 민주당 / 계,
+         국힘_득표율 = 국민의힘 / 계) |> 
+  mutate(득표차 = 민주_득표율 - 국힘_득표율) |> 
+  ggplot(aes(x = fct_reorder(읍면동명, 득표차), y = 득표차, fill = 선거구명)) +
+    geom_col( width = 0.5 ) +
+    facet_wrap(vars(선거구명), scales = "free") +
+    labs(x = "") +
+    theme_minimal() +
+    scale_y_continuous(labels = scales::percent) +
+    theme(legend.position = "none")
+```
+
+
+## 투표율과 득표차
+
+```{r}
+gs_tbl |>   
+  mutate(민주_득표율 = 민주당 / 계,
+         국힘_득표율 = 국민의힘 / 계) |> 
+  mutate(득표차 = 민주_득표율 - 국힘_득표율) |> 
+  mutate(투표율 = 투표수 / 선거인수) |> 
+  select(선거구명, 선거인수, 읍면동명, 득표차, 투표율) |> 
+  ggplot(aes(x = 투표율, y = 득표차, color = 선거구명)) +
+    geom_point(aes(size = 선거인수)) +
+    facet_wrap(vars(선거구명)) +
+    geom_text_repel(aes(label = 읍면동명)) +
+    theme_minimal() +
+    theme(legend.position = "top") +
+    scale_x_continuous(labels = scales::percent) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(x = "투표율", y = "득표차",
+         title = "강서구 재보궐선거 투표율과 득표차",
+         subtitle = "득표차 = 민주당 후보 득표율 - 국힘 후보 득표율 ") +
+    guides(color = FALSE) +
+    scale_size_continuous(labels = scales::comma)
+```
+
+# 2020 선거
+
+```{r}
+## 강서갑
+gs_gap_raw <- readxl::read_excel("data/2020_강서구_개표현황_읍면동별.xlsx",
+                   sheet = "강서구갑", skip =4)
+
+gs_gap <- gs_gap_raw |> 
+  set_names(c("선거구명", "읍면동명", "구분", "선거인수", "투표수", "민주당", 
+"국민의힘", "x11", "민중당", "국가혁명당", "무소속", "계", 
+"무표투표수", "기권수")) |>
+  select(-x11) |> 
+  fill(선거구명, .direction = "down") |> 
+  mutate(읍면동명 = str_replace(읍면동명, "제(\\d+)", "\\1")) |> 
+  filter(구분 == "계") |> 
+  mutate(across(선거인수:기권수, parse_number)) |> 
+  mutate(투표율 = 투표수 / 선거인수)  
+
+## 강서을
+gs_eul_raw <- readxl::read_excel("data/2020_강서구_개표현황_읍면동별.xlsx",
+                   sheet = "강서구을", skip =4)
+
+gs_eul <- gs_eul_raw |> 
+  set_names(c("선거구명", "읍면동명", "구분", "선거인수", "투표수", "민주당", 
+"국민의힘", "x11", "우리공화당", "국가혁명당", "무소속", "계", 
+"무표투표수", "기권수")) |>
+  select(-x11) |> 
+  fill(선거구명, .direction = "down") |> 
+  mutate(읍면동명 = str_replace(읍면동명, "제(\\d+)", "\\1")) |> 
+  filter(구분 == "계") |> 
+  mutate(across(선거인수:기권수, parse_number)) |> 
+  mutate(투표율 = 투표수 / 선거인수)  
+
+## 강서병
+gs_byung_raw <- readxl::read_excel("data/2020_강서구_개표현황_읍면동별.xlsx",
+                   sheet = "강서구병", skip =4)
+
+gs_byung <- gs_byung_raw |> 
+  set_names(c("선거구명", "읍면동명", "구분", "선거인수", "투표수", "민주당", 
+"국민의힘", "x11", "민중당", "국가혁명당", "무소속", "계", 
+"무표투표수", "기권수")) |>
+  select(-x11) |> 
+  fill(선거구명, .direction = "down") |> 
+  mutate(읍면동명 = str_replace(읍면동명, "제(\\d+)", "\\1")) |> 
+  filter(구분 == "계") |> 
+  mutate(across(선거인수:기권수, parse_number)) |> 
+  mutate(투표율 = 투표수 / 선거인수)  
+
+## 강서구
+
+gs_old <- bind_rows(gs_gap, gs_eul) |> 
+  bind_rows(gs_byung)
+
+```
+
+## 시각화
+
+```{r}
+gs_old |>
+  group_by(선거구명, 읍면동명) |> 
+  summarise(선거인수 = sum(선거인수),
+            투표수 = sum(투표수)) |> 
+  mutate(투표율 = 투표수 / 선거인수) |> 
+  ggplot(aes(x = fct_reorder(읍면동명, 투표율), y = 투표율, fill = 선거구명)) +
+    geom_col( width = 0.5 ) +
+    facet_wrap(vars(선거구명), scales = "free") +
+    labs(x = "") +
+    theme_minimal() +
+    scale_y_continuous(labels = scales::percent) +
+    theme(legend.position = "none")
+    
+gs_old |>   
+  mutate(민주_득표율 = 민주당 / 계,
+         국힘_득표율 = 국민의힘 / 계) |> 
+  mutate(득표차 = 민주_득표율 - 국힘_득표율) |> 
+  ggplot(aes(x = fct_reorder(읍면동명, 득표차), y = 득표차, fill = 선거구명)) +
+    geom_col( width = 0.5 ) +
+    facet_wrap(vars(선거구명), scales = "free") +
+    labs(x = "") +
+    theme_minimal() +
+    scale_y_continuous(labels = scales::percent) +
+    theme(legend.position = "none")
+```
+
+## 투표율과 득표차
+
+```{r}
+gs_old |>   
+  mutate(민주_득표율 = 민주당 / 계,
+         국힘_득표율 = 국민의힘 / 계) |> 
+  mutate(득표차 = 민주_득표율 - 국힘_득표율) |> 
+  mutate(투표율 = 투표수 / 선거인수) |> 
+  select(선거구명, 선거인수, 읍면동명, 득표차, 투표율) |> 
+  ggplot(aes(x = 투표율, y = 득표차, color = 선거구명)) +
+    geom_point(aes(size = 선거인수)) +
+    facet_wrap(vars(선거구명)) +
+    geom_text_repel(aes(label = 읍면동명)) +
+    theme_minimal() +
+    theme(legend.position = "top") +
+    scale_x_continuous(labels = scales::percent) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(x = "투표율", y = "득표차",
+         title = "강서구 제21대 총선 투표율과 득표차",
+         subtitle = "득표차 = 민주당 후보 득표율 - 국힘 후보 득표율 ") +
+    guides(color = FALSE, size = guide_legend(nrow = 1)) +
+    scale_size_continuous(labels = scales::comma)
+```
+
+# 비교
+
+```{r}
+gs_by_election <- gs_tbl |> 
+  mutate(민주_득표율 = 민주당 / 계,
+         국힘_득표율 = 국민의힘 / 계) |> 
+  mutate(득표차 = 민주_득표율 - 국힘_득표율) |> 
+  select(선거구명, 읍면동명, 선거인수, 투표수, 투표율, 민주_득표율, 국힘_득표율, 득표차) |> 
+  mutate(선거 = "보궐선거")
+
+gs_2020 <- gs_old |> 
+  mutate(민주_득표율 = 민주당 / 계,
+         국힘_득표율 = 국민의힘 / 계) |> 
+  mutate(득표차 = 민주_득표율 - 국힘_득표율) |> 
+  select(선거구명, 읍면동명, 선거인수, 투표수, 투표율, 민주_득표율, 국힘_득표율, 득표차) |> 
+  mutate(선거 = "21대총선")
+
+gs_total <- bind_rows(gs_2020,  gs_by_election)
+
+```
+
+## 투표율
+
+```{r}
+gs_total |> 
+  select(읍면동명, 선거, 투표율) |> 
+  pivot_wider(names_from = 선거, values_from = 투표율) |> 
+  ggplot(aes(x=`21대총선`, y = 보궐선거)) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE) +
+    geom_text_repel(aes(label = 읍면동명))
+```
+
+
+## 득표차
+
+```{r}
+gs_total |> 
+  select(읍면동명, 선거, 득표차) |> 
+  pivot_wider(names_from = 선거, values_from = 득표차) |> 
+  ggplot(aes(x=`21대총선`, y = 보궐선거)) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE) +
+    geom_text_repel(aes(label = 읍면동명))
+```
