@@ -1,0 +1,90 @@
+---
+title: "지도제작 대회"
+subtitle: "대통령 해외순방"
+description: |
+  대통령 해외순방 데이터 분석
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 문재인
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+moon_html <- read_html("https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록")
+
+moon_raw <- moon_html |> 
+  html_elements("table") |> 
+  html_table()
+
+moon_h3 <- moon_html |> 
+  html_elements("h3") |> 
+  html_text()
+
+names(moon_raw) <- moon_h3[1:6]
+
+map_df(moon_raw[c(1:5)], rbind)
+
+moon_tbl <- moon_h3 |> 
+  enframe() |> 
+  mutate(연도 = str_remove(value, "년\\[편집\\]")) |> 
+  filter(str_detect(연도, "\\d{4}")) |> 
+  mutate(data = moon_raw[c(1:5)]) |> 
+  unnest(data) |> 
+  select(연도, 나라, 장소, 일자, 세부내용=`세부 내용`) |>
+  separate(일자, into = c("출국", "도착"), sep = "~") |> 
+  mutate(도착 = ifelse(is.na(도착), 출국, 도착)) |> 
+  mutate(출국일 = str_glue("{연도}-{출국}"),
+         도착일 = str_glue("{연도}-{도착}")) |> 
+  mutate(출국일 = parse_date(출국일, "%Y-%m월 %d일"),
+         도착일 = parse_date(도착일, "%Y-%m월 %d일")) |> 
+  select(출국일, 도착일, 나라, 장소) |> 
+  mutate(기간 = (출국일 %--% 도착일) / ddays(1) +1)
+```
+
+
+# 분석
+
+## 문재인 해외순방
+
+```{r}
+moon_tbl |> 
+  count(기간) |> 
+  gt::gt()
+```
+

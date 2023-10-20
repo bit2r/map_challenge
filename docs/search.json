@@ -992,5 +992,26 @@
     "title": "지도제작 대회",
     "section": "\n8.3 강서구병",
     "text": "8.3 강서구병\n\n코드gs_total |&gt; \n  filter(선거구명 == \"강서구병\") |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +\n    geom_point() +\n    geom_line() +\n    facet_wrap(vars(읍면동명), scales = \"fixed\")"
+  },
+  {
+    "objectID": "tour.html",
+    "href": "tour.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\nlibrary(rvest)\n\nmoon_html &lt;- read_html(\"https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록\")\n\nmoon_raw &lt;- moon_html |&gt; \n  html_elements(\"table\") |&gt; \n  html_table()\n\nmoon_h3 &lt;- moon_html |&gt; \n  html_elements(\"h3\") |&gt; \n  html_text()\n\nnames(moon_raw) &lt;- moon_h3[1:6]\n\nmap_df(moon_raw[c(1:5)], rbind)\n#&gt; # A tibble: 58 × 5\n#&gt;    나라           장소             일자                `세부 내용`         사진 \n#&gt;    &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;               &lt;lgl&gt;\n#&gt;  1 미국           워싱턴 D.C.      6월 28일~7월 3일    공식 실무 방문.[1]  NA   \n#&gt;  2 독일           베를린, 함부르크 7월 5일~7월 8일     2017년 함부르크 G2… NA   \n#&gt;  3 러시아         블라디보스토크   9월 6일~9월 7일     공식 방문. 동방경…  NA   \n#&gt;  4 미국           뉴욕             9월 19일~9월 21일   실무 방문. 유엔 총… NA   \n#&gt;  5 인도네시아     자카르타         11월 8일~11월 10일  국빈 방문.[11]      NA   \n#&gt;  6 베트남         다낭             11월 10일~11월 12일 2017년 다낭 APEC …  NA   \n#&gt;  7 필리핀         마닐라           11월 12일~11월 14일 동아시아 정상회의 … NA   \n#&gt;  8 중화인민공화국 베이징시, 충칭시 12월 13일~12월 16일 국빈 방문.[16]      NA   \n#&gt;  9 베트남         하노이           3월 22일~3월 24일   국빈 방문.[17]      NA   \n#&gt; 10 아랍에미리트   아부다비, 두바이 3월 24일~3월 27일   공식 방문.[18]      NA   \n#&gt; # ℹ 48 more rows\n\nmoon_tbl &lt;- moon_h3 |&gt; \n  enframe() |&gt; \n  mutate(연도 = str_remove(value, \"년\\\\[편집\\\\]\")) |&gt; \n  filter(str_detect(연도, \"\\\\d{4}\")) |&gt; \n  mutate(data = moon_raw[c(1:5)]) |&gt; \n  unnest(data) |&gt; \n  select(연도, 나라, 장소, 일자, 세부내용=`세부 내용`) |&gt;\n  separate(일자, into = c(\"출국\", \"도착\"), sep = \"~\") |&gt; \n  mutate(도착 = ifelse(is.na(도착), 출국, 도착)) |&gt; \n  mutate(출국일 = str_glue(\"{연도}-{출국}\"),\n         도착일 = str_glue(\"{연도}-{도착}\")) |&gt; \n  mutate(출국일 = parse_date(출국일, \"%Y-%m월 %d일\"),\n         도착일 = parse_date(도착일, \"%Y-%m월 %d일\")) |&gt; \n  select(출국일, 도착일, 나라, 장소) |&gt; \n  mutate(기간 = (출국일 %--% 도착일) / ddays(1) +1)"
+  },
+  {
+    "objectID": "tour.html#문재인",
+    "href": "tour.html#문재인",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\nlibrary(rvest)\n\nmoon_html &lt;- read_html(\"https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록\")\n\nmoon_raw &lt;- moon_html |&gt; \n  html_elements(\"table\") |&gt; \n  html_table()\n\nmoon_h3 &lt;- moon_html |&gt; \n  html_elements(\"h3\") |&gt; \n  html_text()\n\nnames(moon_raw) &lt;- moon_h3[1:6]\n\nmap_df(moon_raw[c(1:5)], rbind)\n#&gt; # A tibble: 58 × 5\n#&gt;    나라           장소             일자                `세부 내용`         사진 \n#&gt;    &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;               &lt;lgl&gt;\n#&gt;  1 미국           워싱턴 D.C.      6월 28일~7월 3일    공식 실무 방문.[1]  NA   \n#&gt;  2 독일           베를린, 함부르크 7월 5일~7월 8일     2017년 함부르크 G2… NA   \n#&gt;  3 러시아         블라디보스토크   9월 6일~9월 7일     공식 방문. 동방경…  NA   \n#&gt;  4 미국           뉴욕             9월 19일~9월 21일   실무 방문. 유엔 총… NA   \n#&gt;  5 인도네시아     자카르타         11월 8일~11월 10일  국빈 방문.[11]      NA   \n#&gt;  6 베트남         다낭             11월 10일~11월 12일 2017년 다낭 APEC …  NA   \n#&gt;  7 필리핀         마닐라           11월 12일~11월 14일 동아시아 정상회의 … NA   \n#&gt;  8 중화인민공화국 베이징시, 충칭시 12월 13일~12월 16일 국빈 방문.[16]      NA   \n#&gt;  9 베트남         하노이           3월 22일~3월 24일   국빈 방문.[17]      NA   \n#&gt; 10 아랍에미리트   아부다비, 두바이 3월 24일~3월 27일   공식 방문.[18]      NA   \n#&gt; # ℹ 48 more rows\n\nmoon_tbl &lt;- moon_h3 |&gt; \n  enframe() |&gt; \n  mutate(연도 = str_remove(value, \"년\\\\[편집\\\\]\")) |&gt; \n  filter(str_detect(연도, \"\\\\d{4}\")) |&gt; \n  mutate(data = moon_raw[c(1:5)]) |&gt; \n  unnest(data) |&gt; \n  select(연도, 나라, 장소, 일자, 세부내용=`세부 내용`) |&gt;\n  separate(일자, into = c(\"출국\", \"도착\"), sep = \"~\") |&gt; \n  mutate(도착 = ifelse(is.na(도착), 출국, 도착)) |&gt; \n  mutate(출국일 = str_glue(\"{연도}-{출국}\"),\n         도착일 = str_glue(\"{연도}-{도착}\")) |&gt; \n  mutate(출국일 = parse_date(출국일, \"%Y-%m월 %d일\"),\n         도착일 = parse_date(도착일, \"%Y-%m월 %d일\")) |&gt; \n  select(출국일, 도착일, 나라, 장소) |&gt; \n  mutate(기간 = (출국일 %--% 도착일) / ddays(1) +1)"
+  },
+  {
+    "objectID": "tour.html#문재인-해외순방",
+    "href": "tour.html#문재인-해외순방",
+    "title": "지도제작 대회",
+    "section": "\n2.1 문재인 해외순방",
+    "text": "2.1 문재인 해외순방\n\n코드moon_tbl |&gt; \n  count(기간) |&gt; \n  gt::gt()\n\n\n\n\n\n\n기간\n      n\n    \n\n\n1\n5\n\n\n2\n14\n\n\n3\n27\n\n\n4\n10\n\n\n5\n1\n\n\n6\n1"
   }
 ]
