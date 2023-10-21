@@ -42,6 +42,8 @@ website:
             text: "열지도(heatmap)"
           - href: spatial_basics.qmd
             text: "지도 기본기"
+          - href: tour.qmd
+            text: "대통령 해외순방"
             
       - text: "GIS 분석&챗GPT"
         menu: 

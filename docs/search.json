@@ -908,5 +908,117 @@
     "title": "지도제작 대회",
     "section": "\n3.1 서울특별시",
     "text": "3.1 서울특별시\n\n코드library(sf)\n\nprecinct &lt;- st_read(\"data/2020_21_elec_253.json\") |&gt; \n  st_set_crs(4326)\n#&gt; Reading layer `2020_21_elec_253' from data source \n#&gt;   `D:\\tcs\\map_challenge\\data\\2020_21_elec_253.json' using driver `GeoJSON'\n#&gt; Simple feature collection with 253 features and 4 fields\n#&gt; Geometry type: MULTIPOLYGON\n#&gt; Dimension:     XY\n#&gt; Bounding box:  xmin: 124.6097 ymin: 33.11187 xmax: 131.8713 ymax: 38.61695\n#&gt; Geodetic CRS:  WGS 84\n\nseoul_precinct &lt;- precinct |&gt; \n  filter(SGG_1 == \"서울\") \n\nst_geometry(seoul_precinct) |&gt; plot()\n\n\n\n\n\n\n\n\n코드seoul_party_tbl &lt;- elected_tbl |&gt; \n  filter(sgId %in% c(\"20200415\")) |&gt; \n  filter(str_detect(sdName, \"서울\")) |&gt;\n  select(result) |&gt; \n  unnest(result) |&gt; \n  mutate(정당명 = case_when(\n    jdName %in% c(\"한나라당\", \"새누리당\", \"미래통합당\") ~ \"국민의힘\",\n    jdName %in% c(\"더불어민주당\", \"열린우리당\", \"통합민주당\", \"민주통합당\") ~ \"민주당\",                 TRUE ~ \"기타\")) |&gt; \n  select(sggName, wiwName, giho, jdName, name, dugsu, dugyul, 정당명)\n\nseoul_precinct_party &lt;- seoul_precinct |&gt; \n  mutate(sggName = str_remove(SGG_2, \"서울특별시 \")) |&gt; \n  left_join(seoul_party_tbl)\n\n\n\n코드seoul_precinct_party |&gt; \n  mutate(정당명 = case_when(\n    jdName %in% c(\"한나라당\", \"새누리당\", \"미래통합당\") ~ \"국민의힘\",\n    jdName %in% c(\"더불어민주당\", \"열린우리당\", \"통합민주당\", \"민주통합당\") ~ \"민주당\",\n    jdName %in% c(\"정의당\") ~ \"정의당\",\n    TRUE ~ \"기타\")) |&gt;   \n  ggplot() +\n    geom_sf(aes(geometry = geometry, fill = 정당명), alpha =0.2) +\n    scale_fill_manual(values = c(\"민주당\" = \"blue\",\n                                  \"국민의힘\" = \"red\",\n                                  \"정의당\" = \"yellow\")) +\n    theme_void() +\n    theme(legend.position = \"top\") +\n    labs(fill = \"정당명\") +\n    ggrepel::geom_text_repel(\n        aes(label = sggName, geometry = geometry,\n            color = 정당명), stat = \"sf_coordinates\", \n        min.segment.length = 1, size = 4, max.overlaps = Inf,\n        show.legend = FALSE, fontface=\"bold\"\n    ) +\n    scale_color_manual(values = c(\"민주당\" = \"blue\",\n                                  \"국민의힘\" = \"red\",\n                                  \"정의당\" = \"black\"))"
+  },
+  {
+    "objectID": "metro_people_power.html#선거구",
+    "href": "metro_people_power.html#선거구",
+    "title": "지도제작 대회",
+    "section": "\n5.1 선거구",
+    "text": "5.1 선거구\n\n코드library(rvest)\n\ngs_precinct_raw &lt;- read_html(\"https://ko.wikipedia.org/wiki/서울특별시의_선거구\") |&gt; \n  html_elements(\"table\") |&gt; \n  html_table() %&gt;% \n  .[[1]] |&gt; \n  janitor::clean_names(ascii = FALSE) |&gt; \n  filter(str_detect(선거구명, \"강서구\"))\n\ngs_precinct &lt;- gs_precinct_raw |&gt; \n  mutate(동명 = str_split(관할_구역, \",\")) |&gt; \n  select(-관할_구역) |&gt; \n  unnest(동명) |&gt; \n  mutate(동명 = str_remove(동명, \"강서구\") |&gt; str_squish()) |&gt; \n  mutate(선거구명 = str_remove(선거구명, \"\\\\s+\")) |&gt; \n  select(-번호)\n\ngs_precinct\n#&gt; # A tibble: 20 × 2\n#&gt;    선거구명 동명    \n#&gt;    &lt;chr&gt;    &lt;chr&gt;   \n#&gt;  1 강서구갑 발산1동 \n#&gt;  2 강서구갑 우장산동\n#&gt;  3 강서구갑 화곡1동 \n#&gt;  4 강서구갑 화곡2동 \n#&gt;  5 강서구갑 화곡3동 \n#&gt;  6 강서구갑 화곡8동 \n#&gt;  7 강서구을 등촌3동 \n#&gt;  8 강서구을 가양1동 \n#&gt;  9 강서구을 가양2동 \n#&gt; 10 강서구을 방화1동 \n#&gt; 11 강서구을 방화2동 \n#&gt; 12 강서구을 방화3동 \n#&gt; 13 강서구을 공항동  \n#&gt; 14 강서구병 염창동  \n#&gt; 15 강서구병 등촌1동 \n#&gt; 16 강서구병 등촌2동 \n#&gt; 17 강서구병 가양3동 \n#&gt; 18 강서구병 화곡본동\n#&gt; 19 강서구병 화곡4동 \n#&gt; 20 강서구병 화곡6동\n\n\n\n코드seoul_diff_sf |&gt; \n  filter( str_detect(sggName, \"^강서\")) |&gt; \n  ggplot() +\n    geom_sf(aes(geometry = geometry, fill = 득표차, color = 정당명), lwd  = 1) +\n    scale_fill_gradient2(high = \"blue\", mid = \"gray100\", low = \"red\") +\n    theme_void() +\n    theme(legend.position = \"top\") +\n    labs(fill = \"득표차\") +\n    geom_text(\n        aes(label = str_glue(\"{sggName}\\n{scales::percent(득표차, accuracy=0.1)}\"), geometry = geometry), \n        stat = \"sf_coordinates\", \n        show.legend = FALSE, fontface=\"bold\", color = \"black\"\n    ) +\n    scale_color_manual(values = c(\"민주당\" = \"blue\",\n                                  \"국민의힘\" = \"red\"))"
+  },
+  {
+    "objectID": "metro_people_power.html#행정동-지도",
+    "href": "metro_people_power.html#행정동-지도",
+    "title": "지도제작 대회",
+    "section": "\n5.2 행정동 지도",
+    "text": "5.2 행정동 지도\n\n코드library(sf)\n\nkorea_sf &lt;- st_read(\"data/HangJeongDong_ver20230701.geojson\")\n#&gt; Reading layer `123' from data source \n#&gt;   `D:\\tcs\\map_challenge\\data\\HangJeongDong_ver20230701.geojson' \n#&gt;   using driver `GeoJSON'\n#&gt; Simple feature collection with 3523 features and 9 fields\n#&gt; Geometry type: MULTIPOLYGON\n#&gt; Dimension:     XY\n#&gt; Bounding box:  xmin: 124.6097 ymin: 33.11187 xmax: 131.8713 ymax: 38.61695\n#&gt; Geodetic CRS:  WGS 84\n\ngs_sf &lt;- korea_sf |&gt; \n  filter(sidonm == \"서울특별시\",\n         sggnm  == \"강서구\") |&gt; \n  mutate(dongnm = str_remove(adm_nm, \"서울특별시 강서구 \")) |&gt; \n  select(sidonm, sggnm, dongnm, geometry) |&gt; \n  left_join(gs_precinct, by = c(\"dongnm\" = \"동명\"))\n\ngs_precinct_sf &lt;- gs_sf |&gt; \n  group_by(선거구명) |&gt; \n  summarise(geometry = st_union(geometry))\n\ngs_precinct_centroid &lt;- st_centroid(gs_precinct_sf)\n\nggplot() +\n  geom_sf(data = gs_sf, aes(fill = dongnm), alpha = 0.3, show.legend = FALSE) +\n  geom_sf(data = gs_precinct_sf, color = \"gray30\",\n          alpha = 0.0, lwd = 1, show.legend = FALSE) +\n  theme_void() +\n  geom_sf(data = gs_precinct_centroid, color = \"black\") +\n  ggrepel::geom_text_repel(data = gs_precinct_centroid, \n                           aes(label = 선거구명, geometry = geometry), stat = \"sf_coordinates\", \n        min.segment.length = 1, size = 4, max.overlaps = Inf)"
+  },
+  {
+    "objectID": "metro_people_power.html#재보궐-선거",
+    "href": "metro_people_power.html#재보궐-선거",
+    "title": "지도제작 대회",
+    "section": "\n5.3 재보궐 선거",
+    "text": "5.3 재보궐 선거\n\n코드library(ggrepel)\n\ngs_raw &lt;- readxl::read_excel(\"data/[2023년_하반기_재·보궐선거]_개표단위별_개표결과.xlsx\",\n                   sheet = \"Sheet1\", skip =4)\n\ngs_tbl &lt;- gs_raw |&gt; \n  set_names(c(\"읍면동명\", \"투표구명\", \"선거인수\", \"투표수\", \"민주당\", \n\"국민의힘\", \"정의당\", \"x11\", \"진보당\", \n\"녹색당\", \"자유통일당\", \"계\", \n\"무표투표수\", \"기권수\")) |&gt;\n  select(-x11) |&gt; \n  mutate(읍면동명 = str_replace(읍면동명, \"제(\\\\d+)\", \"\\\\1\")) |&gt; \n  filter(투표구명 == \"소계\") |&gt; \n  mutate(across(선거인수:기권수, parse_number)) |&gt; \n  mutate(투표율 = 투표수 / 선거인수)  |&gt; \n  left_join(gs_precinct, by = c(\"읍면동명\"=\"동명\"))\n\ngs_tbl |&gt;\n  group_by(선거구명, 읍면동명) |&gt; \n  summarise(선거인수 = sum(선거인수),\n            투표수 = sum(투표수)) |&gt; \n  mutate(투표율 = 투표수 / 선거인수) |&gt; \n  ggplot(aes(x = fct_reorder(읍면동명, 투표율), y = 투표율, fill = 선거구명)) +\n    geom_col( width = 0.5 ) +\n    facet_wrap(vars(선거구명), scales = \"free\") +\n    labs(x = \"\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::percent) +\n    theme(legend.position = \"none\")\n\n\n\n\n\n\n코드    \ngs_tbl |&gt;   \n  mutate(민주_득표율 = 민주당 / 계,\n         국힘_득표율 = 국민의힘 / 계) |&gt; \n  mutate(득표차 = 민주_득표율 - 국힘_득표율) |&gt; \n  ggplot(aes(x = fct_reorder(읍면동명, 득표차), y = 득표차, fill = 선거구명)) +\n    geom_col( width = 0.5 ) +\n    facet_wrap(vars(선거구명), scales = \"free\") +\n    labs(x = \"\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::percent) +\n    theme(legend.position = \"none\")"
+  },
+  {
+    "objectID": "metro_people_power.html#투표율과-득표차",
+    "href": "metro_people_power.html#투표율과-득표차",
+    "title": "지도제작 대회",
+    "section": "\n5.4 투표율과 득표차",
+    "text": "5.4 투표율과 득표차\n\n코드gs_tbl |&gt;   \n  mutate(민주_득표율 = 민주당 / 계,\n         국힘_득표율 = 국민의힘 / 계) |&gt; \n  mutate(득표차 = 민주_득표율 - 국힘_득표율) |&gt; \n  mutate(투표율 = 투표수 / 선거인수) |&gt; \n  select(선거구명, 선거인수, 읍면동명, 득표차, 투표율) |&gt; \n  ggplot(aes(x = 투표율, y = 득표차, color = 선거구명)) +\n    geom_point(aes(size = 선거인수)) +\n    facet_wrap(vars(선거구명)) +\n    geom_text_repel(aes(label = 읍면동명)) +\n    theme_minimal() +\n    theme(legend.position = \"top\") +\n    scale_x_continuous(labels = scales::percent) +\n    scale_y_continuous(labels = scales::percent) +\n    labs(x = \"투표율\", y = \"득표차\",\n         title = \"강서구 재보궐선거 투표율과 득표차\",\n         subtitle = \"득표차 = 민주당 후보 득표율 - 국힘 후보 득표율 \") +\n    guides(color = FALSE) +\n    scale_size_continuous(labels = scales::comma)"
+  },
+  {
+    "objectID": "metro_people_power.html#시각화",
+    "href": "metro_people_power.html#시각화",
+    "title": "지도제작 대회",
+    "section": "\n6.1 시각화",
+    "text": "6.1 시각화\n\n코드gs_old |&gt;\n  group_by(선거구명, 읍면동명) |&gt; \n  summarise(선거인수 = sum(선거인수),\n            투표수 = sum(투표수)) |&gt; \n  mutate(투표율 = 투표수 / 선거인수) |&gt; \n  ggplot(aes(x = fct_reorder(읍면동명, 투표율), y = 투표율, fill = 선거구명)) +\n    geom_col( width = 0.5 ) +\n    facet_wrap(vars(선거구명), scales = \"free\") +\n    labs(x = \"\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::percent) +\n    theme(legend.position = \"none\")\n\n\n\n\n\n\n코드    \ngs_old |&gt;   \n  mutate(민주_득표율 = 민주당 / 계,\n         국힘_득표율 = 국민의힘 / 계) |&gt; \n  mutate(득표차 = 민주_득표율 - 국힘_득표율) |&gt; \n  ggplot(aes(x = fct_reorder(읍면동명, 득표차), y = 득표차, fill = 선거구명)) +\n    geom_col( width = 0.5 ) +\n    facet_wrap(vars(선거구명), scales = \"free\") +\n    labs(x = \"\") +\n    theme_minimal() +\n    scale_y_continuous(labels = scales::percent) +\n    theme(legend.position = \"none\")"
+  },
+  {
+    "objectID": "metro_people_power.html#투표율과-득표차-1",
+    "href": "metro_people_power.html#투표율과-득표차-1",
+    "title": "지도제작 대회",
+    "section": "\n6.2 투표율과 득표차",
+    "text": "6.2 투표율과 득표차\n\n코드gs_old |&gt;   \n  mutate(민주_득표율 = 민주당 / 계,\n         국힘_득표율 = 국민의힘 / 계) |&gt; \n  mutate(득표차 = 민주_득표율 - 국힘_득표율) |&gt; \n  mutate(투표율 = 투표수 / 선거인수) |&gt; \n  select(선거구명, 선거인수, 읍면동명, 득표차, 투표율) |&gt; \n  ggplot(aes(x = 투표율, y = 득표차, color = 선거구명)) +\n    geom_point(aes(size = 선거인수)) +\n    facet_wrap(vars(선거구명)) +\n    geom_text_repel(aes(label = 읍면동명)) +\n    theme_minimal() +\n    theme(legend.position = \"top\") +\n    scale_x_continuous(labels = scales::percent) +\n    scale_y_continuous(labels = scales::percent) +\n    labs(x = \"투표율\", y = \"득표차\",\n         title = \"강서구 제21대 총선 투표율과 득표차\",\n         subtitle = \"득표차 = 민주당 후보 득표율 - 국힘 후보 득표율 \") +\n    guides(color = FALSE, size = guide_legend(nrow = 1)) +\n    scale_size_continuous(labels = scales::comma)"
+  },
+  {
+    "objectID": "metro_people_power.html#투표율",
+    "href": "metro_people_power.html#투표율",
+    "title": "지도제작 대회",
+    "section": "\n7.1 투표율",
+    "text": "7.1 투표율\n\n코드gs_total |&gt; \n  select(읍면동명, 선거, 투표율) |&gt; \n  pivot_wider(names_from = 선거, values_from = 투표율) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명))"
+  },
+  {
+    "objectID": "metro_people_power.html#득표차-1",
+    "href": "metro_people_power.html#득표차-1",
+    "title": "지도제작 대회",
+    "section": "\n7.2 득표차",
+    "text": "7.2 득표차\n\n코드gs_total |&gt; \n  select(읍면동명, 선거, 득표차) |&gt; \n  pivot_wider(names_from = 선거, values_from = 득표차) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명))"
+  },
+  {
+    "objectID": "metro_people_power.html#정당지지율",
+    "href": "metro_people_power.html#정당지지율",
+    "title": "지도제작 대회",
+    "section": "\n7.3 정당지지율",
+    "text": "7.3 정당지지율\n\n7.3.1 민주당\n\n코드gs_total |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율) |&gt; \n  pivot_wider(names_from = 선거, values_from = 민주_득표율) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명)) +\n    facet_wrap(~선거구명, scales = \"free\")\n\n\n\n\n\n\n\n\n7.3.2 국민의힘\n\n코드gs_total |&gt; \n  select(선거구명, 읍면동명, 선거, 국힘_득표율) |&gt; \n  pivot_wider(names_from = 선거, values_from = 국힘_득표율) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명)) +\n    facet_wrap(~선거구명, scales = \"free\")\n\n\n\n\n\n\n\n\n7.3.3 모두\n\n코드gs_total |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  pivot_wider(names_from = 선거, values_from = 득표율) |&gt; \n  ggplot(aes(x=`21대총선`, y = 보궐선거, color = 정당)) +\n    geom_point() +\n    geom_smooth(method = lm, se = FALSE) +\n    geom_text_repel(aes(label = 읍면동명)) +\n    facet_wrap(~선거구명, scales = \"free\")"
+  },
+  {
+    "objectID": "metro_people_power.html#강서구갑",
+    "href": "metro_people_power.html#강서구갑",
+    "title": "지도제작 대회",
+    "section": "\n8.1 강서구갑",
+    "text": "8.1 강서구갑\n\n코드gs_total |&gt; \n  filter(선거구명 == \"강서구갑\") |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +\n    geom_point() +\n    geom_line() +\n    facet_wrap(vars(읍면동명), scales = \"fixed\")"
+  },
+  {
+    "objectID": "metro_people_power.html#강서구을",
+    "href": "metro_people_power.html#강서구을",
+    "title": "지도제작 대회",
+    "section": "\n8.2 강서구을",
+    "text": "8.2 강서구을\n\n코드gs_total |&gt; \n  filter(선거구명 == \"강서구을\") |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +\n    geom_point() +\n    geom_line() +\n    facet_wrap(vars(읍면동명), scales = \"fixed\")"
+  },
+  {
+    "objectID": "metro_people_power.html#강서구병",
+    "href": "metro_people_power.html#강서구병",
+    "title": "지도제작 대회",
+    "section": "\n8.3 강서구병",
+    "text": "8.3 강서구병\n\n코드gs_total |&gt; \n  filter(선거구명 == \"강서구병\") |&gt; \n  select(선거구명, 읍면동명, 선거, 민주_득표율, 국힘_득표율) |&gt;\n  pivot_longer(민주_득표율:국힘_득표율, names_to = \"정당\", values_to = \"득표율\") |&gt; \n  ggplot(aes(x = 선거, y = 득표율, group = 정당, color = 정당)) +\n    geom_point() +\n    geom_line() +\n    facet_wrap(vars(읍면동명), scales = \"fixed\")"
+  },
+  {
+    "objectID": "tour.html",
+    "href": "tour.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\nlibrary(rvest)\n\nmoon_html &lt;- read_html(\"https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록\")\n\nmoon_raw &lt;- moon_html |&gt; \n  html_elements(\"table\") |&gt; \n  html_table()\n\nmoon_h3 &lt;- moon_html |&gt; \n  html_elements(\"h3\") |&gt; \n  html_text()\n\nnames(moon_raw) &lt;- moon_h3[1:6]\n\nmap_df(moon_raw[c(1:5)], rbind)\n#&gt; # A tibble: 58 × 5\n#&gt;    나라           장소             일자                `세부 내용`         사진 \n#&gt;    &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;               &lt;lgl&gt;\n#&gt;  1 미국           워싱턴 D.C.      6월 28일~7월 3일    공식 실무 방문.[1]  NA   \n#&gt;  2 독일           베를린, 함부르크 7월 5일~7월 8일     2017년 함부르크 G2… NA   \n#&gt;  3 러시아         블라디보스토크   9월 6일~9월 7일     공식 방문. 동방경…  NA   \n#&gt;  4 미국           뉴욕             9월 19일~9월 21일   실무 방문. 유엔 총… NA   \n#&gt;  5 인도네시아     자카르타         11월 8일~11월 10일  국빈 방문.[11]      NA   \n#&gt;  6 베트남         다낭             11월 10일~11월 12일 2017년 다낭 APEC …  NA   \n#&gt;  7 필리핀         마닐라           11월 12일~11월 14일 동아시아 정상회의 … NA   \n#&gt;  8 중화인민공화국 베이징시, 충칭시 12월 13일~12월 16일 국빈 방문.[16]      NA   \n#&gt;  9 베트남         하노이           3월 22일~3월 24일   국빈 방문.[17]      NA   \n#&gt; 10 아랍에미리트   아부다비, 두바이 3월 24일~3월 27일   공식 방문.[18]      NA   \n#&gt; # ℹ 48 more rows\n\nmoon_tbl &lt;- moon_h3 |&gt; \n  enframe() |&gt; \n  mutate(연도 = str_remove(value, \"년\\\\[편집\\\\]\")) |&gt; \n  filter(str_detect(연도, \"\\\\d{4}\")) |&gt; \n  mutate(data = moon_raw[c(1:5)]) |&gt; \n  unnest(data) |&gt; \n  select(연도, 나라, 장소, 일자, 세부내용=`세부 내용`) |&gt;\n  separate(일자, into = c(\"출국\", \"도착\"), sep = \"~\") |&gt; \n  mutate(도착 = ifelse(is.na(도착), 출국, 도착)) |&gt; \n  mutate(출국일 = str_glue(\"{연도}-{출국}\"),\n         도착일 = str_glue(\"{연도}-{도착}\")) |&gt; \n  mutate(출국일 = parse_date(출국일, \"%Y-%m월 %d일\"),\n         도착일 = parse_date(도착일, \"%Y-%m월 %d일\")) |&gt; \n  select(출국일, 도착일, 국가 = 나라, 장소) |&gt; \n  mutate(기간 = (출국일 %--% 도착일) / ddays(1) +1)"
+  },
+  {
+    "objectID": "tour.html#문재인",
+    "href": "tour.html#문재인",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "코드library(tidyverse)\nlibrary(rvest)\n\nmoon_html &lt;- read_html(\"https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록\")\n\nmoon_raw &lt;- moon_html |&gt; \n  html_elements(\"table\") |&gt; \n  html_table()\n\nmoon_h3 &lt;- moon_html |&gt; \n  html_elements(\"h3\") |&gt; \n  html_text()\n\nnames(moon_raw) &lt;- moon_h3[1:6]\n\nmap_df(moon_raw[c(1:5)], rbind)\n#&gt; # A tibble: 58 × 5\n#&gt;    나라           장소             일자                `세부 내용`         사진 \n#&gt;    &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;               &lt;lgl&gt;\n#&gt;  1 미국           워싱턴 D.C.      6월 28일~7월 3일    공식 실무 방문.[1]  NA   \n#&gt;  2 독일           베를린, 함부르크 7월 5일~7월 8일     2017년 함부르크 G2… NA   \n#&gt;  3 러시아         블라디보스토크   9월 6일~9월 7일     공식 방문. 동방경…  NA   \n#&gt;  4 미국           뉴욕             9월 19일~9월 21일   실무 방문. 유엔 총… NA   \n#&gt;  5 인도네시아     자카르타         11월 8일~11월 10일  국빈 방문.[11]      NA   \n#&gt;  6 베트남         다낭             11월 10일~11월 12일 2017년 다낭 APEC …  NA   \n#&gt;  7 필리핀         마닐라           11월 12일~11월 14일 동아시아 정상회의 … NA   \n#&gt;  8 중화인민공화국 베이징시, 충칭시 12월 13일~12월 16일 국빈 방문.[16]      NA   \n#&gt;  9 베트남         하노이           3월 22일~3월 24일   국빈 방문.[17]      NA   \n#&gt; 10 아랍에미리트   아부다비, 두바이 3월 24일~3월 27일   공식 방문.[18]      NA   \n#&gt; # ℹ 48 more rows\n\nmoon_tbl &lt;- moon_h3 |&gt; \n  enframe() |&gt; \n  mutate(연도 = str_remove(value, \"년\\\\[편집\\\\]\")) |&gt; \n  filter(str_detect(연도, \"\\\\d{4}\")) |&gt; \n  mutate(data = moon_raw[c(1:5)]) |&gt; \n  unnest(data) |&gt; \n  select(연도, 나라, 장소, 일자, 세부내용=`세부 내용`) |&gt;\n  separate(일자, into = c(\"출국\", \"도착\"), sep = \"~\") |&gt; \n  mutate(도착 = ifelse(is.na(도착), 출국, 도착)) |&gt; \n  mutate(출국일 = str_glue(\"{연도}-{출국}\"),\n         도착일 = str_glue(\"{연도}-{도착}\")) |&gt; \n  mutate(출국일 = parse_date(출국일, \"%Y-%m월 %d일\"),\n         도착일 = parse_date(도착일, \"%Y-%m월 %d일\")) |&gt; \n  select(출국일, 도착일, 국가 = 나라, 장소) |&gt; \n  mutate(기간 = (출국일 %--% 도착일) / ddays(1) +1)"
+  },
+  {
+    "objectID": "tour.html#문재인-해외순방",
+    "href": "tour.html#문재인-해외순방",
+    "title": "지도제작 대회",
+    "section": "\n2.1 문재인 해외순방",
+    "text": "2.1 문재인 해외순방\n\n코드library(countrycode)\n\ncountry_codes &lt;- data.frame(\n  \"국가\" = c(\"노르웨이\", \"뉴질랜드\", \"덴마크\", \"독일\", \"라오스\", \"러시아\", \"말레이시아\", \"미국\", \"미얀마\", \"바티칸 시국\", \"베트남\", \"벨기에\", \"브루나이\", \"사우디아라비아\", \"스웨덴\", \"스페인\", \"싱가포르\", \"아랍에미리트\", \"아르헨티나\", \"영국\", \"오스트레일리아\", \"오스트리아\", \"우즈베키스탄\", \"이집트\", \"이탈리아\", \"인도\", \"인도네시아\", \"일본\", \"조선민주주의인민공화국\", \"중화인민공화국\", \"체코\", \"카자흐스탄\", \"캄보디아\", \"태국\", \"투르크메니스탄\", \"파푸아뉴기니\", \"프랑스\", \"핀란드\", \"필리핀\", \"헝가리\"),\n  \"영문_국가명\" = c(\"Norway\", \"New Zealand\", \"Denmark\", \"Germany\", \"Laos\", \"Russia\", \"Malaysia\", \"United States\", \"Myanmar\", \"Vatican City\", \"Vietnam\", \"Belgium\", \"Brunei\", \"Saudi Arabia\", \"Sweden\", \"Spain\", \"Singapore\", \"United Arab Emirates\", \"Argentina\", \"United Kingdom\", \"Australia\", \"Austria\", \"Uzbekistan\", \"Egypt\", \"Italy\", \"India\", \"Indonesia\", \"Japan\", \"North Korea\", \"China\", \"Czech Republic\", \"Kazakhstan\", \"Cambodia\", \"Thailand\", \"Turkmenistan\", \"Papua New Guinea\", \"France\", \"Finland\", \"Philippines\", \"Hungary\"),\n  \"iso2c\" = c(\"NO\", \"NZ\", \"DK\", \"DE\", \"LA\", \"RU\", \"MY\", \"US\", \"MM\", \"VA\", \"VN\", \"BE\", \"BN\", \"SA\", \"SE\", \"ES\", \"SG\", \"AE\", \"AR\", \"GB\", \"AU\", \"AT\", \"UZ\", \"EG\", \"IT\", \"IN\", \"ID\", \"JP\", \"KP\", \"CN\", \"CZ\", \"KZ\", \"KH\", \"TH\", \"TM\", \"PG\", \"FR\", \"FI\", \"PH\", \"HU\")\n)\n\nmoon_tbl |&gt; \n  group_by(국가) |&gt; \n  summarise(방문수 = n(),\n            연도 = str_c(str_glue(\"{lubridate::year(출국일)}\"), collapse = \",\")) |&gt; \n  left_join(country_codes, by = \"국가\") |&gt; \n  mutate(대륙 = countrycode(iso2c, \"iso2c\", \"continent\")) |&gt;\n  arrange(desc(방문수)) |&gt;\n  select(-영문_국가명) |&gt; \n  select(iso2c, everything()) |&gt; \n  gt(groupname_col = \"대륙\") |&gt; \n  fmt_flag(columns = iso2c) |&gt; \n  cols_label(\n    iso2c = \"\"\n  ) |&gt; \n  cols_align(\"center\") |&gt; \n  tab_header(\n    title = md(\"문재인 대통령 해외 순방\"),\n    subtitle = md(\"2017년 5월 10일 ~ 2021년 5월 9일\")\n  ) |&gt;\ntab_footnote(\n  footnote = md(\"데이터 출처: [위키백과](https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록)\")\n) |&gt;   \n  gt_theme_538()\n\n\n\n\n\n\n문재인 대통령 해외 순방\n    \n\n2017년 5월 10일 ~ 2021년 5월 9일\n    \n\n\n      국가\n      방문수\n      연도\n    \n\n\n\nAmericas\n    \n\nUnited States\n\n미국\n8\n2017,2017,2018,2018,2019,2019,2021,2021\n\n\nArgentina\n\n아르헨티나\n1\n2018\n\n\nEurope\n    \n\nRussian Federation\n\n러시아\n2\n2017,2018\n\n\n\n바티칸 시국\n2\n2018,2021\n\n\nUnited Kingdom\n\n영국\n2\n2021,2021\n\n\nItaly\n\n이탈리아\n2\n2018,2021\n\n\nNorway\n\n노르웨이\n1\n2019\n\n\nDenmark\n\n덴마크\n1\n2018\n\n\nGermany\n\n독일\n1\n2017\n\n\nBelgium\n\n벨기에\n1\n2018\n\n\nSweden\n\n스웨덴\n1\n2019\n\n\nSpain\n\n스페인\n1\n2021\n\n\nAustria\n\n오스트리아\n1\n2021\n\n\nCzechia\n\n체코\n1\n2018\n\n\nFrance\n\n프랑스\n1\n2018\n\n\nFinland\n\n핀란드\n1\n2019\n\n\nHungary\n\n헝가리\n1\n2021\n\n\nAsia\n    \n\nVietnam\n\n베트남\n2\n2017,2018\n\n\nSingapore\n\n싱가포르\n2\n2018,2018\n\n\nUnited Arab Emirates\n\n아랍에미리트\n2\n2018,2022\n\n\nJapan\n\n일본\n2\n2018,2019\n\n\nKorea, Dem. People's Rep.\n\n조선민주주의인민공화국\n2\n2018,2018\n\n\nChina\n\n중화인민공화국\n2\n2017,2019\n\n\nThailand\n\n태국\n2\n2019,2019\n\n\nLao PDR\n\n라오스\n1\n2019\n\n\nMalaysia\n\n말레이시아\n1\n2019\n\n\nMyanmar\n\n미얀마\n1\n2019\n\n\nBrunei Darussalam\n\n브루나이\n1\n2019\n\n\nSaudi Arabia\n\n사우디아라비아\n1\n2022\n\n\nUzbekistan\n\n우즈베키스탄\n1\n2019\n\n\nIndia\n\n인도\n1\n2018\n\n\nIndonesia\n\n인도네시아\n1\n2017\n\n\nKazakhstan\n\n카자흐스탄\n1\n2019\n\n\nCambodia\n\n캄보디아\n1\n2019\n\n\nTurkmenistan\n\n투르크메니스탄\n1\n2019\n\n\nPhilippines\n\n필리핀\n1\n2017\n\n\nOceania\n    \n\nNew Zealand\n\n뉴질랜드\n1\n2018\n\n\nAustralia\n\n오스트레일리아\n1\n2021\n\n\nPapua New Guinea\n\n파푸아뉴기니\n1\n2018\n\n\nAfrica\n    \n\nEgypt\n\n이집트\n1\n2022\n\n\n\n 데이터 출처: 위키백과"
+  },
+  {
+    "objectID": "tour.html#지도",
+    "href": "tour.html#지도",
+    "title": "지도제작 대회",
+    "section": "\n2.2 지도",
+    "text": "2.2 지도\n\n코드library(viridis)\n\nmoon_tour &lt;- moon_tbl |&gt; \n  group_by(국가) |&gt; \n  summarise(방문수 = n(),\n            연도 = str_c(str_glue(\"{lubridate::year(출국일)}\"), collapse = \",\")) |&gt; \n  left_join(country_codes, by = \"국가\")\n\nworld_map &lt;- rnaturalearth::ne_countries(scale = 50, returnclass = \"sf\")\n\nmoon_map &lt;- left_join(world_map, moon_tour, by = c(\"iso_a2\" = \"iso2c\"))\n\nggplot(moon_map) +\n  geom_sf(aes(fill = as.factor(방문수))) +\n  scale_fill_manual(values = c(\"gray50\", \"skyblue\", \"blue\"), na.value=\"transparent\") +\n  labs(\n    title = \"문재인 대통령 해외순방\") +\n  theme_void() +\n  theme(legend.position = \"bottom\") +\n    ggrepel::geom_text_repel(\n        aes(label = 국가, geometry = geometry), stat = \"sf_coordinates\", \n        min.segment.length = 1, size = 3, max.overlaps = Inf\n    )"
   }
 ]

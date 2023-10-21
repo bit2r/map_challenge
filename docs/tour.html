@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR" xml:lang="ko-KR"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.288">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="이광춘">
+<meta name="description" content="대통령 해외순방 데이터 분석">
+<title>지도제작 대회</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script><link rel="stylesheet" href="css/quarto.scss">
+</head>
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">지도제작 대회</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="검색"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">지도 그리기</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">
+<li>
+    <a class="dropdown-item" href="./day_01.html" rel="" target="">
+ <span class="dropdown-text">지도 색칠</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_02.html" rel="" target="">
+ <span class="dropdown-text">인구수 점(Point)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_03.html" rel="" target="">
+ <span class="dropdown-text">스파이크(Spike map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_04.html" rel="" target="">
+ <span class="dropdown-text">지형도(Topographic map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_05.html" rel="" target="">
+ <span class="dropdown-text">3D 표고 지도(독도)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_06.html" rel="" target="">
+ <span class="dropdown-text">아시아국가 실업율(%)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_07.html" rel="" target="">
+ <span class="dropdown-text">인터랙티브 지도(Mapview)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_08.html" rel="" target="">
+ <span class="dropdown-text">지오코딩</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_heatmap.html" rel="" target="">
+ <span class="dropdown-text">열지도(heatmap)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./spatial_basics.html" rel="" target="">
+ <span class="dropdown-text">지도 기본기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tour.html" rel="" target="">
+ <span class="dropdown-text">대통령 해외순방</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">GIS 분석&amp;챗GPT</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-분석챗gpt">
+<li>
+    <a class="dropdown-item" href="./spatial_map.html" rel="" target="">
+ <span class="dropdown-text">지도(Map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./jeju_map.html" rel="" target="">
+ <span class="dropdown-text">제주도 높이 지도</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./yellow_sea.html" rel="" target="">
+ <span class="dropdown-text">황해</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./yellow_sea2.html" rel="" target="">
+ <span class="dropdown-text">황해2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gg_analytics_center.html" rel="" target="">
+ <span class="dropdown-text">경기 데이터 분석 센터</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./km_school.html" rel="" target="">
+ <span class="dropdown-text">광명시 학교와 CCTV</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="./km_BitGPT.html" rel="" target="">
+ <span class="dropdown-text">Code Interpreter</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">시각화</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">
+<li>
+    <a class="dropdown-item" href="./movie.html" rel="" target="">
+ <span class="dropdown-text">한국영화</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-i" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">제21대 국회의원 선거(I)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-i">
+<li>
+    <a class="dropdown-item" href="./precinct.html" rel="" target="">
+ <span class="dropdown-text">국회의원 선거구</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./minju_nomination.html" rel="" target="">
+ <span class="dropdown-text">민주당 전략공천 성과</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./precinct_history.html" rel="" target="">
+ <span class="dropdown-text">선거구와 정수</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./electorate.html" rel="" target="">
+ <span class="dropdown-text">변경된 선거구</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./precinct_district.html" rel="" target="">
+ <span class="dropdown-text">선거구 평균 인구수</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./district_issue.html" rel="" target="">
+ <span class="dropdown-text">인구수 문제 선거구</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./kwangmyung.html" rel="" target="">
+ <span class="dropdown-text">광명시(총/대/지)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./approval_rate.html" rel="" target="">
+ <span class="dropdown-text">대통령 지지율</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./minju_party.html" rel="" target="">
+ <span class="dropdown-text">민주당은 전국정당(?)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election.html" rel="" target="">
+ <span class="dropdown-text">재보궐: 강서구청장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election_dong.html" rel="" target="">
+ <span class="dropdown-text">재보궐: 강서구청장(동별)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./after_by_election.html" rel="" target="">
+ <span class="dropdown-text">서울 재보궐 이후</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gs_position.html" rel="" target="">
+ <span class="dropdown-text">재보궐: 강서구 위치</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="./realmeter_metro.html" rel="" target="">
+ <span class="dropdown-text">리얼미터 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallop_metro.html" rel="" target="">
+ <span class="dropdown-text">한국갤럽 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nbs_metro.html" rel="" target="">
+ <span class="dropdown-text">전국지표조사 PDF</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ii" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">제21대 국회의원 선거(II)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ii">
+<li>
+    <a class="dropdown-item" href="./legislators.html" rel="" target="">
+ <span class="dropdown-text">권역별 의석수 변화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./candidate.html" rel="" target="">
+ <span class="dropdown-text">예비 후보자</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./district_chair.html" rel="" target="">
+ <span class="dropdown-text">지역/당협 위원장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./watermellon.html" rel="" target="">
+ <span class="dropdown-text">수박 당도 선별기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./sido_legislator.html" rel="" target="">
+ <span class="dropdown-text">시도별 역대 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./metro_people_power.html" rel="" target="">
+ <span class="dropdown-text">수도권 국힘의원</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+</div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="다크 모드 전환"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">지도제작 대회</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> 코드</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">전체 코드 표시</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">전체 코드 숨기기</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">소스 코드 표시</a></li></ul></div></div>
+            <p class="subtitle lead">대통령 해외순방</p>
+                  <div>
+        <div class="description">
+          <p>대통령 해외순방 데이터 분석</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">저자</div>
+    <div class="quarto-title-meta-heading">소속</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author"><a href="https://www.linkedin.com/in/kwangchunlee/">이광춘</a> </p>
+    </div>
+      <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://github.com/bit2r">
+              한국 R 사용자회
+              </a>
+            </p>
+        </div>
+      </div>
+
+  <div class="quarto-title-meta">
+
+        
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">목차</h2>
+   
+  <ul>
+<li>
+<a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B" id="toc-데이터셋" class="nav-link active" data-scroll-target="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B"><span class="header-section-number">1</span> 데이터셋</a>
+  <ul class="collapse">
+<li><a href="#%EB%AC%B8%EC%9E%AC%EC%9D%B8" id="toc-문재인" class="nav-link" data-scroll-target="#%EB%AC%B8%EC%9E%AC%EC%9D%B8"><span class="header-section-number">1.1</span> 문재인</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#%EB%B6%84%EC%84%9D" id="toc-분석" class="nav-link" data-scroll-target="#%EB%B6%84%EC%84%9D"><span class="header-section-number">2</span> 분석</a>
+  <ul class="collapse">
+<li><a href="#%EB%AC%B8%EC%9E%AC%EC%9D%B8-%ED%95%B4%EC%99%B8%EC%88%9C%EB%B0%A9" id="toc-문재인-해외순방" class="nav-link" data-scroll-target="#%EB%AC%B8%EC%9E%AC%EC%9D%B8-%ED%95%B4%EC%99%B8%EC%88%9C%EB%B0%A9"><span class="header-section-number">2.1</span> 문재인 해외순방</a></li>
+  <li><a href="#%EC%A7%80%EB%8F%84" id="toc-지도" class="nav-link" data-scroll-target="#%EC%A7%80%EB%8F%84"><span class="header-section-number">2.2</span> 지도</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="데이터셋" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> 데이터셋</h1>
+<section id="문재인" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="문재인">
+<span class="header-section-number">1.1</span> 문재인</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">moon_html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="st">"https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">moon_raw</span> <span class="op">&lt;-</span> <span class="va">moon_html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"table"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">moon_h3</span> <span class="op">&lt;-</span> <span class="va">moon_html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"h3"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">moon_raw</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">moon_h3</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_df</a></span><span class="op">(</span><span class="va">moon_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span>, <span class="va">rbind</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 58 × 5</span></span>
+<span><span class="co">#&gt;    나라           장소             일자                `세부 내용`         사진 </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;               &lt;lgl&gt;</span></span>
+<span><span class="co">#&gt;  1 미국           워싱턴 D.C.      6월 28일~7월 3일    공식 실무 방문.[1]  NA   </span></span>
+<span><span class="co">#&gt;  2 독일           베를린, 함부르크 7월 5일~7월 8일     2017년 함부르크 G2… NA   </span></span>
+<span><span class="co">#&gt;  3 러시아         블라디보스토크   9월 6일~9월 7일     공식 방문. 동방경…  NA   </span></span>
+<span><span class="co">#&gt;  4 미국           뉴욕             9월 19일~9월 21일   실무 방문. 유엔 총… NA   </span></span>
+<span><span class="co">#&gt;  5 인도네시아     자카르타         11월 8일~11월 10일  국빈 방문.[11]      NA   </span></span>
+<span><span class="co">#&gt;  6 베트남         다낭             11월 10일~11월 12일 2017년 다낭 APEC …  NA   </span></span>
+<span><span class="co">#&gt;  7 필리핀         마닐라           11월 12일~11월 14일 동아시아 정상회의 … NA   </span></span>
+<span><span class="co">#&gt;  8 중화인민공화국 베이징시, 충칭시 12월 13일~12월 16일 국빈 방문.[16]      NA   </span></span>
+<span><span class="co">#&gt;  9 베트남         하노이           3월 22일~3월 24일   국빈 방문.[17]      NA   </span></span>
+<span><span class="co">#&gt; 10 아랍에미리트   아부다비, 두바이 3월 24일~3월 27일   공식 방문.[18]      NA   </span></span>
+<span><span class="co">#&gt; # ℹ 48 more rows</span></span>
+<span></span>
+<span><span class="va">moon_tbl</span> <span class="op">&lt;-</span> <span class="va">moon_h3</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">value</span>, <span class="st">"년\\[편집\\]"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">연도</span>, <span class="st">"\\d{4}"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">moon_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">연도</span>, <span class="va">나라</span>, <span class="va">장소</span>, <span class="va">일자</span>, 세부내용<span class="op">=</span><span class="va">`세부 내용`</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">일자</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"출국"</span>, <span class="st">"도착"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"~"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>도착 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">도착</span><span class="op">)</span>, <span class="va">출국</span>, <span class="va">도착</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>출국일 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_glue.html">str_glue</a></span><span class="op">(</span><span class="st">"{연도}-{출국}"</span><span class="op">)</span>,</span>
+<span>         도착일 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_glue.html">str_glue</a></span><span class="op">(</span><span class="st">"{연도}-{도착}"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>출국일 <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_datetime.html">parse_date</a></span><span class="op">(</span><span class="va">출국일</span>, <span class="st">"%Y-%m월 %d일"</span><span class="op">)</span>,</span>
+<span>         도착일 <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_datetime.html">parse_date</a></span><span class="op">(</span><span class="va">도착일</span>, <span class="st">"%Y-%m월 %d일"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">출국일</span>, <span class="va">도착일</span>, 국가 <span class="op">=</span> <span class="va">나라</span>, <span class="va">장소</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>기간 <span class="op">=</span> <span class="op">(</span><span class="va">출국일</span> <span class="op"><a href="https://lubridate.tidyverse.org/reference/interval.html">%--%</a></span> <span class="va">도착일</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span><span class="fl">1</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section></section><section id="분석" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> 분석</h1>
+<section id="문재인-해외순방" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="문재인-해외순방">
+<span class="header-section-number">2.1</span> 문재인 해외순방</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://vincentarelbundock.github.io/countrycode/">countrycode</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">country_codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="st">"국가"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"노르웨이"</span>, <span class="st">"뉴질랜드"</span>, <span class="st">"덴마크"</span>, <span class="st">"독일"</span>, <span class="st">"라오스"</span>, <span class="st">"러시아"</span>, <span class="st">"말레이시아"</span>, <span class="st">"미국"</span>, <span class="st">"미얀마"</span>, <span class="st">"바티칸 시국"</span>, <span class="st">"베트남"</span>, <span class="st">"벨기에"</span>, <span class="st">"브루나이"</span>, <span class="st">"사우디아라비아"</span>, <span class="st">"스웨덴"</span>, <span class="st">"스페인"</span>, <span class="st">"싱가포르"</span>, <span class="st">"아랍에미리트"</span>, <span class="st">"아르헨티나"</span>, <span class="st">"영국"</span>, <span class="st">"오스트레일리아"</span>, <span class="st">"오스트리아"</span>, <span class="st">"우즈베키스탄"</span>, <span class="st">"이집트"</span>, <span class="st">"이탈리아"</span>, <span class="st">"인도"</span>, <span class="st">"인도네시아"</span>, <span class="st">"일본"</span>, <span class="st">"조선민주주의인민공화국"</span>, <span class="st">"중화인민공화국"</span>, <span class="st">"체코"</span>, <span class="st">"카자흐스탄"</span>, <span class="st">"캄보디아"</span>, <span class="st">"태국"</span>, <span class="st">"투르크메니스탄"</span>, <span class="st">"파푸아뉴기니"</span>, <span class="st">"프랑스"</span>, <span class="st">"핀란드"</span>, <span class="st">"필리핀"</span>, <span class="st">"헝가리"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"영문_국가명"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Norway"</span>, <span class="st">"New Zealand"</span>, <span class="st">"Denmark"</span>, <span class="st">"Germany"</span>, <span class="st">"Laos"</span>, <span class="st">"Russia"</span>, <span class="st">"Malaysia"</span>, <span class="st">"United States"</span>, <span class="st">"Myanmar"</span>, <span class="st">"Vatican City"</span>, <span class="st">"Vietnam"</span>, <span class="st">"Belgium"</span>, <span class="st">"Brunei"</span>, <span class="st">"Saudi Arabia"</span>, <span class="st">"Sweden"</span>, <span class="st">"Spain"</span>, <span class="st">"Singapore"</span>, <span class="st">"United Arab Emirates"</span>, <span class="st">"Argentina"</span>, <span class="st">"United Kingdom"</span>, <span class="st">"Australia"</span>, <span class="st">"Austria"</span>, <span class="st">"Uzbekistan"</span>, <span class="st">"Egypt"</span>, <span class="st">"Italy"</span>, <span class="st">"India"</span>, <span class="st">"Indonesia"</span>, <span class="st">"Japan"</span>, <span class="st">"North Korea"</span>, <span class="st">"China"</span>, <span class="st">"Czech Republic"</span>, <span class="st">"Kazakhstan"</span>, <span class="st">"Cambodia"</span>, <span class="st">"Thailand"</span>, <span class="st">"Turkmenistan"</span>, <span class="st">"Papua New Guinea"</span>, <span class="st">"France"</span>, <span class="st">"Finland"</span>, <span class="st">"Philippines"</span>, <span class="st">"Hungary"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"iso2c"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NO"</span>, <span class="st">"NZ"</span>, <span class="st">"DK"</span>, <span class="st">"DE"</span>, <span class="st">"LA"</span>, <span class="st">"RU"</span>, <span class="st">"MY"</span>, <span class="st">"US"</span>, <span class="st">"MM"</span>, <span class="st">"VA"</span>, <span class="st">"VN"</span>, <span class="st">"BE"</span>, <span class="st">"BN"</span>, <span class="st">"SA"</span>, <span class="st">"SE"</span>, <span class="st">"ES"</span>, <span class="st">"SG"</span>, <span class="st">"AE"</span>, <span class="st">"AR"</span>, <span class="st">"GB"</span>, <span class="st">"AU"</span>, <span class="st">"AT"</span>, <span class="st">"UZ"</span>, <span class="st">"EG"</span>, <span class="st">"IT"</span>, <span class="st">"IN"</span>, <span class="st">"ID"</span>, <span class="st">"JP"</span>, <span class="st">"KP"</span>, <span class="st">"CN"</span>, <span class="st">"CZ"</span>, <span class="st">"KZ"</span>, <span class="st">"KH"</span>, <span class="st">"TH"</span>, <span class="st">"TM"</span>, <span class="st">"PG"</span>, <span class="st">"FR"</span>, <span class="st">"FI"</span>, <span class="st">"PH"</span>, <span class="st">"HU"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">moon_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">국가</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>방문수 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>            연도 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_glue.html">str_glue</a></span><span class="op">(</span><span class="st">"{lubridate::year(출국일)}"</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">country_codes</span>, by <span class="op">=</span> <span class="st">"국가"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>대륙 <span class="op">=</span> <span class="fu"><a href="https://vincentarelbundock.github.io/countrycode/reference/countrycode.html">countrycode</a></span><span class="op">(</span><span class="va">iso2c</span>, <span class="st">"iso2c"</span>, <span class="st">"continent"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">방문수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">영문_국가명</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">iso2c</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">gt</span><span class="op">(</span>groupname_col <span class="op">=</span> <span class="st">"대륙"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">fmt_flag</span><span class="op">(</span>columns <span class="op">=</span> <span class="va">iso2c</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">cols_label</span><span class="op">(</span></span>
+<span>    iso2c <span class="op">=</span> <span class="st">""</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">cols_align</span><span class="op">(</span><span class="st">"center"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">tab_header</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="fu">md</span><span class="op">(</span><span class="st">"문재인 대통령 해외 순방"</span><span class="op">)</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="fu">md</span><span class="op">(</span><span class="st">"2017년 5월 10일 ~ 2021년 5월 9일"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="fu">tab_footnote</span><span class="op">(</span></span>
+<span>  footnote <span class="op">=</span> <span class="fu">md</span><span class="op">(</span><span class="st">"데이터 출처: [위키백과](https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록)"</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span>   </span>
+<span>  <span class="fu">gt_theme_538</span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div id="omvpixbmzy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#omvpixbmzy table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#omvpixbmzy thead, #omvpixbmzy tbody, #omvpixbmzy tfoot, #omvpixbmzy tr, #omvpixbmzy td, #omvpixbmzy th {
+  border-style: none;
+}
+
+#omvpixbmzy p {
+  margin: 0;
+  padding: 0;
+}
+
+#omvpixbmzy .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: none;
+  border-top-width: 3px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#omvpixbmzy .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#omvpixbmzy .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#omvpixbmzy .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_bottom_border {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_col_headings {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: normal;
+  text-transform: uppercase;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#omvpixbmzy .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: normal;
+  text-transform: uppercase;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#omvpixbmzy .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#omvpixbmzy .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#omvpixbmzy .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#omvpixbmzy .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#omvpixbmzy .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#omvpixbmzy .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #FFFFFF;
+  vertical-align: middle;
+}
+
+#omvpixbmzy .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#omvpixbmzy .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#omvpixbmzy .gt_row {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#omvpixbmzy .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
+  border-right-style: solid;
+  border-right-width: 0px;
+  border-right-color: #FFFFFF;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#omvpixbmzy .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#omvpixbmzy .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#omvpixbmzy .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#omvpixbmzy .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#omvpixbmzy .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#omvpixbmzy .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#omvpixbmzy .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#omvpixbmzy .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#omvpixbmzy .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#omvpixbmzy .gt_sourcenote {
+  font-size: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#omvpixbmzy .gt_left {
+  text-align: left;
+}
+
+#omvpixbmzy .gt_center {
+  text-align: center;
+}
+
+#omvpixbmzy .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#omvpixbmzy .gt_font_normal {
+  font-weight: normal;
+}
+
+#omvpixbmzy .gt_font_bold {
+  font-weight: bold;
+}
+
+#omvpixbmzy .gt_font_italic {
+  font-style: italic;
+}
+
+#omvpixbmzy .gt_super {
+  font-size: 65%;
+}
+
+#omvpixbmzy .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#omvpixbmzy .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#omvpixbmzy .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#omvpixbmzy .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#omvpixbmzy .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#omvpixbmzy .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#omvpixbmzy .gt_indent_5 {
+  text-indent: 25px;
+}
+
+tbody tr:last-child {
+  border-bottom: 2px solid #ffffff00;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading">
+<td colspan="4" class="gt_heading gt_title gt_font_normal" style="">문재인 대통령 해외 순방</td>
+    </tr>
+<tr class="gt_heading">
+<td colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">2017년 5월 10일 ~ 2021년 5월 9일</td>
+    </tr>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="국가">국가</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="방문수">방문수</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 0px; border-top-style: solid; border-top-color: black;" scope="col" id="연도">연도</th>
+    </tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="gt_group_heading_row">
+<th colspan="4" class="gt_group_heading" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: black;" scope="colgroup" id="Americas">Americas</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Americas  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>United States</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M256 0h256v64l-32 32 32 32v64l-32 32 32 32v64l-32 32 32 32v64l-256 32L0 448v-64l32-32-32-32v-64z"></path><path fill="#d80027" d="M224 64h288v64H224Zm0 128h288v64H256ZM0 320h512v64H0Zm0 128h512v64H0Z"></path><path fill="#0052b4" d="M0 0h256v256H0Z"></path><path fill="#eee" d="m187 243 57-41h-70l57 41-22-67zm-81 0 57-41H93l57 41-22-67zm-81 0 57-41H12l57 41-22-67zm162-81 57-41h-70l57 41-22-67zm-81 0 57-41H93l57 41-22-67zm-81 0 57-41H12l57 41-22-67Zm162-82 57-41h-70l57 41-22-67Zm-81 0 57-41H93l57 41-22-67zm-81 0 57-41H12l57 41-22-67Z"></path></g></svg></span></td>
+<td headers="Americas  국가" class="gt_row gt_center">미국</td>
+<td headers="Americas  방문수" class="gt_row gt_center">8</td>
+<td headers="Americas  연도" class="gt_row gt_center">2017,2017,2018,2018,2019,2019,2021,2021</td>
+</tr>
+<tr>
+<td headers="Americas  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Argentina</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#338af3" d="M0 0h512v144.7L488 256l24 111.3V512H0V367.3L26 256 0 144.7z"></path><path fill="#eee" d="M0 144.7h512v222.6H0z"></path><path fill="#ffda44" d="m332.4 256-31.2 14.7 16.7 30.3-34-6.5-4.2 34.3-23.7-25.2-23.6 25.2-4.3-34.3-34 6.5 16.6-30.3-31.2-14.7 31.3-14.7L194 211l34 6.5 4.3-34.3 23.6 25.2 23.6-25.2 4.4 34.3 34-6.5-16.7 30.3z"></path></g></svg></span></td>
+<td headers="Americas  국가" class="gt_row gt_center">아르헨티나</td>
+<td headers="Americas  방문수" class="gt_row gt_center">1</td>
+<td headers="Americas  연도" class="gt_row gt_center">2018</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="4" class="gt_group_heading" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: black;" scope="colgroup" id="Europe">Europe</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Russian Federation</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#0052b4" d="m0 167 253.8-19.3L512 167v178l-254.9 32.3L0 345z"></path><path fill="#eee" d="M0 0h512v167H0z"></path><path fill="#d80027" d="M0 345h512v167H0z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">러시아</td>
+<td headers="Europe  방문수" class="gt_row gt_center">2</td>
+<td headers="Europe  연도" class="gt_row gt_center">2017,2018</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">바티칸 시국</td>
+<td headers="Europe  방문수" class="gt_row gt_center">2</td>
+<td headers="Europe  연도" class="gt_row gt_center">2018,2021</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>United Kingdom</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 0 8 22-8 23v23l32 54-32 54v32l32 48-32 48v32l32 54-32 54v68l22-8 23 8h23l54-32 54 32h32l48-32 48 32h32l54-32 54 32h68l-8-22 8-23v-23l-32-54 32-54v-32l-32-48 32-48v-32l-32-54 32-54V0l-22 8-23-8h-23l-54 32-54-32h-32l-48 32-48-32h-32l-54 32L68 0H0z"></path><path fill="#0052b4" d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z"></path><path fill="#d80027" d="M0 0v45l131 131h45L0 0zm208 0v208H0v96h208v208h96V304h208v-96H304V0h-96zm259 0L336 131v45L512 0h-45zM176 336 0 512h45l131-131v-45zm160 0 176 176v-45L381 336h-45z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">영국</td>
+<td headers="Europe  방문수" class="gt_row gt_center">2</td>
+<td headers="Europe  연도" class="gt_row gt_center">2021,2021</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Italy</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M167 0h178l25.9 252.3L345 512H167l-29.8-253.4z"></path><path fill="#6da544" d="M0 0h167v512H0z"></path><path fill="#d80027" d="M345 0h167v512H345z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">이탈리아</td>
+<td headers="Europe  방문수" class="gt_row gt_center">2</td>
+<td headers="Europe  연도" class="gt_row gt_center">2018,2021</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Norway</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h100.2l66.1 53.5L233.7 0H512v189.3L466.3 257l45.7 65.8V512H233.7l-68-50.7-65.5 50.7H0V322.8l51.4-68.5-51.4-65z"></path><path fill="#eee" d="M100.2 0v189.3H0v33.4l24.6 33L0 289.5v33.4h100.2V512h33.4l30.6-26.3 36.1 26.3h33.4V322.8H512v-33.4l-24.6-33.7 24.6-33v-33.4H233.7V0h-33.4l-33.8 25.3L133.6 0z"></path><path fill="#0052b4" d="M133.6 0v222.7H0v66.7h133.6V512h66.7V289.4H512v-66.7H200.3V0z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">노르웨이</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Denmark</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h133.6l32.7 20.3 34-20.3H512v222.6L491.4 256l20.6 33.4V512H200.3l-31.7-20.4-35 20.4H0V289.4l29.4-33L0 222.7z"></path><path fill="#eee" d="M133.6 0v222.6H0v66.8h133.6V512h66.7V289.4H512v-66.8H200.3V0h-66.7z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">덴마크</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2018</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Germany</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 345 256.7-25.5L512 345v167H0z"></path><path fill="#d80027" d="m0 167 255-23 257 23v178H0z"></path><path fill="#333" d="M0 0h512v167H0z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">독일</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2017</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Belgium</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#333" d="M0 0h167l38.2 252.6L167 512H0z"></path><path fill="#d80027" d="M345 0h167v512H345l-36.7-256z"></path><path fill="#ffda44" d="M167 0h178v512H167z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">벨기에</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2018</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Sweden</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h133.6l35.3 16.7L200.3 0H512v222.6l-22.6 31.7 22.6 35.1V512H200.3l-32-19.8-34.7 19.8H0V289.4l22.1-33.3L0 222.6z"></path><path fill="#ffda44" d="M133.6 0v222.6H0v66.8h133.6V512h66.7V289.4H512v-66.8H200.3V0z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">스웨덴</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Spain</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 128 256-32 256 32v256l-256 32L0 384Z"></path><path fill="#d80027" d="M0 0h512v128H0zm0 384h512v128H0z"></path><g fill="#eee"><path d="M144 304h-16v-80h16zm128 0h16v-80h-16z"></path><ellipse cx="208" cy="296" rx="48" ry="32"></ellipse></g><g fill="#d80027"><rect width="16" height="24" x="128" y="192" rx="8"></rect><rect width="16" height="24" x="272" y="192" rx="8"></rect><path d="M208 272v24a24 24 0 0 0 24 24 24 24 0 0 0 24-24v-24h-24z"></path></g><rect width="32" height="16" x="120" y="208" fill="#ff9811" ry="8"></rect><rect width="32" height="16" x="264" y="208" fill="#ff9811" ry="8"></rect><rect width="32" height="16" x="120" y="304" fill="#ff9811" rx="8"></rect><rect width="32" height="16" x="264" y="304" fill="#ff9811" rx="8"></rect><path fill="#ff9811" d="M160 272v24c0 8 4 14 9 19l5-6 5 10a21 21 0 0 0 10 0l5-10 5 6c6-5 9-11 9-19v-24h-9l-5 8-5-8h-10l-5 8-5-8z"></path><path d="M122 252h172m-172 24h28m116 0h28"></path><path fill="#d80027" d="M122 248a4 4 0 0 0-4 4 4 4 0 0 0 4 4h172a4 4 0 0 0 4-4 4 4 0 0 0-4-4zm0 24a4 4 0 0 0-4 4 4 4 0 0 0 4 4h28a4 4 0 0 0 4-4 4 4 0 0 0-4-4zm144 0a4 4 0 0 0-4 4 4 4 0 0 0 4 4h28a4 4 0 0 0 4-4 4 4 0 0 0-4-4z"></path><path fill="#eee" d="M196 168c-7 0-13 5-15 11l-5-1c-9 0-16 7-16 16s7 16 16 16c7 0 13-4 15-11a16 16 0 0 0 17-4 16 16 0 0 0 17 4 16 16 0 1 0 10-20 16 16 0 0 0-27-5c-3-4-7-6-12-6zm0 8c5 0 8 4 8 8 0 5-3 8-8 8-4 0-8-3-8-8 0-4 4-8 8-8zm24 0c5 0 8 4 8 8 0 5-3 8-8 8-4 0-8-3-8-8 0-4 4-8 8-8zm-44 10 4 1 4 8c0 4-4 7-8 7s-8-3-8-8c0-4 4-8 8-8zm64 0c5 0 8 4 8 8 0 5-3 8-8 8-4 0-8-3-8-7l4-8z"></path><path fill="none" d="M220 284v12c0 7 5 12 12 12s12-5 12-12v-12z"></path><path fill="#ff9811" d="M200 160h16v32h-16z"></path><path fill="#eee" d="M208 224h48v48h-48z"></path><path fill="#d80027" d="m248 208-8 8h-64l-8-8c0-13 18-24 40-24s40 11 40 24zm-88 16h48v48h-48z"></path><rect width="20" height="32" x="222" y="232" fill="#d80027" rx="10" ry="10"></rect><path fill="#ff9811" d="M168 232v8h8v16h-8v8h32v-8h-8v-16h8v-8zm8-16h64v8h-64z"></path><g fill="#ffda44"><circle cx="186" cy="202" r="6"></circle><circle cx="208" cy="202" r="6"></circle><circle cx="230" cy="202" r="6"></circle></g><path fill="#d80027" d="M169 272v43a24 24 0 0 0 10 4v-47h-10zm20 0v47a24 24 0 0 0 10-4v-43h-10z"></path><g fill="#338af3"><circle cx="208" cy="272" r="16"></circle><rect width="32" height="16" x="264" y="320" ry="8"></rect><rect width="32" height="16" x="120" y="320" ry="8"></rect></g></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">스페인</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2021</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Austria</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h512v167l-23.2 89.7L512 345v167H0V345l29.4-89L0 167z"></path><path fill="#eee" d="M0 167h512v178H0z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">오스트리아</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2021</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Czechia</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M0 0h512v256l-265 45.2z"></path><path fill="#d80027" d="M210 256h302v256H0z"></path><path fill="#0052b4" d="M0 0v512l256-256L0 0z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">체코</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2018</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>France</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M167 0h178l25.9 252.3L345 512H167l-29.8-253.4z"></path><path fill="#0052b4" d="M0 0h167v512H0z"></path><path fill="#d80027" d="M345 0h167v512H345z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">프랑스</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2018</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Finland</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M0 0h133.6l35.3 16.7L200.3 0H512v222.6l-22.6 31.7 22.6 35.1V512H200.3l-32-19.8-34.7 19.8H0V289.4l22.1-33.3L0 222.6z"></path><path fill="#0052b4" d="M133.6 0v222.6H0v66.8h133.6V512h66.7V289.4H512v-66.8H200.3V0h-66.7z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">핀란드</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Europe  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Hungary</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 167 253.8-19.3L512 167v178l-254.9 32.3L0 345z"></path><path fill="#d80027" d="M0 0h512v167H0z"></path><path fill="#6da544" d="M0 345h512v167H0z"></path></g></svg></span></td>
+<td headers="Europe  국가" class="gt_row gt_center">헝가리</td>
+<td headers="Europe  방문수" class="gt_row gt_center">1</td>
+<td headers="Europe  연도" class="gt_row gt_center">2021</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="4" class="gt_group_heading" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: black;" scope="colgroup" id="Asia">Asia</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Vietnam</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h512v512H0z"></path><path fill="#ffda44" d="m256 133.6 27.6 85H373L300.7 271l27.6 85-72.3-52.5-72.3 52.6 27.6-85-72.3-52.6h89.4z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">베트남</td>
+<td headers="Asia  방문수" class="gt_row gt_center">2</td>
+<td headers="Asia  연도" class="gt_row gt_center">2017,2018</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Singapore</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 256 257.7-51L512 256v256H0z"></path><path fill="#d80027" d="M0 0h512v256H0z"></path><g fill="#eee"><path d="M155.8 133.6A78 78 0 0 1 217 57.5a78.2 78.2 0 0 0-16.7-1.8 78 78 0 1 0 16.7 154 78 78 0 0 1-61.2-76.1zM256 61.2l5.5 17h18l-14.6 10.5 5.6 17L256 95.2l-14.5 10.5 5.6-17-14.5-10.5h17.9z"></path><path d="m212.6 94.6 5.6 17H236l-14.4 10.5 5.5 17-14.5-10.5-14.4 10.5 5.5-17-14.5-10.5h17.9zm86.8 0 5.5 17h17.9l-14.5 10.5 5.5 17-14.4-10.5-14.5 10.5 5.5-17-14.4-10.5h17.8zm-16.7 50.1 5.5 17h17.9l-14.5 10.5 5.5 17-14.4-10.5-14.5 10.5 5.5-17-14.4-10.5h17.9zm-53.4 0 5.5 17h18l-14.5 10.5 5.5 17-14.5-10.5-14.4 10.5 5.5-17-14.5-10.5h17.9z"></path></g></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">싱가포르</td>
+<td headers="Asia  방문수" class="gt_row gt_center">2</td>
+<td headers="Asia  연도" class="gt_row gt_center">2018,2018</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>United Arab Emirates</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#a2001d" d="M0 0h167l52.3 252L167 512H0z"></path><path fill="#eee" d="m167 167 170.8-44.6L512 167v178l-173.2 36.9L167 345z"></path><path fill="#6da544" d="M167 0h345v167H167z"></path><path fill="#333" d="M167 345h345v167H167z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">아랍에미리트</td>
+<td headers="Asia  방문수" class="gt_row gt_center">2</td>
+<td headers="Asia  연도" class="gt_row gt_center">2018,2022</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Japan</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M0 0h512v512H0z"></path><circle cx="256" cy="256" r="111.3" fill="#d80027"></circle></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">일본</td>
+<td headers="Asia  방문수" class="gt_row gt_center">2</td>
+<td headers="Asia  연도" class="gt_row gt_center">2018,2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Korea, Dem. People's Rep.</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h512v89l-61.2 165.6L512 423v89H0v-89l62.5-174.6L0 89z"></path><path fill="#eee" d="M0 89h512v33.4l-28.1 130L512 389.7V423H0v-33.4L30 255 0 122.4z"></path><path fill="#d80027" d="M0 122.4h512v267.2H0z"></path><circle cx="157.5" cy="256" r="98.5" fill="#eee"></circle><path fill="#d80027" d="m157.5 157.5 22.1 68h71.6l-58 42 22.3 68.3-58-42.3-58 42.2 22.2-68.1-57.9-42h71.6z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">조선민주주의인민공화국</td>
+<td headers="Asia  방문수" class="gt_row gt_center">2</td>
+<td headers="Asia  연도" class="gt_row gt_center">2018,2018</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>China</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h512v512H0z"></path><path fill="#ffda44" d="m140.1 155.8 22.1 68h71.5l-57.8 42.1 22.1 68-57.9-42-57.9 42 22.2-68-57.9-42.1H118zm163.4 240.7-16.9-20.8-25 9.7 14.5-22.5-16.9-20.9 25.9 6.9 14.6-22.5 1.4 26.8 26 6.9-25.1 9.6zm33.6-61 8-25.6-21.9-15.5 26.8-.4 7.9-25.6 8.7 25.4 26.8-.3-21.5 16 8.6 25.4-21.9-15.5zm45.3-147.6L370.6 212l19.2 18.7-26.5-3.8-11.8 24-4.6-26.4-26.6-3.8 23.8-12.5-4.6-26.5 19.2 18.7zm-78.2-73-2 26.7 24.9 10.1-26.1 6.4-1.9 26.8-14.1-22.8-26.1 6.4 17.3-20.5-14.2-22.7 24.9 10.1z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">중화인민공화국</td>
+<td headers="Asia  방문수" class="gt_row gt_center">2</td>
+<td headers="Asia  연도" class="gt_row gt_center">2017,2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Thailand</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h512v89l-79.2 163.7L512 423v89H0v-89l82.7-169.6L0 89z"></path><path fill="#eee" d="M0 89h512v78l-42.6 91.2L512 345v78H0v-78l40-92.5L0 167z"></path><path fill="#0052b4" d="M0 167h512v178H0z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">태국</td>
+<td headers="Asia  방문수" class="gt_row gt_center">2</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019,2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Lao PDR</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h512v144.8l-45.8 113L512 367.4V512H0V367.4l46.3-111.1L0 144.8z"></path><path fill="#0052b4" d="M0 144.8h512v222.6H0z"></path><circle cx="256" cy="256.1" r="89" fill="#eee"></circle></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">라오스</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Malaysia</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M0 256 256 0h256v55.7l-19.5 33 19.5 33.7v66.8l-22.1 37.7L512 256v66.8l-20.2 38.5 20.2 28.3v66.7l-254.5 28.2L0 456.3v-66.7l26-35.1-26-31.7z"></path><path fill="#d80027" d="M256 256h256v-66.8H222.9zm-33.1-133.6H512V55.7H222.9zM512 512v-55.7H0V512zM0 389.6h512v-66.8H0z"></path><path fill="#0052b4" d="M0 0h256v256H0z"></path><g fill="#ffda44"><path d="M170.2 219.1a63.3 63.3 0 1 1 30.1-119 78 78 0 1 0 0 111.4 63 63 0 0 1-30 7.6z"></path><path d="m188 111.3 11.3 23.5 25.4-5.9-11.4 23.5 20.4 16.2-25.4 5.7.1 26-20.3-16.2-20.4 16.2.1-26-25.4-5.7 20.4-16.2-11.4-23.5 25.4 6z"></path></g></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">말레이시아</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Myanmar</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#6da544" d="m0 167 253.8-19.3L512 167v178l-254.9 32.3L0 345z"></path><path fill="#ffda44" d="M0 0h512v167H0z"></path><path fill="#d80027" d="M0 345h512v167H0z"></path><path fill="#eee" d="M431.5 216.5h-134L256 89l-41.4 127.6h-134l108.3 78.8L147.5 423 256 345l108.5 78-41.4-127.6z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">미얀마</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Brunei Darussalam</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#ffda44" d="M0 0h512v326.7l-19.3 76.5 19.3 77.7V512H0V185.2l21.4-76.5L0 31z"></path><path fill="#eee" d="M0 31v117.2l512 295.7V326.7L0 31z"></path><path fill="#333" d="M0 108.2v77L512 481v-77L0 108.2z"></path><g fill="#d80027"><path d="M328.3 228.2a72.3 72.3 0 1 1-136-34.4 89 89 0 1 0 127.3 0 72 72 0 0 1 8.7 34.4z"></path><path d="M239.3 144.7h33.4v167h-33.4z"></path><path d="M311.6 178H200.4c0 7.8 6.6 14 14.3 14h-.4a14 14 0 0 0 13.9 14 14 14 0 0 0 13.9 13.8h27.8a14 14 0 0 0 14-13.9 14 14 0 0 0 13.8-13.9h-.4c7.6 0 14.3-6.2 14.3-13.9zM178.1 322.9h155.8v33.4H178.1z"></path><path d="M289.4 333.9h66.8v33.4h-66.8zm-133.6 0h66.8v33.4h-66.8z"></path></g></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">브루나이</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Saudi Arabia</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#496e2d" d="M0 0h512v512H0z"></path><g fill="#eee"><path d="M144.7 306c0 18.5 15 33.5 33.4 33.5h100.2a27.8 27.8 0 0 0 27.8 27.8h33.4a27.8 27.8 0 0 0 27.8-27.8V306zm225.4-161.3v78c0 12.2-10 22.2-22.3 22.2v33.4c30.7 0 55.7-25 55.7-55.7v-77.9H370zm-239.3 78c0 12.2-10 22.2-22.3 22.2v33.4c30.7 0 55.7-25 55.7-55.7v-77.9h-33.4z"></path><path d="M320 144.7h33.4v78H320zm-50 44.5a5.6 5.6 0 0 1-11.2 0v-44.5h-33.4v44.5a5.6 5.6 0 0 1-11.1 0v-44.5h-33.4v44.5a39 39 0 0 0 39 39 38.7 38.7 0 0 0 22.2-7 38.7 38.7 0 0 0 22.2 7c1.7 0 3.4-.1 5-.3a22.3 22.3 0 0 1-21.6 17v33.4c30.6 0 55.6-25 55.6-55.7v-77.9H270z"></path><path d="M180.9 244.9h50v33.4h-50z"></path></g></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">사우디아라비아</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2022</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Uzbekistan</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="m0 178 254.2-22L512 178v22.3l-40.2 54.1 40.2 57.3V334l-254 23.4L0 334v-22.3l36.7-59.4-36.7-52z"></path><path fill="#338af3" d="M0 0h512v178H0z"></path><path fill="#eee" d="M0 200.3h512v111.4H0z"></path><path fill="#6da544" d="M0 334h512v178H0z"></path><path fill="#eee" d="M117.2 105.7a50 50 0 0 1 39.3-48.9 50.2 50.2 0 0 0-10.7-1.1 50 50 0 1 0 10.7 99c-22.5-5-39.3-25-39.3-49zm69 22.8 3.3 10.4h11l-9 6.5 3.5 10.4-9-6.4-8.7 6.4 3.4-10.4-9-6.5h11zm35 0 3.4 10.4h11l-9 6.5 3.4 10.4-8.8-6.4-9 6.4 3.5-10.4-9-6.5h11zm35 0 3.4 10.4h11l-9 6.5 3.5 10.4-9-6.4-8.8 6.4 3.4-10.4-9-6.5h11zm35 0 3.4 10.4h11l-9 6.5 3.5 10.4-9-6.4-8.8 6.4 3.4-10.4-9-6.5h11zm35 0 3.4 10.4h11l-9 6.5 3.5 10.4-9-6.4-8.8 6.4 3.4-10.4-8.8-6.5h11zm-105-36.4 3.4 10.4h11l-9 6.5 3.4 10.4-8.8-6.5-9 6.5 3.5-10.4-9-6.5h11zm35 0 3.4 10.4h11l-9 6.5 3.5 10.4-9-6.5-8.8 6.5 3.4-10.4-9-6.5h11zm35 0 3.4 10.4h11l-9 6.5 3.5 10.4-9-6.5-8.8 6.5 3.4-10.4-9-6.5h11zm35 0 3.4 10.4h11l-9 6.5 3.5 10.4-9-6.5-8.8 6.5 3.4-10.4-8.8-6.5h11zm-70-36.4 3.4 10.4h11l-9 6.4 3.6 10.5-9-6.5-8.8 6.5 3.4-10.5-9-6.4h11zm35 0 3.4 10.4h11l-9 6.4 3.6 10.5-9-6.5-8.8 6.5 3.4-10.5-9-6.4h11zm35 0 3.4 10.4h11l-9 6.4 3.6 10.5-9-6.5-8.8 6.5 3.4-10.5-8.8-6.4h11z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">우즈베키스탄</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>India</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 160 256-32 256 32v192l-256 32L0 352z"></path><path fill="#ff9811" d="M0 0h512v160H0Z"></path><path fill="#6da544" d="M0 352h512v160H0Z"></path><circle cx="256" cy="256" r="72" fill="#0052b4"></circle><circle cx="256" cy="256" r="48" fill="#eee"></circle><circle cx="256" cy="256" r="24" fill="#0052b4"></circle></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">인도</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2018</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Indonesia</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 256 249.6-41.3L512 256v256H0z"></path><path fill="#a2001d" d="M0 0h512v256H0z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">인도네시아</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2017</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Kazakhstan</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#338af3" d="M0 0h512v512H0z"></path><path fill="#ffda44" d="M400.7 258.8H111.3c0 20 17.4 36.2 37.4 36.2h-1.2c0 20 16.2 36.1 36.2 36.1 0 20 16.1 36.2 36.1 36.2h72.4c20 0 36.1-16.2 36.1-36.2 20 0 36.2-16.2 36.2-36.1h-1.2c20 0 37.4-16.2 37.4-36.2z"></path><path fill="#338af3" d="M356.2 211.5a100.2 100.2 0 0 1-200.4 0"></path><path fill="#ffda44" d="m332.5 211.5-31.3 14.7 16.7 30.3-34-6.5-4.3 34.3L256 259l-23.6 25.3L228 250l-34 6.5 16.6-30.3-31.2-14.7 31.2-14.7-16.6-30.3 34 6.5 4.3-34.3 23.6 25.2 23.6-25.2L284 173l34-6.5-16.6 30.3z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">카자흐스탄</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Cambodia</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h512v133.7l-39 121.6 39 123.2V512H0V378.5L34.2 255 0 133.7z"></path><path fill="#d80027" d="M0 133.7h512v244.8H0z"></path><path fill="#eee" d="M345 306.1v-33.3h-22.2v-44.5L300.5 206l-22.2 22.3v-44.5L256 161.5l-22.3 22.3v44.5L211.5 206l-22.3 22.3v44.5H167v33.4h-22.3v33.4h222.6v-33.5z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">캄보디아</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Turkmenistan</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#496e2d" d="M0 0h66.8l67.8 32.3L200.3 0H512v512H200.3l-70.2-34.1L66.8 512H0z"></path><path fill="#d80027" d="M66.8 0h133.5v512H66.8z"></path><g fill="#eee"><path d="M374.4 193.1a78 78 0 0 0-31.9-92.3 78.2 78.2 0 0 1 16.3 4 78 78 0 1 1-52.6 146.6 78.1 78.1 0 0 1-15.1-7.3 78 78 0 0 0 83.3-51zm-69.8-102-11 14.2-16.8-6 10 14.8-10.9 14 17.2-5 10 14.9.6-18 17.2-5-16.9-6z"></path><path d="m334.1 137.3-11 14-16.8-6 10.1 14.8-11 14.2 17.2-5 10.1 14.7.5-17.8 17.2-5-16.8-6zM252.5 108l-11 14.1-16.8-6 10 14.7-10.9 14.2 17.2-5 10 14.7.6-17.8 17.1-5-16.8-6zm-1.2 52.7-11 14.2-16.8-6 10 14.7-10.9 14.2 17.2-5 10 14.7.6-17.8 17.1-5-16.8-6zm50.2 18-11 14.2-16.8-6 10 14.7-10.9 14.2 17.2-5 10 14.7.6-17.8 17.2-5-16.9-6z"></path></g><path fill="#eee" d="M117.8 134.8 95.4 118v-12l38.2-28 15.8-.1 22.3 16.7v11.5l-38.1 28.7z"></path><path fill="#ff9811" d="M133.6 78h-15.8L95.4 94.5V106h38.2zm0 56.8h15.8l22.3-16.7v-12h-38.1z"></path><path fill="#496e2d" d="m117.8 284.4-22.4-16.6v-23.6l22.4-16.6h31.6l22.3 16.6v23.6l-22.3 16.6zm54.7 36.7h-9.7v-9.8h-17.1l-12.1-12-12.1 12h-17.2v9.8h-9.7v19.5h9.7v9.7h17.2l12 12.1 12.2-12.1h17v-9.7h9.8zm0-149.7h-9.7v-9.7h-17.1l-12.1-12.1-12.1 12h-17.2v9.8h-9.7V191h9.7v9.8h17.2l12 12 12.2-12h17V191h9.8z"></path><g fill="#d80027"><path d="M122.4 244.9h22.3V267h-22.3z"></path><circle cx="133.6" cy="181.2" r="11.1"></circle><circle cx="133.6" cy="330.8" r="11.1"></circle></g><path fill="#eee" d="m117.8 434-22.4-16.8v-12l38.2-28 15.8-.1 22.3 16.7v11.5L133.6 434z"></path><path fill="#ff9811" d="M133.6 377.2h-15.8l-22.4 16.5v11.5h38.2zm0 56.8h15.8l22.3-16.7v-12h-38.1z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">투르크메니스탄</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2019</td>
+</tr>
+<tr>
+<td headers="Asia  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Philippines</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h512v256l-265 45.2z"></path><path fill="#d80027" d="M210 256h302v256H0z"></path><path fill="#eee" d="M0 0v512l256-256z"></path><path fill="#ffda44" d="M175.3 256 144 241.3l16.7-30.3-34 6.5-4.3-34.3-23.6 25.2L75 183.2l-4.3 34.3-34-6.5 16.7 30.3L22.3 256l31.2 14.7L37 301l34-6.5 4.2 34.3 23.7-25.2 23.6 25.2 4.3-34.3 34 6.5-16.7-30.3zm-107-155.8 10.4 14.5 17-5.4-10.6 14.4 10.4 14.5-17-5.6L68 147l.2-17.9-17-5.6 17-5.4zm0 264.8 10.4 14.6 17-5.4-10.6 14.3 10.4 14.6-17-5.7L68 411.8l.2-17.9-17-5.6 17-5.4zm148.4-132.4L206.3 247l-17-5.4 10.5 14.4-10.4 14.6 17-5.7 10.6 14.4-.1-17.9 17-5.6-17.1-5.4z"></path></g></svg></span></td>
+<td headers="Asia  국가" class="gt_row gt_center">필리핀</td>
+<td headers="Asia  방문수" class="gt_row gt_center">1</td>
+<td headers="Asia  연도" class="gt_row gt_center">2017</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="4" class="gt_group_heading" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: black;" scope="colgroup" id="Oceania">Oceania</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Oceania  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>New Zealand</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#0052b4" d="M256 0h256v512H0V256Z"></path><path fill="#eee" d="M0 0v32l32 32L0 96v160h32l32-32 32 32h32v-83l83 83h45l-8-16 8-15v-14l-83-83h83V96l-32-32 32-32V0H96L64 32 32 0Zm382 92-11 35h-37l30 21-12 35 30-22 30 22-12-35 30-21h-37l-11-35Zm61 72-11 35h-37l30 21-11 35 29-21 30 21-12-35 30-21h-37Zm-123 10-11 35h-37l30 22-11 35 29-22 30 22-11-35 29-22h-36zm59 130-11 35h-37l30 21-11 35 29-21 30 21-11-35 29-21h-36z"></path><path fill="#d80027" d="M32 0v32H0v64h32v160h64V96h160V32H96V0Zm96 128 128 128v-31l-97-97zm251 201-5 18h-19l15 10-6 18 15-11 15 11-5-18 14-10h-18Zm-59-129-5 17h-19l15 11-6 17 15-11 15 11-6-17 15-11h-18l-6-17zm123-11-6 18h-18l15 11-6 17 15-11 15 11-6-17 15-11h-18l-6-18zm-61-72-6 17h-18l15 11-6 17 15-10 15 10-6-17 15-11h-18z"></path></g></svg></span></td>
+<td headers="Oceania  국가" class="gt_row gt_center">뉴질랜드</td>
+<td headers="Oceania  방문수" class="gt_row gt_center">1</td>
+<td headers="Oceania  연도" class="gt_row gt_center">2018</td>
+</tr>
+<tr>
+<td headers="Oceania  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Australia</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h512v512H0z"></path><path fill="#eee" d="m154 300 14 30 32-8-14 30 25 20-32 7 1 33-26-21-26 21 1-33-33-7 26-20-14-30 32 8zm222-27h47l-38 27 15-44 14 44zm7-162 7 15 16-4-7 15 12 10-15 3v17l-13-11-13 11v-17l-15-3 12-10-7-15 16 4zm57 67 7 15 16-4-7 15 12 10-15 3v16l-13-10-13 11v-17l-15-3 12-10-7-15 16 4zm-122 22 7 15 16-4-7 15 12 10-15 3v16l-13-10-13 11v-17l-15-3 12-10-7-15 16 4zm65 156 7 15 16-4-7 15 12 10-15 3v17l-13-11-13 11v-17l-15-3 12-10-7-15 16 4zM0 0v32l32 32L0 96v160h32l32-32 32 32h32v-83l83 83h45l-8-16 8-15v-14l-83-83h83V96l-32-32 32-32V0H96L64 32 32 0Z"></path><path fill="#d80027" d="M32 0v32H0v64h32v160h64V96h160V32H96V0Zm96 128 128 128v-31l-97-97z"></path></g></svg></span></td>
+<td headers="Oceania  국가" class="gt_row gt_center">오스트레일리아</td>
+<td headers="Oceania  방문수" class="gt_row gt_center">1</td>
+<td headers="Oceania  연도" class="gt_row gt_center">2021</td>
+</tr>
+<tr>
+<td headers="Oceania  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Papua New Guinea</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#333" d="M512 512 301.3 226.6 0 0v512z"></path><path fill="#a2001d" d="m0 0 512 512V0z"></path><path fill="#eee" d="m195 346 4.2 12.9h13.6l-11 8 4.2 12.8-11-7.9-11 7.9 4.2-12.9-11-8h13.6zm-34.6-123.7 7 21.5h22.5L171.7 257l7 21.5-18.3-13.3-18.2 13.3 6.9-21.5-18.2-13.2h22.5zm0 157.4 7 21.5h22.5l-18.2 13.2 7 21.6-18.3-13.4-18.2 13.4 6.9-21.6-18.2-13.2h22.5zm66-101.2 7 21.5H256l-18.2 13.3 6.9 21.4-18.2-13.2-18.3 13.2 7-21.4-18.3-13.3h22.5zm-132 0 7 21.5h22.5l-18.2 13.3 7 21.4-18.3-13.2-18.3 13.2 7-21.4L64.8 300h22.5z"></path><path fill="#ffda44" d="M430.3 189a67 67 0 0 0-42.6-19.7l48.2-37.6a89.7 89.7 0 0 0-70.3-26A67.2 67.2 0 0 0 348.5 76l-19.2 38.2a28 28 0 0 0-4.8-6.3 28 28 0 1 0-39.7 39.7 28 28 0 0 0 6.3 4.8L253 171.5a67.2 67.2 0 0 0 29.6 17.2 89.7 89.7 0 0 0 26 70.2l42.2-54.2a16.8 16.8 0 0 1 11.9-4.9c4.4 0 8.7 1.7 12 5a16.8 16.8 0 0 1 4.8 11.9c0 4.5-1.7 8.8-4.9 12l15.9 15.9a39.1 39.1 0 0 0 3.7-51.4 44.7 44.7 0 0 1 20.2 11.6 45 45 0 0 1 0 63.6l15.9 15.9a67 67 0 0 0 0-95.4z"></path></g></svg></span></td>
+<td headers="Oceania  국가" class="gt_row gt_center">파푸아뉴기니</td>
+<td headers="Oceania  방문수" class="gt_row gt_center">1</td>
+<td headers="Oceania  연도" class="gt_row gt_center">2018</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="4" class="gt_group_heading" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: black;" scope="colgroup" id="Africa">Africa</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Africa  iso2c" class="gt_row gt_center"><span style="white-space:nowrap;"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;"><title>Egypt</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 144 256-32 256 32v224l-256 32L0 368Z"></path><path fill="#d80027" d="M0 0h512v144H0Z"></path><path fill="#333" d="M0 368h512v144H0Z"></path><path fill="#ff9811" d="M250 191c-8 0-17 4-22 14 5-3 16-1 16 13 0 4-2 8-5 10-8 0-14-14-29-14-10 0-19 7-19 17v69l46-7-14 27h66l-14-27 46 7v-69c0-10-9-17-19-17-15 0-21 14-29 14 8-23-7-37-23-37z"></path></g></svg></span></td>
+<td headers="Africa  국가" class="gt_row gt_center">이집트</td>
+<td headers="Africa  방문수" class="gt_row gt_center">1</td>
+<td headers="Africa  연도" class="gt_row gt_center">2022</td>
+</tr>
+</tbody>
+<tfoot class="gt_footnotes"><tr>
+<td class="gt_footnote" colspan="4"> 데이터 출처: <a href="https://ko.wikipedia.org/wiki/%EB%AC%B8%EC%9E%AC%EC%9D%B8%EC%9D%98_%EB%8C%80%ED%86%B5%EB%A0%B9_%EC%88%9C%EB%B0%A9_%EB%AA%A9%EB%A1%9D">위키백과</a>
+</td>
+    </tr></tfoot>
+</table>
+</div>
+</div>
+</div>
+</section><section id="지도" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="지도">
+<span class="header-section-number">2.2</span> 지도</h2>
+<div class="cell">
+<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/">viridis</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">moon_tour</span> <span class="op">&lt;-</span> <span class="va">moon_tbl</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">국가</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>방문수 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>            연도 <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_glue.html">str_glue</a></span><span class="op">(</span><span class="st">"{lubridate::year(출국일)}"</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">country_codes</span>, by <span class="op">=</span> <span class="st">"국가"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">world_map</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html">ne_countries</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">50</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">moon_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">world_map</span>, <span class="va">moon_tour</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"iso_a2"</span> <span class="op">=</span> <span class="st">"iso2c"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">moon_map</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">방문수</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gray50"</span>, <span class="st">"skyblue"</span>, <span class="st">"blue"</span><span class="op">)</span>, na.value<span class="op">=</span><span class="st">"transparent"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"문재인 대통령 해외순방"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggrepel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">국가</span>, geometry <span class="op">=</span> <span class="va">geometry</span><span class="op">)</span>, stat <span class="op">=</span> <span class="st">"sf_coordinates"</span>, </span>
+<span>        min.segment.length <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">3</span>, max.overlaps <span class="op">=</span> <span class="cn">Inf</span></span>
+<span>    <span class="op">)</span>   </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="tour_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="tour_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        return container.innerHTML
+      } else {
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">소스 코드</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "지도제작 대회"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "대통령 해외순방"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">  대통령 해외순방 데이터 분석</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: 이광춘</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: https://www.linkedin.com/in/kwangchunlee/</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: 한국 R 사용자회</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation-url: https://github.com/bit2r</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 목차</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: github    </span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: false</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">    default-image-extension: jpg</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">   - lightbox</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="an">lightbox:</span><span class="co"> auto</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">  opts_chunk: </span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">    eval: true</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">    message: false</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">    warning: false</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">    collapse: true</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">    comment: "#&gt;" </span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">    R.options:</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">      knitr.graphics.auto_pdf: true</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="fu"># 데이터셋</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## 문재인</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>moon_html <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록"</span>)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>moon_raw <span class="ot">&lt;-</span> moon_html <span class="sc">|&gt;</span> </span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"table"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>moon_h3 <span class="ot">&lt;-</span> moon_html <span class="sc">|&gt;</span> </span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"h3"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(moon_raw) <span class="ot">&lt;-</span> moon_h3[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="fu">map_df</span>(moon_raw[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)], rbind)</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>moon_tbl <span class="ot">&lt;-</span> moon_h3 <span class="sc">|&gt;</span> </span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(연도 <span class="ot">=</span> <span class="fu">str_remove</span>(value, <span class="st">"년</span><span class="sc">\\</span><span class="st">[편집</span><span class="sc">\\</span><span class="st">]"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(연도, <span class="st">"</span><span class="sc">\\</span><span class="st">d{4}"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data =</span> moon_raw[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)]) <span class="sc">|&gt;</span> </span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(연도, 나라, 장소, 일자, 세부내용<span class="ot">=</span><span class="st">`</span><span class="at">세부 내용</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(일자, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"출국"</span>, <span class="st">"도착"</span>), <span class="at">sep =</span> <span class="st">"~"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(도착 <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(도착), 출국, 도착)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(출국일 <span class="ot">=</span> <span class="fu">str_glue</span>(<span class="st">"{연도}-{출국}"</span>),</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>         도착일 <span class="ot">=</span> <span class="fu">str_glue</span>(<span class="st">"{연도}-{도착}"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(출국일 <span class="ot">=</span> <span class="fu">parse_date</span>(출국일, <span class="st">"%Y-%m월 %d일"</span>),</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>         도착일 <span class="ot">=</span> <span class="fu">parse_date</span>(도착일, <span class="st">"%Y-%m월 %d일"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(출국일, 도착일, 국가 <span class="ot">=</span> 나라, 장소) <span class="sc">|&gt;</span> </span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(기간 <span class="ot">=</span> (출국일 <span class="sc">%--%</span> 도착일) <span class="sc">/</span> <span class="fu">ddays</span>(<span class="dv">1</span>) <span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="fu"># 분석</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a><span class="fu">## 문재인 해외순방</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(countrycode)</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>country_codes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>  <span class="st">"국가"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"노르웨이"</span>, <span class="st">"뉴질랜드"</span>, <span class="st">"덴마크"</span>, <span class="st">"독일"</span>, <span class="st">"라오스"</span>, <span class="st">"러시아"</span>, <span class="st">"말레이시아"</span>, <span class="st">"미국"</span>, <span class="st">"미얀마"</span>, <span class="st">"바티칸 시국"</span>, <span class="st">"베트남"</span>, <span class="st">"벨기에"</span>, <span class="st">"브루나이"</span>, <span class="st">"사우디아라비아"</span>, <span class="st">"스웨덴"</span>, <span class="st">"스페인"</span>, <span class="st">"싱가포르"</span>, <span class="st">"아랍에미리트"</span>, <span class="st">"아르헨티나"</span>, <span class="st">"영국"</span>, <span class="st">"오스트레일리아"</span>, <span class="st">"오스트리아"</span>, <span class="st">"우즈베키스탄"</span>, <span class="st">"이집트"</span>, <span class="st">"이탈리아"</span>, <span class="st">"인도"</span>, <span class="st">"인도네시아"</span>, <span class="st">"일본"</span>, <span class="st">"조선민주주의인민공화국"</span>, <span class="st">"중화인민공화국"</span>, <span class="st">"체코"</span>, <span class="st">"카자흐스탄"</span>, <span class="st">"캄보디아"</span>, <span class="st">"태국"</span>, <span class="st">"투르크메니스탄"</span>, <span class="st">"파푸아뉴기니"</span>, <span class="st">"프랑스"</span>, <span class="st">"핀란드"</span>, <span class="st">"필리핀"</span>, <span class="st">"헝가리"</span>),</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>  <span class="st">"영문_국가명"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Norway"</span>, <span class="st">"New Zealand"</span>, <span class="st">"Denmark"</span>, <span class="st">"Germany"</span>, <span class="st">"Laos"</span>, <span class="st">"Russia"</span>, <span class="st">"Malaysia"</span>, <span class="st">"United States"</span>, <span class="st">"Myanmar"</span>, <span class="st">"Vatican City"</span>, <span class="st">"Vietnam"</span>, <span class="st">"Belgium"</span>, <span class="st">"Brunei"</span>, <span class="st">"Saudi Arabia"</span>, <span class="st">"Sweden"</span>, <span class="st">"Spain"</span>, <span class="st">"Singapore"</span>, <span class="st">"United Arab Emirates"</span>, <span class="st">"Argentina"</span>, <span class="st">"United Kingdom"</span>, <span class="st">"Australia"</span>, <span class="st">"Austria"</span>, <span class="st">"Uzbekistan"</span>, <span class="st">"Egypt"</span>, <span class="st">"Italy"</span>, <span class="st">"India"</span>, <span class="st">"Indonesia"</span>, <span class="st">"Japan"</span>, <span class="st">"North Korea"</span>, <span class="st">"China"</span>, <span class="st">"Czech Republic"</span>, <span class="st">"Kazakhstan"</span>, <span class="st">"Cambodia"</span>, <span class="st">"Thailand"</span>, <span class="st">"Turkmenistan"</span>, <span class="st">"Papua New Guinea"</span>, <span class="st">"France"</span>, <span class="st">"Finland"</span>, <span class="st">"Philippines"</span>, <span class="st">"Hungary"</span>),</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>  <span class="st">"iso2c"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"NO"</span>, <span class="st">"NZ"</span>, <span class="st">"DK"</span>, <span class="st">"DE"</span>, <span class="st">"LA"</span>, <span class="st">"RU"</span>, <span class="st">"MY"</span>, <span class="st">"US"</span>, <span class="st">"MM"</span>, <span class="st">"VA"</span>, <span class="st">"VN"</span>, <span class="st">"BE"</span>, <span class="st">"BN"</span>, <span class="st">"SA"</span>, <span class="st">"SE"</span>, <span class="st">"ES"</span>, <span class="st">"SG"</span>, <span class="st">"AE"</span>, <span class="st">"AR"</span>, <span class="st">"GB"</span>, <span class="st">"AU"</span>, <span class="st">"AT"</span>, <span class="st">"UZ"</span>, <span class="st">"EG"</span>, <span class="st">"IT"</span>, <span class="st">"IN"</span>, <span class="st">"ID"</span>, <span class="st">"JP"</span>, <span class="st">"KP"</span>, <span class="st">"CN"</span>, <span class="st">"CZ"</span>, <span class="st">"KZ"</span>, <span class="st">"KH"</span>, <span class="st">"TH"</span>, <span class="st">"TM"</span>, <span class="st">"PG"</span>, <span class="st">"FR"</span>, <span class="st">"FI"</span>, <span class="st">"PH"</span>, <span class="st">"HU"</span>)</span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>moon_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(국가) <span class="sc">|&gt;</span> </span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(방문수 <span class="ot">=</span> <span class="fu">n</span>(),</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>            연도 <span class="ot">=</span> <span class="fu">str_c</span>(<span class="fu">str_glue</span>(<span class="st">"{lubridate::year(출국일)}"</span>), <span class="at">collapse =</span> <span class="st">","</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(country_codes, <span class="at">by =</span> <span class="st">"국가"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(대륙 <span class="ot">=</span> <span class="fu">countrycode</span>(iso2c, <span class="st">"iso2c"</span>, <span class="st">"continent"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(방문수)) <span class="sc">|&gt;</span></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>영문_국가명) <span class="sc">|&gt;</span> </span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(iso2c, <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">groupname_col =</span> <span class="st">"대륙"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_flag</span>(<span class="at">columns =</span> iso2c) <span class="sc">|&gt;</span> </span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>    <span class="at">iso2c =</span> <span class="st">""</span></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="st">"center"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">"문재인 대통령 해외 순방"</span>),</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="st">"2017년 5월 10일 ~ 2021년 5월 9일"</span>)</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_footnote</span>(</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>  <span class="at">footnote =</span> <span class="fu">md</span>(<span class="st">"데이터 출처: [위키백과](https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록)"</span>)</span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span>   </span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_538</span>()</span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="fu">## 지도</span></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>moon_tour <span class="ot">&lt;-</span> moon_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(국가) <span class="sc">|&gt;</span> </span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(방문수 <span class="ot">=</span> <span class="fu">n</span>(),</span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>            연도 <span class="ot">=</span> <span class="fu">str_c</span>(<span class="fu">str_glue</span>(<span class="st">"{lubridate::year(출국일)}"</span>), <span class="at">collapse =</span> <span class="st">","</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(country_codes, <span class="at">by =</span> <span class="st">"국가"</span>)</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>world_map <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="dv">50</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>moon_map <span class="ot">&lt;-</span> <span class="fu">left_join</span>(world_map, moon_tour, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"iso_a2"</span> <span class="ot">=</span> <span class="st">"iso2c"</span>))</span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(moon_map) <span class="sc">+</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">as.factor</span>(방문수))) <span class="sc">+</span></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"gray50"</span>, <span class="st">"skyblue"</span>, <span class="st">"blue"</span>), <span class="at">na.value=</span><span class="st">"transparent"</span>) <span class="sc">+</span></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"문재인 대통령 해외순방"</span>) <span class="sc">+</span></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>    ggrepel<span class="sc">::</span><span class="fu">geom_text_repel</span>(</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">label =</span> 국가, <span class="at">geometry =</span> geometry), <span class="at">stat =</span> <span class="st">"sf_coordinates"</span>, </span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a>        <span class="at">min.segment.length =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">max.overlaps =</span> <span class="cn">Inf</span></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>    )   </span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a href="https://quarto.org/">Quarto</a> 로 제작</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer><script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","loop":true});</script>
+
+
+</body></html>

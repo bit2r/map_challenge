@@ -1,0 +1,147 @@
+---
+title: "지도제작 대회"
+subtitle: "대통령 해외순방"
+description: |
+  대통령 해외순방 데이터 분석
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 문재인
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+moon_html <- read_html("https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록")
+
+moon_raw <- moon_html |> 
+  html_elements("table") |> 
+  html_table()
+
+moon_h3 <- moon_html |> 
+  html_elements("h3") |> 
+  html_text()
+
+names(moon_raw) <- moon_h3[1:6]
+
+map_df(moon_raw[c(1:5)], rbind)
+
+moon_tbl <- moon_h3 |> 
+  enframe() |> 
+  mutate(연도 = str_remove(value, "년\\[편집\\]")) |> 
+  filter(str_detect(연도, "\\d{4}")) |> 
+  mutate(data = moon_raw[c(1:5)]) |> 
+  unnest(data) |> 
+  select(연도, 나라, 장소, 일자, 세부내용=`세부 내용`) |>
+  separate(일자, into = c("출국", "도착"), sep = "~") |> 
+  mutate(도착 = ifelse(is.na(도착), 출국, 도착)) |> 
+  mutate(출국일 = str_glue("{연도}-{출국}"),
+         도착일 = str_glue("{연도}-{도착}")) |> 
+  mutate(출국일 = parse_date(출국일, "%Y-%m월 %d일"),
+         도착일 = parse_date(도착일, "%Y-%m월 %d일")) |> 
+  select(출국일, 도착일, 국가 = 나라, 장소) |> 
+  mutate(기간 = (출국일 %--% 도착일) / ddays(1) +1)
+```
+
+
+# 분석
+
+## 문재인 해외순방
+
+```{r}
+library(countrycode)
+
+country_codes <- data.frame(
+  "국가" = c("노르웨이", "뉴질랜드", "덴마크", "독일", "라오스", "러시아", "말레이시아", "미국", "미얀마", "바티칸 시국", "베트남", "벨기에", "브루나이", "사우디아라비아", "스웨덴", "스페인", "싱가포르", "아랍에미리트", "아르헨티나", "영국", "오스트레일리아", "오스트리아", "우즈베키스탄", "이집트", "이탈리아", "인도", "인도네시아", "일본", "조선민주주의인민공화국", "중화인민공화국", "체코", "카자흐스탄", "캄보디아", "태국", "투르크메니스탄", "파푸아뉴기니", "프랑스", "핀란드", "필리핀", "헝가리"),
+  "영문_국가명" = c("Norway", "New Zealand", "Denmark", "Germany", "Laos", "Russia", "Malaysia", "United States", "Myanmar", "Vatican City", "Vietnam", "Belgium", "Brunei", "Saudi Arabia", "Sweden", "Spain", "Singapore", "United Arab Emirates", "Argentina", "United Kingdom", "Australia", "Austria", "Uzbekistan", "Egypt", "Italy", "India", "Indonesia", "Japan", "North Korea", "China", "Czech Republic", "Kazakhstan", "Cambodia", "Thailand", "Turkmenistan", "Papua New Guinea", "France", "Finland", "Philippines", "Hungary"),
+  "iso2c" = c("NO", "NZ", "DK", "DE", "LA", "RU", "MY", "US", "MM", "VA", "VN", "BE", "BN", "SA", "SE", "ES", "SG", "AE", "AR", "GB", "AU", "AT", "UZ", "EG", "IT", "IN", "ID", "JP", "KP", "CN", "CZ", "KZ", "KH", "TH", "TM", "PG", "FR", "FI", "PH", "HU")
+)
+
+moon_tbl |> 
+  group_by(국가) |> 
+  summarise(방문수 = n(),
+            연도 = str_c(str_glue("{lubridate::year(출국일)}"), collapse = ",")) |> 
+  left_join(country_codes, by = "국가") |> 
+  mutate(대륙 = countrycode(iso2c, "iso2c", "continent")) |>
+  arrange(desc(방문수)) |>
+  select(-영문_국가명) |> 
+  select(iso2c, everything()) |> 
+  gt(groupname_col = "대륙") |> 
+  fmt_flag(columns = iso2c) |> 
+  cols_label(
+    iso2c = ""
+  ) |> 
+  cols_align("center") |> 
+  tab_header(
+    title = md("문재인 대통령 해외 순방"),
+    subtitle = md("2017년 5월 10일 ~ 2021년 5월 9일")
+  ) |>
+tab_footnote(
+  footnote = md("데이터 출처: [위키백과](https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록)")
+) |>   
+  gt_theme_538()
+```
+
+
+## 지도
+
+```{r}
+library(viridis)
+
+moon_tour <- moon_tbl |> 
+  group_by(국가) |> 
+  summarise(방문수 = n(),
+            연도 = str_c(str_glue("{lubridate::year(출국일)}"), collapse = ",")) |> 
+  left_join(country_codes, by = "국가")
+
+world_map <- rnaturalearth::ne_countries(scale = 50, returnclass = "sf")
+
+moon_map <- left_join(world_map, moon_tour, by = c("iso_a2" = "iso2c"))
+
+ggplot(moon_map) +
+  geom_sf(aes(fill = as.factor(방문수))) +
+  scale_fill_manual(values = c("gray50", "skyblue", "blue"), na.value="transparent") +
+  labs(
+    title = "문재인 대통령 해외순방") +
+  theme_void() +
+  theme(legend.position = "bottom") +
+    ggrepel::geom_text_repel(
+        aes(label = 국가, geometry = geometry), stat = "sf_coordinates", 
+        min.segment.length = 1, size = 3, max.overlaps = Inf
+    )   
+```
+
