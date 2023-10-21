@@ -146,7 +146,14 @@ moon_tbl |>
 tab_footnote(
   footnote = md("데이터 출처: [위키백과](https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록)")
 ) |>   
-  gt_theme_538()
+  gt_theme_538() |> 
+  ## 표 전체 합계 -------------------------------------
+  grand_summary_rows(
+    columns = 방문수,
+    fns =  list(label = "", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "bottom"
+  )
 ```
 
 
@@ -297,7 +304,14 @@ tour_yoon_tbl |>
   ) |>
 tab_footnote(
   footnote = md("데이터 출처: [위키백과](https://namu.wiki/w/%EC%9C%A4%EC%84%9D%EC%97%B4%20%EC%A0%95%EB%B6%80/%EC%99%B8%EA%B5%90#s-4)")) |>   
-  gt_theme_538()
+  gt_theme_538() |> 
+  ## 표 전체 합계 -------------------------------------
+  grand_summary_rows(
+    columns = 방문수,
+    fns =  list(label = "", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "bottom"
+  )
 ```
 
 ## 지도
@@ -409,7 +423,14 @@ moon_early_tbl |>
 tab_footnote(
   footnote = md("데이터 출처: [위키백과](https://ko.wikipedia.org/wiki/문재인의_대통령_순방_목록)")
 ) |>   
-  gt_theme_538()
+  gt_theme_538() |> 
+  ## 표 전체 합계 -------------------------------------
+  grand_summary_rows(
+    columns = 방문수,
+    fns =  list(label = "", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "bottom"
+  )
 ```
 
 
