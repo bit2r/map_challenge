@@ -118,6 +118,8 @@ website:
             text: "시도별 역대 국회의원"
           - href: metro_people_power.qmd
             text: "수도권 국힘의원"
+          - href: party_numbers.qmd
+            text: "당원과 정당 수입지출"            
 
 format:
   html:
