@@ -119,7 +119,9 @@ website:
           - href: metro_people_power.qmd
             text: "수도권 국힘의원"
           - href: party_numbers.qmd
-            text: "당원과 정당 수입지출"            
+            text: "당원과 정당 수입지출"
+          - href: elected_numbers.qmd
+            text: "국회의원 초선 당선"            
 
 format:
   html:

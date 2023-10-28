@@ -1,0 +1,110 @@
+---
+title: "지도제작 대회"
+subtitle: "국회의원 초선 당선"
+description: |
+  역대 국회의원 당선횟수
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 제21대 (2020년)
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+# 웹사이트의 URL
+url_2020 <- "https://namu.wiki/w/%EC%A0%9C21%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90"
+
+# 웹 페이지를 불러온다
+page_2020 <- read_html(url_2020)
+
+# 지역구 시도 H4 텍스트 추출
+h4_text <- page_2020 %>%
+  html_elements(css = "h4") |> 
+  html_text() |> 
+  str_remove(pattern = "\\[편집\\]")
+
+h4_sido <- h4_text[str_detect(h4_text, "^4\\.1\\..+$")] |> 
+  str_remove(pattern = "^4\\.1\\.\\d{1,2}\\.") |> 
+  str_squish()
+
+# 지역구 표 추출
+## 서울 ~ 제주
+page_2020_text <- page_2020 |> 
+  html_elements(css = "table") |> 
+  html_text()
+
+seoul_tbl_index <- which(str_detect(page_2020_text, "종로구.*중구"))
+jeju_tbl_index <- which(str_detect(page_2020_text, "제주시 갑.*서귀포시"))
+
+page_2020_list <- page_2020 |> 
+  html_elements(css = "table") |> 
+  html_table(header = TRUE)
+
+page_2020_raw <- page_2020_list[c(seoul_tbl_index:jeju_tbl_index)] |> 
+  enframe() |> 
+  mutate(시도명 = h4_sido) |>
+  mutate(value = map(value, select, 1:5)) |> 
+  unnest(cols = c(value)) 
+  
+page_2020_tbl <- page_2020_raw |> 
+  select(시도명, 지역구, 이름, 정당=소속, 선수) |> 
+  group_by(시도명, 지역구) |> 
+  mutate(재보궐 = row_number()) |> 
+  ungroup() |> 
+  filter(재보궐 == 1) |> 
+  mutate(선수 = case_when( str_detect(선수, "^초선") ~ "1선", 
+                          str_detect(선수, "^재선") ~ "2선",
+                          TRUE ~ 선수)) |>
+  mutate(선수 = str_extract(선수, "^\\d{1,2}")) 
+```
+
+
+# 분석
+
+```{r}
+page_2020_tbl |> 
+  filter(정당 == "국민의힘") |>
+  group_by(시도명) |> 
+  count(선수, name = "의원수") |> 
+  pivot_wider(names_from = 선수, values_from = 의원수, values_fill = 0) |> 
+  mutate(비율 = `1` / (`1`+`2`+`3`+`4`+`5`)) |>
+  arrange(desc(비율)) |> 
+  View()
+```
+
+
