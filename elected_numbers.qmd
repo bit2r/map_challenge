@@ -40,6 +40,14 @@ editor_options:
 
 # 데이터셋
 
+- 역대 선거구
+  - 제17대: 243
+  - 제18대: 245
+  - 제19대: 246
+  - 제20대: 253  
+  - 제21대: 253  
+
+
 ## 제21대 (2020년)
 
 ```{r}
@@ -82,7 +90,7 @@ page_2020_raw <- page_2020_list[c(seoul_tbl_index:jeju_tbl_index)] |>
   unnest(cols = c(value)) 
   
 page_2020_tbl <- page_2020_raw |> 
-  select(시도명, 지역구, 이름, 정당=소속, 선수) |> 
+  select(시도명, 지역구, 이름, 정당=소속, 선수, 비고) |> 
   group_by(시도명, 지역구) |> 
   mutate(재보궐 = row_number()) |> 
   ungroup() |> 
@@ -90,21 +98,293 @@ page_2020_tbl <- page_2020_raw |>
   mutate(선수 = case_when( str_detect(선수, "^초선") ~ "1선", 
                           str_detect(선수, "^재선") ~ "2선",
                           TRUE ~ 선수)) |>
-  mutate(선수 = str_extract(선수, "^\\d{1,2}")) 
+  mutate(선수 = str_extract(선수, "^\\d{1,2}")) |> 
+  select("시도명", "지역구", "이름", "정당", "선수", "비고")
+
+```
+
+## 제20대 (2016년)
+
+```{r}
+# 웹사이트의 URL
+url_2016 <- "https://namu.wiki/w/%EC%A0%9C20%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90"
+
+# 웹 페이지를 불러온다
+page_2016 <- read_html(url_2016)
+
+# 지역구 시도 H4 텍스트 추출
+h3_text <- page_2016 %>%
+  html_elements(css = "h3") |> 
+  html_text() |> 
+  str_remove(pattern = "\\[편집\\]")
+
+h3_sido <- h3_text[str_detect(h3_text, "^2\\..+$")] |> 
+  str_remove(pattern = "^2\\.\\d{1,2}\\.") |> 
+  str_squish()
+
+# 지역구 표 추출
+## 서울 ~ 제주
+page_2016_text <- page_2016 |> 
+  html_elements(css = "table") |> 
+  html_text()
+
+seoul_tbl_index <- which(str_detect(page_2016_text, "종로구.*중구"))
+jeju_tbl_index <- which(str_detect(page_2016_text, "제주시 갑.*서귀포시"))
+
+page_2016_list <- page_2016 |> 
+  html_elements(css = "table") |> 
+  html_table(header = FALSE)
+
+page_2016_raw <- page_2016_list[c(seoul_tbl_index:jeju_tbl_index)] |> 
+  enframe() |> 
+  mutate(시도명 = h3_sido) |>
+  unnest(cols = c(value)) 
+
+page_2016_tbl  <- page_2016_raw |> 
+  set_names(c("name", "지역구", "이름", "시작정당", "종료정당", "선수", "비고", "시도명")) |> 
+  group_by(시도명, 지역구) |> 
+  mutate(재보궐 = row_number()) |> 
+  ungroup() |> 
+  filter(재보궐 == 1) |> 
+  mutate(선수 = case_when( str_detect(선수, "^초선") ~ "1선", 
+                          str_detect(선수, "^재선") ~ "2선",
+                          TRUE ~ 선수)) |>
+  mutate(선수 = str_extract(선수, "^\\d{1,2}")) |> 
+  filter(!is.na(선수)) |> 
+  select(-name) |> 
+  relocate(시도명, .before = 지역구) |> 
+  select("시도명", "지역구", "이름", "정당" = "시작정당", "선수", "비고")
+```
+
+## 제19대 (2012년)
+
+```{r}
+# 웹사이트의 URL
+url_2012 <- "https://namu.wiki/w/%EC%A0%9C19%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90"
+
+# 웹 페이지를 불러온다
+page_2012 <- read_html(url_2012)
+
+# 지역구 시도 H4 텍스트 추출
+h3_text <- page_2012 %>%
+  html_elements(css = "h3") |> 
+  html_text() |> 
+  str_remove(pattern = "\\[편집\\]")
+
+h3_sido <- h3_text[str_detect(h3_text, "^2\\..+$")] |> 
+  str_remove(pattern = "^2\\.\\d{1,2}\\.") |> 
+  str_squish()
+
+# 지역구 표 추출
+## 서울 ~ 제주
+page_2012_text <- page_2012 |> 
+  html_elements(css = "table") |> 
+  html_text()
+
+seoul_tbl_index <- which(str_detect(page_2012_text, "종로구.*중구"))
+jeju_tbl_index <- which(str_detect(page_2012_text, "제주시 갑.*서귀포시"))
+
+page_2012_list <- page_2012 |> 
+  html_elements(css = "table") |> 
+  html_table(header = FALSE)
+
+page_2012_raw <- page_2012_list[c(seoul_tbl_index:jeju_tbl_index)] |> 
+  enframe() |> 
+  mutate(시도명 = h3_sido) |>
+  unnest(cols = c(value)) 
+
+page_2012_tbl  <- page_2012_raw |> 
+  set_names(c("name", "지역구", "이름", "시작정당", "종료정당", "선수", "비고", "시도명")) |> 
+  group_by(시도명, 지역구) |> 
+  mutate(재보궐 = row_number()) |> 
+  ungroup() |> 
+  filter(재보궐 == 1) |> 
+  mutate(선수 = case_when( str_detect(선수, "^초선") ~ "1선", 
+                          str_detect(선수, "^재선") ~ "2선",
+                          TRUE ~ 선수)) |>
+  mutate(선수 = str_extract(선수, "^\\d{1,2}")) |> 
+  filter(!is.na(선수)) |> 
+  select(-name) |> 
+  relocate(시도명, .before = 지역구) |> 
+  select("시도명", "지역구", "이름", "정당" = "시작정당", "선수", "비고")
+```
+
+## 제18대 (2008년)
+
+- 정당명이 이미지로 되어 있음.
+
+```{r}
+# 웹사이트의 URL
+url_2008 <- "https://namu.wiki/w/%EC%A0%9C18%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90"
+
+# 웹 페이지를 불러온다
+page_2008 <- read_html(url_2008)
+
+# 지역구 시도 H4 텍스트 추출
+h3_text <- page_2008 %>%
+  html_elements(css = "h3") |> 
+  html_text() |> 
+  str_remove(pattern = "\\[편집\\]")
+
+h3_sido <- h3_text[str_detect(h3_text, "^2\\..+$")] |> 
+  str_remove(pattern = "^2\\.\\d{1,2}\\.") |> 
+  str_squish()
+
+# 지역구 표 추출
+## 서울 ~ 제주
+page_2008_text <- page_2008 |> 
+  html_elements(css = "table") |> 
+  html_text()
+
+seoul_tbl_index <- which(str_detect(page_2008_text, "종로구.*중구"))
+jeju_tbl_index <- which(str_detect(page_2008_text, "제주시 갑.*서귀포시"))
+
+page_2008_list <- page_2008 |> 
+  html_elements(css = "table") |> 
+  html_table(header = FALSE)
+
+page_2008_raw <- page_2008_list[c(seoul_tbl_index:jeju_tbl_index)] |> 
+  enframe() |> 
+  mutate(시도명 = h3_sido) |>
+  unnest(cols = c(value)) 
+
+page_2008_tbl  <- page_2008_raw |> 
+  set_names(c("name", "지역구", "이름", "시작정당", "종료정당", "선수", "비고", "시도명")) |> 
+  group_by(시도명, 지역구) |> 
+  mutate(재보궐 = row_number()) |> 
+  ungroup() |> 
+  filter(재보궐 == 1) |> 
+  mutate(선수 = case_when( str_detect(선수, "^초선") ~ "1선", 
+                          str_detect(선수, "^재선") ~ "2선",
+                          TRUE ~ 선수)) |>
+  mutate(선수 = str_extract(선수, "^\\d{1,2}")) |> 
+  filter(!is.na(선수)) |> 
+  select(-name) |> 
+  relocate(시도명, .before = 지역구) |> 
+  select("시도명", "지역구", "이름", "정당" = "시작정당", "선수", "비고")
+```
+
+## 제17대 (2004년)
+
+- 정당명이 이미지로 되어 있음.
+
+```{r}
+# 웹사이트의 URL
+url_2004 <- "https://namu.wiki/w/%EC%A0%9C17%EB%8C%80%20%EA%B5%AD%ED%9A%8C%EC%9D%98%EC%9B%90"
+
+# 웹 페이지를 불러온다
+page_2004 <- read_html(url_2004)
+
+# 지역구 시도 H4 텍스트 추출
+h3_text <- page_2004 %>%
+  html_elements(css = "h3") |> 
+  html_text() |> 
+  str_remove(pattern = "\\[편집\\]")
+
+h3_sido <- h3_text[str_detect(h3_text, "^2\\..+$")] |> 
+  str_remove(pattern = "^2\\.\\d{1,2}\\.") |> 
+  str_squish()
+
+# 지역구 표 추출
+## 서울 ~ 제주
+page_2004_text <- page_2004 |> 
+  html_elements(css = "table") |> 
+  html_text()
+
+seoul_tbl_index <- which(str_detect(page_2004_text, "종로구.*중구"))
+jeju_tbl_index <- which(str_detect(page_2004_text, "북제주군 을.*서귀포시"))
+
+page_2004_list <- page_2004 |> 
+  html_elements(css = "table") |> 
+  html_table(header = FALSE)
+
+page_2004_raw <- page_2004_list[c(seoul_tbl_index:jeju_tbl_index)] |> 
+  enframe() |> 
+  mutate(시도명 = h3_sido) |>
+  unnest(cols = c(value)) 
+
+page_2004_tbl  <- page_2004_raw |> 
+  set_names(c("name", "지역구", "이름", "시작정당", "종료정당", "선수", "비고", "시도명")) |> 
+  group_by(시도명, 지역구) |> 
+  mutate(재보궐 = row_number()) |> 
+  ungroup() |> 
+  filter(재보궐 == 1) |> 
+  mutate(선수 = case_when( str_detect(선수, "^초선") ~ "1선", 
+                          str_detect(선수, "^재선") ~ "2선",
+                          TRUE ~ 선수)) |>
+  mutate(선수 = str_extract(선수, "^\\d{1,2}")) |> 
+  filter(!is.na(선수)) |> 
+  select(-name) |> 
+  relocate(시도명, .before = 지역구) 
+```
+
+## 데이터 결합
+
+```{r}
+library(gt)
+
+object_list <- ls()
+
+first_elected <- object_list[str_detect(object_list, "page_\\d{4}_tbl")]
+
+elected <- mget(setdiff(first_elected, c("page_2004_tbl", "page_2008_tbl")))
+
+elected_tbl <- elected |> 
+  enframe() |> 
+  unnest(value) |> 
+  mutate(연도 = str_extract(name, "\\d{4}")) |> 
+  mutate(정당 = case_when(연도 == "2020" & 이름 == "윤관석" ~ "더불어민주당",
+                          연도 == "2020" & 이름 == "이성만" ~ "더불어민주당",
+                          연도 == "2020" & 이름 == "김진표" ~ "더불어민주당",
+                          연도 == "2020" & 이름 == "김남국" ~ "더불어민주당",
+                          연도 == "2020" & 이름 == "박완주" ~ "더불어민주당",
+                          연도 == "2020" & 이름 == "양향자" ~ "더불어민주당",
+                          연도 == "2020" & 이름 == "이상직" ~ "더불어민주당",
+                        
+                          연도 == "2020" & 이름 == "곽상도" ~ "국민의힘",
+                          연도 == "2020" & 이름 == "황보승희" ~ "국민의힘",
+                          연도 == "2020" & 이름 == "하영제" ~ "국민의힘",
+                          TRUE ~ 정당)) |> 
+  mutate(정당 = case_when(
+    정당 %in% c("더불어민주당", "민주통합당") ~ "민주당",
+    정당 %in% c("새누리당", "국민의힘") ~ "국민의힘",
+    TRUE ~ "기타정당")) |> 
+  select(-name) |> 
+  relocate(연도, .before = 시도명) |> 
+  mutate(시도명 = case_when(
+    str_detect(시도명, "강원") ~ "강원도",
+    str_detect(시도명, "제주") ~ "제주도",
+    TRUE ~ 시도명)) 
+
+elected_tbl |> 
+  # mutate(비고 = str_sub(비고, 1, 30)) |>
+  reactable::reactable()
+
+elected_tbl |> 
+  write_rds("data/elected_tbl_초선.rds")
+
 ```
 
 
 # 분석
 
 ```{r}
-page_2020_tbl |> 
-  filter(정당 == "국민의힘") |>
-  group_by(시도명) |> 
-  count(선수, name = "의원수") |> 
-  pivot_wider(names_from = 선수, values_from = 의원수, values_fill = 0) |> 
-  mutate(비율 = `1` / (`1`+`2`+`3`+`4`+`5`)) |>
-  arrange(desc(비율)) |> 
-  View()
+library(tidyverse)
+
+elected_tbl <- 
+  read_rds("data/elected_tbl_초선.rds")
+
+elected_tbl |> 
+  mutate(선수 = as.numeric(선수)) |>
+  mutate(초선구분 = ifelse(선수 == 1, "초선", "재선이상")) |> 
+  filter(정당 != "기타정당") |> 
+  count(시도명, 정당, 초선구분) |> 
+  pivot_wider(names_from = 초선구분, values_from = n, values_fill = 0) |> 
+  mutate(비율 = 초선 / (재선이상+초선)) |> 
+  filter( str_detect(시도명, "대구|부산|울산|광주"))
+
 ```
+
+
 
 
