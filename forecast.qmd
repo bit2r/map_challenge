@@ -1,0 +1,165 @@
+---
+title: "지도제작 대회"
+subtitle: "총선 예측"
+description: |
+  역대 국회의원 당선횟수
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 선거구
+
+[권역별 당선인 의석수 변화](https://r2bit.com/map_challenge/legislators.html)
+
+국회의원 당선인 API를 통해 선거구 및 정당변화를 확인한다.
+
+```{r}
+library(tidyverse)
+library(ggrepel)
+extrafont::loadfonts()
+
+total_elected_all <- 
+  read_rds("data/total_elected_all.rds")
+
+comp_tbl <- total_elected_all |> 
+  filter(sgId %in% c("20160413", "20200415")) |> 
+  select(result) |> 
+  unnest(result) |>
+  filter(sgTypecode != "7") |>  # 지역구
+  mutate(정당 = case_when(jdName %in% c("더불어민주당", "더불어시민당") ~ "민주당",
+                          jdName %in% c("미래통합당", "새누리당") ~ "국민의힘",
+                          jdName %in% c("정의당") ~ "정의당",
+                          jdName %in% c("국민의당") ~ "국민의당",
+                          jdName %in% c("무소속") ~ "무소속",
+                          TRUE ~ "기타")) |>
+  select(선거=sgId, 시도명=sdName, 선거구=sggName, 정당, 당선자=name) |> 
+  mutate(시도 = case_when(
+    시도명 == "강원도" ~ "강원",
+    시도명 == "경기도" ~ "경기",
+    시도명 == "경상남도" ~ "경남",
+    시도명 == "경상북도" ~ "경북",
+    시도명 == "광주광역시" ~ "광주",
+    시도명 == "대구광역시" ~ "대구",
+    시도명 == "대전광역시" ~ "대전",
+    시도명 == "부산광역시" ~ "부산",
+    시도명 == "서울특별시" ~ "서울",
+    시도명 == "세종특별자치시" ~ "세종",
+    시도명 == "울산광역시" ~ "울산",
+    시도명 == "인천광역시" ~ "인천",
+    시도명 == "전라남도" ~ "전남",
+    시도명 == "전라북도" ~ "전북",
+    시도명 == "제주특별자치도" ~ "제주",
+    시도명 == "충청남도" ~ "충남",
+    시도명 == "충청북도" ~ "충북"
+  ))  
+
+comp_tbl |> 
+  head() |> 
+  gt()
+```
+
+# 분석
+
+
+
+```{r}
+get_sido_result <- function(sido = "서울") {
+  comp_tbl |> 
+    filter(str_detect(시도, sido)) |>
+    select(선거, 시도, 선거구, 정당) |>
+    pivot_wider(names_from = 선거, values_from = 정당) 
+}
+
+# get_sido_result()
+```
+
+## 시도별 현황
+
+::: {.panel-tabset}
+```{r}
+#| results: asis
+
+sido_vec <- unique(comp_tbl$시도)
+
+for(i in seq_along(sido_vec)) {
+  cat(str_glue("### {sido_vec[i]}\n\n\n"))
+  
+  ## 1. 시도별 현황 
+  party_gt <- comp_tbl |> 
+    filter(시도 == sido_vec[i]) |> 
+    count(선거, 정당, name = "당선수") |> 
+    pivot_wider(names_from = 정당, values_from = 당선수)
+  
+  print(gt(party_gt))
+
+  # ## 2. 시도별 상세현황 
+  # sido_comp <- get_sido_result(sido_vec[i])
+  # sido_comp |> 
+  #   gt()
+}
+```
+:::
+
+
+## 시도별 상세현황
+
+::: {.panel-tabset}
+```{r}
+#| results: asis
+
+sido_vec <- unique(comp_tbl$시도)
+
+for(i in seq_along(sido_vec)) {
+  cat(str_glue("### {sido_vec[i]}\n\n\n"))
+  
+  # ## 1. 시도별 현황 
+  # party_gt <- comp_tbl |> 
+  #   filter(시도 == sido_vec[i]) |> 
+  #   count(선거, 정당, name = "당선수") |> 
+  #   pivot_wider(names_from = 정당, values_from = 당선수)
+  # 
+  # print(gt(party_gt))
+
+  ## 2. 시도별 상세현황
+  sido_comp <- get_sido_result(sido_vec[i])
+  sido_comp |>
+    gt() |> 
+    print()
+}
+```
+:::
+
+

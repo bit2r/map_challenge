@@ -121,8 +121,10 @@ website:
           - href: party_numbers.qmd
             text: "당원과 정당 수입지출"
           - href: elected_numbers.qmd
-            text: "국회의원 초선 당선"            
-
+            text: "국회의원 초선 당선"
+          - href: forecast.qmd
+            text: "총선 예측"
+            
 format:
   html:
     theme:
