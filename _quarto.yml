@@ -124,6 +124,8 @@ website:
             text: "국회의원 초선 당선"
           - href: forecast.qmd
             text: "총선 예측"
+          - href: nec_api.qmd
+            text: "투개표 API"
             
 format:
   html:

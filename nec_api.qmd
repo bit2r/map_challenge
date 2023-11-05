@@ -1,0 +1,211 @@
+---
+title: "지도제작 대회"
+subtitle: "투개표 API"
+description: |
+  공공데이터포털 투개표 API를 활용하여 선거데이터를 가져온다.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 투표 데이터
+
+### 국회의원 선거코드
+
+```{r}
+#| eval: false
+code_election <- krvote::code_election
+
+names(code_election) <- c("선거코드", "선거명", "선거구분")
+
+legislator_code <- code_election |> 
+  dplyr::filter(str_detect(선거명, "국회의원")) |> 
+  pull(선거코드) |> 
+  unique()
+
+legislator_code
+```
+
+
+### 국회의원 선거구
+
+```{r}
+#| eval: false
+legislator_raw <- code_election |> 
+  dplyr::filter(str_detect(선거명, "국회의원"),
+         선거구분 != "0") 
+
+get_precinct <- function(legislator_cd = "20200415", sgTypecode = "2") {
+  
+  cat("\n---------------------------------------------\n")
+  cat(" 선거코드: ", legislator_cd)
+  cat("\n---------------------------------------------\n")
+  
+  # httr의 GET 함수로 데이터를 추출한다
+  response <- GET("http://apis.data.go.kr/9760000/CommonCodeService/getCommonSggCodeList",
+                  query = list(sgId = legislator_cd,
+                               sgTypecode = sgTypecode,
+                               numOfRows =  "1000",
+                               resultType = "json",
+                               serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
+  
+  # 응답 상태와 내용을 확인한다
+  # print(status_code(response))
+  
+  response_list <- content(response, "text") |> 
+    fromJSON()
+  
+  response_tbl <- response_list$getCommonSggCodeList$item
+  
+  return(response_tbl |> as_tibble())
+}
+
+# get_precinct("20220309")
+
+legislator_tbl <- legislator_raw |> 
+  mutate(data = map2(선거코드, 선거구분, get_precinct))
+
+legislator_tbl |> 
+  write_rds("data/legislator_precinct_tbl.rds")
+```
+
+### 투표 API
+
+```{r}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+
+response <- GET("http://apis.data.go.kr/9760000/VoteXmntckInfoInqireService2/getVoteSttusInfoInqire",
+                query = list(sgId = "20200415",
+                             sgTypecode = "7",
+                             sdName = "서울특별시",
+                             wiwName = "종로구",
+                             pageNo = "1",
+                             numOfRows = "100",
+                             resultType = "json",
+                             serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
+
+# 응답 상태와 내용을 확인한다
+print(status_code(response))
+
+response_list <- content(response, "text") |> 
+  fromJSON()
+
+response_tbl <- response_list$getVoteSttusInfoInqire$item
+
+response_tbl
+```
+
+
+### 투표 함수
+
+```{r}
+#| eval: false
+# 국회의원 선거구
+legislator_precinct_tbl <- 
+  read_rds("data/legislator_precinct_tbl.rds")
+
+# legislator_precinct_tbl |> 
+#   unnest(data)
+
+get_wiw_cast <- function(sgId = "20200415", 
+                         sdName = "서울특별시", wiwName = "종로구") {
+  
+  cat("\n---------------------------------------------\n")
+  cat(" 선거코드: ", sgId, "\n")
+  cat(" 시도명: ", sdName, "\n")
+  cat(" 구시군명: ", wiwName, "\n")
+  cat("---------------------------------------------\n")
+  
+  response <- GET("http://apis.data.go.kr/9760000/VoteXmntckInfoInqireService2/getVoteSttusInfoInqire",
+                query = list(sgId = sgId,
+                             sgTypecode = "7",
+                             sdName = sdName,
+                             wiwName = wiwName,
+                             pageNo = "1",
+                             numOfRows = "100",
+                             resultType = "json",
+                             serviceKey = Sys.getenv('DATA_GO_DECODE_KEY')))
+
+  # 응답 상태와 내용을 확인한다
+  # print(status_code(response))
+
+  response_list <- content(response, "text") |>
+    fromJSON()
+
+  response_tbl <- response_list$getVoteSttusInfoInqire$item
+
+  response_tbl
+}
+
+# get_wiw_cast()
+
+get_wiw_cast_tbl <- function(sgId = "20200415") {
+  
+legislator_precinct_tbl |> 
+  filter(선거구분 != "7") |> 
+  dplyr::filter(선거코드 == sgId) |> 
+  unnest(data) |> 
+  # filter(str_detect(sdName, "제주")) |> 
+  mutate(data = pmap( list(sgId, sdName, wiwName), get_wiw_cast))
+}
+
+# get_wiw_cast_tbl(sgId ="20200415")
+
+# legislator_precinct_cast_tbl <- legislator_precinct_tbl |> 
+#   filter(선거구분 == "2") |> 
+#   mutate(cast_data = map(선거코드, get_wiw_cast_tbl))
+
+legislator_election_code <- legislator_precinct_tbl |>
+  filter(선거구분 == "2") |> 
+  pull(선거코드)
+
+for(i in seq_along(legislator_election_code)) {
+  cat("\n---------------------------------------------\n")
+  cat(" 선거코드: ", legislator_election_code[i], "\n")
+  
+  get_wiw_cast_tbl(legislator_election_code[i]) |>
+    write_rds(str_glue("data/legislator_precinct_cast_{legislator_election_code[i]}.rds"))
+}
+```
+
+
+### 정리
+
+```{r}
+
+```
+
