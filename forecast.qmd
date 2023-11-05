@@ -84,11 +84,15 @@ comp_tbl <- total_elected_all |>
     시도명 == "제주특별자치도" ~ "제주",
     시도명 == "충청남도" ~ "충남",
     시도명 == "충청북도" ~ "충북"
-  ))  
+  ))  |> 
+  mutate(정당 = factor(정당, levels = c("민주당", "국민의힘", "정의당", "국민의당", "무소속")))
 
-comp_tbl |> 
-  head() |> 
-  gt()
+# comp_tbl |> 
+#   count(정당) |> 
+#   pull(정당) |> 
+#   dput()
+
+  
 ```
 
 # 분석
@@ -118,12 +122,24 @@ for(i in seq_along(sido_vec)) {
   cat(str_glue("### {sido_vec[i]}\n\n\n"))
   
   ## 1. 시도별 현황 
-  party_gt <- comp_tbl |> 
-    filter(시도 == sido_vec[i]) |> 
-    count(선거, 정당, name = "당선수") |> 
-    pivot_wider(names_from = 정당, values_from = 당선수)
+  party_temp <- comp_tbl |> 
+    filter(시도 == sido_vec[i])
   
-  print(gt(party_gt))
+  ### 정당 범주에 속한 모든 정당 표시(당선인 0인 경우 포함)
+  party_table <- table(party_temp$선거, party_temp$정당)
+  
+  party_sido_gt <- party_table |> 
+    as.data.frame() |> 
+    set_names(c("선거", "정당", "당선수")) |> 
+    as_tibble() |> 
+    pivot_wider(names_from = 정당, values_from = 당선수, values_fill = 0) |> 
+    janitor::adorn_totals(c("row", "col"), name = "합계")  |> 
+    gt() |>
+    cols_align(align = "center", columns = everything()) |> 
+    tab_spanner(label = "정당", columns = 민주당:무소속) |> 
+    gtExtras::gt_theme_538()
+  
+  print(party_sido_gt)
 
   # ## 2. 시도별 상세현황 
   # sido_comp <- get_sido_result(sido_vec[i])
@@ -145,21 +161,42 @@ sido_vec <- unique(comp_tbl$시도)
 for(i in seq_along(sido_vec)) {
   cat(str_glue("### {sido_vec[i]}\n\n\n"))
   
-  # ## 1. 시도별 현황 
-  # party_gt <- comp_tbl |> 
-  #   filter(시도 == sido_vec[i]) |> 
-  #   count(선거, 정당, name = "당선수") |> 
-  #   pivot_wider(names_from = 정당, values_from = 당선수)
-  # 
-  # print(gt(party_gt))
-
   ## 2. 시도별 상세현황
-  sido_comp <- get_sido_result(sido_vec[i])
-  sido_comp |>
+  sido_detail_tbl <- comp_tbl |> 
+    filter(str_detect(시도, sido_vec[i])) |>
+    mutate(정당당선자 = str_glue("{정당} ({당선자})")) |>
+    select(선거, 시도, 선거구, 정당당선자) |>
+    pivot_wider(names_from = 선거, values_from = 정당당선자) |> 
+    separate(`20160413`, into = c("정당20", "당선자20"), sep = " \\(", remove = FALSE) |> 
+    separate(`20200415`, into = c("정당21", "당선자21"), sep = " \\(", remove = FALSE) |> 
+    mutate(동일정당 = ifelse(정당20 == 정당21, "유지", "교체")) |>
+    mutate(동일후보 = ifelse(당선자20 == 당선자21, "유지", "교체")) |> 
+    select(시도, 선거구, `20160413`, `20200415`, 동일정당, 동일후보) |> 
+    arrange(desc(선거구))
+  
+  sido_detail_gt <- sido_detail_tbl |> 
     gt() |> 
-    print()
+    cols_align(align = "center", columns = everything()) |> 
+    tab_spanner(label = "선거", columns = `20160413`:`20200415`) |>
+    tab_spanner(label = "정당후보", columns = 동일정당:동일후보) |>   
+    gtExtras::gt_theme_538() |> 
+    sub_missing(missing_text = "-") |> 
+    tab_style(
+      style = cell_text(color = "blue", size = px(15L), weight = "bold"),
+      locations = cells_body(
+        rows  = 동일정당 == "교체" & 동일후보 == "교체",
+      )
+    )  |> 
+    tab_style(
+      style = cell_text(color = "red", size = px(15L), weight = "bold"),
+      locations = cells_body(
+        rows  = 동일정당 == "유지" & 동일후보 == "교체",
+      )
+    )    
+  
+  print(sido_detail_gt)
+
 }
 ```
 :::
-
 
