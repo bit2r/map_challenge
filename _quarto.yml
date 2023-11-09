@@ -126,6 +126,8 @@ website:
             text: "총선 예측"
           - href: nec_api.qmd
             text: "투개표 API"
+          - href: single_member.qmd
+            text: "소선구제와 사표"
             
 format:
   html:
