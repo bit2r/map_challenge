@@ -1,8 +1,8 @@
 ---
 title: "지도제작 대회"
-subtitle: "소선구제와 사표"
+subtitle: "양당과 소선구제"
 description: |
-  소선구제와 사표에 대해서 살펴보자.
+  양당과 소선구제에 대해서 살펴보자.
 author:
   - name: 이광춘
     url: https://www.linkedin.com/in/kwangchunlee/
@@ -42,7 +42,103 @@ editor_options:
 
 ```{r}
 library(tidyverse)
-library()
 
+## 당선인 데이터
+total_elected_all <- 
+  read_rds("data/total_elected_all.rds")
+
+chosun_tbl <- total_elected_all |> 
+  filter(sgId == "20200415") |> 
+  select(result) |> 
+  unnest(result)
+
+```
+
+
+# 분석
+
+## 제21대 총선
+
+```{r}
+chosun_tbl |>
+  filter(sgTypecode == "2") |> 
+  group_by(jdName) |> 
+  mutate(across(dugsu:dugyul, as.numeric)) |> 
+  mutate(투표수 = dugsu/(dugyul/100)) |>
+  select(sgId, sggName, jdName, dugsu, dugyul, 투표수) |> 
+  summarise(당선자수 = n(),
+            총득표수 = sum(dugsu),
+            총투표수 = sum(투표수)) |> 
+  mutate(총득표율 = 총득표수 / sum(총투표수),
+         당선자비율 = 당선자수 / sum(당선자수)) |> 
+  relocate(당선자비율, .after = 당선자수)
+```
+
+## 총선 함수
+
+```{r}
+calc_pcnt <- function(sgId_val = "20200415") {
+  
+  chongsun_tbl <- total_elected_all |> 
+    filter(sgId == sgId_val,
+           sgTypecode == "2") |>
+    select(result) |> 
+    unnest(result)
+  
+  chongsun_tbl |>
+    group_by(jdName) |>
+    mutate(across(dugsu:dugyul, as.numeric)) |>
+    mutate(투표수 = dugsu/(dugyul/100)) |>
+    summarise(당선자수 = n(),
+              총득표수 = sum(dugsu, na.rm = TRUE),
+              총투표수 = sum(투표수, na.rm = TRUE)) |> 
+    mutate(총득표율 = 총득표수 / sum(총투표수, na.rm = TRUE),
+           당선자비율 = 당선자수 / sum(당선자수, na.rm = TRUE)) |> 
+    relocate(당선자비율, .after = 당선자수)
+}
+
+calc_pcnt("20160413")
+```
+
+## 전체결과
+
+```{r}
+two_party_tbl <- total_elected_all |> 
+  count(sgId, name = "당선인수") |> 
+  filter(당선인수 > 200) |> 
+  mutate(data = map(sgId, calc_pcnt)) |> 
+  unnest(data) |> 
+  mutate(정당 = case_when(jdName %in% c("한나라당", "새누리당", "자유한국당",
+                                        "미래통합당", "국민의힘") ~ "국민의힘",
+                            jdName %in% c("새정치국민회의", "열린우리당", "통합민주당",
+                                        "민주통합당", "더불어민주당") ~ "민주당",
+                            TRUE ~ "그외정당"))  |> 
+  mutate(양당 = ifelse(정당 %in% c("국민의힘", "민주당"), "양당", "그외정당")) |> 
+  group_by(sgId, 양당) |> 
+  summarise(당선인수 = sum(당선자수),
+            총투표수 = sum(총투표수),
+            총득표수 = sum(총득표수)) |>  
+  mutate(당선비율 = 당선인수 / sum(당선인수),
+         총투표율 = 총투표수 / sum(총투표수),
+         총득표율 = 총득표수 / sum(총투표수)) |> 
+  ungroup()
+
+two_party_tbl
+```
+
+# 시각화
+
+## 당선인
+
+```{r}
+two_party_tbl |> 
+  ggplot(aes(x = sgId, y = 당선인수 , color = 양당, group = 양당 )) +
+    geom_line() +
+    geom_point()
+
+two_party_tbl |> 
+  ggplot(aes(x = 총득표율, y = 당선비율 , color = 양당, group = 양당 )) +
+    geom_line() +
+    geom_point()
 ```
 
