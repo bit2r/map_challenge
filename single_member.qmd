@@ -126,19 +126,155 @@ two_party_tbl <- total_elected_all |>
 two_party_tbl
 ```
 
+
+```{r}
+minju_power_tbl <- total_elected_all |> 
+  count(sgId, name = "당선인수") |> 
+  filter(당선인수 > 200) |> 
+  mutate(data = map(sgId, calc_pcnt)) |> 
+  unnest(data) |> 
+  mutate(정당 = case_when(jdName %in% c("한나라당", "새누리당", "자유한국당",
+                                        "미래통합당", "국민의힘") ~ "국민의힘",
+                            jdName %in% c("새정치국민회의", "열린우리당", "통합민주당",
+                                        "민주통합당", "더불어민주당") ~ "민주당",
+                            TRUE ~ "그외정당"))  |> 
+  group_by(sgId, 정당) |> 
+  summarise(당선인수 = sum(당선자수),
+            총투표수 = sum(총투표수),
+            총득표수 = sum(총득표수)) |>  
+  mutate(당선비율 = 당선인수 / sum(당선인수),
+         총투표율 = 총투표수 / sum(총투표수),
+         총득표율 = 총득표수 / sum(총투표수)) |> 
+  ungroup()
+
+minju_power_tbl
+```
+
+
 # 시각화
 
-## 당선인
+## 통합
+
+```{r}
+library(ggrepel)
+
+sgId_tbl <- tribble(~"sgId", ~"sgName",
+"20040415", "제17대",
+"20080409", "제18대",
+"20120411", "제19대",
+"20160413", "제20대",
+"20200415", "제21대")
+
+two_party_tbl |> 
+  left_join(sgId_tbl) |> 
+  filter(양당 == "양당") |>
+  ggplot(aes(x = 총득표율, y = 당선비율 , color = 양당, group = 양당 )) +
+    geom_line() +
+    geom_point() +
+    scale_x_continuous(labels = scales::percent, limits = c(0,1)) +
+    scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
+    coord_fixed(ratio = 1) +
+    geom_text_repel(aes(label = sgName), nudge_x = 0.03, nudge_y = 0.00, force = 1.5, color = "gray35") +
+    theme_minimal() +
+    theme(legend.position = "none") +
+    labs(title = "양당 총득표율과 당선비율",
+         caption = "출처: 중앙선거관리위원회 당선인 API") +
+    scale_color_manual(values = c("black"))
+```
+
+
+## 민주 vs 국힘
+
+```{r}
+minju_power_tbl <- total_elected_all |> 
+  count(sgId, name = "당선인수") |> 
+  filter(당선인수 > 200) |> 
+  mutate(data = map(sgId, calc_pcnt)) |> 
+  unnest(data) |> 
+  mutate(정당 = case_when(jdName %in% c("한나라당", "새누리당", "자유한국당",
+                                        "미래통합당", "국민의힘") ~ "국민의힘",
+                            jdName %in% c("새정치국민회의", "열린우리당", "통합민주당",
+                                        "민주통합당", "더불어민주당") ~ "민주당",
+                            TRUE ~ "그외정당"))  |> 
+  group_by(sgId, 정당) |> 
+  summarise(당선인수 = sum(당선자수),
+            총투표수 = sum(총투표수),
+            총득표수 = sum(총득표수)) |>  
+  mutate(당선비율 = 당선인수 / sum(당선인수),
+         총투표율 = 총투표수 / sum(총투표수),
+         총득표율 = 총득표수 / sum(총투표수)) |> 
+  ungroup()
+
+minju_power_tbl
+
+
+minju_power_tbl |> 
+  left_join(sgId_tbl) |> 
+  # filter(정당 != "그외정당") |>
+  mutate(정당 = factor(정당, levels = c("민주당", "국민의힘", "그외정당"))) |> 
+  ggplot(aes(x = 총득표율, y = 당선비율 , color = 정당, group = 정당 )) +
+    geom_line() +
+    geom_point() +
+    scale_x_continuous(labels = scales::percent, limits = c(0,1)) +
+    scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
+    coord_fixed(ratio = 1) +
+    geom_text_repel(aes(label = sgName), nudge_x = 0.03, nudge_y = 0.00, force = 1.5, color = "gray35") +
+    theme_minimal() +
+    theme(legend.position = "top") +
+    labs(title = "양당 총득표율과 당선비율",
+         caption = "출처: 중앙선거관리위원회 당선인 API") +
+    scale_color_manual(values = c("국민의힘" = "red", "민주당" = "blue", "그외정당" = "black")) +
+    geom_abline(slope = 1, intercept = 0, linetype = 2, color = "gray30")
+```
+
+## 막대그래프
+
+### 양당 당선자
 
 ```{r}
 two_party_tbl |> 
-  ggplot(aes(x = sgId, y = 당선인수 , color = 양당, group = 양당 )) +
-    geom_line() +
-    geom_point()
+  select(sgId, 양당, 당선인수) |> 
+  pivot_wider(names_from = 양당, values_from = 당선인수) |> 
+  mutate(선거인수 = 양당 + 그외정당) |> 
+  select(-그외정당) |> 
+  pivot_longer(양당:선거인수, names_to = "구분", values_to = "정수") |>
+  mutate(구분 = ifelse(구분 == "양당", "민주+국힘", "선거정수")) |> 
+  mutate(구분 = factor(구분, levels = c("민주+국힘", "선거정수"))) |>
+  left_join(sgId_tbl) |>
+  ggplot(aes(x =  sgName, y = 정수, fill = 구분, width = ifelse(구분 == "민주+국힘", 0.3, 0.5))) +
+    geom_col(data = . %>% filter(구분 == "선거정수"), alpha = 0.9) +
+    geom_col(data = . %>% filter(구분 == "민주+국힘"), alpha = 0.9) +
+    scale_fill_manual(values = c("선거정수" = "gray77", "민주+국힘" = "darkblue")) +
+    theme_bw() +
+    theme(legend.position = "top") +
+    labs(x = "",
+         y = "선거정수 및 양당 당선자수",
+         title = "역대 국회의원 선거 선거정수와 양당 당선자수") 
+```
 
-two_party_tbl |> 
-  ggplot(aes(x = 총득표율, y = 당선비율 , color = 양당, group = 양당 )) +
-    geom_line() +
-    geom_point()
+
+### 투표자 반영
+
+```{r}
+total_cast_tbl <- two_party_tbl |> 
+  group_by(sgId) |> 
+  summarise(총투표수 = sum(총투표수))
+
+two_party_tbl |>
+  filter(양당 == "양당") |> 
+  select(sgId, 총득표수) |> 
+  left_join(total_cast_tbl) |> 
+  pivot_longer(총득표수:총투표수, names_to = "구분", values_to = "사람수") |>
+  left_join(sgId_tbl) |>
+  ggplot(aes(x =  sgName, y = 사람수, fill = 구분, width = ifelse(구분 == "총득표수", 0.3, 0.5))) +
+    geom_col(data = . %>% filter(구분 == "총투표수"), alpha = 0.9) +
+    geom_col(data = . %>% filter(구분 == "총득표수"), alpha = 0.9) +
+    scale_fill_manual(values = c("총투표수" = "gray77", "총득표수" = "darkblue")) +
+    theme_bw() +
+    theme(legend.position = "top") +
+    labs(x = "",
+         y = "투표수 및 당선자 득표수",
+         title = "역대 국회의원 선거 총투표수와 양당 당선 득표수") +
+    scale_y_continuous(labels = \(x) paste0( scales::comma(x / 10000), "만"))
 ```
 
