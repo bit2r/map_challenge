@@ -175,7 +175,7 @@ two_party_tbl |>
     scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
     coord_fixed(ratio = 1) +
     geom_text_repel(aes(label = sgName), nudge_x = 0.03, nudge_y = 0.00, force = 1.5, color = "gray35") +
-    theme_minimal() +
+    theme_korean() +
     theme(legend.position = "none") +
     labs(title = "양당 총득표율과 당선비율",
          caption = "출처: 중앙선거관리위원회 당선인 API") +
@@ -219,7 +219,7 @@ minju_power_tbl |>
     scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
     coord_fixed(ratio = 1) +
     geom_text_repel(aes(label = sgName), nudge_x = 0.03, nudge_y = 0.00, force = 1.5, color = "gray35") +
-    theme_minimal() +
+    theme_korean() +
     theme(legend.position = "top") +
     labs(title = "양당 총득표율과 당선비율",
          caption = "출처: 중앙선거관리위원회 당선인 API") +
@@ -232,7 +232,8 @@ minju_power_tbl |>
 ### 양당 당선자
 
 ```{r}
-two_party_tbl |> 
+#| eval: false
+single_member_gg <- two_party_tbl |> 
   select(sgId, 양당, 당선인수) |> 
   pivot_wider(names_from = 양당, values_from = 당선인수) |> 
   mutate(선거인수 = 양당 + 그외정당) |> 
@@ -245,22 +246,37 @@ two_party_tbl |>
     geom_col(data = . %>% filter(구분 == "선거정수"), alpha = 0.9) +
     geom_col(data = . %>% filter(구분 == "민주+국힘"), alpha = 0.9) +
     scale_fill_manual(values = c("선거정수" = "gray77", "민주+국힘" = "darkblue")) +
-    theme_bw() +
+    theme_korean() +
     theme(legend.position = "top") +
     labs(x = "",
          y = "선거정수 및 양당 당선자수",
-         title = "역대 국회의원 선거 선거정수와 양당 당선자수") 
+         title = "역대 국회의원 선거 선거정수와 양당 당선자수") +
+    geom_text(data = two_party_tbl |> filter(양당 == "양당") |> 
+                    left_join(sgId_tbl) |> 
+                    mutate(구분 = "총득표수"),
+                    aes(x = sgName, y = 당선인수, 
+                        label = scales::percent(당선비율, accuracy = 0.1)), 
+              vjust = -0.5, size = 6, family = "NanumSquare", fontface = "bold") +
+    scale_y_continuous(limits = c(0, 260))
+
+ragg::agg_jpeg("images/single_member_gg.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+single_member_gg
+dev.off()
+
 ```
 
+![](images/single_member_gg.jpeg)
 
 ### 투표자 반영
 
 ```{r}
+#| eval: false
 total_cast_tbl <- two_party_tbl |> 
   group_by(sgId) |> 
   summarise(총투표수 = sum(총투표수))
 
-two_party_tbl |>
+single_cast_gg <- two_party_tbl |>
   filter(양당 == "양당") |> 
   select(sgId, 총득표수) |> 
   left_join(total_cast_tbl) |> 
@@ -270,11 +286,110 @@ two_party_tbl |>
     geom_col(data = . %>% filter(구분 == "총투표수"), alpha = 0.9) +
     geom_col(data = . %>% filter(구분 == "총득표수"), alpha = 0.9) +
     scale_fill_manual(values = c("총투표수" = "gray77", "총득표수" = "darkblue")) +
-    theme_bw() +
+    theme_korean() +
     theme(legend.position = "top") +
     labs(x = "",
          y = "투표수 및 당선자 득표수",
          title = "역대 국회의원 선거 총투표수와 양당 당선 득표수") +
-    scale_y_continuous(labels = \(x) paste0( scales::comma(x / 10000), "만"))
+    scale_y_continuous(labels = \(x) paste0( scales::comma(x / 10000), "만")) +
+    geom_text(data = two_party_tbl |> filter(양당 == "양당") |> 
+                    left_join(sgId_tbl) |> 
+                    mutate(구분 = "총득표수") |> 
+                    mutate(양당득표율 = 총득표수 / 총투표수),
+                    aes(x = sgName, y = 총득표수, 
+                        label = scales::percent(양당득표율, accuracy = 0.1)), 
+              vjust = -0.5, size = 6, family = "NanumSquare", fontface = "bold") 
+
+ragg::agg_jpeg("images/single_cast_gg.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+single_cast_gg
+dev.off()
 ```
 
+![](images/single_cast_gg.jpeg)
+
+# 지역별
+
+## 데이터
+
+```{r}
+chongsun_tbl <- total_elected_all |> 
+  filter(sgId == "20200415",
+         sgTypecode == "2") |> 
+  select(result) |> 
+  unnest(result)
+
+sido_tbl <- chongsun_tbl |>
+  group_by(sdName, jdName) |>
+  mutate(across(dugsu:dugyul, as.numeric)) |>
+  mutate(투표수 = dugsu/(dugyul/100)) |>
+  summarise(당선자수 = n(),
+            총득표수 = sum(dugsu, na.rm = TRUE),
+            총투표수 = sum(투표수, na.rm = TRUE)) |> 
+  mutate(총득표율 = 총득표수 / sum(총투표수, na.rm = TRUE),
+         당선자비율 = 당선자수 / sum(당선자수, na.rm = TRUE)) |> 
+  relocate(당선자비율, .after = 당선자수) |> 
+  mutate(정당 = case_when(jdName %in% c("한나라당", "새누리당", "자유한국당",
+                                        "미래통합당", "국민의힘") ~ "국민의힘",
+                            jdName %in% c("새정치국민회의", "열린우리당", "통합민주당",
+                                        "민주통합당", "더불어민주당") ~ "민주당",
+                            TRUE ~ "그외정당"))  |> 
+  mutate(양당 = ifelse(정당 %in% c("국민의힘", "민주당"), "양당", "그외정당")) |> 
+  group_by(sdName, 양당) |> 
+  summarise(당선인수 = sum(당선자수),
+            총투표수 = sum(총투표수),
+            총득표수 = sum(총득표수)) |>  
+  mutate(당선비율 = 당선인수 / sum(당선인수),
+         총투표율 = 총투표수 / sum(총투표수),
+         총득표율 = 총득표수 / sum(총투표수)) |> 
+  ungroup()
+
+sido_cast_tbl <- chongsun_tbl |> 
+  mutate(across(dugsu:dugyul, as.numeric)) |> 
+  mutate(투표수 = dugsu/(dugyul/100)) |>
+  group_by(sdName) |> 
+  summarise(총투표수 = sum(투표수))
+```
+
+## 시각화
+
+```{r}
+#| eval: false
+single_sido_gg <- sido_tbl |> 
+  filter(양당 == "양당") |>
+  select(sdName, 총득표수) |> 
+  left_join(sido_cast_tbl) |> 
+  pivot_longer(총득표수:총투표수, names_to = "구분", values_to = "사람수") |> 
+  ggplot(aes(x = fct_reorder(sdName, 사람수), y = 사람수, fill = 구분, 
+             width = ifelse(구분 == "총득표수", 0.3, 0.6))) +
+    geom_col(data = . %>% filter(구분 == "총투표수")) +
+    geom_col(data = . %>% filter(구분 == "총득표수")) +
+    scale_fill_manual(values = c("총투표수" = "gray77", "총득표수" = "darkblue")) +
+    theme_korean() +
+    theme(legend.position = "top") +
+    labs(x = "",
+         y = "투표수 및 당선자 득표수",
+         title = "제21대 국회의원 선거 시도별 투표수와 양당 당선 득표수") +
+    coord_flip() +
+    geom_text(data = sido_tbl |> filter(양당 == "양당") |> 
+                mutate(득표율 = 총득표수 / 총투표수) |> 
+                mutate(색상 = ifelse(득표율 > 0.572, "red", "blue")) |>                 
+                mutate(구분 = ""),
+                    aes(x = sdName, y = 총득표수, 
+                        label = scales::percent(총득표율, accuracy = 0.1), 
+                        color = 색상), 
+              hjust = -0.2, size = 4.5, family = "NanumSquare", fontface = "bold") +
+    scale_color_identity() +
+    scale_y_continuous(labels = \(x) paste0( scales::comma(x / 10000), "만"))   
+
+single_sido_gg
+
+ragg::agg_jpeg("images/single_sido_gg.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+single_sido_gg
+dev.off()
+```
+
+![](images/single_sido_gg.jpeg)
+
+```{r}

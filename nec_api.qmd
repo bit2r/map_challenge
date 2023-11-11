@@ -231,6 +231,7 @@ legislator_cast_tbl |>
 ### 득표 API
 
 ```{r}
+#| eval: false
 library(tidyverse)
 library(httr)
 library(jsonlite)
