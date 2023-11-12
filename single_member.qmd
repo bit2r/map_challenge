@@ -392,4 +392,58 @@ dev.off()
 
 ![](images/single_sido_gg.jpeg)
 
+
+# 추세
+
+```{r}
+#| eval: false
+library(ggridges)
+
+single_trend_gg <- sgId_tbl |> 
+  left_join(total_elected_all) |> 
+  select(result) |> 
+  unnest(result) |> 
+  mutate(across(dugsu:dugyul, as.numeric)) |> 
+  mutate(투표수 = dugsu/(dugyul/100)) |>
+  rename(득표율 = dugyul) |> 
+  mutate(득표율 = 득표율 / 100) |> 
+  mutate(정당 = case_when(jdName %in% c("한나라당", "새누리당", "자유한국당",
+                                        "미래통합당", "국민의힘") ~ "국민의힘",
+                            jdName %in% c("새정치국민회의", "열린우리당", "통합민주당",
+                                        "민주통합당", "더불어민주당") ~ "민주당",
+                            TRUE ~ "그외정당"))  |> 
+  filter(정당 != "그외정당") |>
+  mutate(sgId = fct_rev(sgId))  |> 
+  # filter(득표율 > 0.2) |>
+  left_join(sgId_tbl) |> 
+  ggplot(aes(x = 득표율, y = sgName, fill = paste(sgName, 정당))) +
+    # geom_density_ridges(stat='binline', scale=0.9, alpha=0.8) + 
+    geom_density_ridges( alpha = .8, color = "white", from = 0.2, to = 0.9, scale = 0.8) +
+    scale_y_discrete(expand = c(0, 0)) +
+    scale_x_continuous(labels = scales::percent, expand = c(0, 0)) +  
+    coord_cartesian(clip = "off") +
+    theme_ridges(grid = FALSE) +
+    scale_fill_cyclical(
+      values = c("#ff0000", "#0000ff"),
+      labels = c(`제17대 국민의힘` = "국민의힘", `제17대 민주당` = "민주당"),
+      name = "정당", guide = "legend"
+    ) +
+    theme_korean() +
+    theme(legend.position = "top") +
+    geom_vline(xintercept = 0.5, color = "gray30", size = 0.5, linetype = "dashed") +
+    labs(
+      x = "당선자 득표율 (%)",
+      y = "국회의원 선거",
+      title = "민주당과 국민의힘 당선자 득표율 분포 변화",
+      caption = "자료출처: 중앙선거관리위원회 선거통계시스템 당선자 API"
+    )  
+
+ragg::agg_jpeg("images/single_trends_gg.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+single_trend_gg
+dev.off()
+```
+
+![](images/single_trends_gg.jpeg)
+
 ```{r}
