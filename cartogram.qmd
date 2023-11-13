@@ -101,26 +101,34 @@ sido_boundary_hex |>
 # SVG to geojson
 
 ```{r}
-svg_sf <- st_read("data/precinct_21/cartogram.geojson")
-
-svg_sf |> 
-  plot()
 
 svg_shp <- st_read("data/precinct_21/2020_South_Korean_legislative_election_Results_Cartogram-polygon.shp")
 
-svg_sf |> 
+svg_shp |> 
   plot()
 
 ```
 
 
-# svg magick
+
+
+# svg to geojson
 
 ```{r}
-library(magick)
+mapbox_sf <- st_read("data/precinct_21/features.geojson") 
 
-carto <- image_read("data/precinct_21/cartogram.svg")
+south_korea_bbox <- st_bbox(c(
+  xmin = 124.61,  # Minimum longitude
+  ymin = 33.10,   # Minimum latitude
+  xmax = 131.87,  # Maximum longitude
+  ymax = 38.45    # Maximum latitude
+), crs = st_crs(4326))  # EPSG:4326 coordinate reference system
 
+mapbox_sf |>
+  st_set_crs(4326) |> 
+  # st_crop(south_korea_bbox) |> 
+  ggplot() +
+    geom_sf(aes(geometry = geometry))
 
 ```
 
