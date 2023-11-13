@@ -44,6 +44,8 @@ website:
             text: "지도 기본기"
           - href: tour.qmd
             text: "대통령 해외순방"
+          - href: cartogram.qmd
+            text: "인구비례 선거구"            
             
       - text: "GIS 분석&챗GPT"
         menu: 

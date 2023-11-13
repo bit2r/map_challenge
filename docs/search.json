@@ -1482,5 +1482,12 @@
     "title": "지도제작 대회",
     "section": "\n6.3 수도권",
     "text": "6.3 수도권\n\n코드metro_precinct &lt;- precinct |&gt; filter(SGG_1 %in% c(\"서울\", \"경기\", \"인천\"))\n\nmetro_precinct_cells &lt;-  calculate_grid(shape = metro_precinct, grid_type='hexagonal')\nmetro_precinct_hex &lt;- assign_polygons(metro_precinct, metro_precinct_cells)\n\n\nmetro_centroids_tbl &lt;- metro_precinct_hex |&gt; \n  st_centroid() |&gt; \n  st_coordinates() |&gt; \n  as_tibble() |&gt; \n  bind_cols(metro_precinct_hex |&gt; st_drop_geometry()) |&gt; \n  mutate(SGG_3 = str_remove(SGG_3, \"(서울)|(경기)|(인천)\\\\s+\"))\n\nseoul_boundary_hex &lt;- metro_precinct_hex |&gt;\n  filter(SGG_1 == \"서울\") |&gt; \n  st_buffer(0.01) |&gt; \n  st_union() %&gt;%\n  st_boundary() \n\nmetro_precinct_hex |&gt;\n  st_buffer(0.001) |&gt; \n  st_union() %&gt;%\n  st_boundary() %&gt;%\n  ggplot() +\n    geom_sf( lwd = 2 ) +\n    geom_sf(data = metro_precinct_hex, fill = \"transparent\") +\n    geom_sf(data = seoul_boundary_hex, color = \"blue\", fill = \"skyblue\", lwd = 3) +\n    geom_text(\n      data = metro_centroids_tbl,\n        aes(x = X, y = Y, label = SGG_3), size = 3\n    )"
+  },
+  {
+    "objectID": "cartogram.html",
+    "href": "cartogram.html",
+    "title": "지도제작 대회",
+    "section": "",
+    "text": "1 데이터셋\n\n코드library(tidyverse)\nlibrary(rvest)\nlibrary(httr)\nlibrary(sf)\nlibrary(geogrid)\nsf_use_s2(FALSE)\n\nprecinct_sf &lt;- st_read(\"data/2020_21_elec_253.json\")\n\nsido_sf &lt;- precinct_sf |&gt; \n  # filter(SGG_1 == \"부산\") |&gt; \n  calculate_grid(grid_type=\"hexagonal\", learning_rate = 0.05, seed=20)\n\nplot(sido_sf)\n\nsido_hex &lt;- assign_polygons(precinct_sf, sido_sf)\n\n\n\n코드# sido_hex |&gt; \n#   st_write(\"data/precinct_21.geojson\")\n\nsido_hex &lt;- \n  st_read(\"data/precinct_21.geojson\")\n#&gt; Reading layer `precinct_21' from data source \n#&gt;   `E:\\quarto\\map_challenge\\data\\precinct_21.geojson' using driver `GeoJSON'\n#&gt; Simple feature collection with 253 features and 12 fields\n#&gt; Geometry type: POLYGON\n#&gt; Dimension:     XY\n#&gt; Bounding box:  xmin: 125.9417 ymin: 33.08693 xmax: 130.9774 ymax: 38.53052\n#&gt; Geodetic CRS:  WGS 84\n\nsido_hex |&gt; \n  st_geometry() |&gt; \n  plot()"
   }
 ]
