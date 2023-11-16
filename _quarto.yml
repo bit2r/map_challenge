@@ -130,6 +130,8 @@ website:
             text: "투개표 API"
           - href: single_member.qmd
             text: "양당과 소선구제"
+          - href: proportion_member.qmd
+            text: "비례 국회의원"
             
 format:
   html:
