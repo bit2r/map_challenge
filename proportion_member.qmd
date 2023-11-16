@@ -115,8 +115,10 @@ prop_tbl |>
     geom_point() +
     scale_color_manual(values = c("국민의힘" = "red",
                                   "민주당"   = "blue",
-                                  "기타정당" = "gray30")) +
-    scale_y_continuous(labels = scales::percent)
+                                  "그외정당" = "gray30")) +
+    scale_y_continuous(labels = scales::percent) +
+    theme_minimal() +
+    theme(legend.position = "top")
 ```
 
 
