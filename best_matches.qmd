@@ -1,0 +1,89 @@
+---
+title: "지도제작 대회"
+subtitle: "최고 관심 격돌"
+description: |
+  최고 관심 격돌 선거전을 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(rvest)
+library(httr)
+library(sf)
+library(geogrid)
+```
+
+
+# 최고의 빅매치
+
+
+- 제18대 (2008년) 정몽준 vs 정동영
+    - [정몽준-정동영 동작을 맞붙나](https://www.hani.co.kr/arti/politics/politics_general/275957.html)
+- 제18대 (2008년) 노회찬 vs 홍정욱
+    - [노회찬(강북좌파), 홍정욱(강남우파)에 근소한 차로 우위](https://www.hani.co.kr/arti/politics/assembly/278356.html)
+- 제19대 (2012년) 이재오 vs 천호선
+    - ["이재오 살리고 MB심판 하자고?", 서울 은평을, 새누리 이재오 vs 통합진보 천호선](https://www.pressian.com/pages/articles/63595)
+- 제19대 (2012년) 문재인 vs 손수조
+    - [부산 사상 손수조·문재인](https://m.khan.co.kr/politics/election/article/201204082255145#c2b)
+- 제20대 (2016년) 안철수 vs 이준석
+    - ['노원 목장'의 결투? 안철수-이준석, 총선 전운](https://www.asiae.co.kr/article/2023031010175976658)
+- 제20대 (2016년) 정세균 vs 오세훈
+    - [정세균 對 오세훈 ‘종로 혈투’…국민의 선택은?](http://sisa-news.com/news/article.html?no=103290)
+- 제21대 (2020년) 이낙연 vs 황교안
+    - [이낙연-황교안, 정치1번지 종로서 맞붙는다](https://www.ccnnews.co.kr/news/articleView.html?idxno=170838)
+- 제21대 (2020년) 김용민 vs 주광덕
+    - [남양주병… '조국 대전' 이슈로 격돌](https://www.yna.co.kr/view/AKR20200313115600060)
+    
+    
+```{r}
+library(tidyverse)
+
+tribble(~"선거", ~"선거구", ~"유권자", ~"투표수", ~"계", ~"정당", ~"후보", ~"득표수",
+       "제18대", "동작을", "154,470", "87,793", "87,332", "민주당", "정동영", "36,251",
+       "제18대", "동작을", "154,470", "87,793", "87,332", "국민의힘", "정몽준", "47,521",
+       "제18대", "노원병", "158,354", "80,732", "80,170	", "민주당", "김성환", "13,036	",
+       "제18대", "노원병", "158,354", "80,732", "80,170	", "국민의힘", "홍정욱", "34,554",
+       "제18대", "노원병", "158,354", "80,732", "80,170	", "정의당", "노회찬", "32,111",       
+       "제20대", "노원병", "159,717", "103,710", "103,054", "국민의힘", "이준석", "32,285",       
+       "제20대", "노원병", "159,717", "103,710", "103,054", "국민의당", "안철수", "53,930",
+       "제21대", "종로구", "134,516", "95,239", "94,038", "민주당", "이낙연", "54,902",
+       "제21대", "종로구", "134,516", "95,239", "94,038", "국민의당", "황교안", "37,594"
+       )
+```
+
+
+
