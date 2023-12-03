@@ -1249,7 +1249,7 @@ ggsave( glue::glue("images/당원수_양당.jpeg") ,
 ```
 
 
-## 시도별 당원
+## 권역별 당원
 
 ```{r}
 party_members_sido_g <- party_members_sido_tbl |> 
@@ -1279,7 +1279,7 @@ party_members_sido_g <- party_members_sido_tbl |>
           axis.title.y    = ggplot2::element_text(family = "MaruBuri", size = 9)) +
     labs(x = "",
          y = "당원수",
-         title = "양당 시도별 당원수 추세",
+         title = "양당 권역별 당원수 추세",
          caption = "출처: 중앙선관위 '정당의 활동개황 및 회계보고'") +
     scale_y_continuous(labels = label_man()) +
     scale_color_manual(values = c("국민의힘" = "red",
