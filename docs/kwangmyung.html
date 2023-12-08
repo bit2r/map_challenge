@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR" xml:lang="ko-KR"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.4.523">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="이광춘">
 <meta name="description" content="광명시 총/대/지선 선거결과를 살펴보자.">
@@ -21,7 +21,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "일치 없음",
     "search-matching-documents-text": "일치된 문서",
@@ -90,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "추가 검색결과",
     "search-more-matches-text": "추가 검색결과",
     "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "취소",
     "search-submit-button-title": "검색",
     "search-label": "검색"
@@ -99,8 +106,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">지도제작 대회</span>
     </a>
@@ -112,127 +119,255 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link" href="./index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">지도 그리기</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-">
 <li>
-    <a class="dropdown-item" href="./day_01.html" rel="" target="">
+    <a class="dropdown-item" href="./day_01.html">
  <span class="dropdown-text">지도 색칠</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_02.html" rel="" target="">
+    <a class="dropdown-item" href="./day_02.html">
  <span class="dropdown-text">인구수 점(Point)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_03.html" rel="" target="">
+    <a class="dropdown-item" href="./day_03.html">
  <span class="dropdown-text">스파이크(Spike map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_04.html" rel="" target="">
+    <a class="dropdown-item" href="./day_04.html">
  <span class="dropdown-text">지형도(Topographic map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_05.html" rel="" target="">
+    <a class="dropdown-item" href="./day_05.html">
  <span class="dropdown-text">3D 표고 지도(독도)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_06.html" rel="" target="">
+    <a class="dropdown-item" href="./day_06.html">
  <span class="dropdown-text">아시아국가 실업율(%)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_07.html" rel="" target="">
+    <a class="dropdown-item" href="./day_07.html">
  <span class="dropdown-text">인터랙티브 지도(Mapview)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_08.html" rel="" target="">
+    <a class="dropdown-item" href="./day_08.html">
  <span class="dropdown-text">지오코딩</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_heatmap.html" rel="" target="">
+    <a class="dropdown-item" href="./day_heatmap.html">
  <span class="dropdown-text">열지도(heatmap)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./spatial_basics.html">
+ <span class="dropdown-text">지도 기본기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tour.html">
+ <span class="dropdown-text">대통령 해외순방</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./cartogram.html">
+ <span class="dropdown-text">인구비례 선거구</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
- <span class="menu-text">GIS 분석</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">GIS 분석&amp;챗GPT</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-분석">
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-분석챗gpt">
 <li>
-    <a class="dropdown-item" href="./spatial_map.html" rel="" target="">
+    <a class="dropdown-item" href="./spatial_map.html">
  <span class="dropdown-text">지도(Map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./jeju_map.html" rel="" target="">
+    <a class="dropdown-item" href="./jeju_map.html">
  <span class="dropdown-text">제주도 높이 지도</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./yellow_sea.html" rel="" target="">
+    <a class="dropdown-item" href="./yellow_sea.html">
  <span class="dropdown-text">황해</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./yellow_sea2.html" rel="" target="">
+    <a class="dropdown-item" href="./yellow_sea2.html">
  <span class="dropdown-text">황해2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./gg_analytics_center.html" rel="" target="">
+    <a class="dropdown-item" href="./gg_analytics_center.html">
  <span class="dropdown-text">경기 데이터 분석 센터</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./km_school.html" rel="" target="">
+    <a class="dropdown-item" href="./km_school.html">
  <span class="dropdown-text">광명시 학교와 CCTV</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="./km_BitGPT.html">
+ <span class="dropdown-text">Code Interpreter</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
- <span class="menu-text">제21대 국회의원 선거</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">시각화</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--1">
 <li>
-    <a class="dropdown-item" href="./precinct.html" rel="" target="">
+    <a class="dropdown-item" href="./movie.html">
+ <span class="dropdown-text">한국영화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards.html">
+ <span class="dropdown-text">대쉬보드 Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards_quakes.html">
+ <span class="dropdown-text">대쉬보드 R</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-i" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">제21대 국회의원 선거(I)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-i">
+<li>
+    <a class="dropdown-item" href="./precinct.html">
  <span class="dropdown-text">국회의원 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./minju_nomination.html" rel="" target="">
+    <a class="dropdown-item" href="./minju_nomination.html">
  <span class="dropdown-text">민주당 전략공천 성과</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./precinct_history.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct_history.html">
  <span class="dropdown-text">선거구와 정수</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./electorate.html" rel="" target="">
+    <a class="dropdown-item" href="./electorate.html">
  <span class="dropdown-text">변경된 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./precinct_district.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct_district.html">
  <span class="dropdown-text">선거구 평균 인구수</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./district_issue.html" rel="" target="">
+    <a class="dropdown-item" href="./district_issue.html">
  <span class="dropdown-text">인구수 문제 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./kwangmyung.html" rel="" target="">
+    <a class="dropdown-item" href="./kwangmyung.html">
  <span class="dropdown-text">광명시(총/대/지)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./approval_rate.html" rel="" target="">
+    <a class="dropdown-item" href="./approval_rate.html">
  <span class="dropdown-text">대통령 지지율</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./minju_party.html">
+ <span class="dropdown-text">민주당은 전국정당(?)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election.html">
+ <span class="dropdown-text">재보궐: 강서구청장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election_dong.html">
+ <span class="dropdown-text">재보궐: 강서구청장(동별)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./after_by_election.html">
+ <span class="dropdown-text">서울 재보궐 이후</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gs_position.html">
+ <span class="dropdown-text">재보궐: 강서구 위치</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="./realmeter_metro.html">
+ <span class="dropdown-text">리얼미터 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallop_metro.html">
+ <span class="dropdown-text">한국갤럽 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nbs_metro.html">
+ <span class="dropdown-text">전국지표조사 PDF</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ii" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">제21대 국회의원 선거(II)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ii">
+<li>
+    <a class="dropdown-item" href="./legislators.html">
+ <span class="dropdown-text">권역별 의석수 변화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./candidate.html">
+ <span class="dropdown-text">예비 후보자</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./district_chair.html">
+ <span class="dropdown-text">지역/당협 위원장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./watermellon.html">
+ <span class="dropdown-text">수박 당도 선별기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./sido_legislator.html">
+ <span class="dropdown-text">시도별 역대 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./metro_people_power.html">
+ <span class="dropdown-text">수도권 국힘의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./party_numbers.html">
+ <span class="dropdown-text">당원과 정당 수입지출</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./elected_numbers.html">
+ <span class="dropdown-text">국회의원 초선 당선</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./forecast.html">
+ <span class="dropdown-text">총선 예측</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nec_api.html">
+ <span class="dropdown-text">투개표 API</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./single_member.html">
+ <span class="dropdown-text">양당과 소선구제</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./proportion_member.html">
+ <span class="dropdown-text">비례 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./best_matches.html">
+ <span class="dropdown-text">최고 관심 격돌</span></a>
   </li>  
     </ul>
 </li>
 </ul>
-<div class="quarto-navbar-tools ms-auto">
+</div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="다크 모드 전환"><i class="bi"></i></a>
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
@@ -253,14 +388,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="quarto-title-meta-contents">
       <p class="author"><a href="https://www.linkedin.com/in/kwangchunlee/">이광춘</a> </p>
     </div>
-      <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
           <p class="affiliation">
               <a href="https://github.com/bit2r">
               한국 R 사용자회
               </a>
             </p>
         </div>
-      </div>
+    </div>
 
   <div class="quarto-title-meta">
 
@@ -308,7 +443,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content quarto-banner-title-block" id="quarto-document-content"><section id="데이터" class="level1" data-number="1"><h1 data-number="1">
 <span class="header-section-number">1</span> 데이터</h1>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">krvote</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">president</span> <span class="op">&lt;-</span> <span class="fu">krvote</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/krvote/man/election_20220309.html">election_20220309</a></span><span class="op">$</span><span class="va">득표율</span> <span class="op">|&gt;</span> </span>
@@ -370,7 +505,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="종합" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="종합">
 <span class="header-section-number">2.1</span> 종합</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 대통령</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 대통령</span></span>
 <span><span class="va">president_ttl</span> <span class="op">&lt;-</span> <span class="va">president</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">이재명</span><span class="op">:</span><span class="va">김민찬</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>정당 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"이재명"</span> <span class="op">~</span> <span class="st">"민주당"</span>,</span>
@@ -414,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ttl_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">chongsun_ttl</span>, <span class="va">president_ttl</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ttl_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">chongsun_ttl</span>, <span class="va">president_ttl</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">local_sido_ttl</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">local_mayor_ttl</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>선거 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">선거</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"총선_2020"</span>, <span class="st">"대선_2022"</span>, <span class="st">"도지사_2022"</span>, <span class="st">"시장_2022"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -439,14 +574,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/kwangmyung/광명시_총계.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/kwangmyung/광명시_총계.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/kwangmyung/광명시_총계.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/kwangmyung/광명시_총계.jpeg" class="img-fluid"></a></p>
 </section><section id="동별" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="동별">
 <span class="header-section-number">2.2</span> 동별</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 대통령</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 대통령</span></span>
 <span><span class="va">president_dong</span> <span class="op">&lt;-</span> <span class="va">president</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">이재명</span><span class="op">:</span><span class="va">김민찬</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>정당 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"이재명"</span> <span class="op">~</span> <span class="st">"민주당"</span>,</span>
@@ -513,7 +645,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dong_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">chongsun_dong</span>, <span class="va">president_dong</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dong_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">chongsun_dong</span>, <span class="va">president_dong</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">local_sido_dong</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">local_mayor_dong</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>선거 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">선거</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"총선_2020"</span>, <span class="st">"대선_2022"</span>, <span class="st">"도지사_2022"</span>, <span class="st">"시장_2022"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -539,17 +671,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/kwangmyung/광명시_동별.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/kwangmyung/광명시_동별.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/kwangmyung/광명시_동별.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/kwangmyung/광명시_동별.jpeg" class="img-fluid"></a></p>
 </section></section><section id="인구수" class="level1" data-number="3"><h1 data-number="3">
 <span class="header-section-number">3</span> 인구수</h1>
 <section id="데이터-1" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="데이터-1">
 <span class="header-section-number">3.1</span> 데이터</h2>
 <p>행정안전부 <a href="https://jumin.mois.go.kr/">주민등록 인구통계</a></p>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 2020-04-15 ---------------------------------</span></span>
 <span><span class="va">pop_202004_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/202004_202004_연령별인구현황_월간.xlsx"</span>, skip <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -622,7 +751,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="유권자" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="유권자">
 <span class="header-section-number">3.2.1</span> 유권자</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pop_tbl</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.rds"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -655,14 +784,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/kwangmyung/광명시_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/kwangmyung/광명시_유권자수.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/kwangmyung/광명시_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/kwangmyung/광명시_유권자수.jpeg" class="img-fluid"></a></p>
 </section><section id="동별-유권자" class="level3" data-number="3.2.2"><h3 data-number="3.2.2" class="anchored" data-anchor-id="동별-유권자">
 <span class="header-section-number">3.2.2</span> 동별 유권자</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_voter_dong_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_voter_dong_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>유권자 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">19</span>, <span class="st">"유권자"</span>, <span class="st">"무권자"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">시점</span>, <span class="va">행정동</span>, <span class="va">유권자</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>인구수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">인구수</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -694,14 +820,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/kwangmyung/광명시_동별_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/kwangmyung/광명시_동별_유권자수.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/kwangmyung/광명시_동별_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/kwangmyung/광명시_동별_유권자수.jpeg" class="img-fluid"></a></p>
 </section><section id="세대별-3040기준" class="level3" data-number="3.2.3"><h3 data-number="3.2.3" class="anchored" data-anchor-id="세대별-3040기준">
 <span class="header-section-number">3.2.3</span> 세대별 (3040기준)</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_age_ttl_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_age_ttl_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>세대 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">19</span> <span class="op">&amp;</span> <span class="va">나이</span> <span class="op">&lt;</span> <span class="fl">30</span> <span class="op">~</span> <span class="st">"1020대"</span>,</span>
 <span>                            <span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">30</span> <span class="op">&amp;</span> <span class="va">나이</span> <span class="op">&lt;</span> <span class="fl">50</span> <span class="op">~</span> <span class="st">"3040대"</span>,</span>
 <span>                            <span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">50</span> <span class="op">~</span> <span class="st">"50이상"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -735,14 +858,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/kwangmyung/광명시_세대별_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/kwangmyung/광명시_세대별_유권자수.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/kwangmyung/광명시_세대별_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/kwangmyung/광명시_세대별_유권자수.jpeg" class="img-fluid"></a></p>
 </section><section id="세대별-4050기준" class="level3" data-number="3.2.4"><h3 data-number="3.2.4" class="anchored" data-anchor-id="세대별-4050기준">
 <span class="header-section-number">3.2.4</span> 세대별 (4050기준)</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_age_ttl_4050_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_age_ttl_4050_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>세대 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">19</span> <span class="op">&amp;</span> <span class="va">나이</span> <span class="op">&lt;</span> <span class="fl">40</span> <span class="op">~</span> <span class="st">"1030대"</span>,</span>
 <span>                            <span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">40</span> <span class="op">&amp;</span> <span class="va">나이</span> <span class="op">&lt;</span> <span class="fl">60</span> <span class="op">~</span> <span class="st">"4050대"</span>,</span>
 <span>                            <span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">60</span> <span class="op">~</span> <span class="st">"60이상"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -776,14 +896,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/kwangmyung/광명시_세대별_4050_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="images/kwangmyung/광명시_세대별_4050_유권자수.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/kwangmyung/광명시_세대별_4050_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="images/kwangmyung/광명시_세대별_4050_유권자수.jpeg" class="img-fluid"></a></p>
 </section><section id="동별x세대별-3040기준" class="level3" data-number="3.2.5"><h3 data-number="3.2.5" class="anchored" data-anchor-id="동별x세대별-3040기준">
 <span class="header-section-number">3.2.5</span> 동별X세대별 (3040기준)</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_age_dong_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_age_dong_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>세대 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">19</span> <span class="op">&amp;</span> <span class="va">나이</span> <span class="op">&lt;</span> <span class="fl">30</span> <span class="op">~</span> <span class="st">"1020대"</span>,</span>
 <span>                            <span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">30</span> <span class="op">&amp;</span> <span class="va">나이</span> <span class="op">&lt;</span> <span class="fl">50</span> <span class="op">~</span> <span class="st">"3040대"</span>,</span>
 <span>                            <span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">50</span> <span class="op">~</span> <span class="st">"50이상"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -817,14 +934,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/kwangmyung/광명시_동별_세대별_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="images/kwangmyung/광명시_동별_세대별_유권자수.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/kwangmyung/광명시_동별_세대별_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="images/kwangmyung/광명시_동별_세대별_유권자수.jpeg" class="img-fluid"></a></p>
 </section><section id="동별x세대별-4050기준" class="level3" data-number="3.2.6"><h3 data-number="3.2.6" class="anchored" data-anchor-id="동별x세대별-4050기준">
 <span class="header-section-number">3.2.6</span> 동별X세대별 (4050기준)</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_age_dong_4050_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">km_age_dong_4050_gg</span> <span class="op">&lt;-</span> <span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>세대 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">19</span> <span class="op">&amp;</span> <span class="va">나이</span> <span class="op">&lt;</span> <span class="fl">40</span> <span class="op">~</span> <span class="st">"1030대"</span>,</span>
 <span>                            <span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">40</span> <span class="op">&amp;</span> <span class="va">나이</span> <span class="op">&lt;</span> <span class="fl">60</span> <span class="op">~</span> <span class="st">"4050대"</span>,</span>
 <span>                            <span class="va">나이</span> <span class="op">&gt;=</span> <span class="fl">60</span> <span class="op">~</span> <span class="st">"60이상"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -857,10 +971,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/kwangmyung/광명시_세대별_동별_4050_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/kwangmyung/광명시_세대별_동별_4050_유권자수.jpeg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/kwangmyung/광명시_세대별_동별_4050_유권자수.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/kwangmyung/광명시_세대별_동별_4050_유권자수.jpeg" class="img-fluid"></a></p>
 
 
 <!-- -->
@@ -906,6 +1017,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -974,13 +1112,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1110,10 +1250,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1123,8 +1262,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1137,6 +1285,135 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1180,6 +1457,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1205,6 +1483,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1845,7 +2149,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer">
-    <div class="nav-footer-left"><a href="https://quarto.org/">Quarto</a> 로 제작</div>   
+    <div class="nav-footer-left">
+<p><a href="https://quarto.org/">Quarto</a> 로 제작</p>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
@@ -1853,7 +2159,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","loop":true,"openEffect":"zoom","selector":".lightbox"});</script>
+</footer><script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom","loop":false});</script>
 
 
 </body></html>

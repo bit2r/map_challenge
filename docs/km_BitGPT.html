@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR" xml:lang="ko-KR"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.288">
+<meta name="generator" content="quarto-1.4.523">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="이광춘">
 <meta name="description" content="BitGPT로 Code Interpreter 기능 구현도전!!!">
@@ -21,7 +21,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,12 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
     "s"
   ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "일치 없음",
     "search-matching-documents-text": "일치된 문서",
@@ -95,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "추가 검색결과",
     "search-more-matches-text": "추가 검색결과",
     "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "취소",
     "search-submit-button-title": "검색",
     "search-label": "검색"
@@ -104,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">지도제작 대회</span>
@@ -117,137 +119,247 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link" href="./index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">지도 그리기</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-">
 <li>
-    <a class="dropdown-item" href="./day_01.html" rel="" target="">
+    <a class="dropdown-item" href="./day_01.html">
  <span class="dropdown-text">지도 색칠</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_02.html" rel="" target="">
+    <a class="dropdown-item" href="./day_02.html">
  <span class="dropdown-text">인구수 점(Point)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_03.html" rel="" target="">
+    <a class="dropdown-item" href="./day_03.html">
  <span class="dropdown-text">스파이크(Spike map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_04.html" rel="" target="">
+    <a class="dropdown-item" href="./day_04.html">
  <span class="dropdown-text">지형도(Topographic map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_05.html" rel="" target="">
+    <a class="dropdown-item" href="./day_05.html">
  <span class="dropdown-text">3D 표고 지도(독도)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_06.html" rel="" target="">
+    <a class="dropdown-item" href="./day_06.html">
  <span class="dropdown-text">아시아국가 실업율(%)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_07.html" rel="" target="">
+    <a class="dropdown-item" href="./day_07.html">
  <span class="dropdown-text">인터랙티브 지도(Mapview)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_08.html" rel="" target="">
+    <a class="dropdown-item" href="./day_08.html">
  <span class="dropdown-text">지오코딩</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_heatmap.html" rel="" target="">
+    <a class="dropdown-item" href="./day_heatmap.html">
  <span class="dropdown-text">열지도(heatmap)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./spatial_basics.html">
+ <span class="dropdown-text">지도 기본기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tour.html">
+ <span class="dropdown-text">대통령 해외순방</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./cartogram.html">
+ <span class="dropdown-text">인구비례 선거구</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">GIS 분석&amp;챗GPT</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-분석챗gpt">
 <li>
-    <a class="dropdown-item" href="./spatial_map.html" rel="" target="">
+    <a class="dropdown-item" href="./spatial_map.html">
  <span class="dropdown-text">지도(Map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./jeju_map.html" rel="" target="">
+    <a class="dropdown-item" href="./jeju_map.html">
  <span class="dropdown-text">제주도 높이 지도</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./yellow_sea.html" rel="" target="">
+    <a class="dropdown-item" href="./yellow_sea.html">
  <span class="dropdown-text">황해</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./yellow_sea2.html" rel="" target="">
+    <a class="dropdown-item" href="./yellow_sea2.html">
  <span class="dropdown-text">황해2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./gg_analytics_center.html" rel="" target="">
+    <a class="dropdown-item" href="./gg_analytics_center.html">
  <span class="dropdown-text">경기 데이터 분석 센터</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./km_school.html" rel="" target="">
+    <a class="dropdown-item" href="./km_school.html">
  <span class="dropdown-text">광명시 학교와 CCTV</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./km_BitGPT.html" rel="" target="">
+    <a class="dropdown-item" href="./km_BitGPT.html">
  <span class="dropdown-text">Code Interpreter</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
- <span class="menu-text">제21대 국회의원 선거</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">시각화</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--1">
 <li>
-    <a class="dropdown-item" href="./precinct.html" rel="" target="">
+    <a class="dropdown-item" href="./movie.html">
+ <span class="dropdown-text">한국영화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards.html">
+ <span class="dropdown-text">대쉬보드 Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards_quakes.html">
+ <span class="dropdown-text">대쉬보드 R</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-i" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">제21대 국회의원 선거(I)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-i">
+<li>
+    <a class="dropdown-item" href="./precinct.html">
  <span class="dropdown-text">국회의원 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./minju_nomination.html" rel="" target="">
+    <a class="dropdown-item" href="./minju_nomination.html">
  <span class="dropdown-text">민주당 전략공천 성과</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./precinct_history.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct_history.html">
  <span class="dropdown-text">선거구와 정수</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./electorate.html" rel="" target="">
+    <a class="dropdown-item" href="./electorate.html">
  <span class="dropdown-text">변경된 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./precinct_district.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct_district.html">
  <span class="dropdown-text">선거구 평균 인구수</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./district_issue.html" rel="" target="">
+    <a class="dropdown-item" href="./district_issue.html">
  <span class="dropdown-text">인구수 문제 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./kwangmyung.html" rel="" target="">
+    <a class="dropdown-item" href="./kwangmyung.html">
  <span class="dropdown-text">광명시(총/대/지)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./approval_rate.html" rel="" target="">
+    <a class="dropdown-item" href="./approval_rate.html">
  <span class="dropdown-text">대통령 지지율</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./minju_party.html">
+ <span class="dropdown-text">민주당은 전국정당(?)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election.html">
+ <span class="dropdown-text">재보궐: 강서구청장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election_dong.html">
+ <span class="dropdown-text">재보궐: 강서구청장(동별)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./after_by_election.html">
+ <span class="dropdown-text">서울 재보궐 이후</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gs_position.html">
+ <span class="dropdown-text">재보궐: 강서구 위치</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./realmeter_metro.html" rel="" target="">
+    <a class="dropdown-item" href="./realmeter_metro.html">
  <span class="dropdown-text">리얼미터 PDF</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./gallop_metro.html" rel="" target="">
+    <a class="dropdown-item" href="./gallop_metro.html">
  <span class="dropdown-text">한국갤럽 PDF</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./nbs_metro.html" rel="" target="">
+    <a class="dropdown-item" href="./nbs_metro.html">
  <span class="dropdown-text">전국지표조사 PDF</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ii" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">제21대 국회의원 선거(II)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ii">
+<li>
+    <a class="dropdown-item" href="./legislators.html">
+ <span class="dropdown-text">권역별 의석수 변화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./candidate.html">
+ <span class="dropdown-text">예비 후보자</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./district_chair.html">
+ <span class="dropdown-text">지역/당협 위원장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./watermellon.html">
+ <span class="dropdown-text">수박 당도 선별기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./sido_legislator.html">
+ <span class="dropdown-text">시도별 역대 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./metro_people_power.html">
+ <span class="dropdown-text">수도권 국힘의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./party_numbers.html">
+ <span class="dropdown-text">당원과 정당 수입지출</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./elected_numbers.html">
+ <span class="dropdown-text">국회의원 초선 당선</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./forecast.html">
+ <span class="dropdown-text">총선 예측</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nec_api.html">
+ <span class="dropdown-text">투개표 API</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./single_member.html">
+ <span class="dropdown-text">양당과 소선구제</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./proportion_member.html">
+ <span class="dropdown-text">비례 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./best_matches.html">
+ <span class="dropdown-text">최고 관심 격돌</span></a>
   </li>  
     </ul>
 </li>
@@ -276,14 +388,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="quarto-title-meta-contents">
       <p class="author"><a href="https://www.linkedin.com/in/kwangchunlee/">이광춘</a> </p>
     </div>
-      <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
           <p class="affiliation">
               <a href="https://github.com/bit2r">
               한국 R 사용자회
               </a>
             </p>
         </div>
-      </div>
+    </div>
 
   <div class="quarto-title-meta">
 
@@ -329,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">1.1</span> 원본 데이터</h2>
 <p>행정안전부 <a href="https://jumin.mois.go.kr/">주민등록 인구 및 세대현황</a> 웹사이트에서 광명시 최근 데이터를 가져온다.</p>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">raw_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/202307_202307_연령별인구현황_월간.xlsx"</span>, skip <span class="op">=</span><span class="fl">3</span><span class="op">)</span> </span>
@@ -340,23 +452,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="oagdizdafp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oagdizdafp table {
+<div id="acsihmhglt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#acsihmhglt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oagdizdafp thead, #oagdizdafp tbody, #oagdizdafp tfoot, #oagdizdafp tr, #oagdizdafp td, #oagdizdafp th {
+#acsihmhglt thead, #acsihmhglt tbody, #acsihmhglt tfoot, #acsihmhglt tr, #acsihmhglt td, #acsihmhglt th {
   border-style: none;
 }
 
-#oagdizdafp p {
+#acsihmhglt p {
   margin: 0;
   padding: 0;
 }
 
-#oagdizdafp .gt_table {
+#acsihmhglt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -382,12 +494,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_caption {
+#acsihmhglt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oagdizdafp .gt_title {
+#acsihmhglt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -399,7 +511,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#oagdizdafp .gt_subtitle {
+#acsihmhglt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -411,7 +523,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#oagdizdafp .gt_heading {
+#acsihmhglt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -423,13 +535,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_bottom_border {
+#acsihmhglt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_col_headings {
+#acsihmhglt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -444,7 +556,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_col_heading {
+#acsihmhglt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -464,7 +576,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#oagdizdafp .gt_column_spanner_outer {
+#acsihmhglt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -476,15 +588,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#oagdizdafp .gt_column_spanner_outer:first-child {
+#acsihmhglt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oagdizdafp .gt_column_spanner_outer:last-child {
+#acsihmhglt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oagdizdafp .gt_column_spanner {
+#acsihmhglt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -496,11 +608,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#oagdizdafp .gt_spanner_row {
+#acsihmhglt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oagdizdafp .gt_group_heading {
+#acsihmhglt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -526,7 +638,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#oagdizdafp .gt_empty_group_heading {
+#acsihmhglt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -541,15 +653,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#oagdizdafp .gt_from_md > :first-child {
+#acsihmhglt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oagdizdafp .gt_from_md > :last-child {
+#acsihmhglt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oagdizdafp .gt_row {
+#acsihmhglt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -568,7 +680,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#oagdizdafp .gt_stub {
+#acsihmhglt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -581,7 +693,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#oagdizdafp .gt_stub_row_group {
+#acsihmhglt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -595,15 +707,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#oagdizdafp .gt_row_group_first td {
+#acsihmhglt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oagdizdafp .gt_row_group_first th {
+#acsihmhglt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oagdizdafp .gt_summary_row {
+#acsihmhglt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -613,16 +725,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#oagdizdafp .gt_first_summary_row {
+#acsihmhglt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_first_summary_row.thick {
+#acsihmhglt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oagdizdafp .gt_last_summary_row {
+#acsihmhglt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -632,7 +744,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_grand_summary_row {
+#acsihmhglt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -642,7 +754,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#oagdizdafp .gt_first_grand_summary_row {
+#acsihmhglt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -652,7 +764,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_last_grand_summary_row_top {
+#acsihmhglt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -662,11 +774,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_striped {
+#acsihmhglt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oagdizdafp .gt_table_body {
+#acsihmhglt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -675,7 +787,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_footnotes {
+#acsihmhglt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -689,7 +801,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_footnote {
+#acsihmhglt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -698,7 +810,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#oagdizdafp .gt_sourcenotes {
+#acsihmhglt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -712,7 +824,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#oagdizdafp .gt_sourcenote {
+#acsihmhglt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -720,151 +832,151 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#oagdizdafp .gt_left {
+#acsihmhglt .gt_left {
   text-align: left;
 }
 
-#oagdizdafp .gt_center {
+#acsihmhglt .gt_center {
   text-align: center;
 }
 
-#oagdizdafp .gt_right {
+#acsihmhglt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oagdizdafp .gt_font_normal {
+#acsihmhglt .gt_font_normal {
   font-weight: normal;
 }
 
-#oagdizdafp .gt_font_bold {
+#acsihmhglt .gt_font_bold {
   font-weight: bold;
 }
 
-#oagdizdafp .gt_font_italic {
+#acsihmhglt .gt_font_italic {
   font-style: italic;
 }
 
-#oagdizdafp .gt_super {
+#acsihmhglt .gt_super {
   font-size: 65%;
 }
 
-#oagdizdafp .gt_footnote_marks {
+#acsihmhglt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oagdizdafp .gt_asterisk {
+#acsihmhglt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oagdizdafp .gt_indent_1 {
+#acsihmhglt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oagdizdafp .gt_indent_2 {
+#acsihmhglt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oagdizdafp .gt_indent_3 {
+#acsihmhglt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oagdizdafp .gt_indent_4 {
+#acsihmhglt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oagdizdafp .gt_indent_5 {
+#acsihmhglt .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="행정기관코드">행정기관코드</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="행정기관">행정기관</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="총_인구수">총_인구수</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="연령구간인구수_4">연령구간인구수_4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x0세_5">x0세_5</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x1세_6">x1세_6</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x2세_7">x2세_7</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x3세_8">x3세_8</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x4세_9">x4세_9</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="x5세_10">x5세_10</th>
-    </tr></thead>
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="header gt_col_headings">
+<th id="행정기관코드" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">행정기관코드</th>
+<th id="행정기관" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">행정기관</th>
+<th id="총_인구수" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">총_인구수</th>
+<th id="연령구간인구수_4" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">연령구간인구수_4</th>
+<th id="x0세_5" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">x0세_5</th>
+<th id="x1세_6" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">x1세_6</th>
+<th id="x2세_7" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">x2세_7</th>
+<th id="x3세_8" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">x3세_8</th>
+<th id="x4세_9" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">x4세_9</th>
+<th id="x5세_10" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">x5세_10</th>
+</tr></thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="행정기관코드" class="gt_row gt_right">4121000000</td>
-<td headers="행정기관" class="gt_row gt_left">경기도 경기도 광명시</td>
-<td headers="총_인구수" class="gt_row gt_right">280,986</td>
-<td headers="연령구간인구수_4" class="gt_row gt_right">280,986</td>
-<td headers="x0세_5" class="gt_row gt_right">1,373</td>
-<td headers="x1세_6" class="gt_row gt_right">1,470</td>
-<td headers="x2세_7" class="gt_row gt_right">1,582</td>
-<td headers="x3세_8" class="gt_row gt_right">1,588</td>
-<td headers="x4세_9" class="gt_row gt_right">1,729</td>
-<td headers="x5세_10" class="gt_row gt_right">1,924</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="행정기관코드">4121000000</td>
+<td class="gt_row gt_left" headers="행정기관">경기도 경기도 광명시</td>
+<td class="gt_row gt_right" headers="총_인구수">280,986</td>
+<td class="gt_row gt_right" headers="연령구간인구수_4">280,986</td>
+<td class="gt_row gt_right" headers="x0세_5">1,373</td>
+<td class="gt_row gt_right" headers="x1세_6">1,470</td>
+<td class="gt_row gt_right" headers="x2세_7">1,582</td>
+<td class="gt_row gt_right" headers="x3세_8">1,588</td>
+<td class="gt_row gt_right" headers="x4세_9">1,729</td>
+<td class="gt_row gt_right" headers="x5세_10">1,924</td>
 </tr>
-<tr>
-<td headers="행정기관코드" class="gt_row gt_right">4121051000</td>
-<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명1동</td>
-<td headers="총_인구수" class="gt_row gt_right">56</td>
-<td headers="연령구간인구수_4" class="gt_row gt_right">56</td>
-<td headers="x0세_5" class="gt_row gt_right">0</td>
-<td headers="x1세_6" class="gt_row gt_right">0</td>
-<td headers="x2세_7" class="gt_row gt_right">0</td>
-<td headers="x3세_8" class="gt_row gt_right">0</td>
-<td headers="x4세_9" class="gt_row gt_right">0</td>
-<td headers="x5세_10" class="gt_row gt_right">0</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="행정기관코드">4121051000</td>
+<td class="gt_row gt_left" headers="행정기관">경기도 광명시 광명1동</td>
+<td class="gt_row gt_right" headers="총_인구수">56</td>
+<td class="gt_row gt_right" headers="연령구간인구수_4">56</td>
+<td class="gt_row gt_right" headers="x0세_5">0</td>
+<td class="gt_row gt_right" headers="x1세_6">0</td>
+<td class="gt_row gt_right" headers="x2세_7">0</td>
+<td class="gt_row gt_right" headers="x3세_8">0</td>
+<td class="gt_row gt_right" headers="x4세_9">0</td>
+<td class="gt_row gt_right" headers="x5세_10">0</td>
 </tr>
-<tr>
-<td headers="행정기관코드" class="gt_row gt_right">4121052000</td>
-<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명2동</td>
-<td headers="총_인구수" class="gt_row gt_right">2,953</td>
-<td headers="연령구간인구수_4" class="gt_row gt_right">2,953</td>
-<td headers="x0세_5" class="gt_row gt_right">9</td>
-<td headers="x1세_6" class="gt_row gt_right">7</td>
-<td headers="x2세_7" class="gt_row gt_right">11</td>
-<td headers="x3세_8" class="gt_row gt_right">5</td>
-<td headers="x4세_9" class="gt_row gt_right">5</td>
-<td headers="x5세_10" class="gt_row gt_right">8</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="행정기관코드">4121052000</td>
+<td class="gt_row gt_left" headers="행정기관">경기도 광명시 광명2동</td>
+<td class="gt_row gt_right" headers="총_인구수">2,953</td>
+<td class="gt_row gt_right" headers="연령구간인구수_4">2,953</td>
+<td class="gt_row gt_right" headers="x0세_5">9</td>
+<td class="gt_row gt_right" headers="x1세_6">7</td>
+<td class="gt_row gt_right" headers="x2세_7">11</td>
+<td class="gt_row gt_right" headers="x3세_8">5</td>
+<td class="gt_row gt_right" headers="x4세_9">5</td>
+<td class="gt_row gt_right" headers="x5세_10">8</td>
 </tr>
-<tr>
-<td headers="행정기관코드" class="gt_row gt_right">4121054000</td>
-<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명3동</td>
-<td headers="총_인구수" class="gt_row gt_right">9,869</td>
-<td headers="연령구간인구수_4" class="gt_row gt_right">9,869</td>
-<td headers="x0세_5" class="gt_row gt_right">29</td>
-<td headers="x1세_6" class="gt_row gt_right">21</td>
-<td headers="x2세_7" class="gt_row gt_right">20</td>
-<td headers="x3세_8" class="gt_row gt_right">20</td>
-<td headers="x4세_9" class="gt_row gt_right">23</td>
-<td headers="x5세_10" class="gt_row gt_right">24</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="행정기관코드">4121054000</td>
+<td class="gt_row gt_left" headers="행정기관">경기도 광명시 광명3동</td>
+<td class="gt_row gt_right" headers="총_인구수">9,869</td>
+<td class="gt_row gt_right" headers="연령구간인구수_4">9,869</td>
+<td class="gt_row gt_right" headers="x0세_5">29</td>
+<td class="gt_row gt_right" headers="x1세_6">21</td>
+<td class="gt_row gt_right" headers="x2세_7">20</td>
+<td class="gt_row gt_right" headers="x3세_8">20</td>
+<td class="gt_row gt_right" headers="x4세_9">23</td>
+<td class="gt_row gt_right" headers="x5세_10">24</td>
 </tr>
-<tr>
-<td headers="행정기관코드" class="gt_row gt_right">4121055000</td>
-<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명4동</td>
-<td headers="총_인구수" class="gt_row gt_right">8,114</td>
-<td headers="연령구간인구수_4" class="gt_row gt_right">8,114</td>
-<td headers="x0세_5" class="gt_row gt_right">35</td>
-<td headers="x1세_6" class="gt_row gt_right">29</td>
-<td headers="x2세_7" class="gt_row gt_right">44</td>
-<td headers="x3세_8" class="gt_row gt_right">27</td>
-<td headers="x4세_9" class="gt_row gt_right">28</td>
-<td headers="x5세_10" class="gt_row gt_right">35</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="행정기관코드">4121055000</td>
+<td class="gt_row gt_left" headers="행정기관">경기도 광명시 광명4동</td>
+<td class="gt_row gt_right" headers="총_인구수">8,114</td>
+<td class="gt_row gt_right" headers="연령구간인구수_4">8,114</td>
+<td class="gt_row gt_right" headers="x0세_5">35</td>
+<td class="gt_row gt_right" headers="x1세_6">29</td>
+<td class="gt_row gt_right" headers="x2세_7">44</td>
+<td class="gt_row gt_right" headers="x3세_8">27</td>
+<td class="gt_row gt_right" headers="x4세_9">28</td>
+<td class="gt_row gt_right" headers="x5세_10">35</td>
 </tr>
-<tr>
-<td headers="행정기관코드" class="gt_row gt_right">4121056000</td>
-<td headers="행정기관" class="gt_row gt_left">경기도 광명시 광명5동</td>
-<td headers="총_인구수" class="gt_row gt_right">12,206</td>
-<td headers="연령구간인구수_4" class="gt_row gt_right">12,206</td>
-<td headers="x0세_5" class="gt_row gt_right">41</td>
-<td headers="x1세_6" class="gt_row gt_right">40</td>
-<td headers="x2세_7" class="gt_row gt_right">64</td>
-<td headers="x3세_8" class="gt_row gt_right">51</td>
-<td headers="x4세_9" class="gt_row gt_right">49</td>
-<td headers="x5세_10" class="gt_row gt_right">60</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="행정기관코드">4121056000</td>
+<td class="gt_row gt_left" headers="행정기관">경기도 광명시 광명5동</td>
+<td class="gt_row gt_right" headers="총_인구수">12,206</td>
+<td class="gt_row gt_right" headers="연령구간인구수_4">12,206</td>
+<td class="gt_row gt_right" headers="x0세_5">41</td>
+<td class="gt_row gt_right" headers="x1세_6">40</td>
+<td class="gt_row gt_right" headers="x2세_7">64</td>
+<td class="gt_row gt_right" headers="x3세_8">51</td>
+<td class="gt_row gt_right" headers="x4세_9">49</td>
+<td class="gt_row gt_right" headers="x5세_10">60</td>
 </tr>
 </tbody>
 </table>
@@ -874,7 +986,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="가공데이터" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="가공데이터">
 <span class="header-section-number">1.2</span> 가공데이터</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pop_tbl</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.rds"</span><span class="op">)</span></span>
@@ -883,23 +995,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="ekmptiwika" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ekmptiwika table {
+<div id="gtooihfxzo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gtooihfxzo table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ekmptiwika thead, #ekmptiwika tbody, #ekmptiwika tfoot, #ekmptiwika tr, #ekmptiwika td, #ekmptiwika th {
+#gtooihfxzo thead, #gtooihfxzo tbody, #gtooihfxzo tfoot, #gtooihfxzo tr, #gtooihfxzo td, #gtooihfxzo th {
   border-style: none;
 }
 
-#ekmptiwika p {
+#gtooihfxzo p {
   margin: 0;
   padding: 0;
 }
 
-#ekmptiwika .gt_table {
+#gtooihfxzo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -925,12 +1037,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_caption {
+#gtooihfxzo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ekmptiwika .gt_title {
+#gtooihfxzo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -942,7 +1054,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#ekmptiwika .gt_subtitle {
+#gtooihfxzo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -954,7 +1066,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#ekmptiwika .gt_heading {
+#gtooihfxzo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -966,13 +1078,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_bottom_border {
+#gtooihfxzo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_col_headings {
+#gtooihfxzo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -987,7 +1099,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_col_heading {
+#gtooihfxzo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1007,7 +1119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#ekmptiwika .gt_column_spanner_outer {
+#gtooihfxzo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1019,15 +1131,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#ekmptiwika .gt_column_spanner_outer:first-child {
+#gtooihfxzo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ekmptiwika .gt_column_spanner_outer:last-child {
+#gtooihfxzo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ekmptiwika .gt_column_spanner {
+#gtooihfxzo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1039,11 +1151,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#ekmptiwika .gt_spanner_row {
+#gtooihfxzo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ekmptiwika .gt_group_heading {
+#gtooihfxzo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1069,7 +1181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#ekmptiwika .gt_empty_group_heading {
+#gtooihfxzo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1084,15 +1196,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#ekmptiwika .gt_from_md > :first-child {
+#gtooihfxzo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ekmptiwika .gt_from_md > :last-child {
+#gtooihfxzo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ekmptiwika .gt_row {
+#gtooihfxzo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1111,7 +1223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#ekmptiwika .gt_stub {
+#gtooihfxzo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1124,7 +1236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekmptiwika .gt_stub_row_group {
+#gtooihfxzo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1138,15 +1250,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#ekmptiwika .gt_row_group_first td {
+#gtooihfxzo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ekmptiwika .gt_row_group_first th {
+#gtooihfxzo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ekmptiwika .gt_summary_row {
+#gtooihfxzo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1156,16 +1268,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekmptiwika .gt_first_summary_row {
+#gtooihfxzo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_first_summary_row.thick {
+#gtooihfxzo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ekmptiwika .gt_last_summary_row {
+#gtooihfxzo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1175,7 +1287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_grand_summary_row {
+#gtooihfxzo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1185,7 +1297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekmptiwika .gt_first_grand_summary_row {
+#gtooihfxzo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1195,7 +1307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_last_grand_summary_row_top {
+#gtooihfxzo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1205,11 +1317,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_striped {
+#gtooihfxzo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ekmptiwika .gt_table_body {
+#gtooihfxzo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1218,7 +1330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_footnotes {
+#gtooihfxzo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1232,7 +1344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_footnote {
+#gtooihfxzo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1241,7 +1353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekmptiwika .gt_sourcenotes {
+#gtooihfxzo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1255,7 +1367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ekmptiwika .gt_sourcenote {
+#gtooihfxzo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1263,116 +1375,116 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ekmptiwika .gt_left {
+#gtooihfxzo .gt_left {
   text-align: left;
 }
 
-#ekmptiwika .gt_center {
+#gtooihfxzo .gt_center {
   text-align: center;
 }
 
-#ekmptiwika .gt_right {
+#gtooihfxzo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ekmptiwika .gt_font_normal {
+#gtooihfxzo .gt_font_normal {
   font-weight: normal;
 }
 
-#ekmptiwika .gt_font_bold {
+#gtooihfxzo .gt_font_bold {
   font-weight: bold;
 }
 
-#ekmptiwika .gt_font_italic {
+#gtooihfxzo .gt_font_italic {
   font-style: italic;
 }
 
-#ekmptiwika .gt_super {
+#gtooihfxzo .gt_super {
   font-size: 65%;
 }
 
-#ekmptiwika .gt_footnote_marks {
+#gtooihfxzo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ekmptiwika .gt_asterisk {
+#gtooihfxzo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ekmptiwika .gt_indent_1 {
+#gtooihfxzo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ekmptiwika .gt_indent_2 {
+#gtooihfxzo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ekmptiwika .gt_indent_3 {
+#gtooihfxzo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ekmptiwika .gt_indent_4 {
+#gtooihfxzo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ekmptiwika .gt_indent_5 {
+#gtooihfxzo .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="시점">시점</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="행정동">행정동</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="성별">성별</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="나이">나이</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="인구수">인구수</th>
-    </tr></thead>
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="header gt_col_headings">
+<th id="시점" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">시점</th>
+<th id="행정동" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">행정동</th>
+<th id="성별" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">성별</th>
+<th id="나이" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">나이</th>
+<th id="인구수" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">인구수</th>
+</tr></thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="시점" class="gt_row gt_right">2023-07-15</td>
-<td headers="행정동" class="gt_row gt_left">광명1동</td>
-<td headers="성별" class="gt_row gt_left">남자</td>
-<td headers="나이" class="gt_row gt_right">0</td>
-<td headers="인구수" class="gt_row gt_right">0</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="시점">2023-07-15</td>
+<td class="gt_row gt_left" headers="행정동">광명1동</td>
+<td class="gt_row gt_left" headers="성별">남자</td>
+<td class="gt_row gt_right" headers="나이">0</td>
+<td class="gt_row gt_right" headers="인구수">0</td>
 </tr>
-<tr>
-<td headers="시점" class="gt_row gt_right">2023-07-15</td>
-<td headers="행정동" class="gt_row gt_left">광명1동</td>
-<td headers="성별" class="gt_row gt_left">남자</td>
-<td headers="나이" class="gt_row gt_right">1</td>
-<td headers="인구수" class="gt_row gt_right">0</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="시점">2023-07-15</td>
+<td class="gt_row gt_left" headers="행정동">광명1동</td>
+<td class="gt_row gt_left" headers="성별">남자</td>
+<td class="gt_row gt_right" headers="나이">1</td>
+<td class="gt_row gt_right" headers="인구수">0</td>
 </tr>
-<tr>
-<td headers="시점" class="gt_row gt_right">2023-07-15</td>
-<td headers="행정동" class="gt_row gt_left">광명1동</td>
-<td headers="성별" class="gt_row gt_left">남자</td>
-<td headers="나이" class="gt_row gt_right">2</td>
-<td headers="인구수" class="gt_row gt_right">0</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="시점">2023-07-15</td>
+<td class="gt_row gt_left" headers="행정동">광명1동</td>
+<td class="gt_row gt_left" headers="성별">남자</td>
+<td class="gt_row gt_right" headers="나이">2</td>
+<td class="gt_row gt_right" headers="인구수">0</td>
 </tr>
-<tr>
-<td headers="시점" class="gt_row gt_right">2023-07-15</td>
-<td headers="행정동" class="gt_row gt_left">광명1동</td>
-<td headers="성별" class="gt_row gt_left">남자</td>
-<td headers="나이" class="gt_row gt_right">3</td>
-<td headers="인구수" class="gt_row gt_right">0</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="시점">2023-07-15</td>
+<td class="gt_row gt_left" headers="행정동">광명1동</td>
+<td class="gt_row gt_left" headers="성별">남자</td>
+<td class="gt_row gt_right" headers="나이">3</td>
+<td class="gt_row gt_right" headers="인구수">0</td>
 </tr>
-<tr>
-<td headers="시점" class="gt_row gt_right">2023-07-15</td>
-<td headers="행정동" class="gt_row gt_left">광명1동</td>
-<td headers="성별" class="gt_row gt_left">남자</td>
-<td headers="나이" class="gt_row gt_right">4</td>
-<td headers="인구수" class="gt_row gt_right">0</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="시점">2023-07-15</td>
+<td class="gt_row gt_left" headers="행정동">광명1동</td>
+<td class="gt_row gt_left" headers="성별">남자</td>
+<td class="gt_row gt_right" headers="나이">4</td>
+<td class="gt_row gt_right" headers="인구수">0</td>
 </tr>
-<tr>
-<td headers="시점" class="gt_row gt_right">2023-07-15</td>
-<td headers="행정동" class="gt_row gt_left">광명1동</td>
-<td headers="성별" class="gt_row gt_left">남자</td>
-<td headers="나이" class="gt_row gt_right">5</td>
-<td headers="인구수" class="gt_row gt_right">0</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="시점">2023-07-15</td>
+<td class="gt_row gt_left" headers="행정동">광명1동</td>
+<td class="gt_row gt_left" headers="성별">남자</td>
+<td class="gt_row gt_right" headers="나이">5</td>
+<td class="gt_row gt_right" headers="인구수">0</td>
 </tr>
 </tbody>
 </table>
@@ -1383,14 +1495,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">1.3</span> 챗GPT 데이터 변환</h2>
 <p>데이터를 가공한 후 챗GPT Code Interpreter 분석용으로 변환시켜 데이터를 전송한다.</p>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.csv"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/km_code_interpreter.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/km_code_interpreter.png" class="img-fluid"></a></p>
 <div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class=""><a href="data/kwangmyung_pop.csv">CSV 파일 다운로드</a></span></div></div>
 </section></section><section id="챗gpt-code-interpreter" class="level1 page-columns page-full" data-number="2"><h1 data-number="2">
 <span class="header-section-number">2</span> 챗GPT Code Interpreter</h1>
@@ -1409,64 +1518,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_01.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/km_code_interpreter_01.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_01.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/km_code_interpreter_01.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_02.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/km_code_interpreter_02.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_02.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/km_code_interpreter_02.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_03.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/km_code_interpreter_03.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_03.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/km_code_interpreter_03.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_04.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/km_code_interpreter_04.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_04.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/km_code_interpreter_04.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_05.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="images/km_code_interpreter_05.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_05.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="images/km_code_interpreter_05.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_06.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="images/km_code_interpreter_06.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_06.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="images/km_code_interpreter_06.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_07.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/km_code_interpreter_07.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_07.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/km_code_interpreter_07.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_08.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/km_code_interpreter_08.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_08.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/km_code_interpreter_08.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_09.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="images/km_code_interpreter_09.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_09.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="images/km_code_interpreter_09.jpg" class="img-fluid"></a></p>
 </div>
 <div id="tabset-1-10" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-10-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="images/km_code_interpreter_10.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="images/km_code_interpreter_10.jpg" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="images/km_code_interpreter_10.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="images/km_code_interpreter_10.jpg" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -1481,7 +1560,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="연도별-인구수" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="연도별-인구수">
 <span class="header-section-number">4.1</span> 연도별 인구수</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pop_tbl</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.rds"</span><span class="op">)</span></span>
@@ -1499,7 +1578,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="km_BitGPT_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
@@ -1508,7 +1587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="연도별-인구수-1" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="연도별-인구수-1">
 <span class="header-section-number">4.2</span> 연도별 인구수</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pop_tbl</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/kwangmyung_pop.rds"</span><span class="op">)</span></span>
@@ -1526,7 +1605,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="km_BitGPT_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
@@ -1535,7 +1614,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="동별-인구수" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="동별-인구수">
 <span class="header-section-number">4.3</span> 동별 인구수</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시점 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1549,7 +1628,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="km_BitGPT_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
@@ -1558,7 +1637,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="유권자-비율-1" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="유권자-비율-1">
 <span class="header-section-number">4.4</span> 유권자 비율</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시점 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>유권자 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">나이</span> <span class="op">&gt;=</span><span class="fl">18</span>, <span class="st">"유권자"</span>, <span class="st">"비유권자"</span><span class="op">)</span>,</span>
@@ -1575,7 +1654,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>유권자 <span class="op">=</span> <span class="st">"blue"</span>, 비유권자<span class="op">=</span><span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="km_BitGPT_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
@@ -1584,7 +1663,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="내림차순-유권자수" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="내림차순-유권자수">
 <span class="header-section-number">4.5</span> 내림차순 유권자수</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pop_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>시점 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>연도 <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">시점</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">연도</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">연도</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1612,7 +1691,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>유권자 <span class="op">=</span> <span class="st">"blue"</span>, 비유권자<span class="op">=</span><span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="km_BitGPT_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="km_BitGPT_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
@@ -1945,15 +2024,45 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    if (id.startsWith('sec-')) {
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
+        typesetMath(container);
         return container.innerHTML
       } else {
+        typesetMath(note);
         return note.innerHTML;
       }
     } else {
@@ -1962,6 +2071,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
+      typesetMath(note);
       return note.innerHTML;
     }
   }
@@ -2004,6 +2114,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
       }
     }, function(instance) {
     });
@@ -2075,6 +2208,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2408,7 +2567,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":true,"descPosition":"bottom","openEffect":"zoom"});</script>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"openEffect":"zoom","selector":".lightbox","descPosition":"bottom"});</script>
 
 
 </body></html>

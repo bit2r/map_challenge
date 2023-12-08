@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR" xml:lang="ko-KR"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.288">
+<meta name="generator" content="quarto-1.4.523">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="이광춘">
 <meta name="description" content="당원수">
@@ -21,7 +21,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,12 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
     "s"
   ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "일치 없음",
     "search-matching-documents-text": "일치된 문서",
@@ -95,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "추가 검색결과",
     "search-more-matches-text": "추가 검색결과",
     "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "취소",
     "search-submit-button-title": "검색",
     "search-label": "검색"
@@ -104,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">지도제작 대회</span>
@@ -117,238 +119,246 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link" href="./index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">지도 그리기</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-">
 <li>
-    <a class="dropdown-item" href="./day_01.html" rel="" target="">
+    <a class="dropdown-item" href="./day_01.html">
  <span class="dropdown-text">지도 색칠</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_02.html" rel="" target="">
+    <a class="dropdown-item" href="./day_02.html">
  <span class="dropdown-text">인구수 점(Point)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_03.html" rel="" target="">
+    <a class="dropdown-item" href="./day_03.html">
  <span class="dropdown-text">스파이크(Spike map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_04.html" rel="" target="">
+    <a class="dropdown-item" href="./day_04.html">
  <span class="dropdown-text">지형도(Topographic map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_05.html" rel="" target="">
+    <a class="dropdown-item" href="./day_05.html">
  <span class="dropdown-text">3D 표고 지도(독도)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_06.html" rel="" target="">
+    <a class="dropdown-item" href="./day_06.html">
  <span class="dropdown-text">아시아국가 실업율(%)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_07.html" rel="" target="">
+    <a class="dropdown-item" href="./day_07.html">
  <span class="dropdown-text">인터랙티브 지도(Mapview)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_08.html" rel="" target="">
+    <a class="dropdown-item" href="./day_08.html">
  <span class="dropdown-text">지오코딩</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_heatmap.html" rel="" target="">
+    <a class="dropdown-item" href="./day_heatmap.html">
  <span class="dropdown-text">열지도(heatmap)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./spatial_basics.html" rel="" target="">
+    <a class="dropdown-item" href="./spatial_basics.html">
  <span class="dropdown-text">지도 기본기</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./tour.html" rel="" target="">
+    <a class="dropdown-item" href="./tour.html">
  <span class="dropdown-text">대통령 해외순방</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./cartogram.html" rel="" target="">
+    <a class="dropdown-item" href="./cartogram.html">
  <span class="dropdown-text">인구비례 선거구</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">GIS 분석&amp;챗GPT</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-분석챗gpt">
 <li>
-    <a class="dropdown-item" href="./spatial_map.html" rel="" target="">
+    <a class="dropdown-item" href="./spatial_map.html">
  <span class="dropdown-text">지도(Map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./jeju_map.html" rel="" target="">
+    <a class="dropdown-item" href="./jeju_map.html">
  <span class="dropdown-text">제주도 높이 지도</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./yellow_sea.html" rel="" target="">
+    <a class="dropdown-item" href="./yellow_sea.html">
  <span class="dropdown-text">황해</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./yellow_sea2.html" rel="" target="">
+    <a class="dropdown-item" href="./yellow_sea2.html">
  <span class="dropdown-text">황해2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./gg_analytics_center.html" rel="" target="">
+    <a class="dropdown-item" href="./gg_analytics_center.html">
  <span class="dropdown-text">경기 데이터 분석 센터</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./km_school.html" rel="" target="">
+    <a class="dropdown-item" href="./km_school.html">
  <span class="dropdown-text">광명시 학교와 CCTV</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./km_BitGPT.html" rel="" target="">
+    <a class="dropdown-item" href="./km_BitGPT.html">
  <span class="dropdown-text">Code Interpreter</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">시각화</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--1">
 <li>
-    <a class="dropdown-item" href="./movie.html" rel="" target="">
+    <a class="dropdown-item" href="./movie.html">
  <span class="dropdown-text">한국영화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards.html">
+ <span class="dropdown-text">대쉬보드 Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards_quakes.html">
+ <span class="dropdown-text">대쉬보드 R</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-i" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-i" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">제21대 국회의원 선거(I)</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-i">
 <li>
-    <a class="dropdown-item" href="./precinct.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct.html">
  <span class="dropdown-text">국회의원 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./minju_nomination.html" rel="" target="">
+    <a class="dropdown-item" href="./minju_nomination.html">
  <span class="dropdown-text">민주당 전략공천 성과</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./precinct_history.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct_history.html">
  <span class="dropdown-text">선거구와 정수</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./electorate.html" rel="" target="">
+    <a class="dropdown-item" href="./electorate.html">
  <span class="dropdown-text">변경된 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./precinct_district.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct_district.html">
  <span class="dropdown-text">선거구 평균 인구수</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./district_issue.html" rel="" target="">
+    <a class="dropdown-item" href="./district_issue.html">
  <span class="dropdown-text">인구수 문제 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./kwangmyung.html" rel="" target="">
+    <a class="dropdown-item" href="./kwangmyung.html">
  <span class="dropdown-text">광명시(총/대/지)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./approval_rate.html" rel="" target="">
+    <a class="dropdown-item" href="./approval_rate.html">
  <span class="dropdown-text">대통령 지지율</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./minju_party.html" rel="" target="">
+    <a class="dropdown-item" href="./minju_party.html">
  <span class="dropdown-text">민주당은 전국정당(?)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./by_election.html" rel="" target="">
+    <a class="dropdown-item" href="./by_election.html">
  <span class="dropdown-text">재보궐: 강서구청장</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./by_election_dong.html" rel="" target="">
+    <a class="dropdown-item" href="./by_election_dong.html">
  <span class="dropdown-text">재보궐: 강서구청장(동별)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./after_by_election.html" rel="" target="">
+    <a class="dropdown-item" href="./after_by_election.html">
  <span class="dropdown-text">서울 재보궐 이후</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./gs_position.html" rel="" target="">
+    <a class="dropdown-item" href="./gs_position.html">
  <span class="dropdown-text">재보궐: 강서구 위치</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./realmeter_metro.html" rel="" target="">
+    <a class="dropdown-item" href="./realmeter_metro.html">
  <span class="dropdown-text">리얼미터 PDF</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./gallop_metro.html" rel="" target="">
+    <a class="dropdown-item" href="./gallop_metro.html">
  <span class="dropdown-text">한국갤럽 PDF</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./nbs_metro.html" rel="" target="">
+    <a class="dropdown-item" href="./nbs_metro.html">
  <span class="dropdown-text">전국지표조사 PDF</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ii" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ii" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">제21대 국회의원 선거(II)</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-ii">
 <li>
-    <a class="dropdown-item" href="./legislators.html" rel="" target="">
+    <a class="dropdown-item" href="./legislators.html">
  <span class="dropdown-text">권역별 의석수 변화</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./candidate.html" rel="" target="">
+    <a class="dropdown-item" href="./candidate.html">
  <span class="dropdown-text">예비 후보자</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./district_chair.html" rel="" target="">
+    <a class="dropdown-item" href="./district_chair.html">
  <span class="dropdown-text">지역/당협 위원장</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./watermellon.html" rel="" target="">
+    <a class="dropdown-item" href="./watermellon.html">
  <span class="dropdown-text">수박 당도 선별기</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sido_legislator.html" rel="" target="">
+    <a class="dropdown-item" href="./sido_legislator.html">
  <span class="dropdown-text">시도별 역대 국회의원</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./metro_people_power.html" rel="" target="">
+    <a class="dropdown-item" href="./metro_people_power.html">
  <span class="dropdown-text">수도권 국힘의원</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./party_numbers.html" rel="" target="">
+    <a class="dropdown-item" href="./party_numbers.html">
  <span class="dropdown-text">당원과 정당 수입지출</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./elected_numbers.html" rel="" target="">
+    <a class="dropdown-item" href="./elected_numbers.html">
  <span class="dropdown-text">국회의원 초선 당선</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./forecast.html" rel="" target="">
+    <a class="dropdown-item" href="./forecast.html">
  <span class="dropdown-text">총선 예측</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./nec_api.html" rel="" target="">
+    <a class="dropdown-item" href="./nec_api.html">
  <span class="dropdown-text">투개표 API</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./single_member.html" rel="" target="">
+    <a class="dropdown-item" href="./single_member.html">
  <span class="dropdown-text">양당과 소선구제</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./proportion_member.html" rel="" target="">
+    <a class="dropdown-item" href="./proportion_member.html">
  <span class="dropdown-text">비례 국회의원</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./best_matches.html" rel="" target="">
+    <a class="dropdown-item" href="./best_matches.html">
  <span class="dropdown-text">최고 관심 격돌</span></a>
   </li>  
     </ul>
@@ -378,14 +388,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="quarto-title-meta-contents">
       <p class="author"><a href="https://www.linkedin.com/in/kwangchunlee/">이광춘</a> </p>
     </div>
-      <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
           <p class="affiliation">
               <a href="https://github.com/bit2r">
               한국 R 사용자회
               </a>
             </p>
         </div>
-      </div>
+    </div>
 
   <div class="quarto-title-meta">
 
@@ -503,7 +513,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <a href="#%EB%B6%84%EC%84%9D" id="toc-분석" class="nav-link" data-scroll-target="#%EB%B6%84%EC%84%9D"><span class="header-section-number">2</span> 분석</a>
   <ul class="collapse">
 <li><a href="#%EC%96%91%EB%8B%B9-%EB%8B%B9%EC%9B%90" id="toc-양당-당원" class="nav-link" data-scroll-target="#%EC%96%91%EB%8B%B9-%EB%8B%B9%EC%9B%90"><span class="header-section-number">2.1</span> 양당 당원</a></li>
-  <li><a href="#%EC%8B%9C%EB%8F%84%EB%B3%84-%EB%8B%B9%EC%9B%90" id="toc-시도별-당원" class="nav-link" data-scroll-target="#%EC%8B%9C%EB%8F%84%EB%B3%84-%EB%8B%B9%EC%9B%90"><span class="header-section-number">2.2</span> 시도별 당원</a></li>
+  <li><a href="#%EA%B6%8C%EC%97%AD%EB%B3%84-%EB%8B%B9%EC%9B%90" id="toc-권역별-당원" class="nav-link" data-scroll-target="#%EA%B6%8C%EC%97%AD%EB%B3%84-%EB%8B%B9%EC%9B%90"><span class="header-section-number">2.2</span> 권역별 당원</a></li>
   <li><a href="#%EB%82%A9%EB%B6%80%EB%8B%B9%EC%9B%90" id="toc-납부당원" class="nav-link" data-scroll-target="#%EB%82%A9%EB%B6%80%EB%8B%B9%EC%9B%90"><span class="header-section-number">2.3</span> 납부당원</a></li>
   <li><a href="#%EC%88%98%EC%9E%85%EB%82%B4%EC%97%AD-10" id="toc-수입내역-10" class="nav-link" data-scroll-target="#%EC%88%98%EC%9E%85%EB%82%B4%EC%97%AD-10"><span class="header-section-number">2.4</span> 수입내역</a></li>
   <li><a href="#%EC%A7%80%EC%B6%9C%EB%82%B4%EC%97%AD-10" id="toc-지출내역-10" class="nav-link" data-scroll-target="#%EC%A7%80%EC%B6%9C%EB%82%B4%EC%97%AD-10"><span class="header-section-number">2.5</span> 지출내역</a></li>
@@ -519,7 +529,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="당원수" class="level3" data-number="1.1.1"><h3 data-number="1.1.1" class="anchored" data-anchor-id="당원수">
 <span class="header-section-number">1.1.1</span> 당원수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://testthat.r-lib.org">testthat</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">party_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
@@ -594,13 +604,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="co"># 계산된 합계와 기대하는 합계를 비교</span></span>
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">calculated_sum</span>, <span class="va">expected_sum</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Test passed 😸</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; Test passed 😀</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section><section id="시도별" class="level3" data-number="1.1.2"><h3 data-number="1.1.2" class="anchored" data-anchor-id="시도별">
 <span class="header-section-number">1.1.2</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sido_party_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">구분</span>, <span class="op">~</span><span class="va">합계</span>, <span class="op">~</span><span class="va">더불어민주당</span>, <span class="op">~</span><span class="va">국민의힘</span>, <span class="op">~</span><span class="va">정의당</span>, <span class="op">~</span><span class="va">기본소득당</span>, <span class="op">~</span><span class="va">시대전환</span>, <span class="op">~</span><span class="va">가나코리아</span>, <span class="op">~</span><span class="va">가자평화인권당</span>, <span class="op">~</span><span class="va">가자환경당</span>, <span class="op">~</span><span class="va">거지당</span>, <span class="op">~</span><span class="va">국가혁명당</span>, <span class="op">~</span><span class="va">국민대통합당</span>,</span>
@@ -648,13 +658,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">sum_democratic</span>, <span class="va">expected_sum_democratic</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">sum_national_power</span>, <span class="va">expected_sum_national_power</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Test passed 🌈</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; Test passed 🥳</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section><section id="당비-납부자수" class="level3" data-number="1.1.3"><h3 data-number="1.1.3" class="anchored" data-anchor-id="당비-납부자수">
 <span class="header-section-number">1.1.3</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">payer_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">정당</span>, <span class="op">~</span><span class="va">당원수</span>, <span class="op">~</span><span class="va">납부자수</span>, <span class="op">~</span><span class="va">당비납부비율</span>, <span class="op">~</span><span class="va">등록된시도당수</span>,</span>
@@ -731,14 +741,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">sum_members</span>, <span class="va">expected_sum_members</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">sum_payers</span>, <span class="va">expected_sum_payers</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Test passed 🌈</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; Test passed 😸</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section><section id="수입내역" class="level3" data-number="1.1.4"><h3 data-number="1.1.4" class="anchored" data-anchor-id="수입내역">
 <span class="header-section-number">1.1.4</span> 수입내역</h3>
 <p>단위: 백만원</p>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
 <span><span class="va">income_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">구분</span>, <span class="op">~</span><span class="va">합계</span>, <span class="op">~</span><span class="va">전년도이월</span>, <span class="op">~</span><span class="va">당비</span>, <span class="op">~</span><span class="va">기탁금</span>, <span class="op">~</span><span class="va">후원회기부금</span>, <span class="op">~</span><span class="va">보조금</span>, <span class="op">~</span><span class="va">차입금</span>, <span class="op">~</span><span class="va">기타</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">547471</span>, <span class="fl">56287</span>, <span class="fl">107892</span>, <span class="fl">337</span>, <span class="fl">6201</span>, <span class="fl">140249</span>, <span class="fl">71006</span>, <span class="fl">165499</span>,</span>
@@ -774,14 +784,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">sum_dangbi</span>, <span class="va">expected_sum_dangbi</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">sum_gitakgeum</span>, <span class="va">expected_sum_gitakgeum</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Test passed 🎉</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; Test passed 🎊</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section><section id="지출내역" class="level3" data-number="1.1.5"><h3 data-number="1.1.5" class="anchored" data-anchor-id="지출내역">
 <span class="header-section-number">1.1.5</span> 지출내역</h3>
 <p>단위: 백만원</p>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
 <span><span class="va">expense_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">구분</span>, <span class="op">~</span><span class="va">합계</span>, <span class="op">~</span><span class="va">선거비용</span>, <span class="op">~</span><span class="va">기본경비</span>, <span class="op">~</span><span class="va">정책개발비</span>, <span class="op">~</span><span class="va">조직활동비</span>, <span class="op">~</span><span class="va">여성정치발전비</span>, <span class="op">~</span><span class="va">청년정치발전비</span>, <span class="op">~</span><span class="va">그밖의경비</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">437321</span>, <span class="fl">121531</span>, <span class="fl">106586</span>, <span class="fl">19626</span>, <span class="fl">133354</span>, <span class="fl">5303</span>, <span class="fl">1801</span>, <span class="fl">49120</span>,</span>
@@ -817,7 +827,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">sum_election_expenses</span>, <span class="va">expected_sum_election_expenses</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://testthat.r-lib.org/reference/equality-expectations.html">expect_equal</a></span><span class="op">(</span><span class="va">sum_organizational_expenses</span>, <span class="va">expected_sum_organizational_expenses</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Test passed 😸</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; Test passed 🌈</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section></section><section id="년-1" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="년-1">
@@ -825,7 +835,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="당원수-1" class="level3" data-number="1.2.1"><h3 data-number="1.2.1" class="anchored" data-anchor-id="당원수-1">
 <span class="header-section-number">1.2.1</span> 당원수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">party_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">구분</span>, <span class="op">~</span><span class="va">당원수</span>, <span class="op">~</span><span class="va">분포비</span>, <span class="op">~</span><span class="va">등록된_시도당수</span>, <span class="op">~</span><span class="va">시도당_평균당원수</span>,</span>
@@ -894,7 +904,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="시도별-1" class="level3" data-number="1.2.2"><h3 data-number="1.2.2" class="anchored" data-anchor-id="시도별-1">
 <span class="header-section-number">1.2.2</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sido_party_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">구분</span>, <span class="op">~</span><span class="va">합계</span>, <span class="op">~</span><span class="va">더불어민주당</span>, <span class="op">~</span><span class="va">국민의힘</span>, <span class="op">~</span><span class="va">정의당</span>, <span class="op">~</span><span class="va">국민의당</span>, <span class="op">~</span><span class="va">열린민주당</span>, <span class="op">~</span><span class="va">기본소득당</span>, <span class="op">~</span><span class="va">시대전환</span>, <span class="op">~</span><span class="va">가가례도인연합</span>, <span class="op">~</span><span class="va">가나코리아</span>, <span class="op">~</span><span class="va">가자평화인권당</span>, <span class="op">~</span><span class="va">가자환경당</span>,</span>
@@ -930,7 +940,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납부자수-1" class="level3" data-number="1.2.3"><h3 data-number="1.2.3" class="anchored" data-anchor-id="당비-납부자수-1">
 <span class="header-section-number">1.2.3</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">payer_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">정당</span>, <span class="op">~</span><span class="va">당원수</span>, <span class="op">~</span><span class="va">납부자수</span>, <span class="op">~</span><span class="va">당비납부비율</span>, <span class="op">~</span><span class="va">등록된_시도당수</span>,</span>
@@ -998,7 +1008,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">1.2.4</span> 수입내역</h3>
 <p>단위: 백만원</p>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
 <span><span class="va">income_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="st">"구분"</span>, <span class="op">~</span><span class="st">"합계"</span>, <span class="op">~</span><span class="st">"전년도이월"</span>, <span class="op">~</span><span class="st">"당비"</span>, <span class="op">~</span><span class="st">"기탁금"</span>, <span class="op">~</span><span class="st">"후원회기부금"</span>, <span class="op">~</span><span class="st">"보조금"</span>, <span class="op">~</span><span class="st">"차입금"</span>, <span class="op">~</span><span class="st">"기타"</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">196317</span>, <span class="fl">63629</span>, <span class="fl">61507</span>, <span class="fl">774</span>, <span class="fl">4375</span>, <span class="fl">46278</span>, <span class="fl">3970</span>, <span class="fl">15784</span>,</span>
@@ -1025,7 +1035,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">1.2.5</span> 지출내역</h3>
 <p>단위: 백만원</p>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
 <span><span class="va">expense_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="st">"구분"</span>, <span class="op">~</span><span class="st">"합계"</span>, <span class="op">~</span><span class="st">"선거비용"</span>, <span class="op">~</span><span class="st">"기본경비"</span>, <span class="op">~</span><span class="st">"정책개발비"</span>, <span class="op">~</span><span class="st">"조직활동비"</span>, <span class="op">~</span><span class="st">"여성정치발전비"</span>, <span class="op">~</span><span class="st">"그밖의경비"</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">137932</span>, <span class="fl">549</span>, <span class="fl">65988</span>, <span class="fl">17203</span>, <span class="fl">44927</span>, <span class="fl">4930</span>, <span class="fl">4333</span>,</span>
@@ -1053,7 +1063,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="시도별-2" class="level3" data-number="1.3.1"><h3 data-number="1.3.1" class="anchored" data-anchor-id="시도별-2">
 <span class="header-section-number">1.3.1</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
 <span><span class="va">sido_party_2020</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  구분 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"합계"</span>, <span class="st">"서울"</span>, <span class="st">"부산"</span>, <span class="st">"대구"</span>, <span class="st">"인천"</span>, <span class="st">"광주"</span>, <span class="st">"대전"</span>, <span class="st">"울산"</span>, <span class="st">"세종"</span>, <span class="st">"경기"</span>, <span class="st">"강원"</span>, <span class="st">"충북"</span>, <span class="st">"충남"</span>, <span class="st">"전북"</span>, <span class="st">"전남"</span>, <span class="st">"경북"</span>, <span class="st">"경남"</span>, <span class="st">"제주"</span><span class="op">)</span>,</span>
 <span>  더불어민주당 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4053466</span>, <span class="fl">732483</span>, <span class="fl">148679</span>, <span class="fl">38874</span>, <span class="fl">148971</span>, <span class="fl">334034</span>, <span class="fl">122231</span>, <span class="fl">49331</span>, <span class="fl">15889</span>, <span class="fl">764856</span>, <span class="fl">91291</span>, <span class="fl">135103</span>, <span class="fl">168409</span>, <span class="fl">578593</span>, <span class="fl">478573</span>, <span class="fl">41698</span>, <span class="fl">131459</span>, <span class="fl">72992</span><span class="op">)</span>,</span>
@@ -1083,7 +1093,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납부자수-2" class="level3" data-number="1.3.2"><h3 data-number="1.3.2" class="anchored" data-anchor-id="당비-납부자수-2">
 <span class="header-section-number">1.3.2</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
 <span><span class="va">payer_2020</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  정당 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"합계"</span>, <span class="st">"더불어민주당"</span>, <span class="st">"국민의힘"</span>, <span class="st">"정의당"</span>, <span class="st">"국민의당"</span>, <span class="st">"열린민주당"</span>, <span class="st">"기본소득당"</span>, <span class="st">"시대전환"</span>, <span class="st">"가나코리아"</span>, <span class="st">"가자!평화인권당"</span>, <span class="st">"가자환경당"</span>, <span class="st">"거지당"</span>, <span class="st">"국가혁명당"</span>, <span class="st">"국민새정당"</span>, <span class="st">"국민참여신당"</span><span class="op">)</span>,</span>
 <span>  당원수 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8771263</span>, <span class="fl">4053466</span>, <span class="fl">3489924</span>, <span class="fl">53080</span>, <span class="fl">16023</span>, <span class="fl">40456</span>, <span class="fl">19879</span>, <span class="fl">6945</span>, <span class="fl">5365</span>, <span class="fl">6707</span>, <span class="fl">7487</span>, <span class="fl">9505</span>, <span class="fl">29757</span>, <span class="fl">9032</span>, <span class="fl">5773</span><span class="op">)</span>,</span>
@@ -1106,7 +1116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-2" class="level3" data-number="1.3.3"><h3 data-number="1.3.3" class="anchored" data-anchor-id="수입내역-2">
 <span class="header-section-number">1.3.3</span> 수입내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># R에서 데이터프레임 생성</span></span>
 <span><span class="va">income_2020</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="st">"구분"</span>, <span class="op">~</span><span class="st">"합계"</span>, <span class="op">~</span><span class="st">"전년도이월"</span>, <span class="op">~</span><span class="st">"당비"</span>, <span class="op">~</span><span class="st">"기탁금"</span>, <span class="op">~</span><span class="st">"후원회기부금"</span>, <span class="op">~</span><span class="st">"보조금"</span>, <span class="op">~</span><span class="st">"차입금"</span>, <span class="op">~</span><span class="st">"기타"</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">311220</span>, <span class="fl">45278</span>, <span class="fl">67895</span>, <span class="fl">962</span>, <span class="fl">6095</span>, <span class="fl">90718</span>, <span class="fl">60154</span>, <span class="fl">40118</span>,</span>
@@ -1133,7 +1143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-2" class="level3" data-number="1.3.4"><h3 data-number="1.3.4" class="anchored" data-anchor-id="지출내역-2">
 <span class="header-section-number">1.3.4</span> 지출내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 추가로 만들어야 하는 데이터프레임</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 추가로 만들어야 하는 데이터프레임</span></span>
 <span><span class="va">expense_2020</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="st">"구분"</span>, <span class="op">~</span><span class="st">"합계"</span>, <span class="op">~</span><span class="st">"선거비용"</span>, <span class="op">~</span><span class="st">"기본경비"</span>, <span class="op">~</span><span class="st">"정책개발비"</span>, <span class="op">~</span><span class="st">"조직활동비"</span>, <span class="op">~</span><span class="st">"여성정치발전비"</span>, <span class="op">~</span><span class="st">"그밖의경비"</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">248036</span>, <span class="fl">31066</span>, <span class="fl">115856</span>, <span class="fl">14449</span>, <span class="fl">58610</span>, <span class="fl">5235</span>, <span class="fl">22820</span>,</span>
@@ -1161,7 +1171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="시도별-3" class="level3" data-number="1.4.1"><h3 data-number="1.4.1" class="anchored" data-anchor-id="시도별-3">
 <span class="header-section-number">1.4.1</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sido_party_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2019.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page01"</span><span class="op">)</span></span>
 <span></span>
@@ -1179,7 +1189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납부자수-3" class="level3" data-number="1.4.2"><h3 data-number="1.4.2" class="anchored" data-anchor-id="당비-납부자수-3">
 <span class="header-section-number">1.4.2</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">payer_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2019.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page02"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">payer_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2019.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page02"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">payer_2019</span> <span class="op">&lt;-</span> <span class="va">payer_2019</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">정당</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1196,7 +1206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-3" class="level3" data-number="1.4.3"><h3 data-number="1.4.3" class="anchored" data-anchor-id="수입내역-3">
 <span class="header-section-number">1.4.3</span> 수입내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2019.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page03"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2019.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page03"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">income_2019</span> <span class="op">&lt;-</span> <span class="va">income_2019</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구분</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1212,7 +1222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-3" class="level3" data-number="1.4.4"><h3 data-number="1.4.4" class="anchored" data-anchor-id="지출내역-3">
 <span class="header-section-number">1.4.4</span> 지출내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">expense_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2019.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page04"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">expense_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2019.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page04"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">expense_2019</span> <span class="op">&lt;-</span> <span class="va">expense_2019</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구분</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1230,7 +1240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="시도별-4" class="level3" data-number="1.5.1"><h3 data-number="1.5.1" class="anchored" data-anchor-id="시도별-4">
 <span class="header-section-number">1.5.1</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sido_party_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2018.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page01"</span><span class="op">)</span></span>
 <span></span>
@@ -1248,7 +1258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납부자수-4" class="level3" data-number="1.5.2"><h3 data-number="1.5.2" class="anchored" data-anchor-id="당비-납부자수-4">
 <span class="header-section-number">1.5.2</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">payer_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2018.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page02"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">payer_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2018.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page02"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">payer_2018</span> <span class="op">&lt;-</span> <span class="va">payer_2018</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">정당</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1265,7 +1275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-4" class="level3" data-number="1.5.3"><h3 data-number="1.5.3" class="anchored" data-anchor-id="수입내역-4">
 <span class="header-section-number">1.5.3</span> 수입내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2018.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page03"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2018.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page03"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">income_2018</span> <span class="op">&lt;-</span> <span class="va">income_2018</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구분</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1281,7 +1291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-4" class="level3" data-number="1.5.4"><h3 data-number="1.5.4" class="anchored" data-anchor-id="지출내역-4">
 <span class="header-section-number">1.5.4</span> 지출내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">expense_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2018.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page04"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">expense_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2018.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page04"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">expense_2018</span> <span class="op">&lt;-</span> <span class="va">expense_2018</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구분</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1299,7 +1309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="시도별-5" class="level3" data-number="1.6.1"><h3 data-number="1.6.1" class="anchored" data-anchor-id="시도별-5">
 <span class="header-section-number">1.6.1</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="co"># tribble 함수를 이용해 DataFrame 생성</span></span>
 <span><span class="va">sido_party_2017</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">구분</span>, <span class="op">~</span><span class="va">합계</span>, <span class="op">~</span><span class="va">더불어민주당</span>, <span class="op">~</span><span class="va">자유한국당</span>, <span class="op">~</span><span class="va">국민의당</span>, <span class="op">~</span><span class="va">바른정당</span>, <span class="op">~</span><span class="va">정의당</span>, <span class="op">~</span><span class="va">민중당</span>, <span class="op">~</span><span class="va">대한애국당</span>, <span class="op">~</span><span class="va">가자코리아</span>, <span class="op">~</span><span class="va">경제애국당</span>, <span class="op">~</span><span class="va">공화당</span>,</span>
@@ -1336,7 +1346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납부자수-5" class="level3" data-number="1.6.2"><h3 data-number="1.6.2" class="anchored" data-anchor-id="당비-납부자수-5">
 <span class="header-section-number">1.6.2</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tribble 함수를 사용하여 데이터 프레임을 생성한다</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tribble 함수를 사용하여 데이터 프레임을 생성한다</span></span>
 <span><span class="va">payer_2017</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="st">"정당"</span>, <span class="op">~</span><span class="st">"당원수"</span>, <span class="op">~</span><span class="st">"납부자수"</span>, <span class="op">~</span><span class="st">"당비납부"</span>, <span class="op">~</span><span class="st">"비율(%)"</span>, <span class="op">~</span><span class="st">"등록된시·도당수"</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">7507952</span>, <span class="fl">1320976</span>, <span class="cn">NA</span>, <span class="fl">17.6</span>, <span class="fl">285</span>,</span>
@@ -1389,7 +1399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-5" class="level3" data-number="1.6.3"><h3 data-number="1.6.3" class="anchored" data-anchor-id="수입내역-5">
 <span class="header-section-number">1.6.3</span> 수입내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tibble 패키지 로드</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tibble 패키지 로드</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># tribble 함수를 이용해 DataFrame 생성</span></span>
@@ -1426,7 +1436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-5" class="level3" data-number="1.6.4"><h3 data-number="1.6.4" class="anchored" data-anchor-id="지출내역-5">
 <span class="header-section-number">1.6.4</span> 지출내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tribble 함수를 이용해 DataFrame 생성</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tribble 함수를 이용해 DataFrame 생성</span></span>
 <span><span class="va">expense_2017</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">`구분`</span>, <span class="op">~</span><span class="va">`합계`</span>, <span class="op">~</span><span class="va">`선거비용`</span>, <span class="op">~</span><span class="va">`기본경비`</span>, <span class="op">~</span><span class="va">`정책개발비`</span>, <span class="op">~</span><span class="va">`조직활동비`</span>, <span class="op">~</span><span class="va">`여성정치발전비`</span>, <span class="op">~</span><span class="va">`그밖의경비`</span>,</span>
 <span>  <span class="st">"합 계"</span>, <span class="fl">366341</span>, <span class="fl">133900</span>, <span class="fl">76293</span>, <span class="fl">16992</span>, <span class="fl">42509</span>, <span class="fl">4727</span>, <span class="fl">91920</span>,</span>
@@ -1462,7 +1472,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="시도별-6" class="level3" data-number="1.7.1"><h3 data-number="1.7.1" class="anchored" data-anchor-id="시도별-6">
 <span class="header-section-number">1.7.1</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sido_party_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2016.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page01"</span><span class="op">)</span></span>
 <span></span>
@@ -1480,7 +1490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납부자수-6" class="level3" data-number="1.7.2"><h3 data-number="1.7.2" class="anchored" data-anchor-id="당비-납부자수-6">
 <span class="header-section-number">1.7.2</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">payer_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2016.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page02"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">payer_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2016.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page02"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">payer_2016</span> <span class="op">&lt;-</span> <span class="va">payer_2016</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">정당</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1496,7 +1506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-6" class="level3" data-number="1.7.3"><h3 data-number="1.7.3" class="anchored" data-anchor-id="수입내역-6">
 <span class="header-section-number">1.7.3</span> 수입내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2016.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page03"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2016.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page03"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">income_2016</span> <span class="op">&lt;-</span> <span class="va">income_2016</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구분</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1512,7 +1522,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-6" class="level3" data-number="1.7.4"><h3 data-number="1.7.4" class="anchored" data-anchor-id="지출내역-6">
 <span class="header-section-number">1.7.4</span> 지출내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">expense_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2016.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page04"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">expense_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2016.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page04"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">expense_2016</span> <span class="op">&lt;-</span> <span class="va">expense_2016</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구분</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1530,7 +1540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="시도별-7" class="level3" data-number="1.8.1"><h3 data-number="1.8.1" class="anchored" data-anchor-id="시도별-7">
 <span class="header-section-number">1.8.1</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sido_party_2015</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2015.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page01"</span><span class="op">)</span></span>
 <span></span>
@@ -1548,7 +1558,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납부자수-7" class="level3" data-number="1.8.2"><h3 data-number="1.8.2" class="anchored" data-anchor-id="당비-납부자수-7">
 <span class="header-section-number">1.8.2</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">payer_2015</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2015.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page02"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">payer_2015</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2015.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page02"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">payer_2015</span> <span class="op">&lt;-</span> <span class="va">payer_2015</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">정당</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1564,7 +1574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-7" class="level3" data-number="1.8.3"><h3 data-number="1.8.3" class="anchored" data-anchor-id="수입내역-7">
 <span class="header-section-number">1.8.3</span> 수입내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_2015</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2015.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page03"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_2015</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2015.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page03"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">income_2015</span> <span class="op">&lt;-</span> <span class="va">income_2015</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구분</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1580,7 +1590,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-7" class="level3" data-number="1.8.4"><h3 data-number="1.8.4" class="anchored" data-anchor-id="지출내역-7">
 <span class="header-section-number">1.8.4</span> 지출내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">expense_2015</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2015.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page04"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">expense_2015</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/2015.xlsx"</span>, sheet<span class="op">=</span><span class="st">"page04"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">expense_2015</span> <span class="op">&lt;-</span> <span class="va">expense_2015</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">구분</span> <span class="op">!=</span> <span class="st">"합계"</span><span class="op">)</span></span>
@@ -1598,7 +1608,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="시도별-8" class="level3" data-number="1.9.1"><h3 data-number="1.9.1" class="anchored" data-anchor-id="시도별-8">
 <span class="header-section-number">1.9.1</span> 시도별</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tibble 패키지 로드</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tibble 패키지 로드</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># tribble 함수로 DataFrame 생성</span></span>
@@ -1637,7 +1647,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납부자수-8" class="level3" data-number="1.9.2"><h3 data-number="1.9.2" class="anchored" data-anchor-id="당비-납부자수-8">
 <span class="header-section-number">1.9.2</span> 당비 납부자수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tribble 함수를 사용하여 데이터 프레임을 생성한다</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tribble 함수를 사용하여 데이터 프레임을 생성한다</span></span>
 <span><span class="va">payer_2014</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="st">"정당"</span>, <span class="op">~</span><span class="st">"당원수"</span>, <span class="op">~</span><span class="st">"납부자수"</span>, <span class="op">~</span><span class="st">"비율(%)"</span>, <span class="op">~</span><span class="st">"시·도당수"</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">5245611</span>, <span class="fl">591045</span>, <span class="fl">11.2</span>, <span class="fl">120</span>,</span>
@@ -1671,7 +1681,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-8" class="level3" data-number="1.9.3"><h3 data-number="1.9.3" class="anchored" data-anchor-id="수입내역-8">
 <span class="header-section-number">1.9.3</span> 수입내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tibble 패키지 로드</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># tibble 패키지 로드</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># tribble 함수로 DataFrame 생성</span></span>
@@ -1697,7 +1707,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-8" class="level3" data-number="1.9.4"><h3 data-number="1.9.4" class="anchored" data-anchor-id="지출내역-8">
 <span class="header-section-number">1.9.4</span> 지출내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">expense_2014</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">`구분`</span>, <span class="op">~</span><span class="va">`합계`</span>, <span class="op">~</span><span class="va">`선거비용`</span>, <span class="op">~</span><span class="va">`기본경비`</span>, <span class="op">~</span><span class="va">`정책개발비`</span>, <span class="op">~</span><span class="va">`조직활동비`</span>, <span class="op">~</span><span class="va">`여성정치발전비`</span>, <span class="op">~</span><span class="va">`그밖의경비`</span>,</span>
 <span>  <span class="st">"합계"</span>, <span class="fl">159263</span>, <span class="fl">16152</span>, <span class="fl">44310</span>, <span class="fl">14208</span>, <span class="fl">69070</span>, <span class="fl">3693</span>, <span class="fl">11830</span>,</span>
@@ -1721,7 +1731,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="시도별-당원수" class="level3" data-number="1.10.1"><h3 data-number="1.10.1" class="anchored" data-anchor-id="시도별-당원수">
 <span class="header-section-number">1.10.1</span> 시도별 당원수</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">object_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">object_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">party_members</span> <span class="op">&lt;-</span> <span class="va">object_list</span><span class="op">[</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">object_list</span>, pattern <span class="op">=</span> <span class="st">"^sido_party_\\d{4}"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -1747,7 +1757,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="당비-납입당원" class="level3" data-number="1.10.2"><h3 data-number="1.10.2" class="anchored" data-anchor-id="당비-납입당원">
 <span class="header-section-number">1.10.2</span> 당비 납입당원</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">payers</span> <span class="op">&lt;-</span> <span class="va">object_list</span><span class="op">[</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">object_list</span>, pattern <span class="op">=</span> <span class="st">"^payer_\\d{4}"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">payers_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/get.html">mget</a></span><span class="op">(</span><span class="va">payers</span><span class="op">)</span></span>
@@ -1793,7 +1803,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-9" class="level3" data-number="1.10.3"><h3 data-number="1.10.3" class="anchored" data-anchor-id="수입내역-9">
 <span class="header-section-number">1.10.3</span> 수입내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">income</span> <span class="op">&lt;-</span> <span class="va">object_list</span><span class="op">[</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">object_list</span>, pattern <span class="op">=</span> <span class="st">"^income_\\d{4}"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">income_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/get.html">mget</a></span><span class="op">(</span><span class="va">income</span><span class="op">)</span></span>
@@ -1839,7 +1849,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-9" class="level3" data-number="1.10.4"><h3 data-number="1.10.4" class="anchored" data-anchor-id="지출내역-9">
 <span class="header-section-number">1.10.4</span> 지출내역</h3>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">expense</span> <span class="op">&lt;-</span> <span class="va">object_list</span><span class="op">[</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">object_list</span>, pattern <span class="op">=</span> <span class="st">"^expense_\\d{4}"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">expense_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/get.html">mget</a></span><span class="op">(</span><span class="va">expense</span><span class="op">)</span></span>
@@ -1886,7 +1896,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="양당-당원" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="양당-당원">
 <span class="header-section-number">2.1</span> 양당 당원</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="va">label_man</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1915,22 +1925,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                    size <span class="op">=</span> <span class="fl">4.5</span><span class="op">)</span> </span>
 <span><span class="va">party_members_g</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="party_numbers_files/figure-html/unnamed-chunk-43-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="party_numbers_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<details><summary>코드</summary><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"images/당원수_양당.jpeg"</span><span class="op">)</span> , </span>
 <span>        <span class="va">party_members_g</span>,</span>
 <span>        device <span class="op">=</span> <span class="fu">ragg</span><span class="fu">::</span><span class="fu"><a href="https://ragg.r-lib.org/reference/agg_jpeg.html">agg_jpeg</a></span><span class="op">(</span><span class="op">)</span>, </span>
 <span>        width <span class="op">=</span> <span class="fl">297</span>, height <span class="op">=</span> <span class="fl">210</span>, units <span class="op">=</span> <span class="st">"mm"</span><span class="op">)</span>   </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section><section id="시도별-당원" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="시도별-당원">
-<span class="header-section-number">2.2</span> 시도별 당원</h2>
+</section><section id="권역별-당원" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="권역별-당원">
+<span class="header-section-number">2.2</span> 권역별 당원</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">party_members_sido_g</span> <span class="op">&lt;-</span> <span class="va">party_members_sido_tbl</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">party_members_sido_g</span> <span class="op">&lt;-</span> <span class="va">party_members_sido_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>권역 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">구분</span>, <span class="st">"전북|전남|광주"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"광주전라"</span>,</span>
 <span>    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">구분</span>, <span class="st">"부산|울산|경남|경북"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"부울경"</span>,</span>
@@ -1957,7 +1967,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>          axis.title.y    <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"MaruBuri"</span>, size <span class="op">=</span> <span class="fl">9</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
 <span>         y <span class="op">=</span> <span class="st">"당원수"</span>,</span>
-<span>         title <span class="op">=</span> <span class="st">"양당 시도별 당원수 추세"</span>,</span>
+<span>         title <span class="op">=</span> <span class="st">"양당 권역별 당원수 추세"</span>,</span>
 <span>         caption <span class="op">=</span> <span class="st">"출처: 중앙선관위 '정당의 활동개황 및 회계보고'"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">label_man</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"국민의힘"</span> <span class="op">=</span> <span class="st">"red"</span>,</span>
@@ -1965,12 +1975,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="va">party_members_sido_g</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="party_numbers_files/figure-html/unnamed-chunk-44-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="party_numbers_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
-<details><summary>코드</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"images/당원수_시도별_양당.jpeg"</span><span class="op">)</span> , </span>
 <span>        <span class="va">party_members_sido_g</span>,</span>
 <span>        device <span class="op">=</span> <span class="fu">ragg</span><span class="fu">::</span><span class="fu"><a href="https://ragg.r-lib.org/reference/agg_jpeg.html">agg_jpeg</a></span><span class="op">(</span><span class="op">)</span>, </span>
@@ -1980,7 +1990,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="납부당원" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="납부당원">
 <span class="header-section-number">2.3</span> 납부당원</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">payers_members_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>납부비율 <span class="op">=</span> <span class="va">납부자수</span> <span class="op">/</span> <span class="va">당원수</span><span class="op">)</span>  <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">당원수</span>, <span class="va">납부자수</span>, <span class="va">납부비율</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"구분"</span>, values_to <span class="op">=</span> <span class="st">"당원수"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -1999,7 +2009,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"국민의힘"</span> <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>                                  <span class="st">"민주당"</span> <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="party_numbers_files/figure-html/unnamed-chunk-45-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="party_numbers_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
@@ -2008,7 +2018,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="수입내역-10" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="수입내역-10">
 <span class="header-section-number">2.4</span> 수입내역</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">income_party_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">합계</span><span class="op">:</span><span class="va">차입금</span>, names_to <span class="op">=</span> <span class="st">"구분"</span>, values_to <span class="op">=</span> <span class="st">"금액"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># mutate(구분 = factor(구분, levels = c("합계", "당비"))) |&gt; </span></span>
@@ -2026,7 +2036,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"국민의힘"</span> <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>                                  <span class="st">"민주당"</span> <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="party_numbers_files/figure-html/unnamed-chunk-46-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="party_numbers_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
@@ -2035,7 +2045,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="지출내역-10" class="level2" data-number="2.5"><h2 data-number="2.5" class="anchored" data-anchor-id="지출내역-10">
 <span class="header-section-number">2.5</span> 지출내역</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">expense_party_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="va">합계</span><span class="op">:</span><span class="va">조직활동비</span>, names_to <span class="op">=</span> <span class="st">"구분"</span>, values_to <span class="op">=</span> <span class="st">"금액"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">연도</span>, y <span class="op">=</span> <span class="va">금액</span>, color <span class="op">=</span> <span class="va">정당명</span>, group <span class="op">=</span> <span class="va">정당명</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -2052,7 +2062,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"국민의힘"</span> <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>                                  <span class="st">"민주당"</span> <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure"><p><a href="party_numbers_files/figure-html/unnamed-chunk-47-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="party_numbers_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
@@ -2385,15 +2395,45 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    if (id.startsWith('sec-')) {
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
+        typesetMath(container);
         return container.innerHTML
       } else {
+        typesetMath(note);
         return note.innerHTML;
       }
     } else {
@@ -2402,6 +2442,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
+      typesetMath(note);
       return note.innerHTML;
     }
   }
@@ -2444,6 +2485,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
       }
     }, function(instance) {
     });
@@ -2515,6 +2579,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -3820,7 +3910,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb50-1330"><a href="#cb50-1330" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb50-1331"><a href="#cb50-1331" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-1332"><a href="#cb50-1332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-1333"><a href="#cb50-1333" aria-hidden="true" tabindex="-1"></a><span class="fu">## 시도별 당원</span></span>
+<span id="cb50-1333"><a href="#cb50-1333" aria-hidden="true" tabindex="-1"></a><span class="fu">## 권역별 당원</span></span>
 <span id="cb50-1334"><a href="#cb50-1334" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-1337"><a href="#cb50-1337" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb50-1338"><a href="#cb50-1338" aria-hidden="true" tabindex="-1"></a>party_members_sido_g <span class="ot">&lt;-</span> party_members_sido_tbl <span class="sc">|&gt;</span> </span>
@@ -3850,7 +3940,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb50-1362"><a href="#cb50-1362" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.title.y    =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"MaruBuri"</span>, <span class="at">size =</span> <span class="dv">9</span>)) <span class="sc">+</span></span>
 <span id="cb50-1363"><a href="#cb50-1363" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>,</span>
 <span id="cb50-1364"><a href="#cb50-1364" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"당원수"</span>,</span>
-<span id="cb50-1365"><a href="#cb50-1365" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"양당 시도별 당원수 추세"</span>,</span>
+<span id="cb50-1365"><a href="#cb50-1365" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"양당 권역별 당원수 추세"</span>,</span>
 <span id="cb50-1366"><a href="#cb50-1366" aria-hidden="true" tabindex="-1"></a>         <span class="at">caption =</span> <span class="st">"출처: 중앙선관위 '정당의 활동개황 및 회계보고'"</span>) <span class="sc">+</span></span>
 <span id="cb50-1367"><a href="#cb50-1367" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_man</span>()) <span class="sc">+</span></span>
 <span id="cb50-1368"><a href="#cb50-1368" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"국민의힘"</span> <span class="ot">=</span> <span class="st">"red"</span>,</span>
@@ -3944,7 +4034,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":true,"descPosition":"bottom","closeEffect":"zoom"});</script>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","openEffect":"zoom","loop":false});</script>
 
 
 </body></html>

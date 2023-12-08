@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR" xml:lang="ko-KR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.523">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Of Weak Intensity or Greater">
+
+<title>지도제작 대회 - Recent Earthquakes in Aotearoa New Zealand</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="site_libs/quarto-dashboard/quarto-dashboard.js"></script>
+<script src="site_libs/quarto-dashboard/stickythead.js"></script>
+<script src="site_libs/quarto-dashboard/datatables.min.js" kdttablesentinel="true"></script>
+<script src="site_libs/quarto-dashboard/pdfmake.min.js" kdttablesentinel="true"></script>
+<script src="site_libs/quarto-dashboard/vfs_fonts.js" kdttablesentinel="true"></script>
+<script src="site_libs/quarto-dashboard/web-components.js" type="module"></script>
+<script src="site_libs/quarto-dashboard/components.js"></script>
+<link href="site_libs/quarto-dashboard/datatables.min.css" rel="stylesheet" kdttablesentinel="true">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script>
+<script src="site_libs/htmlwidgets-1.6.3/htmlwidgets.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-binding-2.2.0/leaflet.js"></script>
+
+
+</head>
+
+<body class="quarto-dashboard nav-fixed dashboard-fill fullcontent">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">지도제작 대회</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="검색"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">지도 그리기</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="./day_01.html">
+ <span class="dropdown-text">지도 색칠</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_02.html">
+ <span class="dropdown-text">인구수 점(Point)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_03.html">
+ <span class="dropdown-text">스파이크(Spike map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_04.html">
+ <span class="dropdown-text">지형도(Topographic map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_05.html">
+ <span class="dropdown-text">3D 표고 지도(독도)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_06.html">
+ <span class="dropdown-text">아시아국가 실업율(%)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_07.html">
+ <span class="dropdown-text">인터랙티브 지도(Mapview)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_08.html">
+ <span class="dropdown-text">지오코딩</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./day_heatmap.html">
+ <span class="dropdown-text">열지도(heatmap)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./spatial_basics.html">
+ <span class="dropdown-text">지도 기본기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tour.html">
+ <span class="dropdown-text">대통령 해외순방</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./cartogram.html">
+ <span class="dropdown-text">인구비례 선거구</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">GIS 분석&amp;챗GPT</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-분석챗gpt">    
+        <li>
+    <a class="dropdown-item" href="./spatial_map.html">
+ <span class="dropdown-text">지도(Map)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./jeju_map.html">
+ <span class="dropdown-text">제주도 높이 지도</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./yellow_sea.html">
+ <span class="dropdown-text">황해</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./yellow_sea2.html">
+ <span class="dropdown-text">황해2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gg_analytics_center.html">
+ <span class="dropdown-text">경기 데이터 분석 센터</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./km_school.html">
+ <span class="dropdown-text">광명시 학교와 CCTV</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="./km_BitGPT.html">
+ <span class="dropdown-text">Code Interpreter</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">시각화</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
+        <li>
+    <a class="dropdown-item" href="./movie.html">
+ <span class="dropdown-text">한국영화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards.html">
+ <span class="dropdown-text">대쉬보드 Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards_quakes.qmd">
+ <span class="dropdown-text">대쉬보드 R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-i" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">제21대 국회의원 선거(I)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-i">    
+        <li>
+    <a class="dropdown-item" href="./precinct.html">
+ <span class="dropdown-text">국회의원 선거구</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./minju_nomination.html">
+ <span class="dropdown-text">민주당 전략공천 성과</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./precinct_history.html">
+ <span class="dropdown-text">선거구와 정수</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./electorate.html">
+ <span class="dropdown-text">변경된 선거구</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./precinct_district.html">
+ <span class="dropdown-text">선거구 평균 인구수</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./district_issue.html">
+ <span class="dropdown-text">인구수 문제 선거구</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./kwangmyung.html">
+ <span class="dropdown-text">광명시(총/대/지)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./approval_rate.html">
+ <span class="dropdown-text">대통령 지지율</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./minju_party.html">
+ <span class="dropdown-text">민주당은 전국정당(?)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election.html">
+ <span class="dropdown-text">재보궐: 강서구청장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election_dong.html">
+ <span class="dropdown-text">재보궐: 강서구청장(동별)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./after_by_election.html">
+ <span class="dropdown-text">서울 재보궐 이후</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gs_position.html">
+ <span class="dropdown-text">재보궐: 강서구 위치</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="./realmeter_metro.html">
+ <span class="dropdown-text">리얼미터 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallop_metro.html">
+ <span class="dropdown-text">한국갤럽 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nbs_metro.html">
+ <span class="dropdown-text">전국지표조사 PDF</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ii" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">제21대 국회의원 선거(II)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ii">    
+        <li>
+    <a class="dropdown-item" href="./legislators.html">
+ <span class="dropdown-text">권역별 의석수 변화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./candidate.html">
+ <span class="dropdown-text">예비 후보자</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./district_chair.html">
+ <span class="dropdown-text">지역/당협 위원장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./watermellon.html">
+ <span class="dropdown-text">수박 당도 선별기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./sido_legislator.html">
+ <span class="dropdown-text">시도별 역대 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./metro_people_power.html">
+ <span class="dropdown-text">수도권 국힘의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./party_numbers.html">
+ <span class="dropdown-text">당원과 정당 수입지출</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./elected_numbers.html">
+ <span class="dropdown-text">국회의원 초선 당선</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./forecast.html">
+ <span class="dropdown-text">총선 예측</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nec_api.html">
+ <span class="dropdown-text">투개표 API</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./single_member.html">
+ <span class="dropdown-text">양당과 소선구제</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./proportion_member.html">
+ <span class="dropdown-text">비례 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./best_matches.html">
+ <span class="dropdown-text">최고 관심 격돌</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+<header id="quarto-dashboard-header">
+<nav class="navbar navbar-expand-md slim" data-bs-theme="dark">
+  <div class="navbar-container container-fluid">
+    <button class="navbar-toggler hidden" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-controls="dashboard-collapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>    
+
+
+    <div class="navbar-brand-container">       
+
+      <div class="navbar-title">
+        <div class="navbar-title-text"><a href="#">Recent Earthquakes in Aotearoa New Zealand</a></div>
+        
+        <div class="navbar-author">Of Weak Intensity or Greater</div>
+      </div>
+    </div>
+</div>
+</nav>
+</header></header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-layout-custom page-navbar quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+<!-- main -->
+
+<div class="bslib-grid-item html-fill-item bslib-grid" data-layout="fill" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content) minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card valuebox cell bslib-card html-fill-container bslib-value-box bg-primary showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()">
+<div class="card-body html-fill-item html-fill-container">
+<div data-icon="stopwatch" class="html-fill-item html-fill-container value-box-grid">
+<div class="value-box-showcase html-fill-item html-fill-container">
+
+<i class="bi bi-stopwatch"></i></div>
+<div class="value-box-area">
+<p class="value-box-title">
+Hours since last earthquake
+</p>
+<p class="value-box-value">
+4
+</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card valuebox cell bslib-card html-fill-container bslib-value-box bg-secondary showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()">
+<div class="card-body html-fill-item html-fill-container">
+<div data-icon="activity" class="html-fill-item html-fill-container value-box-grid">
+<div class="value-box-showcase html-fill-item html-fill-container">
+
+<i class="bi bi-activity"></i></div>
+<div class="value-box-area">
+<p class="value-box-title">
+Earthquakes in the last 24 hours
+</p>
+<p class="value-box-value">
+3
+</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card cell bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="cell-output-display html-fill-item html-fill-container">
+<div id="noxkaxjydm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="html-fill-item html-fill-container">
+<style>#noxkaxjydm table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#noxkaxjydm thead, #noxkaxjydm tbody, #noxkaxjydm tfoot, #noxkaxjydm tr, #noxkaxjydm td, #noxkaxjydm th {
+  border-style: none;
+}
+
+#noxkaxjydm p {
+  margin: 0;
+  padding: 0;
+}
+
+#noxkaxjydm .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#noxkaxjydm .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#noxkaxjydm .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#noxkaxjydm .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#noxkaxjydm .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#noxkaxjydm .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#noxkaxjydm .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#noxkaxjydm .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#noxkaxjydm .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#noxkaxjydm .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#noxkaxjydm .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#noxkaxjydm .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#noxkaxjydm .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#noxkaxjydm .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#noxkaxjydm .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#noxkaxjydm .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#noxkaxjydm .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#noxkaxjydm .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#noxkaxjydm .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#noxkaxjydm .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#noxkaxjydm .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#noxkaxjydm .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#noxkaxjydm .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#noxkaxjydm .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#noxkaxjydm .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#noxkaxjydm .gt_left {
+  text-align: left;
+}
+
+#noxkaxjydm .gt_center {
+  text-align: center;
+}
+
+#noxkaxjydm .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#noxkaxjydm .gt_font_normal {
+  font-weight: normal;
+}
+
+#noxkaxjydm .gt_font_bold {
+  font-weight: bold;
+}
+
+#noxkaxjydm .gt_font_italic {
+  font-style: italic;
+}
+
+#noxkaxjydm .gt_super {
+  font-size: 65%;
+}
+
+#noxkaxjydm .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#noxkaxjydm .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#noxkaxjydm .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#noxkaxjydm .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#noxkaxjydm .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#noxkaxjydm .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#noxkaxjydm .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border"><strong>Last 10 Earthquakes</strong></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="Magnitude" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Magnitude</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="Location" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Location</th>
+<th id="Depth" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Depth</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #420A68; color: #FFFFFF">1.8</td>
+<td class="gt_row gt_left" headers="days_ago">Today</td>
+<td class="gt_row gt_left" headers="pretty_time">05:30 오후</td>
+<td class="gt_row gt_left" headers="locality">Within 5 km of Taumarunui</td>
+<td class="gt_row gt_right" headers="depth">5 km</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #DD513A; color: #FFFFFF">3.3</td>
+<td class="gt_row gt_left" headers="days_ago">Today</td>
+<td class="gt_row gt_left" headers="pretty_time">04:15 오전</td>
+<td class="gt_row gt_left" headers="locality">Within 5 km of Tolaga Bay</td>
+<td class="gt_row gt_right" headers="depth">6 km</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #DD513A; color: #FFFFFF">3.5</td>
+<td class="gt_row gt_left" headers="days_ago">Today</td>
+<td class="gt_row gt_left" headers="pretty_time">03:17 오전</td>
+<td class="gt_row gt_left" headers="locality">30 km north-east of Matawai</td>
+<td class="gt_row gt_right" headers="depth">8 km</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #DD513A; color: #FFFFFF">3.4</td>
+<td class="gt_row gt_left" headers="days_ago">Yesterday</td>
+<td class="gt_row gt_left" headers="pretty_time">07:45 오후</td>
+<td class="gt_row gt_left" headers="locality">10 km west of Opotiki</td>
+<td class="gt_row gt_right" headers="depth">47 km</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #932667; color: #FFFFFF">2.7</td>
+<td class="gt_row gt_left" headers="days_ago">Yesterday</td>
+<td class="gt_row gt_left" headers="pretty_time">03:39 오후</td>
+<td class="gt_row gt_left" headers="locality">5 km south-west of Porangahau</td>
+<td class="gt_row gt_right" headers="depth">11 km</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #932667; color: #FFFFFF">2.7</td>
+<td class="gt_row gt_left" headers="days_ago">3 days ago</td>
+<td class="gt_row gt_left" headers="pretty_time">02:17 오후</td>
+<td class="gt_row gt_left" headers="locality">5 km south-east of Palmerston North</td>
+<td class="gt_row gt_right" headers="depth">30 km</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #FCA50A; color: #000000">4.0</td>
+<td class="gt_row gt_left" headers="days_ago">3 days ago</td>
+<td class="gt_row gt_left" headers="pretty_time">10:35 오전</td>
+<td class="gt_row gt_left" headers="locality">45 km north-west of Levin</td>
+<td class="gt_row gt_right" headers="depth">5 km</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #932667; color: #FFFFFF">2.7</td>
+<td class="gt_row gt_left" headers="days_ago">3 days ago</td>
+<td class="gt_row gt_left" headers="pretty_time">05:45 오전</td>
+<td class="gt_row gt_left" headers="locality">10 km west of Martinborough</td>
+<td class="gt_row gt_right" headers="depth">23 km</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #932667; color: #FFFFFF">2.3</td>
+<td class="gt_row gt_left" headers="days_ago">3 days ago</td>
+<td class="gt_row gt_left" headers="pretty_time">01:54 오전</td>
+<td class="gt_row gt_left" headers="locality">5 km south of Upper Hutt</td>
+<td class="gt_row gt_right" headers="depth">14 km</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="magnitude" style="background-color: #932667; color: #FFFFFF">2.4</td>
+<td class="gt_row gt_left" headers="days_ago">4 days ago</td>
+<td class="gt_row gt_left" headers="pretty_time">05:04 오후</td>
+<td class="gt_row gt_left" headers="locality">5 km west of Porangahau</td>
+<td class="gt_row gt_right" headers="depth">17 km</td>
+</tr>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="even">
+<td colspan="5" class="gt_sourcenote">Retrieved from the <a href="https://api.geonet.org.nz/">GeoNet API</a> at 2023/12/08 21:37 NZDT</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div><div class="bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card cell bslib-card html-fill-container" data-title="100 Most Recent Earthquakes" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header"><div class="card-title">100 Most Recent Earthquakes</div></div>
+<div class="card-body html-fill-item html-fill-container">
+<div class="cell-output-display html-fill-item html-fill-container">
+<div class="leaflet html-widget html-fill-item html-fill-container" id="htmlwidget-fc6f7cf297cb5f98eb12" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-fc6f7cf297cb5f98eb12">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addCircleMarkers","args":[[-38.89849472,-38.36736479,-38.14356232,-38.05254745,-40.35933685,-40.41424561,-40.38670349,-41.26136398,-41.20412064,-40.29405212,-38.60935211,-40.03333664,-39.29442215,-39.43287659,-38.55135727,-37.86336899,-40.29930496,-37.86021805,-40.28601837,-39.81421661,-41.20461655,-37.9596405,-40.25774765,-37.90547562,-40.27262878,-40.2522583,-41.08345795,-41.64690781,-39.52497934,-40.76261902,-41.0062717,-40.75675964,-39.95401001,-38.20332718,-40.00342941,-42.85530853,-37.55482981,-40.36076355,-42.82203293,-40.14464569,-40.39431,-40.39264679,-45.01144409,-41.37516403,-40.52257156,-40.51858746,-38.83428955,-48.23340988,-40.2248497,-37.65182138,-41.18953705,-40.22909164,-40.31233978,-40.94952774,-40.76563644,-39.05809021,-40.64952087,-40.29118347,-40.76351166,-42.75014496,-40.49032593,-40.3173027,-40.63368225,-39.99154282,-37.60184519,-38.19884872,-40.83917236,-40.50183926,-40.13976606,-38.29782867,-37.83438044,-42.12343216,-38.10894775,-40.58614349,-41.41356659,-41.64895248,-38.18930054,-40.25020599,-41.66489792,-38.99909592,-38.51860046,-42.8962822,-41.0611496,-40.26743317,-38.09699249,-38.09209442,-38.91097641,-41.09815979,-38.84777451,-38.8527565,-38.84976959,-38.84603882,-40.54737854,-43.53548813,-39.09471512,-40.49756241,-39.50246429,-41.67142487,-39.52674484,-40.55770493],[175.2812195,178.3108973,177.782074,177.1674347,176.5814972,175.6891327,174.7857666,175.2884521,175.1079254,176.5028839,178.6112061,176.7762451,176.8424835,176.8313293,177.8460388,178.3024139,176.6454468,178.2963409,176.6579742,175.4476624,175.2610168,177.9309998,176.6056213,177.1471252,176.6440277,175.5178375,175.5123444,174.2630463,176.996101,172.7331543,175.0840133,172.7445068,176.5606842,178.1856079,176.7225494,171.6663055,178.2645387,175.5634003,172.7288208,176.4581909,175.5987091,175.5917816,167.4852448,174.6365967,174.5067749,175.8410162,177.9362488,165.1965942,175.3527832,178.384244,174.6549225,175.3441772,176.5544281,175.3989868,172.7438049,177.7666473,175.8723755,176.6409607,172.7377167,172.8829193,176.5631256,176.5554962,175.8424225,174.9718018,178.3303017,178.2131958,174.6229553,176.3405744,176.0501622,178.1868286,177.6384064,173.5557251,178.8329926,175.9994659,174.0876007,174.1884308,178.2259979,176.5144958,174.1115112,175.7921295,177.7131958,173.1506195,174.6915131,174.8065948,178.4346924,178.4353485,175.8498993,175.4431305,177.9292297,177.9512024,177.8814545,177.9344482,176.4096527,170.5867157,177.5410614,176.2776489,175.7245483,174.2339478,176.9800568,176.4232635],[1,5.506140135300757,5.980612037426037,5.845683409745855,3.862183735106508,3.834436308039362,7.391833155829636,3.830640170053904,2.72341187883934,3.120747641763315,5.025142659356288,3.852111783613775,5.796912716089786,3.776177836665529,4.669888641048385,1.933349207997554,3.08568437709317,2.290457985814084,3.503663576248356,3.491119556061164,5.480088826016974,5.055362189584605,2.909668075156292,7.674827341218283,2.184131667692438,4.736123375682018,5.204914100421332,3.250032972434502,4.875378647873639,4.446065549249797,6.933136846932475,4.355752863080705,3.639869373022498,5.8888608825385,4.095974116818587,6.091838968698275,3.824992852930724,3.798324985456916,3.916066832231512,3.657337584098824,6.804020807814197,5.202107354573774,9.807201792599788,3.370516452187499,6.278301400121513,4.762324416800656,4.631528274422214,10,3.27407887843991,5.169576004540073,4.217148860887816,4.832032027934238,2.90478574208355,5.351610817972386,4.323819996441209,5.045644248937935,6.861702958130911,2.351219687588232,5.686692808796223,4.175815597514386,3.958339733691931,3.156542889714264,4.671094470588317,3.666365141073348,3.888225494369255,2.976615761893918,7.000762644270004,5.519999782222684,3.220791929488833,3.362533517258835,7.612588949151424,5.082827758246691,5.716001587802952,7.679347050268116,4.34534073911563,3.55677657265781,5.855497126722683,2.664517327409941,2.060343753060242,1.31324523496151,5.516890236071283,3.713741092325463,4.035653765492905,6.113093954838843,5.60337713115806,7.952330429612619,3.399816298496027,4.596853232114059,4.066175032544597,3.943007742941571,4.874940216728183,3.986518679910365,4.963692388852985,8.126377795185856,3.350590594680516,4.610321835547324,3.843865618858535,3.113793645926071,3.95301914753718,3.796361920283389],null,null,{"interactive":true,"className":"","stroke":false,"color":["#420A68","#DD513A","#DD513A","#DD513A","#932667","#932667","#FCA50A","#932667","#932667","#932667","#DD513A","#932667","#DD513A","#932667","#932667","#932667","#932667","#932667","#932667","#932667","#DD513A","#DD513A","#932667","#FCA50A","#932667","#932667","#DD513A","#932667","#DD513A","#932667","#DD513A","#932667","#932667","#DD513A","#932667","#DD513A","#932667","#932667","#932667","#932667","#DD513A","#DD513A","#FCFFA4","#932667","#DD513A","#DD513A","#932667","#FCFFA4","#932667","#DD513A","#932667","#DD513A","#932667","#DD513A","#932667","#DD513A","#DD513A","#932667","#DD513A","#932667","#932667","#932667","#932667","#932667","#932667","#932667","#DD513A","#DD513A","#932667","#932667","#FCA50A","#DD513A","#DD513A","#FCA50A","#932667","#932667","#DD513A","#932667","#932667","#420A68","#DD513A","#932667","#932667","#DD513A","#DD513A","#FCA50A","#932667","#932667","#932667","#932667","#DD513A","#932667","#DD513A","#FCA50A","#932667","#932667","#932667","#932667","#932667","#932667"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#420A68","#DD513A","#DD513A","#DD513A","#932667","#932667","#FCA50A","#932667","#932667","#932667","#DD513A","#932667","#DD513A","#932667","#932667","#932667","#932667","#932667","#932667","#932667","#DD513A","#DD513A","#932667","#FCA50A","#932667","#932667","#DD513A","#932667","#DD513A","#932667","#DD513A","#932667","#932667","#DD513A","#932667","#DD513A","#932667","#932667","#932667","#932667","#DD513A","#DD513A","#FCFFA4","#932667","#DD513A","#DD513A","#932667","#FCFFA4","#932667","#DD513A","#932667","#DD513A","#932667","#DD513A","#932667","#DD513A","#DD513A","#932667","#DD513A","#932667","#932667","#932667","#932667","#932667","#932667","#932667","#DD513A","#DD513A","#932667","#932667","#FCA50A","#DD513A","#DD513A","#FCA50A","#932667","#932667","#DD513A","#932667","#932667","#420A68","#DD513A","#932667","#932667","#DD513A","#DD513A","#FCA50A","#932667","#932667","#932667","#932667","#DD513A","#932667","#DD513A","#FCA50A","#932667","#932667","#932667","#932667","#932667","#932667"],"fillOpacity":0.5},null,null,null,null,["2023-12-08 05:30 오후 <br/> Magnitude: 1.8 <br/> Depth: 5  km","2023-12-08 04:15 오전 <br/> Magnitude: 3.3 <br/> Depth: 6  km","2023-12-08 03:17 오전 <br/> Magnitude: 3.5 <br/> Depth: 8  km","2023-12-07 07:45 오후 <br/> Magnitude: 3.4 <br/> Depth: 47  km","2023-12-07 03:39 오후 <br/> Magnitude: 2.7 <br/> Depth: 11  km","2023-12-05 02:17 오후 <br/> Magnitude: 2.7 <br/> Depth: 30  km","2023-12-05 10:35 오전 <br/> Magnitude: 4 <br/> Depth: 5  km","2023-12-05 05:45 오전 <br/> Magnitude: 2.7 <br/> Depth: 23  km","2023-12-05 01:54 오전 <br/> Magnitude: 2.3 <br/> Depth: 14  km","2023-12-04 05:04 오후 <br/> Magnitude: 2.4 <br/> Depth: 17  km","2023-12-04 03:42 오후 <br/> Magnitude: 3.1 <br/> Depth: 20  km","2023-12-04 01:37 오후 <br/> Magnitude: 2.7 <br/> Depth: 20  km","2023-12-04 11:38 오전 <br/> Magnitude: 3.4 <br/> Depth: 22  km","2023-12-04 04:41 오전 <br/> Magnitude: 2.7 <br/> Depth: 26  km","2023-12-03 11:40 오후 <br/> Magnitude: 3 <br/> Depth: 16  km","2023-12-03 08:33 오후 <br/> Magnitude: 2.1 <br/> Depth: 15  km","2023-12-03 12:56 오후 <br/> Magnitude: 2.4 <br/> Depth: 16  km","2023-12-03 11:59 오전 <br/> Magnitude: 2.2 <br/> Depth: 14  km","2023-12-03 08:51 오전 <br/> Magnitude: 2.6 <br/> Depth: 16  km","2023-12-02 05:55 오후 <br/> Magnitude: 2.6 <br/> Depth: 17  km","2023-12-02 10:08 오전 <br/> Magnitude: 3.3 <br/> Depth: 5  km","2023-12-02 12:19 오전 <br/> Magnitude: 3.1 <br/> Depth: 31  km","2023-12-01 01:53 오후 <br/> Magnitude: 2.4 <br/> Depth: 17  km","2023-11-30 12:18 오후 <br/> Magnitude: 4.1 <br/> Depth: 53  km","2023-11-30 05:09 오전 <br/> Magnitude: 2.1 <br/> Depth: 17  km","2023-11-29 12:59 오전 <br/> Magnitude: 3 <br/> Depth: 40  km","2023-11-28 12:38 오후 <br/> Magnitude: 3.2 <br/> Depth: 24  km","2023-11-28 08:32 오전 <br/> Magnitude: 2.5 <br/> Depth: 12  km","2023-11-28 04:04 오전 <br/> Magnitude: 3 <br/> Depth: 5  km","2023-11-27 10:42 오후 <br/> Magnitude: 2.9 <br/> Depth: 5  km","2023-11-27 03:30 오후 <br/> Magnitude: 3.8 <br/> Depth: 7  km","2023-11-27 11:17 오전 <br/> Magnitude: 2.9 <br/> Depth: 8  km","2023-11-26 05:58 오후 <br/> Magnitude: 2.6 <br/> Depth: 28  km","2023-11-24 06:19 오후 <br/> Magnitude: 3.4 <br/> Depth: 17  km","2023-11-24 10:58 오전 <br/> Magnitude: 2.8 <br/> Depth: 17  km","2023-11-24 12:33 오전 <br/> Magnitude: 3.5 <br/> Depth: 4  km","2023-11-23 06:45 오후 <br/> Magnitude: 2.7 <br/> Depth: 5  km","2023-11-23 05:47 오전 <br/> Magnitude: 2.7 <br/> Depth: 26  km","2023-11-22 09:24 오후 <br/> Magnitude: 2.7 <br/> Depth: 12  km","2023-11-22 02:51 오전 <br/> Magnitude: 2.6 <br/> Depth: 10  km","2023-11-21 10:14 오후 <br/> Magnitude: 3.8 <br/> Depth: 31  km","2023-11-21 09:35 오후 <br/> Magnitude: 3.2 <br/> Depth: 32  km","2023-11-21 05:56 오후 <br/> Magnitude: 5.1 <br/> Depth: 92  km","2023-11-21 03:26 오후 <br/> Magnitude: 2.5 <br/> Depth: 14  km","2023-11-21 08:13 오전 <br/> Magnitude: 3.6 <br/> Depth: 37  km","2023-11-20 07:50 오후 <br/> Magnitude: 3 <br/> Depth: 6  km","2023-11-20 12:16 오후 <br/> Magnitude: 3 <br/> Depth: 23  km","2023-11-20 09:36 오전 <br/> Magnitude: 5.2 <br/> Depth: 33  km","2023-11-20 08:43 오전 <br/> Magnitude: 2.5 <br/> Depth: 15  km","2023-11-20 08:23 오전 <br/> Magnitude: 3.2 <br/> Depth: 5  km","2023-11-20 07:33 오전 <br/> Magnitude: 2.8 <br/> Depth: 24  km","2023-11-20 07:05 오전 <br/> Magnitude: 3 <br/> Depth: 15  km","2023-11-19 08:15 오전 <br/> Magnitude: 2.4 <br/> Depth: 13  km","2023-11-19 07:45 오전 <br/> Magnitude: 3.2 <br/> Depth: 16  km","2023-11-19 07:01 오전 <br/> Magnitude: 2.8 <br/> Depth: 5  km","2023-11-19 12:42 오전 <br/> Magnitude: 3.1 <br/> Depth: 19  km","2023-11-18 07:39 오후 <br/> Magnitude: 3.8 <br/> Depth: 27  km","2023-11-18 04:08 오후 <br/> Magnitude: 2.2 <br/> Depth: 17  km","2023-11-18 06:37 오전 <br/> Magnitude: 3.3 <br/> Depth: 5  km","2023-11-17 11:47 오후 <br/> Magnitude: 2.8 <br/> Depth: 26  km","2023-11-17 01:16 오후 <br/> Magnitude: 2.7 <br/> Depth: 15  km","2023-11-17 02:30 오전 <br/> Magnitude: 2.4 <br/> Depth: 14  km","2023-11-16 07:59 오후 <br/> Magnitude: 3 <br/> Depth: 24  km","2023-11-16 01:05 오후 <br/> Magnitude: 2.6 <br/> Depth: 27  km","2023-11-16 09:01 오전 <br/> Magnitude: 2.7 <br/> Depth: 21  km","2023-11-16 01:48 오전 <br/> Magnitude: 2.4 <br/> Depth: 9  km","2023-11-15 02:40 오후 <br/> Magnitude: 3.9 <br/> Depth: 5  km","2023-11-14 04:49 오후 <br/> Magnitude: 3.3 <br/> Depth: 5  km","2023-11-14 12:41 오후 <br/> Magnitude: 2.5 <br/> Depth: 5  km","2023-11-14 05:48 오전 <br/> Magnitude: 2.5 <br/> Depth: 12  km","2023-11-13 11:44 오후 <br/> Magnitude: 4.1 <br/> Depth: 5  km","2023-11-13 04:08 오후 <br/> Magnitude: 3.1 <br/> Depth: 27  km","2023-11-13 06:24 오전 <br/> Magnitude: 3.4 <br/> Depth: 31  km","2023-11-13 03:51 오전 <br/> Magnitude: 4.1 <br/> Depth: 8  km","2023-11-13 01:57 오전 <br/> Magnitude: 2.9 <br/> Depth: 9  km","2023-11-12 10:48 오후 <br/> Magnitude: 2.6 <br/> Depth: 11  km","2023-11-12 12:43 오후 <br/> Magnitude: 3.4 <br/> Depth: 12  km","2023-11-12 12:10 오전 <br/> Magnitude: 2.3 <br/> Depth: 15  km","2023-11-11 12:37 오후 <br/> Magnitude: 2.1 <br/> Depth: 14  km","2023-11-11 09:33 오전 <br/> Magnitude: 1.9 <br/> Depth: 4  km","2023-11-11 03:29 오전 <br/> Magnitude: 3.3 <br/> Depth: 50  km","2023-11-10 06:17 오후 <br/> Magnitude: 2.6 <br/> Depth: 23  km","2023-11-10 10:31 오전 <br/> Magnitude: 2.7 <br/> Depth: 28  km","2023-11-08 01:33 오후 <br/> Magnitude: 3.5 <br/> Depth: 38  km","2023-11-07 01:57 오후 <br/> Magnitude: 3.3 <br/> Depth: 34  km","2023-11-07 01:56 오후 <br/> Magnitude: 4.3 <br/> Depth: 35  km","2023-11-07 02:02 오전 <br/> Magnitude: 2.5 <br/> Depth: 5  km","2023-11-06 07:42 오전 <br/> Magnitude: 2.9 <br/> Depth: 21  km","2023-11-06 12:03 오전 <br/> Magnitude: 2.8 <br/> Depth: 21  km","2023-11-05 07:41 오후 <br/> Magnitude: 2.7 <br/> Depth: 22  km","2023-11-05 06:11 오전 <br/> Magnitude: 3 <br/> Depth: 24  km","2023-11-05 06:10 오전 <br/> Magnitude: 2.7 <br/> Depth: 23  km","2023-11-04 06:55 오후 <br/> Magnitude: 3.1 <br/> Depth: 15  km","2023-11-04 04:13 오후 <br/> Magnitude: 4.3 <br/> Depth: 5  km","2023-11-04 12:02 오후 <br/> Magnitude: 2.5 <br/> Depth: 22  km","2023-11-03 01:45 오전 <br/> Magnitude: 2.9 <br/> Depth: 19  km","2023-11-02 10:46 오후 <br/> Magnitude: 2.7 <br/> Depth: 12  km","2023-11-02 08:35 오후 <br/> Magnitude: 2.4 <br/> Depth: 11  km","2023-11-02 12:43 오후 <br/> Magnitude: 2.7 <br/> Depth: 27  km","2023-11-02 07:31 오전 <br/> Magnitude: 2.7 <br/> Depth: 12  km"],{"textsize":"15px"},null]},{"method":"addLegend","args":[{"colors":["#000004","#420A68","#932667","#DD513A","#FCA50A","#FCFFA4"],"labels":["<1","1","2","3","4",">5"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"topright","type":"unknown","title":"Magnitude","extra":null,"layerId":null,"className":"info legend","group":null}]},{"method":"addTiles","args":["http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",null,null,{"minZoom":5,"maxZoom":10,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]}],"limits":{"lat":[-48.23340988,-37.55482981],"lng":[165.1965942,178.8329926]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+
+
+<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden">
+
+</div>
+</div>
+</div>
+
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a href="https://quarto.org/">Quarto</a> 로 제작</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (_event) {
+  if (window.bslib.Card) {
+    window.bslib.Card.initializeAllCards();
+  }
+}); 
+</script>
+  
+
+
+
+</body></html>

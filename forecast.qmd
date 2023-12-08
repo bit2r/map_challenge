@@ -116,6 +116,8 @@ get_sido_result <- function(sido = "서울") {
 ```{r}
 #| results: asis
 
+library(gt)
+
 sido_vec <- unique(comp_tbl$시도)
 
 for(i in seq_along(sido_vec)) {

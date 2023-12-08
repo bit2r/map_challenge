@@ -69,6 +69,8 @@ website:
         menu: 
           - href: movie.qmd
             text: "한국영화"
+          - href: dashboards_quakes.qmd
+            text: "대쉬보드 R"            
 
       - text: "제21대 국회의원 선거(I)"
         menu: 

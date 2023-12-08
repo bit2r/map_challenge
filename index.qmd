@@ -156,6 +156,8 @@ plot(st_geometry(korea))
 ### 태평양 중심
 
 ```{r}
+#| eval: false
+
 library(maps)
 
 plot.map<- function(database,center,...){

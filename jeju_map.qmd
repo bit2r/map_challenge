@@ -79,7 +79,7 @@ int_elevation <- classInt::classIntervals(
 )$brks %>% as.integer(.)
 
 ggplot() +
-  geom_spatraster(data = korea_dem) +
+  geom_spatraster(data = rast(korea_dem)) +
   facet_wrap(~lyr) +
   theme(
     legend.text.align = 1,
@@ -115,6 +115,8 @@ ggplot() +
 
 
 ```{r}
+#| eval: false
+
 city <- "Jeju Korea"
 target_border <- osmdata::getbb(city)
 
@@ -151,7 +153,6 @@ bb %>%
   ggplot() +
     geom_sf()
 
-
 jeju_rasters <- map(korea_dem, ~terra::crop(.x, terra::vect(bb)))
 
 jeju_rasters[[1]] %>% 
@@ -186,7 +187,7 @@ jeju_rasters[[1]] %>%
   coord_sf(crs = 4326) 
 ```
 
-
+![](images/jeju_map_01.png)
 
 
 # (고해상도) 제주도
@@ -202,6 +203,7 @@ korea_high_dem %>%
 ```
 
 ```{r}
+#| eval: false
 
 korea_high_dem <- terra::rast("data/EDM/korea.tif")
 
@@ -239,3 +241,4 @@ jeju_rasters[[1]] %>%
   coord_sf(crs = 4326) 
 ```
 
+![](images/jeju_map_02.png)

@@ -48,7 +48,7 @@ editor_options:
 ```{r}
 library(tidyverse)
 library(sf)
-library(rgdal)
+# library(rgdal)
 
 # 세계 해안선 shapefile을 불러옵니다.
 world_coastline <- st_read("data/ne_10m_coastline/ne_10m_coastline.shp")

@@ -229,7 +229,7 @@ int_elevation <- classInt::classIntervals(
 )$brks %>% as.integer(.)
 
 ggplot() +
-  geom_spatraster(data = korea_dem) +
+  geom_spatraster(data = rast(korea_dem)) +
   facet_wrap(~lyr) +
   theme(
     panel.spacing.x = unit(0, "lines"), axis.title.x = element_blank(),

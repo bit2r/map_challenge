@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko-KR" xml:lang="ko-KR"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.288">
+<meta name="generator" content="quarto-1.4.523">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="이광춘">
 <meta name="description" content="리얼미터 수도권 역대 지지율을 살펴보자.">
@@ -21,7 +21,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -78,12 +78,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
     "s"
   ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "일치 없음",
     "search-matching-documents-text": "일치된 문서",
@@ -92,6 +93,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "추가 검색결과",
     "search-more-matches-text": "추가 검색결과",
     "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "취소",
     "search-submit-button-title": "검색",
     "search-label": "검색"
@@ -101,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">지도제작 대회</span>
@@ -114,128 +116,247 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link" href="./index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">지도 그리기</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-">
 <li>
-    <a class="dropdown-item" href="./day_01.html" rel="" target="">
+    <a class="dropdown-item" href="./day_01.html">
  <span class="dropdown-text">지도 색칠</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_02.html" rel="" target="">
+    <a class="dropdown-item" href="./day_02.html">
  <span class="dropdown-text">인구수 점(Point)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_03.html" rel="" target="">
+    <a class="dropdown-item" href="./day_03.html">
  <span class="dropdown-text">스파이크(Spike map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_04.html" rel="" target="">
+    <a class="dropdown-item" href="./day_04.html">
  <span class="dropdown-text">지형도(Topographic map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_05.html" rel="" target="">
+    <a class="dropdown-item" href="./day_05.html">
  <span class="dropdown-text">3D 표고 지도(독도)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_06.html" rel="" target="">
+    <a class="dropdown-item" href="./day_06.html">
  <span class="dropdown-text">아시아국가 실업율(%)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_07.html" rel="" target="">
+    <a class="dropdown-item" href="./day_07.html">
  <span class="dropdown-text">인터랙티브 지도(Mapview)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_08.html" rel="" target="">
+    <a class="dropdown-item" href="./day_08.html">
  <span class="dropdown-text">지오코딩</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./day_heatmap.html" rel="" target="">
+    <a class="dropdown-item" href="./day_heatmap.html">
  <span class="dropdown-text">열지도(heatmap)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./spatial_basics.html">
+ <span class="dropdown-text">지도 기본기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tour.html">
+ <span class="dropdown-text">대통령 해외순방</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./cartogram.html">
+ <span class="dropdown-text">인구비례 선거구</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-gis-분석챗gpt" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">GIS 분석&amp;챗GPT</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-gis-분석챗gpt">
 <li>
-    <a class="dropdown-item" href="./spatial_map.html" rel="" target="">
+    <a class="dropdown-item" href="./spatial_map.html">
  <span class="dropdown-text">지도(Map)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./jeju_map.html" rel="" target="">
+    <a class="dropdown-item" href="./jeju_map.html">
  <span class="dropdown-text">제주도 높이 지도</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./yellow_sea.html" rel="" target="">
+    <a class="dropdown-item" href="./yellow_sea.html">
  <span class="dropdown-text">황해</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./yellow_sea2.html" rel="" target="">
+    <a class="dropdown-item" href="./yellow_sea2.html">
  <span class="dropdown-text">황해2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./gg_analytics_center.html" rel="" target="">
+    <a class="dropdown-item" href="./gg_analytics_center.html">
  <span class="dropdown-text">경기 데이터 분석 센터</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./km_school.html" rel="" target="">
+    <a class="dropdown-item" href="./km_school.html">
  <span class="dropdown-text">광명시 학교와 CCTV</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./km_BitGPT.html" rel="" target="">
+    <a class="dropdown-item" href="./km_BitGPT.html">
  <span class="dropdown-text">Code Interpreter</span></a>
   </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
- <span class="menu-text">제21대 국회의원 선거</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">시각화</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--1">
 <li>
-    <a class="dropdown-item" href="./precinct.html" rel="" target="">
+    <a class="dropdown-item" href="./movie.html">
+ <span class="dropdown-text">한국영화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards.html">
+ <span class="dropdown-text">대쉬보드 Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dashboards_quakes.html">
+ <span class="dropdown-text">대쉬보드 R</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-i" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">제21대 국회의원 선거(I)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-i">
+<li>
+    <a class="dropdown-item" href="./precinct.html">
  <span class="dropdown-text">국회의원 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./minju_nomination.html" rel="" target="">
+    <a class="dropdown-item" href="./minju_nomination.html">
  <span class="dropdown-text">민주당 전략공천 성과</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./precinct_history.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct_history.html">
  <span class="dropdown-text">선거구와 정수</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./electorate.html" rel="" target="">
+    <a class="dropdown-item" href="./electorate.html">
  <span class="dropdown-text">변경된 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./precinct_district.html" rel="" target="">
+    <a class="dropdown-item" href="./precinct_district.html">
  <span class="dropdown-text">선거구 평균 인구수</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./district_issue.html" rel="" target="">
+    <a class="dropdown-item" href="./district_issue.html">
  <span class="dropdown-text">인구수 문제 선거구</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./kwangmyung.html" rel="" target="">
+    <a class="dropdown-item" href="./kwangmyung.html">
  <span class="dropdown-text">광명시(총/대/지)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./approval_rate.html" rel="" target="">
+    <a class="dropdown-item" href="./approval_rate.html">
  <span class="dropdown-text">대통령 지지율</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./realmeter_metro.html" rel="" target="">
+    <a class="dropdown-item" href="./minju_party.html">
+ <span class="dropdown-text">민주당은 전국정당(?)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election.html">
+ <span class="dropdown-text">재보궐: 강서구청장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./by_election_dong.html">
+ <span class="dropdown-text">재보궐: 강서구청장(동별)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./after_by_election.html">
+ <span class="dropdown-text">서울 재보궐 이후</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gs_position.html">
+ <span class="dropdown-text">재보궐: 강서구 위치</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="./realmeter_metro.html">
  <span class="dropdown-text">리얼미터 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallop_metro.html">
+ <span class="dropdown-text">한국갤럽 PDF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nbs_metro.html">
+ <span class="dropdown-text">전국지표조사 PDF</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ii" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">제21대 국회의원 선거(II)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ii">
+<li>
+    <a class="dropdown-item" href="./legislators.html">
+ <span class="dropdown-text">권역별 의석수 변화</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./candidate.html">
+ <span class="dropdown-text">예비 후보자</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./district_chair.html">
+ <span class="dropdown-text">지역/당협 위원장</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./watermellon.html">
+ <span class="dropdown-text">수박 당도 선별기</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./sido_legislator.html">
+ <span class="dropdown-text">시도별 역대 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./metro_people_power.html">
+ <span class="dropdown-text">수도권 국힘의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./party_numbers.html">
+ <span class="dropdown-text">당원과 정당 수입지출</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./elected_numbers.html">
+ <span class="dropdown-text">국회의원 초선 당선</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./forecast.html">
+ <span class="dropdown-text">총선 예측</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nec_api.html">
+ <span class="dropdown-text">투개표 API</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./single_member.html">
+ <span class="dropdown-text">양당과 소선구제</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./proportion_member.html">
+ <span class="dropdown-text">비례 국회의원</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./best_matches.html">
+ <span class="dropdown-text">최고 관심 격돌</span></a>
   </li>  
     </ul>
 </li>
@@ -264,14 +385,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="quarto-title-meta-contents">
       <p class="author"><a href="https://www.linkedin.com/in/kwangchunlee/">이광춘</a> </p>
     </div>
-      <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
           <p class="affiliation">
               <a href="https://github.com/bit2r">
               한국 R 사용자회
               </a>
             </p>
         </div>
-      </div>
+    </div>
 
   <div class="quarto-title-meta">
 
@@ -319,7 +440,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pdf-다운로드-링크" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="pdf-다운로드-링크">
 <span class="header-section-number">1.1</span> PDF 다운로드 링크</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">rm_url</span> <span class="op">&lt;-</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">'http://www.realmeter.net/category/pdf/page/1/'</span><span class="op">)</span></span>
@@ -346,7 +467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="pdf-다운로드" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="pdf-다운로드">
 <span class="header-section-number">1.2</span> PDF 다운로드</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html">dir_create</a></span><span class="op">(</span><span class="st">"data/realmeter/"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html">dir_create</a></span><span class="op">(</span><span class="st">"data/realmeter/"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">rm_pdf_tbl</span><span class="op">$</span><span class="va">link</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mode<span class="op">=</span><span class="st">'wb'</span>, </span>
 <span>              destfile <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"data/realmeter/{rm_pdf_tbl$filename[1]}"</span><span class="op">)</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -355,7 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="pdf-다운로드-함수" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="pdf-다운로드-함수">
 <span class="header-section-number">1.3</span> PDF 다운로드 함수</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">link</span> <span class="op">&lt;-</span> <span class="va">rm_pdf_tbl</span><span class="op">$</span><span class="va">link</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">link</span> <span class="op">&lt;-</span> <span class="va">rm_pdf_tbl</span><span class="op">$</span><span class="va">link</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="va">rm_pdf_tbl</span><span class="op">$</span><span class="va">filename</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">download_pdfs</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">link</span>, <span class="va">filename</span><span class="op">)</span> <span class="op">{</span></span>
@@ -369,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="전체-다운로드" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="전체-다운로드">
 <span class="header-section-number">1.4</span> 전체 다운로드</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
 <span><span class="va">get_reports</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">page</span><span class="op">=</span><span class="st">"1"</span><span class="op">)</span><span class="op">{</span></span>
 <span>  </span>
 <span>  <span class="va">rm_url</span> <span class="op">&lt;-</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">'http://www.realmeter.net/category/pdf/page/{page}/'</span><span class="op">)</span></span>
@@ -420,7 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="다운로드-목록" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="다운로드-목록">
 <span class="header-section-number">2.1</span> 다운로드 목록</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## 함수</span></span>
@@ -476,7 +597,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="pdf-다운로드-1" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="pdf-다운로드-1">
 <span class="header-section-number">2.2</span> PDF 다운로드</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pdf_report_tbl</span> <span class="op">&lt;-</span> </span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pdf_report_tbl</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="st">"data/realmeter/pdf_report_tbl.rds"</span><span class="op">)</span></span>
 <span></span>
 <span></span>
@@ -497,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="윤석열-대통령-이후" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="윤석열-대통령-이후">
 <span class="header-section-number">3.1</span> 윤석열 대통령 이후</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://fs.r-lib.org">fs</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pdf_report_tbl</span> <span class="op">&lt;-</span> </span>
@@ -535,7 +656,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="응답자-특성" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="응답자-특성">
 <span class="header-section-number">3.2</span> 응답자 특성</h2>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/pdftools/">pdftools</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/pdftools/">pdftools</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/irudnyts/openai">openai</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">raw_text</span> <span class="op">&lt;-</span> <span class="fu">pdftools</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/pdftools/reference/pdftools.html">pdf_text</a></span><span class="op">(</span>pdf <span class="op">=</span> <span class="st">"data/realmeter/주간통계표22년5월2주최종_y51w.pdf"</span><span class="op">)</span></span>
@@ -582,7 +703,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <div class="cell">
-<details><summary>코드</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/irudnyts/openai">openai</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">gpt_response</span> <span class="op">&lt;-</span> </span>
@@ -651,23 +772,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="va">deom_tbl</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="wtnddrpgqq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wtnddrpgqq table {
+<div id="itpvilslrg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#itpvilslrg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wtnddrpgqq thead, #wtnddrpgqq tbody, #wtnddrpgqq tfoot, #wtnddrpgqq tr, #wtnddrpgqq td, #wtnddrpgqq th {
+#itpvilslrg thead, #itpvilslrg tbody, #itpvilslrg tfoot, #itpvilslrg tr, #itpvilslrg td, #itpvilslrg th {
   border-style: none;
 }
 
-#wtnddrpgqq p {
+#itpvilslrg p {
   margin: 0;
   padding: 0;
 }
 
-#wtnddrpgqq .gt_table {
+#itpvilslrg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -693,12 +814,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_caption {
+#itpvilslrg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wtnddrpgqq .gt_title {
+#itpvilslrg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -710,7 +831,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#wtnddrpgqq .gt_subtitle {
+#itpvilslrg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -722,7 +843,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#wtnddrpgqq .gt_heading {
+#itpvilslrg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -734,13 +855,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_bottom_border {
+#itpvilslrg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_col_headings {
+#itpvilslrg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -755,7 +876,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_col_heading {
+#itpvilslrg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -775,7 +896,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#wtnddrpgqq .gt_column_spanner_outer {
+#itpvilslrg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -787,15 +908,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#wtnddrpgqq .gt_column_spanner_outer:first-child {
+#itpvilslrg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wtnddrpgqq .gt_column_spanner_outer:last-child {
+#itpvilslrg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wtnddrpgqq .gt_column_spanner {
+#itpvilslrg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -807,11 +928,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#wtnddrpgqq .gt_spanner_row {
+#itpvilslrg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wtnddrpgqq .gt_group_heading {
+#itpvilslrg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -837,7 +958,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#wtnddrpgqq .gt_empty_group_heading {
+#itpvilslrg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -852,15 +973,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#wtnddrpgqq .gt_from_md > :first-child {
+#itpvilslrg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wtnddrpgqq .gt_from_md > :last-child {
+#itpvilslrg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wtnddrpgqq .gt_row {
+#itpvilslrg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -879,7 +1000,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#wtnddrpgqq .gt_stub {
+#itpvilslrg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -892,7 +1013,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wtnddrpgqq .gt_stub_row_group {
+#itpvilslrg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -906,15 +1027,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#wtnddrpgqq .gt_row_group_first td {
+#itpvilslrg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wtnddrpgqq .gt_row_group_first th {
+#itpvilslrg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wtnddrpgqq .gt_summary_row {
+#itpvilslrg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -924,16 +1045,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wtnddrpgqq .gt_first_summary_row {
+#itpvilslrg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_first_summary_row.thick {
+#itpvilslrg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wtnddrpgqq .gt_last_summary_row {
+#itpvilslrg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -943,7 +1064,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_grand_summary_row {
+#itpvilslrg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -953,7 +1074,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wtnddrpgqq .gt_first_grand_summary_row {
+#itpvilslrg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -963,7 +1084,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_last_grand_summary_row_top {
+#itpvilslrg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -973,11 +1094,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_striped {
+#itpvilslrg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wtnddrpgqq .gt_table_body {
+#itpvilslrg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -986,7 +1107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_footnotes {
+#itpvilslrg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1000,7 +1121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_footnote {
+#itpvilslrg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1009,7 +1130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wtnddrpgqq .gt_sourcenotes {
+#itpvilslrg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1023,7 +1144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wtnddrpgqq .gt_sourcenote {
+#itpvilslrg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1031,211 +1152,211 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wtnddrpgqq .gt_left {
+#itpvilslrg .gt_left {
   text-align: left;
 }
 
-#wtnddrpgqq .gt_center {
+#itpvilslrg .gt_center {
   text-align: center;
 }
 
-#wtnddrpgqq .gt_right {
+#itpvilslrg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wtnddrpgqq .gt_font_normal {
+#itpvilslrg .gt_font_normal {
   font-weight: normal;
 }
 
-#wtnddrpgqq .gt_font_bold {
+#itpvilslrg .gt_font_bold {
   font-weight: bold;
 }
 
-#wtnddrpgqq .gt_font_italic {
+#itpvilslrg .gt_font_italic {
   font-style: italic;
 }
 
-#wtnddrpgqq .gt_super {
+#itpvilslrg .gt_super {
   font-size: 65%;
 }
 
-#wtnddrpgqq .gt_footnote_marks {
+#itpvilslrg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wtnddrpgqq .gt_asterisk {
+#itpvilslrg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wtnddrpgqq .gt_indent_1 {
+#itpvilslrg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wtnddrpgqq .gt_indent_2 {
+#itpvilslrg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wtnddrpgqq .gt_indent_3 {
+#itpvilslrg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wtnddrpgqq .gt_indent_4 {
+#itpvilslrg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wtnddrpgqq .gt_indent_5 {
+#itpvilslrg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="구분">구분</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="완료_사례">완료_사례</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="완료_비율">완료_비율</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="가중_사례">가중_사례</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="가중_비율">가중_비율</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="가중값">가중값</th>
-    </tr></thead>
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="header gt_col_headings">
+<th id="구분" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">구분</th>
+<th id="완료_사례" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">완료_사례</th>
+<th id="완료_비율" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">완료_비율</th>
+<th id="가중_사례" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">가중_사례</th>
+<th id="가중_비율" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">가중_비율</th>
+<th id="가중값" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">가중값</th>
+</tr></thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="구분" class="gt_row gt_left">전체</td>
-<td headers="완료_사례" class="gt_row gt_right">2526</td>
-<td headers="완료_비율" class="gt_row gt_right">100.0</td>
-<td headers="가중_사례" class="gt_row gt_right">2526</td>
-<td headers="가중_비율" class="gt_row gt_right">100.0</td>
-<td headers="가중값" class="gt_row gt_right">1.00</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">전체</td>
+<td class="gt_row gt_right" headers="완료_사례">2526</td>
+<td class="gt_row gt_right" headers="완료_비율">100.0</td>
+<td class="gt_row gt_right" headers="가중_사례">2526</td>
+<td class="gt_row gt_right" headers="가중_비율">100.0</td>
+<td class="gt_row gt_right" headers="가중값">1.00</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">남자</td>
-<td headers="완료_사례" class="gt_row gt_right">1566</td>
-<td headers="완료_비율" class="gt_row gt_right">62.0</td>
-<td headers="가중_사례" class="gt_row gt_right">1252</td>
-<td headers="가중_비율" class="gt_row gt_right">49.6</td>
-<td headers="가중값" class="gt_row gt_right">0.80</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="구분">남자</td>
+<td class="gt_row gt_right" headers="완료_사례">1566</td>
+<td class="gt_row gt_right" headers="완료_비율">62.0</td>
+<td class="gt_row gt_right" headers="가중_사례">1252</td>
+<td class="gt_row gt_right" headers="가중_비율">49.6</td>
+<td class="gt_row gt_right" headers="가중값">0.80</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">여자</td>
-<td headers="완료_사례" class="gt_row gt_right">960</td>
-<td headers="완료_비율" class="gt_row gt_right">38.0</td>
-<td headers="가중_사례" class="gt_row gt_right">1274</td>
-<td headers="가중_비율" class="gt_row gt_right">50.4</td>
-<td headers="가중값" class="gt_row gt_right">1.33</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">여자</td>
+<td class="gt_row gt_right" headers="완료_사례">960</td>
+<td class="gt_row gt_right" headers="완료_비율">38.0</td>
+<td class="gt_row gt_right" headers="가중_사례">1274</td>
+<td class="gt_row gt_right" headers="가중_비율">50.4</td>
+<td class="gt_row gt_right" headers="가중값">1.33</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">20대</td>
-<td headers="완료_사례" class="gt_row gt_right">300</td>
-<td headers="완료_비율" class="gt_row gt_right">11.9</td>
-<td headers="가중_사례" class="gt_row gt_right">437</td>
-<td headers="가중_비율" class="gt_row gt_right">17.3</td>
-<td headers="가중값" class="gt_row gt_right">1.46</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="구분">20대</td>
+<td class="gt_row gt_right" headers="완료_사례">300</td>
+<td class="gt_row gt_right" headers="완료_비율">11.9</td>
+<td class="gt_row gt_right" headers="가중_사례">437</td>
+<td class="gt_row gt_right" headers="가중_비율">17.3</td>
+<td class="gt_row gt_right" headers="가중값">1.46</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">30대</td>
-<td headers="완료_사례" class="gt_row gt_right">292</td>
-<td headers="완료_비율" class="gt_row gt_right">11.6</td>
-<td headers="가중_사례" class="gt_row gt_right">382</td>
-<td headers="가중_비율" class="gt_row gt_right">15.1</td>
-<td headers="가중값" class="gt_row gt_right">1.31</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">30대</td>
+<td class="gt_row gt_right" headers="완료_사례">292</td>
+<td class="gt_row gt_right" headers="완료_비율">11.6</td>
+<td class="gt_row gt_right" headers="가중_사례">382</td>
+<td class="gt_row gt_right" headers="가중_비율">15.1</td>
+<td class="gt_row gt_right" headers="가중값">1.31</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">40대</td>
-<td headers="완료_사례" class="gt_row gt_right">404</td>
-<td headers="완료_비율" class="gt_row gt_right">16.0</td>
-<td headers="가중_사례" class="gt_row gt_right">467</td>
-<td headers="가중_비율" class="gt_row gt_right">18.5</td>
-<td headers="가중값" class="gt_row gt_right">1.16</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="구분">40대</td>
+<td class="gt_row gt_right" headers="완료_사례">404</td>
+<td class="gt_row gt_right" headers="완료_비율">16.0</td>
+<td class="gt_row gt_right" headers="가중_사례">467</td>
+<td class="gt_row gt_right" headers="가중_비율">18.5</td>
+<td class="gt_row gt_right" headers="가중값">1.16</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">50대</td>
-<td headers="완료_사례" class="gt_row gt_right">626</td>
-<td headers="완료_비율" class="gt_row gt_right">24.8</td>
-<td headers="가중_사례" class="gt_row gt_right">493</td>
-<td headers="가중_비율" class="gt_row gt_right">19.5</td>
-<td headers="가중값" class="gt_row gt_right">0.79</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">50대</td>
+<td class="gt_row gt_right" headers="완료_사례">626</td>
+<td class="gt_row gt_right" headers="완료_비율">24.8</td>
+<td class="gt_row gt_right" headers="가중_사례">493</td>
+<td class="gt_row gt_right" headers="가중_비율">19.5</td>
+<td class="gt_row gt_right" headers="가중값">0.79</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">60대</td>
-<td headers="완료_사례" class="gt_row gt_right">545</td>
-<td headers="완료_비율" class="gt_row gt_right">21.6</td>
-<td headers="가중_사례" class="gt_row gt_right">410</td>
-<td headers="가중_비율" class="gt_row gt_right">16.2</td>
-<td headers="가중값" class="gt_row gt_right">0.75</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="구분">60대</td>
+<td class="gt_row gt_right" headers="완료_사례">545</td>
+<td class="gt_row gt_right" headers="완료_비율">21.6</td>
+<td class="gt_row gt_right" headers="가중_사례">410</td>
+<td class="gt_row gt_right" headers="가중_비율">16.2</td>
+<td class="gt_row gt_right" headers="가중값">0.75</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">70세이상</td>
-<td headers="완료_사례" class="gt_row gt_right">359</td>
-<td headers="완료_비율" class="gt_row gt_right">14.2</td>
-<td headers="가중_사례" class="gt_row gt_right">337</td>
-<td headers="가중_비율" class="gt_row gt_right">13.3</td>
-<td headers="가중값" class="gt_row gt_right">0.94</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">70세이상</td>
+<td class="gt_row gt_right" headers="완료_사례">359</td>
+<td class="gt_row gt_right" headers="완료_비율">14.2</td>
+<td class="gt_row gt_right" headers="가중_사례">337</td>
+<td class="gt_row gt_right" headers="가중_비율">13.3</td>
+<td class="gt_row gt_right" headers="가중값">0.94</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">서울</td>
-<td headers="완료_사례" class="gt_row gt_right">619</td>
-<td headers="완료_비율" class="gt_row gt_right">24.5</td>
-<td headers="가중_사례" class="gt_row gt_right">478</td>
-<td headers="가중_비율" class="gt_row gt_right">18.9</td>
-<td headers="가중값" class="gt_row gt_right">0.77</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="구분">서울</td>
+<td class="gt_row gt_right" headers="완료_사례">619</td>
+<td class="gt_row gt_right" headers="완료_비율">24.5</td>
+<td class="gt_row gt_right" headers="가중_사례">478</td>
+<td class="gt_row gt_right" headers="가중_비율">18.9</td>
+<td class="gt_row gt_right" headers="가중값">0.77</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">인천/경기</td>
-<td headers="완료_사례" class="gt_row gt_right">768</td>
-<td headers="완료_비율" class="gt_row gt_right">30.4</td>
-<td headers="가중_사례" class="gt_row gt_right">798</td>
-<td headers="가중_비율" class="gt_row gt_right">31.6</td>
-<td headers="가중값" class="gt_row gt_right">1.04</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">인천/경기</td>
+<td class="gt_row gt_right" headers="완료_사례">768</td>
+<td class="gt_row gt_right" headers="완료_비율">30.4</td>
+<td class="gt_row gt_right" headers="가중_사례">798</td>
+<td class="gt_row gt_right" headers="가중_비율">31.6</td>
+<td class="gt_row gt_right" headers="가중값">1.04</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">대전/세종/충청</td>
-<td headers="완료_사례" class="gt_row gt_right">231</td>
-<td headers="완료_비율" class="gt_row gt_right">9.1</td>
-<td headers="가중_사례" class="gt_row gt_right">268</td>
-<td headers="가중_비율" class="gt_row gt_right">10.6</td>
-<td headers="가중값" class="gt_row gt_right">1.16</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="구분">대전/세종/충청</td>
+<td class="gt_row gt_right" headers="완료_사례">231</td>
+<td class="gt_row gt_right" headers="완료_비율">9.1</td>
+<td class="gt_row gt_right" headers="가중_사례">268</td>
+<td class="gt_row gt_right" headers="가중_비율">10.6</td>
+<td class="gt_row gt_right" headers="가중값">1.16</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">강원</td>
-<td headers="완료_사례" class="gt_row gt_right">79</td>
-<td headers="완료_비율" class="gt_row gt_right">3.1</td>
-<td headers="가중_사례" class="gt_row gt_right">74</td>
-<td headers="가중_비율" class="gt_row gt_right">2.9</td>
-<td headers="가중값" class="gt_row gt_right">0.94</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">강원</td>
+<td class="gt_row gt_right" headers="완료_사례">79</td>
+<td class="gt_row gt_right" headers="완료_비율">3.1</td>
+<td class="gt_row gt_right" headers="가중_사례">74</td>
+<td class="gt_row gt_right" headers="가중_비율">2.9</td>
+<td class="gt_row gt_right" headers="가중값">0.94</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">부산/울산/경남</td>
-<td headers="완료_사례" class="gt_row gt_right">315</td>
-<td headers="완료_비율" class="gt_row gt_right">12.5</td>
-<td headers="가중_사례" class="gt_row gt_right">381</td>
-<td headers="가중_비율" class="gt_row gt_right">15.1</td>
-<td headers="가중값" class="gt_row gt_right">1.21</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="구분">부산/울산/경남</td>
+<td class="gt_row gt_right" headers="완료_사례">315</td>
+<td class="gt_row gt_right" headers="완료_비율">12.5</td>
+<td class="gt_row gt_right" headers="가중_사례">381</td>
+<td class="gt_row gt_right" headers="가중_비율">15.1</td>
+<td class="gt_row gt_right" headers="가중값">1.21</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">대구/경북</td>
-<td headers="완료_사례" class="gt_row gt_right">223</td>
-<td headers="완료_비율" class="gt_row gt_right">8.8</td>
-<td headers="가중_사례" class="gt_row gt_right">248</td>
-<td headers="가중_비율" class="gt_row gt_right">9.8</td>
-<td headers="가중값" class="gt_row gt_right">1.11</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">대구/경북</td>
+<td class="gt_row gt_right" headers="완료_사례">223</td>
+<td class="gt_row gt_right" headers="완료_비율">8.8</td>
+<td class="gt_row gt_right" headers="가중_사례">248</td>
+<td class="gt_row gt_right" headers="가중_비율">9.8</td>
+<td class="gt_row gt_right" headers="가중값">1.11</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">광주/전라</td>
-<td headers="완료_사례" class="gt_row gt_right">257</td>
-<td headers="완료_비율" class="gt_row gt_right">10.2</td>
-<td headers="가중_사례" class="gt_row gt_right">248</td>
-<td headers="가중_비율" class="gt_row gt_right">9.8</td>
-<td headers="가중값" class="gt_row gt_right">0.96</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="구분">광주/전라</td>
+<td class="gt_row gt_right" headers="완료_사례">257</td>
+<td class="gt_row gt_right" headers="완료_비율">10.2</td>
+<td class="gt_row gt_right" headers="가중_사례">248</td>
+<td class="gt_row gt_right" headers="가중_비율">9.8</td>
+<td class="gt_row gt_right" headers="가중값">0.96</td>
 </tr>
-<tr>
-<td headers="구분" class="gt_row gt_left">제주</td>
-<td headers="완료_사례" class="gt_row gt_right">34</td>
-<td headers="완료_비율" class="gt_row gt_right">1.3</td>
-<td headers="가중_사례" class="gt_row gt_right">31</td>
-<td headers="가중_비율" class="gt_row gt_right">1.2</td>
-<td headers="가중값" class="gt_row gt_right">0.91</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="구분">제주</td>
+<td class="gt_row gt_right" headers="완료_사례">34</td>
+<td class="gt_row gt_right" headers="완료_비율">1.3</td>
+<td class="gt_row gt_right" headers="가중_사례">31</td>
+<td class="gt_row gt_right" headers="가중_비율">1.2</td>
+<td class="gt_row gt_right" headers="가중값">0.91</td>
 </tr>
 </tbody>
 </table>
@@ -1569,15 +1690,45 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    if (id.startsWith('sec-')) {
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
+        typesetMath(container);
         return container.innerHTML
       } else {
+        typesetMath(note);
         return note.innerHTML;
       }
     } else {
@@ -1586,6 +1737,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
+      typesetMath(note);
       return note.innerHTML;
     }
   }
@@ -1628,6 +1780,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
       }
     }, function(instance) {
     });
@@ -1699,6 +1874,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
