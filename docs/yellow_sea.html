@@ -223,10 +223,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">한국영화</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./dashboards.html">
- <span class="dropdown-text">대쉬보드 Python</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./dashboards_quakes.html">
  <span class="dropdown-text">대쉬보드 R</span></a>
   </li>  
@@ -454,7 +450,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co"># 세계 해안선 shapefile을 불러옵니다.</span></span>
 <span><span class="va">world_coastline</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="st">"data/ne_10m_coastline/ne_10m_coastline.shp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reading layer `ne_10m_coastline' from data source </span></span>
-<span><span class="co">#&gt;   `E:\quarto\map_challenge\data\ne_10m_coastline\ne_10m_coastline.shp' </span></span>
+<span><span class="co">#&gt;   `D:\tcs\map_challenge\data\ne_10m_coastline\ne_10m_coastline.shp' </span></span>
 <span><span class="co">#&gt;   using driver `ESRI Shapefile'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 4133 features and 3 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
@@ -515,7 +511,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="va">admin_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="st">"data/HangJeongDong_ver20230401.geojson"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reading layer `HangJeongDong_ver20230401' from data source </span></span>
-<span><span class="co">#&gt;   `E:\quarto\map_challenge\data\HangJeongDong_ver20230401.geojson' </span></span>
+<span><span class="co">#&gt;   `D:\tcs\map_challenge\data\HangJeongDong_ver20230401.geojson' </span></span>
 <span><span class="co">#&gt;   using driver `GeoJSON'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 3520 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
@@ -572,7 +568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell">
 <details class="code-fold"><summary>코드</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fishing_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="st">"data/해양경찰청_낚시어선 출입항 항포구 위치정보_20221129/D159-6.낚시어선 출입항 항포구 위치정보_v1.0.shp"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `D159-6.낚시어선 출입항 항포구 위치정보_v1.0' from data source `E:\quarto\map_challenge\data\해양경찰청_낚시어선 출입항 항포구 위치정보_20221129\D159-6.낚시어선 출입항 항포구 위치정보_v1.0.shp' </span></span>
+<span><span class="co">#&gt; Reading layer `D159-6.낚시어선 출입항 항포구 위치정보_v1.0' from data source `D:\tcs\map_challenge\data\해양경찰청_낚시어선 출입항 항포구 위치정보_20221129\D159-6.낚시어선 출입항 항포구 위치정보_v1.0.shp' </span></span>
 <span><span class="co">#&gt;   using driver `ESRI Shapefile'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 135 features and 9 fields</span></span>
 <span><span class="co">#&gt; Geometry type: POINT</span></span>
@@ -779,27 +775,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                           rows <span class="op">=</span> <span class="va">민주당</span> <span class="op">&lt;</span> <span class="va">국민의힘</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="wvlrxosvgp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qkggshgxjm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cairo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#wvlrxosvgp table {
-  font-family: Cairo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+#qkggshgxjm table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wvlrxosvgp thead, #wvlrxosvgp tbody, #wvlrxosvgp tfoot, #wvlrxosvgp tr, #wvlrxosvgp td, #wvlrxosvgp th {
+#qkggshgxjm thead, #qkggshgxjm tbody, #qkggshgxjm tfoot, #qkggshgxjm tr, #qkggshgxjm td, #qkggshgxjm th {
   border-style: none;
 }
 
-#wvlrxosvgp p {
+#qkggshgxjm p {
   margin: 0;
   padding: 0;
 }
 
-#wvlrxosvgp .gt_table {
+#qkggshgxjm .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -807,7 +800,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   margin-right: auto;
   color: #333333;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
@@ -825,12 +818,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_caption {
+#qkggshgxjm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wvlrxosvgp .gt_title {
+#qkggshgxjm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -842,7 +835,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#wvlrxosvgp .gt_subtitle {
+#qkggshgxjm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -854,7 +847,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#wvlrxosvgp .gt_heading {
+#qkggshgxjm .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -866,13 +859,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_bottom_border {
+#qkggshgxjm .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_col_headings {
+#qkggshgxjm .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -887,12 +880,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_col_heading {
+#qkggshgxjm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -907,27 +900,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#wvlrxosvgp .gt_column_spanner_outer {
+#qkggshgxjm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#wvlrxosvgp .gt_column_spanner_outer:first-child {
+#qkggshgxjm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wvlrxosvgp .gt_column_spanner_outer:last-child {
+#qkggshgxjm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wvlrxosvgp .gt_column_spanner {
+#qkggshgxjm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -939,20 +932,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#wvlrxosvgp .gt_spanner_row {
+#qkggshgxjm .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wvlrxosvgp .gt_group_heading {
+#qkggshgxjm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -969,12 +962,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#wvlrxosvgp .gt_empty_group_heading {
+#qkggshgxjm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
+  font-size: 80%;
+  font-weight: bolder;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -984,15 +977,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#wvlrxosvgp .gt_from_md > :first-child {
+#qkggshgxjm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wvlrxosvgp .gt_from_md > :last-child {
+#qkggshgxjm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wvlrxosvgp .gt_row {
+#qkggshgxjm .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -1011,12 +1004,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#wvlrxosvgp .gt_stub {
+#qkggshgxjm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-right-style: solid;
   border-right-width: 0px;
   border-right-color: #FFFFFF;
@@ -1024,7 +1017,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wvlrxosvgp .gt_stub_row_group {
+#qkggshgxjm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1038,15 +1031,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#wvlrxosvgp .gt_row_group_first td {
+#qkggshgxjm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wvlrxosvgp .gt_row_group_first th {
+#qkggshgxjm .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wvlrxosvgp .gt_summary_row {
+#qkggshgxjm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1056,16 +1049,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wvlrxosvgp .gt_first_summary_row {
+#qkggshgxjm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_first_summary_row.thick {
+#qkggshgxjm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wvlrxosvgp .gt_last_summary_row {
+#qkggshgxjm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1075,7 +1068,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_grand_summary_row {
+#qkggshgxjm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1085,7 +1078,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wvlrxosvgp .gt_first_grand_summary_row {
+#qkggshgxjm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1095,7 +1088,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_last_grand_summary_row_top {
+#qkggshgxjm .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1105,11 +1098,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_striped {
+#qkggshgxjm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wvlrxosvgp .gt_table_body {
+#qkggshgxjm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1118,7 +1111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_footnotes {
+#qkggshgxjm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1132,7 +1125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_footnote {
+#qkggshgxjm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1141,7 +1134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wvlrxosvgp .gt_sourcenotes {
+#qkggshgxjm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1155,7 +1148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wvlrxosvgp .gt_sourcenote {
+#qkggshgxjm .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1163,63 +1156,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wvlrxosvgp .gt_left {
+#qkggshgxjm .gt_left {
   text-align: left;
 }
 
-#wvlrxosvgp .gt_center {
+#qkggshgxjm .gt_center {
   text-align: center;
 }
 
-#wvlrxosvgp .gt_right {
+#qkggshgxjm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wvlrxosvgp .gt_font_normal {
+#qkggshgxjm .gt_font_normal {
   font-weight: normal;
 }
 
-#wvlrxosvgp .gt_font_bold {
+#qkggshgxjm .gt_font_bold {
   font-weight: bold;
 }
 
-#wvlrxosvgp .gt_font_italic {
+#qkggshgxjm .gt_font_italic {
   font-style: italic;
 }
 
-#wvlrxosvgp .gt_super {
+#qkggshgxjm .gt_super {
   font-size: 65%;
 }
 
-#wvlrxosvgp .gt_footnote_marks {
+#qkggshgxjm .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wvlrxosvgp .gt_asterisk {
+#qkggshgxjm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wvlrxosvgp .gt_indent_1 {
+#qkggshgxjm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wvlrxosvgp .gt_indent_2 {
+#qkggshgxjm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wvlrxosvgp .gt_indent_3 {
+#qkggshgxjm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wvlrxosvgp .gt_indent_4 {
+#qkggshgxjm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wvlrxosvgp .gt_indent_5 {
+#qkggshgxjm .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -1230,20 +1223,20 @@ tbody tr:last-child {
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style="font-family: Chivo; font-weight: 700">경기도 서해 인접 5개 구시군 정당별 득표</th>
+<th colspan="5" class="gt_heading gt_title gt_font_normal">경기도 서해 인접 5개 구시군 정당별 득표</th>
 </tr>
 <tr class="odd gt_heading">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Chivo; font-weight: 300"><code>제20대 대통령선거</code></th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><code>제20대 대통령선거</code></th>
 </tr>
 <tr class="header gt_col_headings gt_spanner_row">
-<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">구시군명</th>
+<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">구시군명</th>
 <th colspan="3" id="대선 후보 정당" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><span class="gt_column_spanner">대선 후보 정당</span></th>
-<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">합계</th>
+<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">합계</th>
 </tr>
 <tr class="odd gt_col_headings">
-<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">국민의힘</th>
-<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">민주당</th>
-<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">기타</th>
+<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">국민의힘</th>
+<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">민주당</th>
+<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">기타</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -1317,27 +1310,24 @@ tbody tr:last-child {
 <span>                           rows <span class="op">=</span> <span class="va">민주당</span> <span class="op">&lt;</span> <span class="va">국민의힘</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="yiusebmzzt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ibsjjnplhc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cairo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#yiusebmzzt table {
-  font-family: Cairo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+#ibsjjnplhc table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#yiusebmzzt thead, #yiusebmzzt tbody, #yiusebmzzt tfoot, #yiusebmzzt tr, #yiusebmzzt td, #yiusebmzzt th {
+#ibsjjnplhc thead, #ibsjjnplhc tbody, #ibsjjnplhc tfoot, #ibsjjnplhc tr, #ibsjjnplhc td, #ibsjjnplhc th {
   border-style: none;
 }
 
-#yiusebmzzt p {
+#ibsjjnplhc p {
   margin: 0;
   padding: 0;
 }
 
-#yiusebmzzt .gt_table {
+#ibsjjnplhc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1345,7 +1335,7 @@ tbody tr:last-child {
   margin-right: auto;
   color: #333333;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
@@ -1363,12 +1353,12 @@ tbody tr:last-child {
   border-left-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_caption {
+#ibsjjnplhc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#yiusebmzzt .gt_title {
+#ibsjjnplhc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1380,7 +1370,7 @@ tbody tr:last-child {
   border-bottom-width: 0;
 }
 
-#yiusebmzzt .gt_subtitle {
+#ibsjjnplhc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1392,7 +1382,7 @@ tbody tr:last-child {
   border-top-width: 0;
 }
 
-#yiusebmzzt .gt_heading {
+#ibsjjnplhc .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -1404,13 +1394,13 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_bottom_border {
+#ibsjjnplhc .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_col_headings {
+#ibsjjnplhc .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1425,12 +1415,12 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_col_heading {
+#ibsjjnplhc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -1445,27 +1435,27 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#yiusebmzzt .gt_column_spanner_outer {
+#ibsjjnplhc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#yiusebmzzt .gt_column_spanner_outer:first-child {
+#ibsjjnplhc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yiusebmzzt .gt_column_spanner_outer:last-child {
+#ibsjjnplhc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yiusebmzzt .gt_column_spanner {
+#ibsjjnplhc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -1477,20 +1467,20 @@ tbody tr:last-child {
   width: 100%;
 }
 
-#yiusebmzzt .gt_spanner_row {
+#ibsjjnplhc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#yiusebmzzt .gt_group_heading {
+#ibsjjnplhc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -1507,12 +1497,12 @@ tbody tr:last-child {
   text-align: left;
 }
 
-#yiusebmzzt .gt_empty_group_heading {
+#ibsjjnplhc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
+  font-size: 80%;
+  font-weight: bolder;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -1522,15 +1512,15 @@ tbody tr:last-child {
   vertical-align: middle;
 }
 
-#yiusebmzzt .gt_from_md > :first-child {
+#ibsjjnplhc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yiusebmzzt .gt_from_md > :last-child {
+#ibsjjnplhc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yiusebmzzt .gt_row {
+#ibsjjnplhc .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -1549,12 +1539,12 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#yiusebmzzt .gt_stub {
+#ibsjjnplhc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-right-style: solid;
   border-right-width: 0px;
   border-right-color: #FFFFFF;
@@ -1562,7 +1552,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#yiusebmzzt .gt_stub_row_group {
+#ibsjjnplhc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1576,15 +1566,15 @@ tbody tr:last-child {
   vertical-align: top;
 }
 
-#yiusebmzzt .gt_row_group_first td {
+#ibsjjnplhc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yiusebmzzt .gt_row_group_first th {
+#ibsjjnplhc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#yiusebmzzt .gt_summary_row {
+#ibsjjnplhc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1594,16 +1584,16 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#yiusebmzzt .gt_first_summary_row {
+#ibsjjnplhc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_first_summary_row.thick {
+#ibsjjnplhc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yiusebmzzt .gt_last_summary_row {
+#ibsjjnplhc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1613,7 +1603,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_grand_summary_row {
+#ibsjjnplhc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1623,7 +1613,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#yiusebmzzt .gt_first_grand_summary_row {
+#ibsjjnplhc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1633,7 +1623,7 @@ tbody tr:last-child {
   border-top-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_last_grand_summary_row_top {
+#ibsjjnplhc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1643,11 +1633,11 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_striped {
+#ibsjjnplhc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yiusebmzzt .gt_table_body {
+#ibsjjnplhc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1656,7 +1646,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_footnotes {
+#ibsjjnplhc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1670,7 +1660,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_footnote {
+#ibsjjnplhc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1679,7 +1669,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#yiusebmzzt .gt_sourcenotes {
+#ibsjjnplhc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1693,7 +1683,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#yiusebmzzt .gt_sourcenote {
+#ibsjjnplhc .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1701,63 +1691,63 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#yiusebmzzt .gt_left {
+#ibsjjnplhc .gt_left {
   text-align: left;
 }
 
-#yiusebmzzt .gt_center {
+#ibsjjnplhc .gt_center {
   text-align: center;
 }
 
-#yiusebmzzt .gt_right {
+#ibsjjnplhc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yiusebmzzt .gt_font_normal {
+#ibsjjnplhc .gt_font_normal {
   font-weight: normal;
 }
 
-#yiusebmzzt .gt_font_bold {
+#ibsjjnplhc .gt_font_bold {
   font-weight: bold;
 }
 
-#yiusebmzzt .gt_font_italic {
+#ibsjjnplhc .gt_font_italic {
   font-style: italic;
 }
 
-#yiusebmzzt .gt_super {
+#ibsjjnplhc .gt_super {
   font-size: 65%;
 }
 
-#yiusebmzzt .gt_footnote_marks {
+#ibsjjnplhc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#yiusebmzzt .gt_asterisk {
+#ibsjjnplhc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yiusebmzzt .gt_indent_1 {
+#ibsjjnplhc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yiusebmzzt .gt_indent_2 {
+#ibsjjnplhc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yiusebmzzt .gt_indent_3 {
+#ibsjjnplhc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yiusebmzzt .gt_indent_4 {
+#ibsjjnplhc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yiusebmzzt .gt_indent_5 {
+#ibsjjnplhc .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -1768,20 +1758,20 @@ tbody tr:last-child {
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style="font-family: Chivo; font-weight: 700">경기도 서해 인접 5개 구시군 정당별 득표율(%)</th>
+<th colspan="5" class="gt_heading gt_title gt_font_normal">경기도 서해 인접 5개 구시군 정당별 득표율(%)</th>
 </tr>
 <tr class="odd gt_heading">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Chivo; font-weight: 300"><code>제20대 대통령선거</code></th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><code>제20대 대통령선거</code></th>
 </tr>
 <tr class="header gt_col_headings gt_spanner_row">
-<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">구시군명</th>
+<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">구시군명</th>
 <th colspan="3" id="대선 후보 정당" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><span class="gt_column_spanner">대선 후보 정당</span></th>
-<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">합계</th>
+<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">합계</th>
 </tr>
 <tr class="odd gt_col_headings">
-<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">국민의힘</th>
-<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">민주당</th>
-<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">기타</th>
+<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">국민의힘</th>
+<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">민주당</th>
+<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">기타</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -1893,27 +1883,24 @@ tbody tr:last-child {
 <span>                           rows <span class="op">=</span> <span class="va">민주당</span> <span class="op">&lt;</span> <span class="va">국민의힘</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="khhhzgqnvv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="yseexksqln" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cairo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#khhhzgqnvv table {
-  font-family: Cairo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+#yseexksqln table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#khhhzgqnvv thead, #khhhzgqnvv tbody, #khhhzgqnvv tfoot, #khhhzgqnvv tr, #khhhzgqnvv td, #khhhzgqnvv th {
+#yseexksqln thead, #yseexksqln tbody, #yseexksqln tfoot, #yseexksqln tr, #yseexksqln td, #yseexksqln th {
   border-style: none;
 }
 
-#khhhzgqnvv p {
+#yseexksqln p {
   margin: 0;
   padding: 0;
 }
 
-#khhhzgqnvv .gt_table {
+#yseexksqln .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1921,7 +1908,7 @@ tbody tr:last-child {
   margin-right: auto;
   color: #333333;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
@@ -1939,12 +1926,12 @@ tbody tr:last-child {
   border-left-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_caption {
+#yseexksqln .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#khhhzgqnvv .gt_title {
+#yseexksqln .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1956,7 +1943,7 @@ tbody tr:last-child {
   border-bottom-width: 0;
 }
 
-#khhhzgqnvv .gt_subtitle {
+#yseexksqln .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1968,7 +1955,7 @@ tbody tr:last-child {
   border-top-width: 0;
 }
 
-#khhhzgqnvv .gt_heading {
+#yseexksqln .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -1980,13 +1967,13 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_bottom_border {
+#yseexksqln .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_col_headings {
+#yseexksqln .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2001,12 +1988,12 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_col_heading {
+#yseexksqln .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -2021,27 +2008,27 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#khhhzgqnvv .gt_column_spanner_outer {
+#yseexksqln .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#khhhzgqnvv .gt_column_spanner_outer:first-child {
+#yseexksqln .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#khhhzgqnvv .gt_column_spanner_outer:last-child {
+#yseexksqln .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#khhhzgqnvv .gt_column_spanner {
+#yseexksqln .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -2053,20 +2040,20 @@ tbody tr:last-child {
   width: 100%;
 }
 
-#khhhzgqnvv .gt_spanner_row {
+#yseexksqln .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#khhhzgqnvv .gt_group_heading {
+#yseexksqln .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -2083,12 +2070,12 @@ tbody tr:last-child {
   text-align: left;
 }
 
-#khhhzgqnvv .gt_empty_group_heading {
+#yseexksqln .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
+  font-size: 80%;
+  font-weight: bolder;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -2098,15 +2085,15 @@ tbody tr:last-child {
   vertical-align: middle;
 }
 
-#khhhzgqnvv .gt_from_md > :first-child {
+#yseexksqln .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#khhhzgqnvv .gt_from_md > :last-child {
+#yseexksqln .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#khhhzgqnvv .gt_row {
+#yseexksqln .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -2125,12 +2112,12 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#khhhzgqnvv .gt_stub {
+#yseexksqln .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-right-style: solid;
   border-right-width: 0px;
   border-right-color: #FFFFFF;
@@ -2138,7 +2125,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#khhhzgqnvv .gt_stub_row_group {
+#yseexksqln .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2152,15 +2139,15 @@ tbody tr:last-child {
   vertical-align: top;
 }
 
-#khhhzgqnvv .gt_row_group_first td {
+#yseexksqln .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#khhhzgqnvv .gt_row_group_first th {
+#yseexksqln .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#khhhzgqnvv .gt_summary_row {
+#yseexksqln .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2170,16 +2157,16 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#khhhzgqnvv .gt_first_summary_row {
+#yseexksqln .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_first_summary_row.thick {
+#yseexksqln .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#khhhzgqnvv .gt_last_summary_row {
+#yseexksqln .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2189,7 +2176,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_grand_summary_row {
+#yseexksqln .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2199,7 +2186,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#khhhzgqnvv .gt_first_grand_summary_row {
+#yseexksqln .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2209,7 +2196,7 @@ tbody tr:last-child {
   border-top-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_last_grand_summary_row_top {
+#yseexksqln .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2219,11 +2206,11 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_striped {
+#yseexksqln .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#khhhzgqnvv .gt_table_body {
+#yseexksqln .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2232,7 +2219,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_footnotes {
+#yseexksqln .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2246,7 +2233,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_footnote {
+#yseexksqln .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2255,7 +2242,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#khhhzgqnvv .gt_sourcenotes {
+#yseexksqln .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2269,7 +2256,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#khhhzgqnvv .gt_sourcenote {
+#yseexksqln .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2277,63 +2264,63 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#khhhzgqnvv .gt_left {
+#yseexksqln .gt_left {
   text-align: left;
 }
 
-#khhhzgqnvv .gt_center {
+#yseexksqln .gt_center {
   text-align: center;
 }
 
-#khhhzgqnvv .gt_right {
+#yseexksqln .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#khhhzgqnvv .gt_font_normal {
+#yseexksqln .gt_font_normal {
   font-weight: normal;
 }
 
-#khhhzgqnvv .gt_font_bold {
+#yseexksqln .gt_font_bold {
   font-weight: bold;
 }
 
-#khhhzgqnvv .gt_font_italic {
+#yseexksqln .gt_font_italic {
   font-style: italic;
 }
 
-#khhhzgqnvv .gt_super {
+#yseexksqln .gt_super {
   font-size: 65%;
 }
 
-#khhhzgqnvv .gt_footnote_marks {
+#yseexksqln .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#khhhzgqnvv .gt_asterisk {
+#yseexksqln .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#khhhzgqnvv .gt_indent_1 {
+#yseexksqln .gt_indent_1 {
   text-indent: 5px;
 }
 
-#khhhzgqnvv .gt_indent_2 {
+#yseexksqln .gt_indent_2 {
   text-indent: 10px;
 }
 
-#khhhzgqnvv .gt_indent_3 {
+#yseexksqln .gt_indent_3 {
   text-indent: 15px;
 }
 
-#khhhzgqnvv .gt_indent_4 {
+#yseexksqln .gt_indent_4 {
   text-indent: 20px;
 }
 
-#khhhzgqnvv .gt_indent_5 {
+#yseexksqln .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -2344,20 +2331,20 @@ tbody tr:last-child {
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style="font-family: Chivo; font-weight: 700">경기도 서해 인접 5개 구시군 정당별 득표</th>
+<th colspan="5" class="gt_heading gt_title gt_font_normal">경기도 서해 인접 5개 구시군 정당별 득표</th>
 </tr>
 <tr class="odd gt_heading">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Chivo; font-weight: 300"><code>제21대 국회의원선거</code></th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><code>제21대 국회의원선거</code></th>
 </tr>
 <tr class="header gt_col_headings gt_spanner_row">
-<th rowspan="2" id="선거구" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">선거구</th>
+<th rowspan="2" id="선거구" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">선거구</th>
 <th colspan="3" id="대선 후보 정당" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><span class="gt_column_spanner">대선 후보 정당</span></th>
-<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">합계</th>
+<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">합계</th>
 </tr>
 <tr class="odd gt_col_headings">
-<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">국민의힘</th>
-<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">민주당</th>
-<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">기타</th>
+<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">국민의힘</th>
+<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">민주당</th>
+<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">기타</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -2473,27 +2460,24 @@ tbody tr:last-child {
 <span>                           rows <span class="op">=</span> <span class="va">민주당</span> <span class="op">&lt;</span> <span class="va">국민의힘</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="wenminmqtm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ceiqhxtvih" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cairo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#wenminmqtm table {
-  font-family: Cairo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+#ceiqhxtvih table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wenminmqtm thead, #wenminmqtm tbody, #wenminmqtm tfoot, #wenminmqtm tr, #wenminmqtm td, #wenminmqtm th {
+#ceiqhxtvih thead, #ceiqhxtvih tbody, #ceiqhxtvih tfoot, #ceiqhxtvih tr, #ceiqhxtvih td, #ceiqhxtvih th {
   border-style: none;
 }
 
-#wenminmqtm p {
+#ceiqhxtvih p {
   margin: 0;
   padding: 0;
 }
 
-#wenminmqtm .gt_table {
+#ceiqhxtvih .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2501,7 +2485,7 @@ tbody tr:last-child {
   margin-right: auto;
   color: #333333;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
@@ -2519,12 +2503,12 @@ tbody tr:last-child {
   border-left-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_caption {
+#ceiqhxtvih .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wenminmqtm .gt_title {
+#ceiqhxtvih .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2536,7 +2520,7 @@ tbody tr:last-child {
   border-bottom-width: 0;
 }
 
-#wenminmqtm .gt_subtitle {
+#ceiqhxtvih .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2548,7 +2532,7 @@ tbody tr:last-child {
   border-top-width: 0;
 }
 
-#wenminmqtm .gt_heading {
+#ceiqhxtvih .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -2560,13 +2544,13 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_bottom_border {
+#ceiqhxtvih .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_col_headings {
+#ceiqhxtvih .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2581,12 +2565,12 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_col_heading {
+#ceiqhxtvih .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -2601,27 +2585,27 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#wenminmqtm .gt_column_spanner_outer {
+#ceiqhxtvih .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#wenminmqtm .gt_column_spanner_outer:first-child {
+#ceiqhxtvih .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wenminmqtm .gt_column_spanner_outer:last-child {
+#ceiqhxtvih .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wenminmqtm .gt_column_spanner {
+#ceiqhxtvih .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -2633,20 +2617,20 @@ tbody tr:last-child {
   width: 100%;
 }
 
-#wenminmqtm .gt_spanner_row {
+#ceiqhxtvih .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wenminmqtm .gt_group_heading {
+#ceiqhxtvih .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -2663,12 +2647,12 @@ tbody tr:last-child {
   text-align: left;
 }
 
-#wenminmqtm .gt_empty_group_heading {
+#ceiqhxtvih .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
+  font-size: 80%;
+  font-weight: bolder;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -2678,15 +2662,15 @@ tbody tr:last-child {
   vertical-align: middle;
 }
 
-#wenminmqtm .gt_from_md > :first-child {
+#ceiqhxtvih .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wenminmqtm .gt_from_md > :last-child {
+#ceiqhxtvih .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wenminmqtm .gt_row {
+#ceiqhxtvih .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -2705,12 +2689,12 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#wenminmqtm .gt_stub {
+#ceiqhxtvih .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-right-style: solid;
   border-right-width: 0px;
   border-right-color: #FFFFFF;
@@ -2718,7 +2702,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#wenminmqtm .gt_stub_row_group {
+#ceiqhxtvih .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2732,15 +2716,15 @@ tbody tr:last-child {
   vertical-align: top;
 }
 
-#wenminmqtm .gt_row_group_first td {
+#ceiqhxtvih .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wenminmqtm .gt_row_group_first th {
+#ceiqhxtvih .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wenminmqtm .gt_summary_row {
+#ceiqhxtvih .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2750,16 +2734,16 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#wenminmqtm .gt_first_summary_row {
+#ceiqhxtvih .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_first_summary_row.thick {
+#ceiqhxtvih .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wenminmqtm .gt_last_summary_row {
+#ceiqhxtvih .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2769,7 +2753,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_grand_summary_row {
+#ceiqhxtvih .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2779,7 +2763,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#wenminmqtm .gt_first_grand_summary_row {
+#ceiqhxtvih .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2789,7 +2773,7 @@ tbody tr:last-child {
   border-top-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_last_grand_summary_row_top {
+#ceiqhxtvih .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2799,11 +2783,11 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_striped {
+#ceiqhxtvih .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wenminmqtm .gt_table_body {
+#ceiqhxtvih .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2812,7 +2796,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_footnotes {
+#ceiqhxtvih .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2826,7 +2810,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_footnote {
+#ceiqhxtvih .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2835,7 +2819,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#wenminmqtm .gt_sourcenotes {
+#ceiqhxtvih .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2849,7 +2833,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#wenminmqtm .gt_sourcenote {
+#ceiqhxtvih .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2857,63 +2841,63 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#wenminmqtm .gt_left {
+#ceiqhxtvih .gt_left {
   text-align: left;
 }
 
-#wenminmqtm .gt_center {
+#ceiqhxtvih .gt_center {
   text-align: center;
 }
 
-#wenminmqtm .gt_right {
+#ceiqhxtvih .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wenminmqtm .gt_font_normal {
+#ceiqhxtvih .gt_font_normal {
   font-weight: normal;
 }
 
-#wenminmqtm .gt_font_bold {
+#ceiqhxtvih .gt_font_bold {
   font-weight: bold;
 }
 
-#wenminmqtm .gt_font_italic {
+#ceiqhxtvih .gt_font_italic {
   font-style: italic;
 }
 
-#wenminmqtm .gt_super {
+#ceiqhxtvih .gt_super {
   font-size: 65%;
 }
 
-#wenminmqtm .gt_footnote_marks {
+#ceiqhxtvih .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wenminmqtm .gt_asterisk {
+#ceiqhxtvih .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wenminmqtm .gt_indent_1 {
+#ceiqhxtvih .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wenminmqtm .gt_indent_2 {
+#ceiqhxtvih .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wenminmqtm .gt_indent_3 {
+#ceiqhxtvih .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wenminmqtm .gt_indent_4 {
+#ceiqhxtvih .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wenminmqtm .gt_indent_5 {
+#ceiqhxtvih .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -2924,20 +2908,20 @@ tbody tr:last-child {
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style="font-family: Chivo; font-weight: 700">경기도 서해 인접 5개 구시군 정당별 득표율(%)</th>
+<th colspan="5" class="gt_heading gt_title gt_font_normal">경기도 서해 인접 5개 구시군 정당별 득표율(%)</th>
 </tr>
 <tr class="odd gt_heading">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Chivo; font-weight: 300"><code>제21대 국회의원선거</code></th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><code>제21대 국회의원선거</code></th>
 </tr>
 <tr class="header gt_col_headings gt_spanner_row">
-<th rowspan="2" id="선거구" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">선거구</th>
+<th rowspan="2" id="선거구" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">선거구</th>
 <th colspan="3" id="대선 후보 정당" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><span class="gt_column_spanner">대선 후보 정당</span></th>
-<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">합계</th>
+<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">합계</th>
 </tr>
 <tr class="odd gt_col_headings">
-<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">국민의힘</th>
-<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">민주당</th>
-<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">기타</th>
+<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">국민의힘</th>
+<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">민주당</th>
+<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">기타</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -3084,27 +3068,24 @@ tbody tr:last-child {
 <span>                           rows <span class="op">=</span> <span class="va">민주당</span> <span class="op">&lt;</span> <span class="va">국민의힘</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="nerzkqbrnv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qdhlaidjdn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cairo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#nerzkqbrnv table {
-  font-family: Cairo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+#qdhlaidjdn table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nerzkqbrnv thead, #nerzkqbrnv tbody, #nerzkqbrnv tfoot, #nerzkqbrnv tr, #nerzkqbrnv td, #nerzkqbrnv th {
+#qdhlaidjdn thead, #qdhlaidjdn tbody, #qdhlaidjdn tfoot, #qdhlaidjdn tr, #qdhlaidjdn td, #qdhlaidjdn th {
   border-style: none;
 }
 
-#nerzkqbrnv p {
+#qdhlaidjdn p {
   margin: 0;
   padding: 0;
 }
 
-#nerzkqbrnv .gt_table {
+#qdhlaidjdn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3112,7 +3093,7 @@ tbody tr:last-child {
   margin-right: auto;
   color: #333333;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
@@ -3130,12 +3111,12 @@ tbody tr:last-child {
   border-left-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_caption {
+#qdhlaidjdn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nerzkqbrnv .gt_title {
+#qdhlaidjdn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3147,7 +3128,7 @@ tbody tr:last-child {
   border-bottom-width: 0;
 }
 
-#nerzkqbrnv .gt_subtitle {
+#qdhlaidjdn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3159,7 +3140,7 @@ tbody tr:last-child {
   border-top-width: 0;
 }
 
-#nerzkqbrnv .gt_heading {
+#qdhlaidjdn .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -3171,13 +3152,13 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_bottom_border {
+#qdhlaidjdn .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_col_headings {
+#qdhlaidjdn .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3192,12 +3173,12 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_col_heading {
+#qdhlaidjdn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -3212,27 +3193,27 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#nerzkqbrnv .gt_column_spanner_outer {
+#qdhlaidjdn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#nerzkqbrnv .gt_column_spanner_outer:first-child {
+#qdhlaidjdn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nerzkqbrnv .gt_column_spanner_outer:last-child {
+#qdhlaidjdn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nerzkqbrnv .gt_column_spanner {
+#qdhlaidjdn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -3244,20 +3225,20 @@ tbody tr:last-child {
   width: 100%;
 }
 
-#nerzkqbrnv .gt_spanner_row {
+#qdhlaidjdn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nerzkqbrnv .gt_group_heading {
+#qdhlaidjdn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -3274,12 +3255,12 @@ tbody tr:last-child {
   text-align: left;
 }
 
-#nerzkqbrnv .gt_empty_group_heading {
+#qdhlaidjdn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
+  font-size: 80%;
+  font-weight: bolder;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -3289,15 +3270,15 @@ tbody tr:last-child {
   vertical-align: middle;
 }
 
-#nerzkqbrnv .gt_from_md > :first-child {
+#qdhlaidjdn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nerzkqbrnv .gt_from_md > :last-child {
+#qdhlaidjdn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nerzkqbrnv .gt_row {
+#qdhlaidjdn .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -3316,12 +3297,12 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#nerzkqbrnv .gt_stub {
+#qdhlaidjdn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-right-style: solid;
   border-right-width: 0px;
   border-right-color: #FFFFFF;
@@ -3329,7 +3310,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#nerzkqbrnv .gt_stub_row_group {
+#qdhlaidjdn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3343,15 +3324,15 @@ tbody tr:last-child {
   vertical-align: top;
 }
 
-#nerzkqbrnv .gt_row_group_first td {
+#qdhlaidjdn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nerzkqbrnv .gt_row_group_first th {
+#qdhlaidjdn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nerzkqbrnv .gt_summary_row {
+#qdhlaidjdn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3361,16 +3342,16 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#nerzkqbrnv .gt_first_summary_row {
+#qdhlaidjdn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_first_summary_row.thick {
+#qdhlaidjdn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nerzkqbrnv .gt_last_summary_row {
+#qdhlaidjdn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3380,7 +3361,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_grand_summary_row {
+#qdhlaidjdn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3390,7 +3371,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#nerzkqbrnv .gt_first_grand_summary_row {
+#qdhlaidjdn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3400,7 +3381,7 @@ tbody tr:last-child {
   border-top-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_last_grand_summary_row_top {
+#qdhlaidjdn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3410,11 +3391,11 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_striped {
+#qdhlaidjdn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nerzkqbrnv .gt_table_body {
+#qdhlaidjdn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3423,7 +3404,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_footnotes {
+#qdhlaidjdn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3437,7 +3418,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_footnote {
+#qdhlaidjdn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3446,7 +3427,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#nerzkqbrnv .gt_sourcenotes {
+#qdhlaidjdn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3460,7 +3441,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#nerzkqbrnv .gt_sourcenote {
+#qdhlaidjdn .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3468,63 +3449,63 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#nerzkqbrnv .gt_left {
+#qdhlaidjdn .gt_left {
   text-align: left;
 }
 
-#nerzkqbrnv .gt_center {
+#qdhlaidjdn .gt_center {
   text-align: center;
 }
 
-#nerzkqbrnv .gt_right {
+#qdhlaidjdn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nerzkqbrnv .gt_font_normal {
+#qdhlaidjdn .gt_font_normal {
   font-weight: normal;
 }
 
-#nerzkqbrnv .gt_font_bold {
+#qdhlaidjdn .gt_font_bold {
   font-weight: bold;
 }
 
-#nerzkqbrnv .gt_font_italic {
+#qdhlaidjdn .gt_font_italic {
   font-style: italic;
 }
 
-#nerzkqbrnv .gt_super {
+#qdhlaidjdn .gt_super {
   font-size: 65%;
 }
 
-#nerzkqbrnv .gt_footnote_marks {
+#qdhlaidjdn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nerzkqbrnv .gt_asterisk {
+#qdhlaidjdn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nerzkqbrnv .gt_indent_1 {
+#qdhlaidjdn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nerzkqbrnv .gt_indent_2 {
+#qdhlaidjdn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nerzkqbrnv .gt_indent_3 {
+#qdhlaidjdn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nerzkqbrnv .gt_indent_4 {
+#qdhlaidjdn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nerzkqbrnv .gt_indent_5 {
+#qdhlaidjdn .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -3535,20 +3516,20 @@ tbody tr:last-child {
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style="font-family: Chivo; font-weight: 700">경기도 서해 인접 5개 구시군 정당별 득표</th>
+<th colspan="5" class="gt_heading gt_title gt_font_normal">경기도 서해 인접 5개 구시군 정당별 득표</th>
 </tr>
 <tr class="odd gt_heading">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Chivo; font-weight: 300"><code>제8대 지방선거</code></th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><code>제8대 지방선거</code></th>
 </tr>
 <tr class="header gt_col_headings gt_spanner_row">
-<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">구시군명</th>
+<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">구시군명</th>
 <th colspan="3" id="지방선거 도지사 후보 정당" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><span class="gt_column_spanner">지방선거 도지사 후보 정당</span></th>
-<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">합계</th>
+<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">합계</th>
 </tr>
 <tr class="odd gt_col_headings">
-<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">국민의힘</th>
-<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">민주당</th>
-<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">기타</th>
+<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">국민의힘</th>
+<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">민주당</th>
+<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">기타</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -3622,27 +3603,24 @@ tbody tr:last-child {
 <span>                           rows <span class="op">=</span> <span class="va">민주당</span> <span class="op">&lt;</span> <span class="va">국민의힘</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="avgxadjsae" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="xylphrzhzb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cairo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#avgxadjsae table {
-  font-family: Cairo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+#xylphrzhzb table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#avgxadjsae thead, #avgxadjsae tbody, #avgxadjsae tfoot, #avgxadjsae tr, #avgxadjsae td, #avgxadjsae th {
+#xylphrzhzb thead, #xylphrzhzb tbody, #xylphrzhzb tfoot, #xylphrzhzb tr, #xylphrzhzb td, #xylphrzhzb th {
   border-style: none;
 }
 
-#avgxadjsae p {
+#xylphrzhzb p {
   margin: 0;
   padding: 0;
 }
 
-#avgxadjsae .gt_table {
+#xylphrzhzb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3650,7 +3628,7 @@ tbody tr:last-child {
   margin-right: auto;
   color: #333333;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
@@ -3668,12 +3646,12 @@ tbody tr:last-child {
   border-left-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_caption {
+#xylphrzhzb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#avgxadjsae .gt_title {
+#xylphrzhzb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3685,7 +3663,7 @@ tbody tr:last-child {
   border-bottom-width: 0;
 }
 
-#avgxadjsae .gt_subtitle {
+#xylphrzhzb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3697,7 +3675,7 @@ tbody tr:last-child {
   border-top-width: 0;
 }
 
-#avgxadjsae .gt_heading {
+#xylphrzhzb .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -3709,13 +3687,13 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_bottom_border {
+#xylphrzhzb .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_col_headings {
+#xylphrzhzb .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3730,12 +3708,12 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_col_heading {
+#xylphrzhzb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -3750,27 +3728,27 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#avgxadjsae .gt_column_spanner_outer {
+#xylphrzhzb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#avgxadjsae .gt_column_spanner_outer:first-child {
+#xylphrzhzb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#avgxadjsae .gt_column_spanner_outer:last-child {
+#xylphrzhzb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#avgxadjsae .gt_column_spanner {
+#xylphrzhzb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -3782,20 +3760,20 @@ tbody tr:last-child {
   width: 100%;
 }
 
-#avgxadjsae .gt_spanner_row {
+#xylphrzhzb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#avgxadjsae .gt_group_heading {
+#xylphrzhzb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -3812,12 +3790,12 @@ tbody tr:last-child {
   text-align: left;
 }
 
-#avgxadjsae .gt_empty_group_heading {
+#xylphrzhzb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
+  font-size: 80%;
+  font-weight: bolder;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -3827,15 +3805,15 @@ tbody tr:last-child {
   vertical-align: middle;
 }
 
-#avgxadjsae .gt_from_md > :first-child {
+#xylphrzhzb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#avgxadjsae .gt_from_md > :last-child {
+#xylphrzhzb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#avgxadjsae .gt_row {
+#xylphrzhzb .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -3854,12 +3832,12 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#avgxadjsae .gt_stub {
+#xylphrzhzb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-right-style: solid;
   border-right-width: 0px;
   border-right-color: #FFFFFF;
@@ -3867,7 +3845,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#avgxadjsae .gt_stub_row_group {
+#xylphrzhzb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3881,15 +3859,15 @@ tbody tr:last-child {
   vertical-align: top;
 }
 
-#avgxadjsae .gt_row_group_first td {
+#xylphrzhzb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#avgxadjsae .gt_row_group_first th {
+#xylphrzhzb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#avgxadjsae .gt_summary_row {
+#xylphrzhzb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3899,16 +3877,16 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#avgxadjsae .gt_first_summary_row {
+#xylphrzhzb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_first_summary_row.thick {
+#xylphrzhzb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#avgxadjsae .gt_last_summary_row {
+#xylphrzhzb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3918,7 +3896,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_grand_summary_row {
+#xylphrzhzb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3928,7 +3906,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#avgxadjsae .gt_first_grand_summary_row {
+#xylphrzhzb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3938,7 +3916,7 @@ tbody tr:last-child {
   border-top-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_last_grand_summary_row_top {
+#xylphrzhzb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3948,11 +3926,11 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_striped {
+#xylphrzhzb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#avgxadjsae .gt_table_body {
+#xylphrzhzb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3961,7 +3939,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_footnotes {
+#xylphrzhzb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3975,7 +3953,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_footnote {
+#xylphrzhzb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3984,7 +3962,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#avgxadjsae .gt_sourcenotes {
+#xylphrzhzb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3998,7 +3976,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#avgxadjsae .gt_sourcenote {
+#xylphrzhzb .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4006,63 +3984,63 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#avgxadjsae .gt_left {
+#xylphrzhzb .gt_left {
   text-align: left;
 }
 
-#avgxadjsae .gt_center {
+#xylphrzhzb .gt_center {
   text-align: center;
 }
 
-#avgxadjsae .gt_right {
+#xylphrzhzb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#avgxadjsae .gt_font_normal {
+#xylphrzhzb .gt_font_normal {
   font-weight: normal;
 }
 
-#avgxadjsae .gt_font_bold {
+#xylphrzhzb .gt_font_bold {
   font-weight: bold;
 }
 
-#avgxadjsae .gt_font_italic {
+#xylphrzhzb .gt_font_italic {
   font-style: italic;
 }
 
-#avgxadjsae .gt_super {
+#xylphrzhzb .gt_super {
   font-size: 65%;
 }
 
-#avgxadjsae .gt_footnote_marks {
+#xylphrzhzb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#avgxadjsae .gt_asterisk {
+#xylphrzhzb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#avgxadjsae .gt_indent_1 {
+#xylphrzhzb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#avgxadjsae .gt_indent_2 {
+#xylphrzhzb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#avgxadjsae .gt_indent_3 {
+#xylphrzhzb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#avgxadjsae .gt_indent_4 {
+#xylphrzhzb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#avgxadjsae .gt_indent_5 {
+#xylphrzhzb .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -4073,20 +4051,20 @@ tbody tr:last-child {
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style="font-family: Chivo; font-weight: 700">경기도 서해 인접 5개 구시군 정당별 득표</th>
+<th colspan="5" class="gt_heading gt_title gt_font_normal">경기도 서해 인접 5개 구시군 정당별 득표</th>
 </tr>
 <tr class="odd gt_heading">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Chivo; font-weight: 300"><code>제8대 지방선거</code></th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><code>제8대 지방선거</code></th>
 </tr>
 <tr class="header gt_col_headings gt_spanner_row">
-<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">구시군명</th>
+<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">구시군명</th>
 <th colspan="3" id="지방선거 도지사 후보 정당" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><span class="gt_column_spanner">지방선거 도지사 후보 정당</span></th>
-<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">합계</th>
+<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">합계</th>
 </tr>
 <tr class="odd gt_col_headings">
-<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">국민의힘</th>
-<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">민주당</th>
-<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">기타</th>
+<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">국민의힘</th>
+<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">민주당</th>
+<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">기타</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -4188,27 +4166,24 @@ tbody tr:last-child {
 <span>                           rows <span class="op">=</span> <span class="va">민주당</span> <span class="op">&lt;</span> <span class="va">국민의힘</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="ethuhgkeyt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="gvmhpjxyuo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cairo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#ethuhgkeyt table {
-  font-family: Cairo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+#gvmhpjxyuo table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ethuhgkeyt thead, #ethuhgkeyt tbody, #ethuhgkeyt tfoot, #ethuhgkeyt tr, #ethuhgkeyt td, #ethuhgkeyt th {
+#gvmhpjxyuo thead, #gvmhpjxyuo tbody, #gvmhpjxyuo tfoot, #gvmhpjxyuo tr, #gvmhpjxyuo td, #gvmhpjxyuo th {
   border-style: none;
 }
 
-#ethuhgkeyt p {
+#gvmhpjxyuo p {
   margin: 0;
   padding: 0;
 }
 
-#ethuhgkeyt .gt_table {
+#gvmhpjxyuo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4216,7 +4191,7 @@ tbody tr:last-child {
   margin-right: auto;
   color: #333333;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
@@ -4234,12 +4209,12 @@ tbody tr:last-child {
   border-left-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_caption {
+#gvmhpjxyuo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ethuhgkeyt .gt_title {
+#gvmhpjxyuo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4251,7 +4226,7 @@ tbody tr:last-child {
   border-bottom-width: 0;
 }
 
-#ethuhgkeyt .gt_subtitle {
+#gvmhpjxyuo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4263,7 +4238,7 @@ tbody tr:last-child {
   border-top-width: 0;
 }
 
-#ethuhgkeyt .gt_heading {
+#gvmhpjxyuo .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -4275,13 +4250,13 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_bottom_border {
+#gvmhpjxyuo .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_col_headings {
+#gvmhpjxyuo .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4296,12 +4271,12 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_col_heading {
+#gvmhpjxyuo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -4316,27 +4291,27 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#ethuhgkeyt .gt_column_spanner_outer {
+#gvmhpjxyuo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#ethuhgkeyt .gt_column_spanner_outer:first-child {
+#gvmhpjxyuo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ethuhgkeyt .gt_column_spanner_outer:last-child {
+#gvmhpjxyuo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ethuhgkeyt .gt_column_spanner {
+#gvmhpjxyuo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -4348,20 +4323,20 @@ tbody tr:last-child {
   width: 100%;
 }
 
-#ethuhgkeyt .gt_spanner_row {
+#gvmhpjxyuo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ethuhgkeyt .gt_group_heading {
+#gvmhpjxyuo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -4378,12 +4353,12 @@ tbody tr:last-child {
   text-align: left;
 }
 
-#ethuhgkeyt .gt_empty_group_heading {
+#gvmhpjxyuo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
+  font-size: 80%;
+  font-weight: bolder;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -4393,15 +4368,15 @@ tbody tr:last-child {
   vertical-align: middle;
 }
 
-#ethuhgkeyt .gt_from_md > :first-child {
+#gvmhpjxyuo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ethuhgkeyt .gt_from_md > :last-child {
+#gvmhpjxyuo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ethuhgkeyt .gt_row {
+#gvmhpjxyuo .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -4420,12 +4395,12 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#ethuhgkeyt .gt_stub {
+#gvmhpjxyuo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-right-style: solid;
   border-right-width: 0px;
   border-right-color: #FFFFFF;
@@ -4433,7 +4408,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#ethuhgkeyt .gt_stub_row_group {
+#gvmhpjxyuo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4447,15 +4422,15 @@ tbody tr:last-child {
   vertical-align: top;
 }
 
-#ethuhgkeyt .gt_row_group_first td {
+#gvmhpjxyuo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ethuhgkeyt .gt_row_group_first th {
+#gvmhpjxyuo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ethuhgkeyt .gt_summary_row {
+#gvmhpjxyuo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4465,16 +4440,16 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#ethuhgkeyt .gt_first_summary_row {
+#gvmhpjxyuo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_first_summary_row.thick {
+#gvmhpjxyuo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ethuhgkeyt .gt_last_summary_row {
+#gvmhpjxyuo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4484,7 +4459,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_grand_summary_row {
+#gvmhpjxyuo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4494,7 +4469,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#ethuhgkeyt .gt_first_grand_summary_row {
+#gvmhpjxyuo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4504,7 +4479,7 @@ tbody tr:last-child {
   border-top-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_last_grand_summary_row_top {
+#gvmhpjxyuo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4514,11 +4489,11 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_striped {
+#gvmhpjxyuo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ethuhgkeyt .gt_table_body {
+#gvmhpjxyuo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4527,7 +4502,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_footnotes {
+#gvmhpjxyuo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4541,7 +4516,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_footnote {
+#gvmhpjxyuo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4550,7 +4525,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#ethuhgkeyt .gt_sourcenotes {
+#gvmhpjxyuo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4564,7 +4539,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#ethuhgkeyt .gt_sourcenote {
+#gvmhpjxyuo .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4572,63 +4547,63 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#ethuhgkeyt .gt_left {
+#gvmhpjxyuo .gt_left {
   text-align: left;
 }
 
-#ethuhgkeyt .gt_center {
+#gvmhpjxyuo .gt_center {
   text-align: center;
 }
 
-#ethuhgkeyt .gt_right {
+#gvmhpjxyuo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ethuhgkeyt .gt_font_normal {
+#gvmhpjxyuo .gt_font_normal {
   font-weight: normal;
 }
 
-#ethuhgkeyt .gt_font_bold {
+#gvmhpjxyuo .gt_font_bold {
   font-weight: bold;
 }
 
-#ethuhgkeyt .gt_font_italic {
+#gvmhpjxyuo .gt_font_italic {
   font-style: italic;
 }
 
-#ethuhgkeyt .gt_super {
+#gvmhpjxyuo .gt_super {
   font-size: 65%;
 }
 
-#ethuhgkeyt .gt_footnote_marks {
+#gvmhpjxyuo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ethuhgkeyt .gt_asterisk {
+#gvmhpjxyuo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ethuhgkeyt .gt_indent_1 {
+#gvmhpjxyuo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ethuhgkeyt .gt_indent_2 {
+#gvmhpjxyuo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ethuhgkeyt .gt_indent_3 {
+#gvmhpjxyuo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ethuhgkeyt .gt_indent_4 {
+#gvmhpjxyuo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ethuhgkeyt .gt_indent_5 {
+#gvmhpjxyuo .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -4639,20 +4614,20 @@ tbody tr:last-child {
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style="font-family: Chivo; font-weight: 700">경기도 서해 인접 5개 구시군 정당별 득표</th>
+<th colspan="5" class="gt_heading gt_title gt_font_normal">경기도 서해 인접 5개 구시군 정당별 득표</th>
 </tr>
 <tr class="odd gt_heading">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Chivo; font-weight: 300"><code>제8대 지방선거</code></th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><code>제8대 지방선거</code></th>
 </tr>
 <tr class="header gt_col_headings gt_spanner_row">
-<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">구시군명</th>
+<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">구시군명</th>
 <th colspan="3" id="지방선거 구시군의 장 후보 정당" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><span class="gt_column_spanner">지방선거 구시군의 장 후보 정당</span></th>
-<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">합계</th>
+<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">합계</th>
 </tr>
 <tr class="odd gt_col_headings">
-<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">국민의힘</th>
-<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">민주당</th>
-<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">기타</th>
+<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">국민의힘</th>
+<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">민주당</th>
+<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">기타</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -4726,27 +4701,24 @@ tbody tr:last-child {
 <span>                           rows <span class="op">=</span> <span class="va">민주당</span> <span class="op">&lt;</span> <span class="va">국민의힘</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="leezcjxjaw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="zlupofzwxn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cairo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#leezcjxjaw table {
-  font-family: Cairo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+#zlupofzwxn table {
+  font-family: Chivo, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#leezcjxjaw thead, #leezcjxjaw tbody, #leezcjxjaw tfoot, #leezcjxjaw tr, #leezcjxjaw td, #leezcjxjaw th {
+#zlupofzwxn thead, #zlupofzwxn tbody, #zlupofzwxn tfoot, #zlupofzwxn tr, #zlupofzwxn td, #zlupofzwxn th {
   border-style: none;
 }
 
-#leezcjxjaw p {
+#zlupofzwxn p {
   margin: 0;
   padding: 0;
 }
 
-#leezcjxjaw .gt_table {
+#zlupofzwxn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4754,7 +4726,7 @@ tbody tr:last-child {
   margin-right: auto;
   color: #333333;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
@@ -4772,12 +4744,12 @@ tbody tr:last-child {
   border-left-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_caption {
+#zlupofzwxn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#leezcjxjaw .gt_title {
+#zlupofzwxn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4789,7 +4761,7 @@ tbody tr:last-child {
   border-bottom-width: 0;
 }
 
-#leezcjxjaw .gt_subtitle {
+#zlupofzwxn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4801,7 +4773,7 @@ tbody tr:last-child {
   border-top-width: 0;
 }
 
-#leezcjxjaw .gt_heading {
+#zlupofzwxn .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -4813,13 +4785,13 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_bottom_border {
+#zlupofzwxn .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_col_headings {
+#zlupofzwxn .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4834,12 +4806,12 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_col_heading {
+#zlupofzwxn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -4854,27 +4826,27 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#leezcjxjaw .gt_column_spanner_outer {
+#zlupofzwxn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
+  font-size: 80%;
   font-weight: normal;
-  text-transform: inherit;
+  text-transform: uppercase;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#leezcjxjaw .gt_column_spanner_outer:first-child {
+#zlupofzwxn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#leezcjxjaw .gt_column_spanner_outer:last-child {
+#zlupofzwxn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#leezcjxjaw .gt_column_spanner {
+#zlupofzwxn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -4886,20 +4858,20 @@ tbody tr:last-child {
   width: 100%;
 }
 
-#leezcjxjaw .gt_spanner_row {
+#zlupofzwxn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#leezcjxjaw .gt_group_heading {
+#zlupofzwxn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -4916,12 +4888,12 @@ tbody tr:last-child {
   text-align: left;
 }
 
-#leezcjxjaw .gt_empty_group_heading {
+#zlupofzwxn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
+  font-size: 80%;
+  font-weight: bolder;
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #000000;
@@ -4931,15 +4903,15 @@ tbody tr:last-child {
   vertical-align: middle;
 }
 
-#leezcjxjaw .gt_from_md > :first-child {
+#zlupofzwxn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#leezcjxjaw .gt_from_md > :last-child {
+#zlupofzwxn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#leezcjxjaw .gt_row {
+#zlupofzwxn .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -4958,12 +4930,12 @@ tbody tr:last-child {
   overflow-x: hidden;
 }
 
-#leezcjxjaw .gt_stub {
+#zlupofzwxn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
   border-right-style: solid;
   border-right-width: 0px;
   border-right-color: #FFFFFF;
@@ -4971,7 +4943,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#leezcjxjaw .gt_stub_row_group {
+#zlupofzwxn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4985,15 +4957,15 @@ tbody tr:last-child {
   vertical-align: top;
 }
 
-#leezcjxjaw .gt_row_group_first td {
+#zlupofzwxn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#leezcjxjaw .gt_row_group_first th {
+#zlupofzwxn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#leezcjxjaw .gt_summary_row {
+#zlupofzwxn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5003,16 +4975,16 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#leezcjxjaw .gt_first_summary_row {
+#zlupofzwxn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_first_summary_row.thick {
+#zlupofzwxn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#leezcjxjaw .gt_last_summary_row {
+#zlupofzwxn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5022,7 +4994,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_grand_summary_row {
+#zlupofzwxn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5032,7 +5004,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#leezcjxjaw .gt_first_grand_summary_row {
+#zlupofzwxn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5042,7 +5014,7 @@ tbody tr:last-child {
   border-top-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_last_grand_summary_row_top {
+#zlupofzwxn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5052,11 +5024,11 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_striped {
+#zlupofzwxn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#leezcjxjaw .gt_table_body {
+#zlupofzwxn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5065,7 +5037,7 @@ tbody tr:last-child {
   border-bottom-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_footnotes {
+#zlupofzwxn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5079,7 +5051,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_footnote {
+#zlupofzwxn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -5088,7 +5060,7 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#leezcjxjaw .gt_sourcenotes {
+#zlupofzwxn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5102,7 +5074,7 @@ tbody tr:last-child {
   border-right-color: #D3D3D3;
 }
 
-#leezcjxjaw .gt_sourcenote {
+#zlupofzwxn .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5110,63 +5082,63 @@ tbody tr:last-child {
   padding-right: 5px;
 }
 
-#leezcjxjaw .gt_left {
+#zlupofzwxn .gt_left {
   text-align: left;
 }
 
-#leezcjxjaw .gt_center {
+#zlupofzwxn .gt_center {
   text-align: center;
 }
 
-#leezcjxjaw .gt_right {
+#zlupofzwxn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#leezcjxjaw .gt_font_normal {
+#zlupofzwxn .gt_font_normal {
   font-weight: normal;
 }
 
-#leezcjxjaw .gt_font_bold {
+#zlupofzwxn .gt_font_bold {
   font-weight: bold;
 }
 
-#leezcjxjaw .gt_font_italic {
+#zlupofzwxn .gt_font_italic {
   font-style: italic;
 }
 
-#leezcjxjaw .gt_super {
+#zlupofzwxn .gt_super {
   font-size: 65%;
 }
 
-#leezcjxjaw .gt_footnote_marks {
+#zlupofzwxn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#leezcjxjaw .gt_asterisk {
+#zlupofzwxn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#leezcjxjaw .gt_indent_1 {
+#zlupofzwxn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#leezcjxjaw .gt_indent_2 {
+#zlupofzwxn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#leezcjxjaw .gt_indent_3 {
+#zlupofzwxn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#leezcjxjaw .gt_indent_4 {
+#zlupofzwxn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#leezcjxjaw .gt_indent_5 {
+#zlupofzwxn .gt_indent_5 {
   text-indent: 25px;
 }
 
@@ -5177,20 +5149,20 @@ tbody tr:last-child {
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style="font-family: Chivo; font-weight: 700">경기도 서해 인접 5개 구시군 정당별 득표</th>
+<th colspan="5" class="gt_heading gt_title gt_font_normal">경기도 서해 인접 5개 구시군 정당별 득표</th>
 </tr>
 <tr class="odd gt_heading">
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Chivo; font-weight: 300"><code>제8대 지방선거</code></th>
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border"><code>제8대 지방선거</code></th>
 </tr>
 <tr class="header gt_col_headings gt_spanner_row">
-<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">구시군명</th>
+<th rowspan="2" id="구시군명" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">구시군명</th>
 <th colspan="3" id="지방선거 구시군의 장 후보 정당" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><span class="gt_column_spanner">지방선거 구시군의 장 후보 정당</span></th>
-<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">합계</th>
+<th rowspan="2" id="합계" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">합계</th>
 </tr>
 <tr class="odd gt_col_headings">
-<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">국민의힘</th>
-<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">민주당</th>
-<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black; font-family: Chivo; font-size: 14px; vertical-align: bottom; font-weight: 200; text-transform: uppercase" scope="col">기타</th>
+<th id="국민의힘" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">국민의힘</th>
+<th id="민주당" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">민주당</th>
+<th id="기타" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-top-width: 0px; border-top-style: solid; border-top-color: black" scope="col">기타</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -6479,7 +6451,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox"});</script>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","descPosition":"bottom","loop":false});</script>
 
 
 </body></html>

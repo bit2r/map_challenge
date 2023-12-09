@@ -136,6 +136,8 @@ website:
             text: "비례 국회의원"
           - href: best_matches.qmd
             text: "최고 관심 격돌"
+          - href: difference.qmd
+            text: "제20대 vs 제21대"            
 
             
 format:

@@ -1,0 +1,208 @@
+---
+title: "지도제작 대회"
+subtitle: "제20대 vs 제21대"
+description: |
+  제20대 총선과 제21대 총선 차이를 살펴보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 데이터셋
+
+## 제20대 총선
+
+```{r}
+library(tidyverse)
+library(testthat)
+library(krvote)
+
+vote_2016_tbl <- krvote::general_2016 |> 
+  unnest(data) |> 
+  mutate(구분 = case_when(str_detect(구분, "[가-힣]+") ~ 구분,
+                         TRUE ~ iconv(구분, "CP949", "UTF-8"))) |> 
+  filter(!구분 %in% c("선거인수", "투표수", "무표투표수", "기권수")) |> 
+  mutate(정당 = case_when(str_detect(구분, "더불어민주당") ~ "민주당",
+                          str_detect(구분, "새누리당") ~ "국민의힘",
+                          구분 == "계" ~ "합계",
+                          TRUE ~ "그외정당")) |>
+  separate(선거구, into = c("선거구", "시군구명"), sep = "_") |> 
+  group_by(시도, 선거구, 정당) |> 
+  summarise(득표수 = sum(사람수)) |> 
+  ungroup() |> 
+  pivot_wider(names_from = 정당, values_from = 득표수) |> 
+  mutate(국힘_득표율 = 국민의힘 / 합계,
+         민주_득표율 = 민주당 / 합계)  |> 
+  mutate(차이 = 민주_득표율 - 국힘_득표율) |> 
+  mutate(권역 = case_when(시도 %in% c("서울", "인천", "경기") ~ "수도권",
+                        시도 %in% c("부산", "울산", "경남") ~ "부울경",
+                        시도 %in% c("대구", "경북") ~ "대구경북",
+                        시도 %in% c("강원", "제주") ~ "강원제주",
+                        시도 %in% c("대전", "충남", "충북", "세종") ~ "대전충청세종",
+                        시도 %in% c("광주", "전남", "전북") ~ "광주전라")) |> 
+  mutate(선거 = "제20대")
+```
+
+## 제21대 총선
+
+```{r}
+vote_2020_tbl <- krvote::general_2020 |> 
+  unnest(data) |> 
+  mutate(구분 = case_when(str_detect(구분, "[가-힣]+") ~ 구분,
+                         TRUE ~ iconv(구분, "CP949", "UTF-8"))) |> 
+  filter(!구분 %in% c("선거인수", "투표수", "무표투표수", "기권수")) |> 
+  mutate(정당 = case_when(str_detect(구분, "더불어민주당") ~ "민주당",
+                          str_detect(구분, "미래통합당") ~ "국민의힘",
+                          구분 == "계" ~ "합계",
+                          TRUE ~ "그외정당")) |>
+  separate(선거구, into = c("선거구", "시군구명"), sep = "_") |> 
+  group_by(시도, 선거구, 정당) |> 
+  summarise(득표수 = sum(사람수)) |> 
+  ungroup() |> 
+  pivot_wider(names_from = 정당, values_from = 득표수) |> 
+  mutate(국힘_득표율 = 국민의힘 / 합계,
+         민주_득표율 = 민주당 / 합계)  |> 
+  mutate(차이 = 민주_득표율 - 국힘_득표율) |> 
+  mutate(권역 = case_when(시도 %in% c("서울", "인천", "경기") ~ "수도권",
+                        시도 %in% c("부산", "울산", "경남") ~ "부울경",
+                        시도 %in% c("대구", "경북") ~ "대구경북",
+                        시도 %in% c("강원", "제주") ~ "강원제주",
+                        시도 %in% c("대전", "충남", "충북", "세종") ~ "대전충청세종",
+                        시도 %in% c("광주", "전남", "전북") ~ "광주전라")) |> 
+    mutate(선거 = "제21대")
+
+```
+
+## 결합
+
+```{r}
+vote_tbl <- bind_rows(vote_2016_tbl, vote_2020_tbl)
+
+```
+
+
+
+## 산점도
+
+```{r}
+vote_diff <- full_join(vote_2016_tbl |> select(권역, 시도, 선거구, 득표차20 = 차이), 
+          vote_2020_tbl |> select(권역, 시도, 선거구, 득표차21 = 차이), 
+          by = c("시도", "선거구", "권역")) 
+
+vote_diff |>
+  ggplot(aes(x = 득표차20, y = 득표차21, color = 권역)) +
+    geom_point() +
+    geom_abline(intercept = 0, slope = 1) 
+  
+```
+
+
+# 시각화
+
+## 총선전체   
+
+```{r}
+library(ggrepel)
+
+gangseo_tbl <- vote_tbl |> 
+  filter(시도 == "서울",
+         str_detect(선거구, "강서구(갑|을|병)"))  
+  
+
+full_diff_g <- vote_tbl |>
+  ggplot(aes(x = 차이)) +
+    geom_histogram(bins = 20, fill = "skyblue", color = "white") +
+    geom_density(aes(y = ..density.. * 0.03 * (nrow(vote_tbl)))) +  
+    facet_wrap(~선거, ncol = 1) +
+    theme_korean() +
+    theme(legend.position = "none",
+          strip.text = element_text(size = 15)) +
+    geom_vline(xintercept = 0, color = "red", size = 0.3, linetype = 2) +
+    labs(title = "민주당과 국민의힘 득표율 차이 분포", 
+         subtitle = "2016년과 2020년 총선 민주당과 국민의힘 득표율 차이 분포", 
+         x = "민주당 - 국민의힘 득표율 차이", 
+         y = "선거구수") +
+    scale_x_continuous(breaks = seq(-1, 1, 0.2), 
+                       labels = scales::percent_format(accuracy = 1)) +
+    geom_vline(data = gangseo_tbl, aes(xintercept = 차이, color = 선거구)) +
+    geom_text_repel(data = gangseo_tbl, 
+              aes(x = 차이, y = 35, label = 선거구, color = 선거구, size = 1.5))
+
+full_diff_g
+
+ragg::agg_jpeg("images/총선득표차_분포.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+full_diff_g
+dev.off()
+
+```
+
+
+## 군역별
+
+```{r}
+
+
+region_diff_g <- vote_tbl |>
+  mutate(권역 = case_when(시도 %in% c("서울", "인천", "경기") ~ "수도권",
+                        시도 %in% c("부산", "울산", "경남") ~ "부울경",
+                        시도 %in% c("대구", "경북", "광주", "전남", "전북") ~ "광주전라/대구경북",
+                        시도 %in% c("대전", "충남", "충북", "세종", "강원", "제주") ~ "대전충청세종강원제주")) |>   
+  mutate(권역 = factor(권역, levels = c("수도권", "부울경", "대전충청세종강원제주", "광주전라/대구경북"))) |>
+  ggplot(aes(x = 차이)) +
+  geom_histogram(bins = 20, fill = "skyblue", color = "white") +
+  # geom_density(aes(y = ..density.. * 0.02 * (nrow(vote_tbl)))) +  
+  facet_grid(권역~선거, scales = "fixed") +
+  theme_korean() +
+  theme(legend.position = "none",
+        strip.text = element_text(size = 10)) +
+  geom_vline(xintercept = 0, color = "red", size = 0.3, linetype = 2) +
+  labs(title = "권역별 민주당과 국민의힘 득표율 차이 분포", 
+       subtitle = "2016년과 2020년 총선 민주당과 국민의힘 득표율 차이 분포", 
+       x = "민주당 - 국민의힘 득표율 차이", 
+       y = "선거구수") +
+  scale_x_continuous(breaks = seq(-1, 1, 0.2), 
+                     labels = scales::percent_format(accuracy = 1)) +
+  geom_vline(data = gangseo_tbl, aes(xintercept = 차이, color = 선거구)) +
+  geom_text_repel(data = gangseo_tbl, 
+                  aes(x = 차이, y = 35, label = 선거구, color = 선거구, size = 1.0))
+
+region_diff_g
+
+ragg::agg_jpeg("images/총선득표차_권역별분포.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+region_diff_g
+dev.off()
+
+```
+
