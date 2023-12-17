@@ -139,7 +139,9 @@ website:
           - href: difference.qmd
             text: "제20대 vs 제21대"
           - href: gucci.qmd
-            text: "대통령 거부권"            
+            text: "대통령 거부권"
+          - href: gucci2.qmd
+            text: "대구경북/부울경"            
 
             
 format:

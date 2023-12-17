@@ -1,0 +1,389 @@
+---
+title: "지도제작 대회"
+subtitle: "대구경북/부울경"
+description: |
+  대구경북/부울경 김건희 특검 거부권에 대해서 알아보자.
+author:
+  - name: 이광춘
+    url: https://www.linkedin.com/in/kwangchunlee/
+    affiliation: 한국 R 사용자회
+    affiliation-url: https://github.com/bit2r
+title-block-banner: true
+format:
+  html:
+    theme: flatly
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    toc-title: 목차
+    number-sections: true
+    highlight-style: github    
+    self-contained: false
+    default-image-extension: jpg
+filters:
+   - lightbox
+lightbox: auto
+link-citations: true
+knitr:
+  opts_chunk: 
+    eval: true
+    message: false
+    warning: false
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# 대구경북, 부울경
+
+제21대 2020년 총선 기준 대구경북과 부울경 선거구수는 다음과 같다.
+
+| 지역       | 선거구 수 |
+|------------|----------|
+| 부산       | 18개     |
+| 울산       | 6개      |
+| 경남       | 16개     |
+| 부산울산경남 부분합 | 40개 |
+| 대구       | 12개     |
+| 경북       | 13개     |
+| 대구경북 부분합 | 25개 |
+| 전체 총합  | 65개     |
+
+
+# 데이터셋
+
+```{r}
+library(tidyverse)
+library(ggrepel)
+
+## 마스터 --------
+election_codes <- 
+  read_csv("data/선거API_선거코드.csv")
+
+
+## 후보 --------
+candidates_raw <- 
+  read_rds("data/선거API_총선_전체후보.rds")
+
+candidates <- candidates_raw |> 
+  select(data) |> 
+  unnest(data) |> 
+  mutate(정당 = case_when(
+    jdName %in% c("더불어민주당", "통합민주당", "민주통합당") ~ "민주당",
+    jdName == "새천년민주당" & sgId == "20000413" ~ "민주당",
+    jdName == "열린우리당" & sgId == "20040415" ~ "민주당",
+    jdName %in% c("한나라당", "미래통합당", "새누리당", "자유한국당", "국민의힘") ~ "국민의힘",
+    TRUE ~ "기타"
+  )) |> 
+  select(sgId, sdName, sggName, jdName, 정당, name, hanjaName, status) 
+
+
+## 당선인 ------
+winners_raw <- 
+  read_rds("data/선거API_총선_전체당선인.rds")
+
+winners  <- winners_raw |> 
+  select(data) |> 
+  unnest(data) |> 
+  mutate(정당 = case_when(
+    jdName %in% c("더불어민주당", "통합민주당", "민주통합당") ~ "민주당",
+    jdName == "새천년민주당" & sgId == "20000413" ~ "민주당",
+    jdName == "열린우리당" & sgId == "20040415" ~ "민주당",
+    jdName %in% c("한나라당", "미래통합당", "새누리당", "자유한국당", "국민의힘") ~ "국민의힘",
+    TRUE ~ "기타"
+  )) |> 
+  select(sgId, sdName, sggName, jdName, 정당, name, hanjaName, dugsu, dugyul) 
+
+```
+
+# 전처리
+
+```{r}
+basetable <- candidates |> 
+  left_join(winners, by = c("sgId", "sdName", "sggName", "jdName", "정당", "name", "hanjaName")) |> 
+  mutate(sdName = ifelse(str_detect(sdName, "제주"), "제주특별자치도", sdName)) |>
+  mutate(당선여부 = ifelse(is.na(dugsu), "낙선", "당선")) |> 
+    mutate(권역 = case_when(
+  sdName %in% c("서울특별시", "인천광역시", "경기도") ~ "수도권",
+  sdName %in% c("부산광역시", "울산광역시", "경상남도") ~ "부울경",
+  sdName %in% c("광주광역시", "전라남도", "전라북도") ~ "광주전라",
+  sdName %in% c("대구광역시", "경상북도") ~ "대구경북",  
+  sdName %in% c("대전광역시", "충청남도", "충청북도", "세종특별자치시") ~ "대전충청세종",
+  sdName %in% c("강원도", "제주특별자치도", "제주도") ~ "강원제주",  
+  TRUE ~ NA_character_ # 기타 경우에 대한 처리
+)) 
+```
+
+# 분석
+
+## 사퇴비율
+
+```{r}
+
+resign_g <- basetable |> 
+  count(권역, sdName, status) |> 
+  pivot_wider(names_from = status, values_from = n, values_fill = 0) |> 
+  mutate(사퇴비율 = 사퇴 / (사퇴 + 등록 + 등록무효)) |> 
+  arrange(desc(사퇴비율)) |> 
+  mutate(권역색상 = case_when(
+    str_detect(권역, "대구|부울경") ~ "red",
+    TRUE ~ "gray30"
+  )) |> 
+  # 사퇴비율 막대그래프 그려줘
+  ggplot(aes(x = reorder(sdName, 사퇴비율), y = 사퇴비율,
+             fill = 권역색상)) +
+    geom_col() +
+    geom_text(aes(label = scales::percent(사퇴비율, accuracy = 0.01),
+                  color = 권역색상),
+              vjust = +0.5, hjust = -0.2, size = 7) +
+    coord_flip() +
+    labs(
+      title = "역대 총선 시도별 후보자 중 사퇴 비율",
+      subtitle = "사퇴 비율 = 사퇴 / (사퇴 + 등록 + 등록무효)",
+      x = "",
+      y = "사퇴비율",
+      caption = "자료출처: 중앙선거관리위원회"
+    ) +
+    theme_korean() +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 0.1),
+                       limits = c(0, 0.021))  +
+    scale_fill_manual(values = c("red" = "red", "gray30" = "gray30"),
+                      guide = FALSE) +
+    scale_color_manual(values = c("red" = "red", "gray30" = "gray30"),
+                      guide = FALSE) 
+
+resign_g
+
+ragg::agg_jpeg("images/특별법_후보자_사퇴비율.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+resign_g
+dev.off()    
+  
+```
+
+## 대구경북 당선자
+
+```{r}
+tk_g <- basetable |> 
+  mutate(sggName = str_replace_all(sggName, "[^가-힣]", "")) |> 
+  mutate(당선인 = str_glue("{name}\n{hanjaName}")) |>
+  filter(str_detect(sdName, "대구광역시|경상북도"),
+         당선여부 == "당선") |>
+  mutate(선거구 = str_glue("{sdName} {sggName}")) |> 
+  left_join(election_codes |> 
+              filter(sgTypecode == 0) |> 
+              select(sgId, sgName) |> 
+              mutate(sgId = as.character(sgId)), by = "sgId") |>
+  mutate(선거명 = str_remove(sgName, " 국회의원선거")) |> 
+  mutate(정당 = factor(정당, levels = c("국민의힘", "민주당", "기타"))) |> 
+  ggplot(aes(x = 선거명, y = 선거구, group = 당선인, color = 정당)) +
+    geom_text_repel(aes(label = name), size = 3)  +
+    geom_line() +
+    geom_point() +
+    theme_korean() +
+    theme(legend.position = "top",
+          axis.text.x = element_text(size = 7),
+          axis.text.y = element_text(size = 7)) +
+    labs(
+      title = "대구광역시, 경상북도 선거구 당선자",
+      x = "",
+      y = "",
+      caption = "자료출처: 중앙선거관리위원회"
+    ) +
+    scale_color_manual(values = c("국민의힘" = "red", 
+                                  "민주당"   = "blue",
+                                  "기타" = "gray10")) 
+
+tk_g
+
+ragg::agg_jpeg("images/특별법_후보자_대구경북.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+tk_g
+dev.off()    
+
+
+```
+
+
+## 부울경 당선자
+
+```{r}
+bwk_g <- basetable |> 
+  mutate(sggName = str_replace_all(sggName, "[^가-힣]", "")) |> 
+  mutate(당선인 = str_glue("{name}\n{hanjaName}")) |>
+  filter(str_detect(sdName, "부산광역시|경상남도|울산광역시"),
+         당선여부 == "당선") |>
+  mutate(선거구 = str_glue("{sdName} {sggName}")) |> 
+  left_join(election_codes |> 
+              filter(sgTypecode == 0) |> 
+              select(sgId, sgName) |> 
+              mutate(sgId = as.character(sgId)), by = "sgId") |>
+  mutate(선거명 = str_remove(sgName, " 국회의원선거")) |> 
+  mutate(정당 = factor(정당, levels = c("국민의힘", "민주당", "기타"))) |> 
+  ggplot(aes(x = 선거명, y = 선거구, group = 당선인, color = 정당)) +
+    geom_text_repel(aes(label = name), size = 2.5)  +
+    geom_line() +
+    geom_point() +
+    theme_korean() +
+    theme(legend.position = "top",
+          axis.text.x = element_text(size = 7),
+          axis.text.y = element_text(size = 6)) +
+    labs(
+      title = "부산/울산광역시, 경상남도 선거구 당선자",
+      x = "",
+      y = "",
+      caption = "자료출처: 중앙선거관리위원회"
+    ) +
+    scale_color_manual(values = c("국민의힘" = "red", 
+                                  "민주당"   = "blue",
+                                  "기타" = "gray10")) 
+
+bwk_g
+
+ragg::agg_jpeg("images/특별법_후보자_부울경.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+bwk_g
+dev.off()    
+
+
+```
+
+## 재선비율
+
+### 스크립트
+
+```{r}
+
+basetable |> 
+  filter(sgId %in% c("20000413", "20040415")) |> 
+  filter(당선여부 == "당선") |> 
+  filter(sdName == "대구광역시") |> 
+  select(sgId, name, 당선여부) |> 
+  pivot_wider(names_from = sgId, values_from = 당선여부) |> 
+  filter(!is.na(`20000413`)) |>
+  mutate(재선여부 = ifelse(`20000413` == "당선" & 
+                           !is.na(`20040415`), "재선", "탈락")) |> 
+  count(재선여부) |> 
+  mutate(재선비율 = n / sum(n)) |>
+  filter(재선여부 == "재선") |> 
+  pull(재선비율)
+
+```
+
+### 함수
+
+```{r}
+
+election_vector <- basetable |> 
+  count(sgId) |> pull(sgId)
+
+calculate_election <- function(old_election = "20000413", 
+                               new_election = "20040415",
+                               region = "대구광역시") {
+  re_elected <- basetable |> 
+    filter(sgId %in% c(old_election, new_election)) |> 
+    filter(당선여부 == "당선") |> 
+    filter(sdName == region) |> 
+    select(sgId, name, 당선여부) |> 
+    pivot_wider(names_from = sgId, values_from = 당선여부) |> 
+    set_names(c("name", "oldElection", "newElection")) |> 
+    filter(!is.na(oldElection)) |>  
+    mutate(재선여부 = case_when(
+      oldElection == "당선" & !is.na(newElection) ~ "재선", 
+      TRUE ~ "탈락")) |> 
+    count(재선여부) |>
+    mutate(재선비율 = n / sum(n)) |>
+    filter(재선여부 == "재선") |>
+    pull(재선비율)
+  
+  if(identical(re_elected, numeric(0))) {
+    return(0)
+  } else {
+    return(re_elected)
+  }
+}
+
+calculate_election(election_vector[2], election_vector[3], "광주광역시")
+calculate_election(election_vector[5], election_vector[6], "울산광역시")
+calculate_election(election_vector[5], election_vector[6], "부산광역시")
+calculate_election(election_vector[5], election_vector[6], "광주광역시")
+
+```
+
+### 대구 함수
+
+```{r}
+election_vector |> 
+  enframe(name = NULL, value = "election") |> 
+  mutate(next_election = dplyr::lead(election))  |> 
+  filter(!is.na(next_election)) |>
+  mutate(data = map2_dbl(election, next_election, calculate_election)) 
+```
+
+
+### 전국
+
+```{r}
+sdName_vector <- basetable |> 
+  count(sdName) |> pull(sdName)
+
+nomination <- election_vector |> 
+  enframe(name = NULL, value = "election") |> 
+  mutate(next_election = dplyr::lead(election)) |> 
+  mutate(sdName = list(sdName_vector) ) |> 
+  filter(!is.na(next_election)) |> 
+  unnest(sdName) |> 
+  filter(!sdName %in% c("세종특별자치시", "제주특별자치도")) |> 
+  mutate(data = pmap(list(election, next_election, sdName), 
+                     safely(calculate_election, otherwise = "error")))
+
+
+nomination_g <- nomination |> 
+  mutate(재선율 = map(data, ~.$result)) |> 
+  unnest(재선율) |> 
+  left_join(election_codes |> 
+              filter(sgTypecode == 0) |> 
+              select(sgId, sgName) |> 
+              mutate(sgId = as.character(sgId)), by = c("next_election" = "sgId")) |>
+  mutate(선거명 = str_remove(sgName, " 국회의원선거")) |>   
+  mutate(sdName = factor(sdName, levels = 
+                           c("대구광역시", "경상북도", 
+                             "부산광역시", "울산광역시", "경상남도", 
+                             "광주광역시", "전라남도", "전라북도", "강원도", 
+                             "대전광역시",  "충청남도", "충청북도",
+                             "서울특별시", "경기도", "인천광역시" ))) |>
+  ggplot(aes(x = 선거명, y = 재선율, group = sdName, color = sdName)) +
+    geom_line() +
+    geom_point() +
+    facet_wrap(~sdName, ncol = 5) +
+    theme_korean() +
+    scale_y_continuous(labels = scales::percent) +
+    theme(legend.position = "none") +
+    labs(
+      title = "국회의원 선거 현역 재선비율",
+      subtitle = "직전선거 당선자 중 다음 선거 당선자 비율",
+      x = "",
+      y = "재선비율",
+      caption = "자료출처: 중앙선거관리위원회"
+    ) +
+    geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray20") +
+    theme(
+      axis.text.x    = ggplot2::element_text(family = "MaruBuri", size = 8),
+      axis.text.y    = ggplot2::element_text(family = "MaruBuri", size = 10)
+    )
+
+nomination_g
+
+ragg::agg_jpeg("images/특별법_현역의원_재선비율.jpeg",
+               width = 10, height = 7, units = "in", res = 600)
+nomination_g
+dev.off()    
+
+```
+
+
+
